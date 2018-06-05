@@ -1,0 +1,1415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?>
+<prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'>
+    <prayer_book apiName="englishPrayerBook" language="english">
+        <!--title, and rubric can only be used 1x per parent-->
+        <title>Our Modern Services</title>
+        <service apiName="morningPrayer">
+            <title>Morning Worship</title>
+            <!--section visibility: hidden will not display the section. but it will be linked to at another point in the service.-->
+            <!--section visibility: collapsed will show the title and on tap will display the section in full-->
+            <!--section visibility: indexed will show first lines of children with link to display full contents of a single child-->
+            <section sectionType='notes' visibility="collapsed">
+                <title>Notes</title>
+                <item>The psalms of the day are sung or read antiphonally.</item>
+                <item>Songs/canticles' may be sung or said antiphonally.</item>
+                <item>An alternative declaration of pardon as well as an alternative form of benediction are provided for use by a lay minister in the absence of a minister.</item>
+                <item>Offering: In this as well as other services, the leader is encouraged to first exhort the Christians give generously for the Lord's work by reading and explaining texts related to giving and stewardship.</item>
+            </section>
+            <section>
+                <major_header>Order of Service</major_header>
+                <number>1</number>
+                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
+                <item who='leader'>The Lord be with you.</item>
+                <item who='people'>And also with you.</item>
+                <item who='leader'>We have come together, the people of God, drawn by his Spirit, longing for his word, to praise the holy name of the Lord, to share his glorious news of grace, to pray for our needs and the pain of the world, to rejoice in his love and be sent into his peace.</item>
+                <item who='leader'>We are heirs of the Father;</item>
+                <item who='people'>joint heirs with the son,</item>
+                <item who='leader'>renewed in the spirit,</item>
+                <item who='people'>together we are one.</item>
+            </section>
+            <section apiName="introSentences" visibility='collapsed'>
+                <title>Sentences</title>
+                <number>2</number>
+                <rubric>One or more of these sentences may be said after the introduction.</rubric>
+                <item>
+                    <ref>Ezekiel 18:27</ref>
+                    If a wicked man turns away from the wickedness he has committed and does what is just and right, he will save his life.</item>
+                <item>
+                    <ref>Joel 2:13</ref>
+                    Rend your heart and not your garments. Return to the Lord your God for he is gracious and compassionate, slow to anger and abounding in love, and he relents from sending calamity.</item>
+                <item>
+                    <ref>Psalm 37:4</ref>
+                    Delight yourself in the Lord and he will give you the desires of your heart.</item>
+                <item>
+                    <ref>Psalm 36:9</ref>
+                    For with you is the fountain of life; in your light we see light.</item>
+                <item>
+                    <ref>Psalm 84:2</ref>
+                    My soul yearns, even faints, for the courts of teh Lord; My heart and my flesh cry out for the living God.</item>
+                <item>
+                    <ref>Psalm 63:1</ref>
+                    God you are my God, early will I seek you: O God, you are my God, earnestly I seek you; my sould thirsts for you, my body longs for you.</item>
+                <item>
+                    <ref>Psalm 73:25</ref>
+                    Whom have I in heaven but you? And earth has nothing I desire besides you.</item>
+                <item>
+                    <ref>Isaiah 1;16-17</ref>
+                    Wash and make yourself clean. Take your evil deeds out of my sight! Stop doing wrong and learn to do right!</item>
+                <item>
+                    <ref>Isaiah 2:3</ref>
+                    "Come, let us go up to the mountain of the Lord,... he will teach us his ways so that we may walk in his paths."</item>
+                <item>
+                    <ref>Isaiah 65:24</ref>
+                    Before they call I will answer; while they are still speaking I will hear.'</item>
+                <item>
+                    <ref>Isaiah 66:2</ref>
+                    This is the one I esteem: he who is humble and contrite in spirit and trembles at my word.</item>
+                <item>
+                    <ref>Micah 6:8</ref>
+                    And what does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.</item>
+                <item>
+                    <ref>Matthew 5:17</ref>
+                    Do not think that I have come to abolish the law or the prophets; I have not come to abolish them but to fulfill them.</item>
+                <item>
+                    <ref>Luke 6:20-22</ref>
+                    Blessed are you who are poor, for yours is the Kingdom of God. Blessed are you who hunger, for you will be satisfied. Blessed are you who weep now, for you will laugh. Blessed are you when people hate you,... because great is your reward in heaven.</item>
+                <item>
+                    <ref>Luke 12:32</ref>
+                    Fear not, little flock, for it is your Father's good pleasure to give you the kingdom.</item>
+                <item>
+                    <ref>Luke 15:7</ref>
+                    "I tell you there will be more rejoicing in heaven over one sinner who repents, than over ninety-nine righteous persons who do not need to repent."</item>
+                <item>
+                    <ref>Luke 15:18</ref>
+                    "Father, I have sinned against heaven and against you. I am no longer worthy to be called your son."</item>
+            </section>
+            <section>
+                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
+                <item type='rubric'>People kneel.</item>
+            </section>
+            <section>
+                <number>3</number>
+                <item who='all'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
+                <item who='none'>None</item>
+
+            </section>
+            <section>
+                <number>4</number>
+                <item who='minister'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
+                <item who='people'>Amen.</item>
+            </section>
+            <section>
+                <number>5</number>
+                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
+                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
+                <item who='people'>Amen.</item>
+            </section>
+            <section>
+                <number>6</number>
+                <item who='leader'>Blessed are those who live in your house.</item>
+                <item who='people'>They will always be singing your praise.</item>
+                <item who='leader'>Praise the Lord.</item>
+                <item who='people'>The name of the Lord be praised.</item>
+            </section>
+            <section>
+                <rubric>People stand.</rubric>
+                <item who='leader'>Glory to the Father in whom all things began.</item>
+                <item who='all'>Glory to the Son who became the son of man, Glory to the Spirit who inspires and renews. The Lord our God for ever! Alleluia!</item>
+            </section>
+            <section visibility="collapsed" schedule="[Easter-Pentecost, Christmas-Epiphany]">
+                <number>7</number>
+                <rubric>Between Christmas and Epiphany Sunday, and between Easter Day and Pentecost Sunday, the following version of the Gloria may be said instead of the above.
+                </rubric>
+                <item who='leader'>The glorious Son of God on high</item>
+                <item who='people'>is born for us through Mary's womb:</item>
+                <item who='leader'>The homeless Prince of Peace on earth</item>
+                <item who='people'>is crushed and lies in Joseph's tomb</item>
+                <item who='leader'>The reigning Lord of Life and death</item>
+                <item who='people'>breaks the bonds of time and doom.</item>
+            </section>
+            <section type='canticles' visibility="indexed">
+                <number>8</number>
+                <title>Jubilate Song, Vinite, or the Song of Habakkuk</title>
+                <item type='versedStanzas'>
+                    <title>Jubilate Song (Song of Joy)</title>
+                    <ref>Psalm 100:3</ref>
+                    <stanza verse='1'>I will enter his gates with thanksgiving in my heart:</stanza>
+                    <stanza>I will enter his courts with praise.</stanza>
+                    <stanza verse="2">I will say this is the day that the Lord has made:</stanza>
+                    <stanza>I will rejoice for he has made me glad.</stanza>
+                    <stanza verse="3">He has made me glad, he has made me glad:</stanza>
+                    <stanza>I will rejoice for he has made me glad.</stanza>
+                    <stanza verse="4">He has made me glad, he has made me glad:</stanza>
+                    <stanza>I will rejoice for he has made me glad.</stanza>
+                </item>
+                <item includeGloria='true' type="versedStanzas">
+                    <title>Venite (Song of Triumph)</title>
+                    <ref>Psalm 95</ref>
+                    <stanza verse="1">O come, let us sing out to the Lord;</stanza>
+
+                    <stanza>let us shout in triumph to the Rock of our salvation.</stanza>
+
+                    <stanza verse="2"> Let us come before his face with thanksgiving:</stanza>
+
+                    <stanza>and cry to him joyfully in psalms.</stanza>
+
+                    <stanza verse="3">For the Lord is a great God:</stanza>
+
+                    <stanza>and a great King above all gods.</stanza>
+
+                    <stanza verse="4">In his hand are the depths of the earth:</stanza>
+
+                    <stanza>and the peaks of the mountains are his also.</stanza>
+
+                    <stanza verse="5">The sea is his and he made it:</stanza>
+
+                    <stanza>his hands moulded dry land.</stanza>
+
+                    <stanza verse="6">Come let us worship and bow down:</stanza>
+
+                    <stanza>and kneel before the Lord our maker.</stanza>
+
+                    <stanza verse="7">For he is the Lord our God:</stanza>
+
+                    <stanza>we are his people and the sheep of his pasture.</stanza>
+
+                    <stanza verse="8">If only you would hear his voice today:</stanza>
+
+                    <stanza>for he comes to judge the earth.</stanza>
+
+                    <stanza verse="9">He shall judge the world with righteousness:</stanza>
+
+                    <stanza>and the peoples with his truth.</stanza>
+
+                </item>
+                <item type="versedStanzas">
+                    <title>Song of Habakkuk</title>
+                    <ref>Habbakuk 3:17-18 adapted</ref>
+                    <stanza verse="1">Though the mango tree does not blossom</stanza>
+
+                    <stanza>nor the fruit be on the vines,</stanza>
+
+                    <stanza verse="2">the crop of the coconut fails,</stanza>
+
+                    <stanza>and the fields yield no food,</stanza>
+
+                    <stanza verse="3">Though the flock be cut off from the fold.</stanza>
+
+
+                    <stanza>and there be no herd in the stall,</stanza>
+
+                    <stanza verse="4">yet I will rejoice in the Lord,</stanza>
+
+                    <stanza>I will be joyful in the God of my salvation</stanza>
+
+                    <stanza type='gloria'>Glory to the Father, Son and the Holy Spirit: as it was in the beginning, is now and ever shall be. Amen.</stanza>
+
+                </item>
+            </section>
+            <section>
+                <title>Zaburi ya Siku</title>
+                <number>9</number>
+                <rubric>The PSALM appointed for the day may be sung or said antiphonally and should end with:</rubric>
+                <item >Glory to the Father, Son and the Holy Spirit: as it was in the beginning, is now and ever shall be. Amen.</item>
+                <item who="none">none</item>
+            </section>
+            <section>
+                <title>FIRST READING from the Old Testament</title>
+                <number>10</number>
+                <rubric>At the end of the reading the reader says:</rubric>
+                <item who='reader'>This is the word of the Lord.</item>
+                <item who='all'>Thanks be to God.</item>
+            </section>
+            <section type='canticles' visibility='indexed'>
+                <number>11</number>
+                <title>Song of the Messiah, Song of Zecharaiah, or the Song of Paul</title>
+                <item includeGloria='true' type='versedStanzas'>
+                    <title>Song of the Messiah</title>
+                    <ref>Genesis 12:3, Deuteronomy 18:15f. 2 Samuel 7:12, Isaiah 53:4, Daniel 7:13-22</ref>
+                    <stanza verse='1'>Jesus the Seed of Abraham blesses the nations:</stanza>
+                    <stanza verse='2'>Jesus the Prophet like Moses frees the oppressed:</stanza>
+                    <stanza verse='3'>Jesus the Lord of King David leads his people:</stanza>
+                    <stanza verse='4'>Jesus the Servant of the Lord suffers and Saves:</stanza>
+                    <stanza verse='5'>Jesus the Son of Man destroyed and raised.</stanza>
+                    <stanza type='gloria'>Glory to the Father, Son, and the Holy Spirit; as it was in the beginning, is now and ever shall be. Amen.</stanza>
+                </item>
+
+                <item includeGloria='true' type='versedStanzas'>
+                    <title>Song of Zecharaiah</title>
+                    <ref>Benedictus. Luke 1:68-79</ref>
+                    <stanza verse='1'>Blessed be the Lord God of Israel:</stanza>
+                    <stanza>for he has come to his people and set them free.</stanza>
+                    <stanza verse='2'>He has raised up for us a mighty Saviour:</stanza>
+                    <stanza>born of the house of his servant David.</stanza>
+                    <stanza verse='3'>Through his holy prophets he promised of old:</stanza>
+                    <stanza>that he would save us from our enemies,</stanza>
+                    <stanza>from the hands of all that hate us.</stanza>
+                    <stanza verse='4'>He promised to show mercy to our fathers:</stanza>
+                    <stanza>and to remember his holy covenant.</stanza>
+                    <stanza verse='5'>This was the oath he swore to our father Abraham:</stanza>
+                    <stanza> to set us free from the hands of our enemies,</stanza>
+                    <stanza verse='6'>Free to worship him without fear: holy and righteous</stanza>
+                    <stanza>in his sight all the days of our life.</stanza>
+                    <stanza verse='7'>You my child shall be called the prophet of the Most High:</stanza>
+                    <stanza>for you will go before the Lord to prepare his way,</stanza>
+                    <stanza verse='8'>to give his people knowledge of salvation</stanza>
+                    <stanza>by the forgiveness of all their sins.</stanza>
+                    <stanza verse='9'>In the tender compassion of our God:</stanza>
+                    <stanza>the dawn from on high shall break upon us,</stanza>
+                    <stanza verse='10'>to shine on those who dwell in darkness and the shadow of death:</stanza>
+                    <stanza>and to guide our feet into the way of peace.</stanza>
+                    <stanza type='gloria'>Glory to the Father, Son and the Holy Spirit; as it was in the beginning, is now and ever shall be. Amen.</stanza>
+                </item>
+                <item type='versedStanzas'>
+                    <title>Song of Paul</title>
+                    <ref>Colossians 1:15-18</ref>
+                    <stanza verse='1'>You are the image of the invisible God,</stanza>
+                    <stanza>the first born over all creation.</stanza>
+                    <stanza verse='2'>By you, O Christ, were all things created.</stanza>
+                    <stanza>in heaven and on earth, visible and invisible</stanza>
+                    <stanza verse='3'>Thrones and dominions, powers and principalities:</stanza>
+                    <stanza>were created through you and for you.</stanza>
+                    <stanza verse='4'>You are before everything and</stanza>
+                    <stanza>in you all things hold together.</stanza>
+                    <stanza verse='5'>You are the head of your body, the Church</stanza>
+                    <stanza>you are the beginning, the first born from the dead,</stanza>
+                    <stanza>that over everything you may be supreme.</stanza>
+                    <stanza type='gloria'>Glory to the Father, to the Son and to the Holy Spirit; as it was in the beginning, is now and ever shall be. Amen.</stanza>
+                </item>
+            </section>
+            <section>
+                <title>Second Reading from the New Testament</title>
+                <number>12</number>
+                <rubric>At the end of the reading the reader says:</rubric>
+                <item who='reader'>This is the word of the Lord.</item>
+                <item who='all'>Thanks be to God.</item>
+            </section>
+            <section type='canticles' visibility='collapsed'>
+                <number>13</number>
+                <title>The Song of Jesus, Song of the Church or the Song of Revelation</title>
+
+                <item type="versedStanzas">
+                    <title>Song of Jesus</title>
+
+
+                    <ref>Luke 6:27-28; Matthew 25:35-36; Luke 7:22-23; Luke 10:21</ref>
+
+                    <stanza verse="1">Love your enemies:</stanza>
+
+                    <stanza>do good to those who hate you,</stanza>
+
+                    <stanza verse="2">bless those who curse you:</stanza>
+
+                    <stanza>pray for those who ill-treat you.</stanza>
+
+
+                    <stanza verse="3">For I was hungry and you gave me something to eat:</stanza>
+
+                    <stanza>I was thirsty and you gave me something to drink.</stanza>
+
+                    <stanza verse="4">I was a stranger and you invited me in:</stanza>
+
+                    <stanza>I needed clothes and you clothed me.</stanza>
+
+                    <stanza verse="5">I was sick and you looked after me:</stanza>
+
+                    <stanza>I was in prison and you came to visit me.</stanza>
+
+
+                    <stanza verse="6">The blind receive sight:</stanza>
+
+                    <stanza>the lame walk, lepers are cured.</stanza>
+
+                    <stanza verse="7">The deaf hear, the dead are raised:</stanza>
+
+                    <stanza>the good news is preached to the poor,</stanza>
+
+                    <stanza>and blessed are those not offended at me.</stanza>
+
+                    <stanza type='gloria' indent='0'>Glory to the Father, the Lord of heaven and earth:</stanza>
+                    <stanza type='gloria' indent='1'>Glory to the Son, to whom all things are given.</stanza>
+                    <stanza type='gloria' indent='0'>Glory to the Spirit, in whom the Son rejoices,</stanza>
+                    <stanza type='gloria' indent='1'>Now and for ever. Amen.</stanza>
+                </item>
+
+
+                <item type="versedStanzas">
+                    <title>Te Deum Laudamus (Song of the Church)</title>
+
+                    <ref>verses 14-18 may be omitted</ref>
+                    <stanza verse='1'>You are God and we praise you:</stanza>
+
+                    <stanza>you are the Lord and we acclaim you.</stanza>
+
+                    <stanza verse="2">You are the eternal Father:</stanza>
+
+                    <stanza>creation worships you.</stanza>
+
+                    <stanza verse="3">To you all angels, all the powers of heaven:</stanza>
+
+                    <stanza>Cherubim and seraphim sing in endless praise,</stanza>
+
+                    <stanza verse="4">Holy, holy, holy Lord, God of power and might:</stanza>
+
+                    <stanza>heaven and earth are full of your glory.</stanza>
+
+                    <stanza verse="5">The glorious company of apostles praise you:</stanza>
+
+                    <stanza>the noble fellowship of prophets praise you</stanza>
+
+                    <stanza>the white-robed army of martyrs praise you.</stanza>
+
+                    <stanza verse="6">Throughout the world the holy Church acclaims you:</stanza>
+
+                    <stanza>Father of majesty unbounded;</stanza>
+
+                    <stanza verse="7">your true and only Son worthy of all worship:</stanza>
+
+                    <stanza>and the Holy Spirit advocate and guide.</stanza>
+
+                    <stanza verse="8">You Christ are the King of glory:</stanza>
+
+                    <stanza>the eternal Son of the Father.</stanza>
+
+                    <stanza verse="9">When you became man to set us free:</stanza>
+
+                    <stanza>you did not abhor the Virgin's womb.</stanza>
+
+                    <stanza verse="10">You overcame the sting of death:</stanza>
+
+                    <stanza>and opened the kingdom of heaven to all believers.</stanza>
+
+                    <stanza verse="11">You are seated at God's right hand in glory.</stanza>
+
+                    <stanza>We believe that you will come and be our judge.</stanza>
+
+                    <stanza verse="12">Come then Lord and help your people;</stanza>
+
+                    <stanza>bought with the price of your own blood;</stanza>
+
+                    <stanza verse="13">and bring us with your saints:</stanza>
+
+                    <stanza>to glory everlasting.</stanza>
+
+                    <stanza verse="14">Save your people Lord and bless your inheritance:</stanza>
+
+                    <stanza>govern and uphold them now and always.</stanza>
+
+                    <stanza verse="15">15 Day by day we bless you:</stanza>
+
+                    <stanza>we praise your name for ever.</stanza>
+
+                    <stanza verse="16">Keep us today Lord from all sin:</stanza>
+
+                    <stanza>have mercy on us Lord, have mercy.</stanza>
+
+                    <stanza>17 Lord show us your love and mercy:</stanza>
+
+                    <stanza>for we put our trust in you.</stanza>
+
+                    <stanza verse="18">In you Lord is our hope:</stanza>
+
+                    <stanza>let us not be confounded at the last.</stanza>
+
+                </item>
+
+
+
+                <item type="versedStanzas">
+                    <title>Song of Revelation</title>
+
+                    <ref>Revelation 19:6-8; 4:11; 5:9-10; 15:3-4, 5:13</ref>
+
+                    <stanza verse="1">Alleluia! For the Lord our God the Almighty reigns:</stanza>
+
+                    <stanza>Let us rejoice and be glad and give him the glory.</stanza>
+
+                    <stanza verse="2">Worthy is the Lord our God:</stanza>
+
+                    <stanza>for he created everything.</stanza>
+
+                    <stanza verse="3">Worthy is the Lamb who was slain:</stanza>
+
+                    <stanza>for by his blood he ransomed us for God from every tribe and tongue, people and nation.</stanza>
+
+                    <stanza verse="4">Great and wonderful are your deeds, Lord God the Almighty:</stanza>
+
+                    <stanza>just and true are your ways, O king of ages!</stanza>
+
+                    <stanza verse="5">Who shall not fear and praise your name O Lord?</stanza>
+
+                    <stanza>For you alone are holy.</stanza>
+
+                    <stanza verse="6">nations shall come and worship in your presence:</stanza>
+
+                    <stanza>for your just deeds have been revealed.</stanza>
+
+                    <stanza indent="0">To him who sits on the throne and to the lamb</stanza>
+
+                    <stanza indent="1">be blessing and honour, glory and might,</stanza>
+
+                    <stanza indent="0">for ever and ever. Amen.</stanza>
+                </item>
+            </section>
+
+        </service>
+        <service apiName="eucharist">
+            <title>Service of Holy Communion</title>
+            <section visibility="collapsed">
+                <title>Notes</title>
+                <item>Where the rubric specifies that the congregation should kneal is understood that sitting is also allowed.</item>
+                <item>Hymns, choruses and choir items may be inserted as deemed appropriate.</item>
+                <item>Sufficient bread and wine should be placed on the Holy Tab that reconsecration is not necessary. Whatever has been consumed should all be consumed.</item>
+                <item>The Praver of Thanksgiving (Section 27) is a single prayer. It is recommended that the congregation stands throughout this prayer to emphasize its unity.</item>
+                <item>Special seasonal thanksgiving to be included in the Prayer of Thanksgiving (Section 27) are written in the appendix</item>
+                <item>Extemporary prayers are also encouraged.</item>
+                <item>The breaking of bread is in Section 29.</item>
+            </section>
+            <section>
+                <major_header>Order of Service</major_header>
+                <number>1</number>
+                <rubric>At the entry the people stand and a hymn is announced.</rubric>
+            </section>
+            <section visibility="collapsed">
+                <number>2</number>
+                <rubric>The minister reads a scriptural sentence.</rubric>
+                <item>God rained down upon them manna to eat, and gave them the grain of heaven.<ref>Psalm 78:24</ref></item>
+                <item>You shall have a song as in the night when a holy feast is kept; and gladness of heart, as when one sets out to the sound of the pipe to go to the mountain of the Lord, to the Rock of Israel. <ref>Isaiah.30:29</ref></item>
+                <item>Why spend money and get what is not bread, why give the price of your labour and go unsatisfied? Listen to me and you will have good food to eat. <ref>Isaiah 55:2</ref></item>
+                <item >Jesus said to them, “I am the bread of life; he who comes to me shall not hunger, and he who believes in me shall never thirst", <ref>John 6:35</ref></item>
+                <item >Christ our paschal lamb has been sacrificed. Let us therefore celebrate the festival, not with the old leaven of malice and ev but with the unleavened bread of sincerity and truth. <ref>1 Corinthians 5:8</ref></item>
+                <item >Our ancestors all ate the same supernatural food and all drank the same supernatural drink, for they drank from the same supernatural Rock which followed them, and the Rock was Christ. <ref>I Corinthians 10:3-4</ref></item>
+                <item type='title'>Christmas</item>
+                <item >She will bear a son and you shall call his name Jesus, for he will save his people from their sins. <ref>Matthew 1:21</ref></item>
+                <item type="title" >Easter</item>
+                <item >When he was at table with them, he took the bread and blessed it, broke it, and gave it to them. And their eyes were opened and they recognized him. <ref>Luke 24:30</ref></item>
+                <item type="title">Pentecost</item>
+                <item >For by one Spirit we were all baptised into one body-Jew or Greek, slave or free and all were made to drink of one Spirit. <ref>I Corinthians 12:13</ref></item>
+            </section>
+            <section>
+                <number>3</number>
+                <rubric>The minister welcomes the people using these or other appropriate words.</rubric>
+                <item who="minister">The Lord be with you.</item>
+                <item who="people">And also with you.</item>
+                <item who="minister">The earth is the Lord's and all that is in it:</item>
+                <item who="people">Let the heavens rejoice and the earth be glad.</item>
+                <item who="minister">Our help is in the name of the Lord:</item>
+                <item who="people"> Who made heaven and earth.</item>
+                <item who="minister">I was glad when they said to me:</item>
+                <item who="people">Let us go to the house of the Lord.”</item>
+                <item who="minister">Praise the Lord:</item>
+                <item who="people">The name of the Lord be praised.</item>
+            </section>
+            <section visibility="collapsed" schedule="[christmas,easter,pentecost]">
+                <rubric>The following acclamations should be added according to the season.</rubric>
+                <item type="title">Christmas</item>
+                <item who="minister">The Prince of Peace is born:</item>
+                <item who="people">O come let us adore him!</item>
+                <item type="title">Easter</item>
+                <item who="minister">Christ is risen:</item>
+                <item who="people">He is risen indeed! Alleluia!</item>
+                <item type="title">Pentecost</item>
+                <item who="minister">The Spirit is here: People The promise of God.</item>
+            </section>
+            <section>
+                <item who="minister">Let us pray.</item>
+                <item who='none'>none</item>
+            </section>
+            <section type="eitherOr">
+                <number>4</number>
+                <rubric>People kneel. One of the following prayers for purity is said by all.</rubric>
+                <item who="all" type="stanzas">
+                    <stanza>Almighty God,</stanza>
+                    <stanza>You bring to light</stanza>
+                    <stanza>Things hidden in darkness,</stanza>
+                    <stanza>And know the shadows of our hearts;</stanza>
+                    <stanza>Cleanse and renew us by your Spirit,</stanza>
+                    <stanza>That we may walk in the light</stanza>
+                    <stanza>And glorify your name,</stanza>
+                    <stanza>Through Jesus Christ,</stanza>
+                    <stanza>The Light of the world. Amen.</stanza>
+                </item>
+                <item type="rubric">Or</item>
+                <item who="all" type="stanzas">
+                    <stanza>Almighty God,</stanza>
+                    <stanza>To whom all hearts are open,</stanza>
+                    <stanza>desires known,</stanza>
+                    <stanza>and from whom no secrets are hidden:</stanza>
+                    <stanza>cleanse the thoughts of our hearts</stanza>
+                    <stanza>by the inspiration of your Holy Spirit,</stanza>
+                    <stanza>that we may perfectly love you,</stanza>
+                    <stanza>and worthily magnify your holy name;</stanza>
+                    <stanza>through Christ our Lord. Amen.</stanza>
+                </item>
+                <item type="rubric">remain kneeling. Then follows the reading of either the Ten Commandments, or the New Testament interpretation of the Law, or the Summary of the Law.</item>
+            </section>
+
+            <section>
+                <number>23</number>
+                <item who="minister">Almighty God, whose steadfast love is as great as the heavens are high above the earth, remove your sins from you as far as the east is from the west, strenghten your life in his kingdom and keep you upright to last day, through Jesus Christ our merciful High Priest.</item>
+                <item who="all">Amen.</item>
+            </section>
+            <section>
+                <number>24</number>
+                <item who="all">Thank you Father, for forgiveness; We come to vour table as your children, not presuming but assured, not trusting ourselves but your Word; we hunger and thirst for righteousness, and ask for our hearts to be satisfied with the body and blood of your Son, Jesus Christ the righteous.Amen.</item>
+                <item who="none">none</item>
+
+            </section>
+            <section>
+                <major_header>Ministry of the Sacrament</major_header>
+                <title>Sharing of Peace</title>
+                <number>25</number>
+                <rubric>The people stand.</rubric>
+                <item who="minister">The peace of the Lord be always with you.</item>
+                <item who="people">And also with you.</item>
+                <item who="minister">Let us offer one another a sign of peace.</item>
+                <item who="people">The people greet each other with a handshake or other appropriate gestures.</item>
+            </section>
+            <section>
+                <number>26</number>
+                <rubric>The Holy Table is prepared for communion. A hymn is sung, during which the offering is collected. The presiding minister and his assistants may wash hands. If there is no offering the minister moves directly to section 27. When there is an offering, the minister and people may respond in the following or other appropriate manner.</rubric>
+                <item who="minister">All things come from you Lord.</item>
+                <item who="people">And of your own have we given you.</item>
+            </section>
+            <section>
+                <title>Prayer of Thanksgiving</title>
+                <number>27</number>
+                <rubric>The people remain standing</rubric>
+                <item who="minister">We remain standing for thanksgiving and remembrance.</item>
+                <item who="minister">Is the Father with us?</item>
+                <item who="people">He is.</item>
+                <item who="minister">Is Christ among us?</item>
+                <item who="people">He is.</item>
+                <item who="minister">Is the Spirit here?</item>
+                <item who="people">He is.</item>
+                <item who="minister">This is our God.</item>
+                <item who="people">Father, Son and the Holy Spirit.</item>
+                <item who="minister">We are his people.</item>
+                <item who="people">We are redeemed.</item>
+                <item who="minister">Lift up your hearts.</item>
+                <item who="people">We lift them to the Lord.</item>
+                <item who="minister">Let us give thanks to the Lord our God.</item>
+                <item who="people">It is right to give him thanks and praise.</item>
+                <item who="minister">It is right and our delight to give you thanks and praise great Father, living God, supreme over the world. Creator, Provider, Saviour and Giver. From a wandering nomad you created your family. for a burdened people you raised up a leader; for a confused nation you chose a king; for a rebellious crowd you sent your prophets. In these last days you have sent us your Son, your perfect image, bringing your kingdom, revealing your will, dying, rising, reigning remaking your people for yourself. Through him you have poured out your Holy Spirit, filling us with light and life.</item>
+            </section>
+            <section visibility="collapsed">
+                <rubric>Special thanksgiving shall be said at this point when appropriate (See Appendix Page 86)</rubric>
+                <!--<title>Special Thanksgivings</title>-->
+                <item type="title">Advent Either</item>
+                <item>And now we give you thanks and praise because he came as man when the day of our deliverance had dawned, and will come again in power and triumph to judge the world and to consummate all things.</item>
+                <item type="title">Or</item>
+                <item>And now we give you thanks because you prepared the way of your Son by the preaching of your prophet John the Baptist, who proclaimed him as the Lamb of God who takes away the sin of the world.</item>
+                <item type="title">Christmas Either</item>
+                <item>And now we give you thanks because you gave your only Son to be born at this time for us, who through the power of the Holy Spirit was made man, being born of the Virgin Mary: in him there was neither spot nor sin, and in him we are cleansed from all sin.</item>
+                <item type="title">Or</item>
+                <item>And now we give you thanks because in the Incarnation of the Eternal Word, a new light has dawned upon the world, and those who sat in darkness and under the shadow of death have seen the great light.</item>
+                <item type="title">Easter Day</item>
+                <item>EITHER</item>
+                <item>And now we praise you for the glorious resurrection of your Son, the lamb who was offered for us and has taken away the sin of the world: by his death he has destroyed death, and by his rising to new life he has restored to us eternal life.</item>
+                <item type="rubric">Or</item>
+                <item>And now we give you thanks because you raised him gloriously from the dead: through him you have given us the resurrection hope, for our life will be changed, not taken away; when our mortal flesh is laid aside, we will enter our everlasting dwelling place to live with him.</item>
+                <item type="title">Ascension Day</item>
+                <item type="rubric">EITHER</item>
+                <item>And now we give you thanks because you have highly exalted your Son, and have given him the name above every name, that at the name of Jesus every knee shall bow, and every tongue confess that Jesus Christ is Lord.</item>
+                <item type="rubric">OR</item>
+                <item>And now we give you thanks because, after his resurrection, your dearly beloved Son ascended into heaven, where he now prepares a place for us and will receive us in his eternal glory.</item>
+                <item  type="title">Pentecost</item>
+                <item type="rubric">Either</item>
+                <item>And now we give you thanks because the coming of the Holy Spirit upon the Apostles inspired them to speak in tongues and gave them courage to preach the Gospel to all nations: by their preaching we have come to a true knowledge of you.</item>
+                <item type="rubric">Or</item>
+                <item>And now we give you thanks because your Holy Spirit inspired the scriptures and leads us into all truth: he gives us power to proclaim your gospel to all nations and to serve you as a royal priesthood.</item>
+                <item type="title">Trinity Sunday</item>
+                <item>And now we give you thanks because you have revealed to us your glory as the glory of your Son and of the Holy Spirit: three Persons, equal in majesty, undivided in splendour, yet One Lord, One God, ever to be trusted and adored.</item>
+                <item type="title">All Saints' Day</item>
+                <item>And now we give you thanks for the hope to which you call us in your Son, that following in faith of all your saints, we may run with perseverance the race that is set before us, looking to Jesus the Pioneer and Perfecter of our faith.</item>
+                <item type="title">Benediction of a Church</item>
+                <item>And now we give you thanks for this house of prayer, dedicated to your glory, where your people, the true temple of the Holy Spirit, gather together in worship.</item>
+                <item type="title">Ordination, Consecration or Enthronement</item>
+                <item>And now we give you thanks because within the royal priesthood of your Church you ordain pastors and consecrate bishops, to tend and guide your flock, to proclaim the good news of salvation and to celebrate the sacraments of the New Covenant.</item>
+            </section>
+            <section>
+                <item who="minister">Therefore with angels, archangels, faithful ancestors and all in heaven, we proclaim your great and glorious name, forever praising you and saying:</item>
+                <item who="all" type="stanzas">
+                    <stanza>Holy, holy, holy Lord,</stanza>
+                    <stanza>God of power and might,</stanza>
+                    <stanza>Heaven and earth are full of your glory.</stanza>
+                    <stanza>Hosanna in the highest.</stanza></item>
+                <item type="rubric">THE BREAKING OF BREAD IS AT SECTION 29.</item>
+                <item type="rubric">The presiding minister performs the traditional actions of taking the bread and the cup. </item>
+                <item type="rubric">The people remain standing.</item>
+                <item who="minister">Almighty God, owner of all things, we thank you for giving up your Son to die on the cross for us who owe you everything, Pour your refreshing Spirit on us as we remember him in the way he commanded, through these gifts of your creation. On the same night that he was betrayed he took bread and gave thanks; broke it and gave it to his disciples, saying, 'Take, eat, this is my body which is given for you; Do this in remembrance of me'.</item>
+                <item who="people">Amen. His body was broken for us.</item>
+                <item who="minister">In the same way, after supper he took the cup and gave you thanks; he gave it to them saying: Drink this, all of you, this is my blood of the new covenant, which is shed for you and for many, for the forgiveness of sins. Do this as often as you drink it, in remembrance of me.</item>
+                <item who="people">Christ has died</item>
+                <item who="people">Christ is risen</item>
+                <item who="people">Christ will come again.</item>
+                <item who="minister">We are brothers and sisters through his blood.</item>
+                <item who="people">We have died together,</item>
+                <item who="people">we will rise together,</item>
+                <item who="people">we will live together.</item>
+                <item who="minister">Therefore, heavenly Father, hear us as we celebrate this covenant with joy, and await the coming of our Saviour, Jesus Christ. He died in our place, making a full atonement for the sins of the whole world, the perfect sacrifice, once and for all. You accepted his offering by raising him from death, and granting him great honour at your right hand on high.</item>
+                <item who="people">Amen. Jesus is Lord.</item>
+                <item who="minister">This is the feast of victory</item>
+                <item who="people">The lamb who was slain has begun his reign. Alleluia.</item>
+            </section>
+
+            <section>
+                <major_header>Appendix to the Service of Holy Communion</major_header>
+                <title>Special Thanksgivings</title>
+                <rubric>These are to be inserted into the Prayer of Thanksgiving before: “Therefore with angels and archangels ....</rubric>
+                <item type="title">Advent Either</item>
+                <item>And now we give you thanks and praise because he came as man when the day of our deliverance had dawned, and will come again in power and triumph to judge the world and to consummate all things.</item>
+                <item type="title">Or</item>
+                <item>And now we give you thanks because you prepared the way of your Son by the preaching of your prophet John the Baptist, who proclaimed him as the Lamb of God who takes away the sin of the world.</item>
+                <item type="title">Christmas Either</item>
+                <item>And now we give you thanks because you gave your only Son to be born at this time for us, who through the power of the Holy Spirit was made man, being born of the Virgin Mary: in him there was neither spot nor sin, and in him we are cleansed from all sin.</item>
+                <item type="title">Or</item>
+                <item>And now we give you thanks because in the Incarnation of the Eternal Word, a new light has dawned upon the world, and those who sat in darkness and under the shadow of death have seen the great light.</item>
+                <item type="title">Easter Day</item>
+                <item>EITHER</item>
+                <item>And now we praise you for the glorious resurrection of your Son, the lamb who was offered for us and has taken away the sin of the world: by his death he has destroyed death, and by his rising to new life he has restored to us eternal life.</item>
+                <item type="rubric">Or</item>
+                <item>And now we give you thanks because you raised him gloriously from the dead: through him you have given us the resurrection hope, for our life will be changed, not taken away; when our mortal flesh is laid aside, we will enter our everlasting dwelling place to live with him.</item>
+                <item type="title">Ascension Day</item>
+                <item type="rubric">EITHER</item>
+                <item>And now we give you thanks because you have highly exalted your Son, and have given him the name above every name, that at the name of Jesus every knee shall bow, and every tongue confess that Jesus Christ is Lord.</item>
+                <item type="rubric">OR</item>
+                <item>And now we give you thanks because, after his resurrection, your dearly beloved Son ascended into heaven, where he now prepares a place for us and will receive us in his eternal glory.</item>
+                <item  type="title">Pentecost</item>
+                <item type="rubric">Either</item>
+                <item>And now we give you thanks because the coming of the Holy Spirit upon the Apostles inspired them to speak in tongues and gave them courage to preach the Gospel to all nations: by their preaching we have come to a true knowledge of you.</item>
+                <item type="rubric">Or</item>
+                <item>And now we give you thanks because your Holy Spirit inspired the scriptures and leads us into all truth: he gives us power to proclaim your gospel to all nations and to serve you as a royal priesthood.</item>
+                <item type="title">Trinity Sunday</item>
+                <item>And now we give you thanks because you have revealed to us your glory as the glory of your Son and of the Holy Spirit: three Persons, equal in majesty, undivided in splendour, yet One Lord, One God, ever to be trusted and adored.</item>
+                <item type="title">All Saints' Day</item>
+                <item>And now we give you thanks for the hope to which you call us in your Son, that following in faith of all your saints, we may run with perseverance the race that is set before us, looking to Jesus the Pioneer and Perfecter of our faith.</item>
+                <item type="title">Benediction of a Church</item>
+                <item>And now we give you thanks for this house of prayer, dedicated to your glory, where your people, the true temple of the Holy Spirit, gather together in worship.</item>
+                <item type="title">Ordination, Consecration or Enthronement</item>
+                <item>And now we give you thanks because within the royal priesthood of your Church you ordain pastors and consecrate bishops, to tend and guide your flock, to proclaim the good news of salvation and to celebrate the sacraments of the New Covenant.</item>
+            </section>
+        </service>
+        <!--  <service apiName="Evening Prayer">
+                  <title>Evening Worship</title>
+                  <section type="Intro Sentences">
+                      <title>Introductory Sentences</title>
+                      <rubric>One or more of these sentences may be said after the introduction.</rubric>
+                      <item>Let us enter his gates with thanksgiving.</item>
+                      <item>Worship him in the splendor of his holiness.</item>
+                  </section>
+                  <section>
+                      <title>Order of Service</title>
+                      <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
+                      <item who='leader'>The Lord be with you.</item>
+                      <item who='people'>And also with you.</item>
+                      <item who='leader'>We are heirs of the Father.</item>
+                      <item who='people'>joint heirs with the son,</item>
+                      <item who='leader'>renewed in the spirit,</item>
+                      <item who='people'>together we are one.</item>
+                  </section>
+                  <section>
+                      <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
+                      <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
+                      <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
+                  </section>
+                  <section>
+                      <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
+                      <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
+                      <item who='none'>none</item>
+                  </section>
+              </service> -->
+    </prayer_book>
+    <prayer_book apiName="swahiliPrayerBook" language="swahili">
+        <title>Kitabu Kipya Cha Ibada</title>
+        <service apiName="morningPrayer">
+            <title>Ibada ya Asubuhi</title>
+            <!--section visibility: hidden will not display the section. but it will be linked to at another point in the service.-->
+            <!--section visibility: collapsed will show the title and on tap will display the section in full-->
+            <!--section visibility: indexed will show first lines of children with link to display full contents of a single child-->
+            <section sectionType='notes' visibility="collapsed">
+                <title>Maelezo</title>
+                <item>Zaburi za siku ziimbwe au zisomwe kwa majibizano.</item>
+                <item>Wimbo au nyimbo zinaweza kuimbwa au kusomwa kwa majibizano.</item>
+                <item>Sala mbadala ya kutangaza msamaha pamoja na ile ya haraka za mwisho wakati mchungaji hayupo zimewekwa ili kutumiwa na kiongozi mlei.</item>
+                <item>Sadaka: Katika ibada hii na zile nyinginezo. inahimizwa kwamba kiongozi wa ibada awahimize wakristo watoe kwa ukarimu kwa kazi ya Mungu, kwa kusoma na kufafanua vifungu vya maandiko vinavyoambatana na utoaji na uwakili.</item>
+            </section>
+
+            <section>
+                <major_header>Taritabu Ya Ibada</major_header>
+                <number>1</number>
+                <rubric>Watu wanasimama msafara unapoingia. Wimbo unaimbwa ukimalizika, hali watu wamesimama, kiongozi awakaribishe kwa ibada kisha ufuate utangulizi wa ibada kwa maneno yafuatayo:</rubric>
+                <item who='leader'>Bwana Yesu akae nanyi</item>
+                <item who='people'>Akae nawe pia.</item>
+                <item who='leader'>Tumekusanyika hapa kwa nguvu za Roho Mtakatifu, tulisifu jina takatifu la Bwana Yesu na kusikia neno lake. Tumekuja tushirikiane habari njema za utukufu na neema zake. Pia kuombea mahitaji yetu na ya wanaoteseka kote duniani, kadhalika tufurahi katika pendo na amani yake.</item>
+                <item who='leader'>Tuwarithi wa Baraka za Mungu.</item>
+                <item who='people'>Warithi pamoja na Mwana wa Mungu.</item>
+                <item who='leader'>Tunafanywa upya kwa njia ya Roho wa Mungu</item>
+                <item who='people'>Sote tu wamoja katika Kristo.</item>
+            </section>
+            <section apiName="introSentences" visibility='collapsed'>
+                <!--major_header is an additional option. Primary use would be to separate the liturgy of the Word and from the Table.-->
+                <title>Aya za Biblia</title>
+                <number>2</number>
+                <rubric>Aya moja au zaidi katika hizi zifuatazo zisomwe baada ya utangulizi. </rubric>
+                <item>
+                    <ref>Ezekieli 18:27</ref>
+                    Mtu muovu akiachana na uovu aliofanya, akatenda mambo yaliyo haki na sawa, huyo atayaokoa maisha yake.</item>
+                <item>
+                    <ref>Yoeli 2:13</ref>
+                    Msirarue mavazi yenu kuonesha huzuni, bali mrudieni Bwana kwa moyo wa toba. Mrudieni Mwenyezi Mungu, Mungu wenu. </item>
+                <item>
+                    <ref>Zaburi 37:4</ref>
+                    Yeye amejaa neema na huruma; hakasiriki upesi, ni mwingi wa fadhili daima yu tayari kuacha kuadhibu. Uitafute furaha yako kwa Mwenyezi Mungu, naye atakujalia unayo amani moyoni.</item>
+                <item>
+                    <ref>Zaburi 36:9</ref>
+                    Wewe ndiwe asili ya uhai; kwa mwanga wako twaona mwanga.</item>
+                <item>
+                    <ref>Zaburi 84:2</ref>
+                    Nafsi yangu yatamani rnno maskani ya mwenyezi Mungu! Moyo na mwili wangu wote wamshangilia Mungu aliye hai.</item>
+                <item>
+                    <ref>Zaburi 63:1</ref>
+                    Ee Mungu, wewe U Mungu wangu, nami nakutafuta kwa moyo roho yangu inakutamani kama mtu mwenye kiu.</item>
+                <item>
+                    <ref>Zaburi 73:25</ref>
+                    Mbinguni, nani awezaye kunisaidia ila wewe? Na duniani hamna ninachotamani ila wewe!</item>
+                <item>
+                    <ref>Isaya 1;16-17</ref>
+                    Jiosheni, jitakaseni; ondoeni uovu wa matendo yenu mbele yangu. Acheni kutenda maovu, jifunzeni kutenda mema.</item>
+                <item>
+                    <ref>Isaya 2:3</ref>
+                    Nioni tupande mlima wa Mwenyezi Mungu-apate kutufundisha njia zake, nasi tuishi kadiri ya mwongozo wake.</item>
+                <item>
+                    <ref>Isaya 65:24</ref>
+                    Hata kabla hawajaniita, mimi nitawaitikia, kabla hawaiamaliza kusema, nitakuwa nimewajibu.</item>
+                <item>
+                    <ref>Isaya 66:2</ref>
+                    Ninachojali mimi ni mtu mnyenyekevu na mwenye majuto, mtu anayetetemeka asikiapo neno langu.</item>
+                <item>
+                    <ref>Mika 6:8</ref>
+                    Anachotaka Mwenyezi Mungu kwako ni hiki: kutenda mambo ya haki, kupenda, kuwa na huruma, na kuishi kwa unyenyekevu na Mungu wako.</item>
+                <item>
+                    <ref>Mathayo 5:17</ref>
+                    Msidhani kuwa nimekuja kutangua sheria na mafundisho ya manabii. Sikuja kutangua bali kukamilisha.</item>
+                <item>
+                    <ref>Luka 6:20-22</ref>
+                    "Heri nyinyi mlio maskini, maana ufalme wa Mungu ni wenu. “Heri nyinyi mnaosikia njaa sasa, maana baadaye mtashiba. “Heri nyinyi mnaolia sasa, maana baadaye mtacheka kwa furaha. "Heri yenu nyinyi iwapo watu watawachukia-maana hakika tuzo lenu ni kubwa mbinguni.</item>
+                <item>
+                    <ref>Luka 12:32</ref>
+                    “Msiogope, enyi kundi dogo! Maana Baba yenu amependa kuwapeni ufalme.</item>
+                <item>
+                    <ref>Luka 15:7</ref>
+                    "Nawaambieni, ndivyo kutakavyokuwa na furaha Mbinguni kwa ajili ya kutubu kwa Mwenye dhambi mmoja kuliko kwa ajili ya watu tisini na tisa wanaojiona kuwa wema, wasiohitaji kutubu.</item>
+                <item>
+                    <ref>Luka 15:18-19</ref>
+                    "Nitarudi kwa baba yangu na kumwambia: Baba, nimemkosa Mungu, na nimekukosea wewe pia. Sistahili hata kuitwa mwanao,”</item>
+            </section>
+            <section>
+                <title>Kiogozi wa Ibada</title>
+                <item who='leader'>Tukisema kwamba hatuna dhambi, tunajidanganya wenyewe, na ukweli haumo ndani yetu. Lakini tukiziungama dhambi zetu kwa toba na tumaini, Mungu ni mwaminifu na wa haki naye atatusamehe dhambi zetu na kututakasa uovu wote. Kwa hiyo na tuungame mbele za Baba yetu wa mbinguni.</item>
+                <item type='rubric'>Watu wapige mogoti</item>
+            </section>
+            <section>
+                <number>3</number>
+                <item who='all'>Baba uishiye milele, Mungu wa wazazi wetu wa kale, mbele zako vitu vyote vinatetemeka, bali kupitia kwa mwanao, twakaribia kiti chako cha enzi. Tumeasi na kukataa kutenda mema; Mioyo yetu imelemewa na dhambi: Turehemu ee Bwana, usituhesabie makosa yetu. Tujalie furaha ya msamaha, na utuangazie mioyoni mwetu utukufu wa Yeye aliyekufa na kufufuka kwa ajili yetu, Yesu Kristo Bwana wetu. Amin.</item>
+                <!--<item who='none'>None</item>-->
+
+            </section>
+            <section>
+                <number>4</number>
+                <item who='minister'>Mwenyezi Mungu, Baba wa Bwana wetu Yesu Kristo, ambaye hupendezwa na kuridhia toba; wafu huwa hai na waliopotea humrudia Bwana. Wema na fadhili za Bwana zitawafuata siku zote za maisha yenu, nanyi mtakaa nyumbani wa Bwana milele.</item>
+                <item who='people'>Amin.</item>
+            </section>
+            <section>
+                <number>5</number>
+                <rubric>Wakati kasisi hayupo, kiongozi mlei atatumia sala ifutayo.</rubric>
+                <item who='leader'>Bwana mwenye rehema, utujalie msamaha wa dhambi zetu na amani, tuwe huru kukutumikia, kwa Yesu Kristo Bwana wetu.</item>
+                <item who='people'>Amin.</item>
+            </section>
+            <section>
+                <number>6</number>
+                <item who='leader'>Wamebarikiwa wakaao nyumbani mwako ee Bwana;</item>
+
+                <item who='people'>TWataziimba sifa zako siku zote.</item>
+                <item who='leader'>Bwana Yesu Asifiwe.</item>
+                <item who='people'>Jina la Bwana litukuzwe.</item>
+            </section>
+            <section>
+                <rubric>Watu wasimame.</rubric>
+                <item who='leader'>Utukufu uwe kwa Baba aliye asili ya vitu vyote.</item>
+                <item who='all'>Utukufu kwa Mwana aliyefanyika mwanadamu. Utukufu kwa Roho Mtakatifu mwenye kutuhuisha, Bwana Mungu wetu milele! Aleluya!</item>
+            </section>
+            <section visibility="collapsed" schedule="[Easter-Pentecost, Christmas-Epiphany]">
+                <number>7</number>
+                <rubric>Kati ya Jumapili za Krismasi na Udhihirisho, na kati ya Jumapili ya Pasaka na Pentekoste aina ifuatayo ya utukufu itumike badala ya hiyo hapo juu.</rubric>
+                <item who='leader'>Mtukufu mwana wa Mungu aliye juu </item>
+                <item who='people'>Amezaliwa kwa ajili yetu, kupitia kwa tumbo la Mariamu.</item>
+                <item who='leader'>Mfalme wa amani asiye na makao duniani</item>
+                <item who='people'>na kulazwa kaburini mwa Yusufu.</item>
+                <item who='leader'>Bwana mtawala wa uzima na mauti</item>
+                <item who='people'>Avunja minyororo ya uovu na maangamizi.</item>
+            </section>
+            <section type='canticles' visibility="indexed">
+                <number>8</number>
+                <title>Wimbo wa Furaha (Jubilate), Wimba wa Ushindi (Venite) au Wimbo wa Habakuki</title>
+                <item type='versedStanzas'>
+                    <title>Wimbo wa Furaha (Jubilate)</title>
+                    <ref>Zaburi 100:3</ref>
+                    <stanza verse="1">Nitapita milango ya hekalu lake kwa shukrani</stanza>
+
+                    <stanza>Naingia nyuani mwake kwa kusifu.</stanza>
+
+                    <stanza verse="2">Nitasema hii ndiyo siku Bwana aliyoifanya.</stanza>
+
+                    <stanza>Nitafurahi kwa kuwa amenipa furaha.</stanza>
+
+                    <stanza verse="3">Amenifurahisha, Amenifurahisha:</stanza>
+
+                    <stanza>Nitashangilia kwa kuwa amenipa furaha.</stanza>
+
+                    <stanza verse="4">Amenifurahisha, Amenifurahisha:</stanza>
+
+                    <stanza>aNitashangilia kwa kuwa amenipa furaha.</stanza>
+                </item>
+                <item includeGloria='true' type="versedStanzas">
+                    <title>Wimba wa Ushindi (Venite)</title>
+                    <ref>Zaburi 95</ref>
+                    <stanza verse="1">Njoni tumwimbie Mwenyezi Mungu:</stanza>
+
+                    <stanza>tumshangilie mwamba wa wokovu wetu!</stanza>
+
+                    <stanza verse="2">Twende mbele yake na shukrani:</stanza>
+
+                    <stanza>tumshangilie kwa nyimbo za sifa.</stanza>
+
+                    <stanza verse="3">Maana Mwenyezi Mungu, ni Mungu mkuu:</stanza>
+
+                    <stanza>yeye ni Mfalme mkuu juu ya miungu yote.</stanza>
+
+                    <stanza verse="4">Vilindi vyote vya dunia vimo mikononi mwake:</stanza>
+
+                    <stanza>vilele vya milima ni vyake.</stanza>
+
+                    <stanza verse="5">Bahari ni yake, ndiye aliyeifanya:</stanza>
+
+                    <stanza>kwa mikono yake aliiumba nchi kavu. </stanza>
+
+                    <stanza verse="6">Njoni tusujudu na kumwabudu:</stanza>
+
+                    <stanza>tumpigie magoti Mwenyezi Mungu, Muumba wetu!</stanza>
+
+                    <stanza verse="7">Maana yeye ni Mungu wetu:</stanza>
+
+                    <stanza>nasi ni watu wa kundi lake, ni kondoo wake anaowachunga.</stanza>
+                    <stanza>Laiti leo mngesikiliza sauti yake:</stanza>
+                    <stanza>na yuaja kuhukumu dunia.</stanza>
+
+                    <stanza verse="8">Msiwe wakaidi kama kule Meriba:</stanza>
+
+                    <stanza>kama walivyokuwa kule Masa jangwani.</stanza>
+
+                    <stanza verse="9">Wazee wenu waliponijariu na kunipima:</stanza>
+
+                    <stanza>Ingawa walikuwa wameona mambo niliyowatendea</stanza>
+                    <stanza verse="10">Kwa miaka arubaini nilichukizwa nao, nikasema:</stanza>
+
+                    <stanza>'Kweli, hawa ni watu waliopotoka.</stanza>
+                    <stanza>Hawajali kabisa njia zangu!'</stanza>
+
+
+                    <stanza verse="11">Basi, nilikasirika, nikaapa:</stanza>
+
+                    <stanza>‘Hawataingia mahali pangu pa pumziko!'</stanza>
+
+                    <stanza type='gloria'>Utukufu una Baba, Mwana, na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa hata milele ni vivyo. Amin.</stanza>
+
+                </item>
+                <item includeGloria="true" type="versedStanzas">
+                    <title>Wimbo wa Habakuki</title>
+                    <ref>Habakuki 3:17-18 maneno yametolewa</ref>
+                    <stanza verse="1">Hata kama Mwembe usipochanua maua,</stanza>
+
+                    <stanza>wala mzabibu kuzaa matunda.</stanza>
+
+                    <stanza verse="2">Hata kama mazao ya minazi hayatakuwepo,</stanza>
+
+                    <stanza>na mashamba yasipotoa chakula,</stanza>
+
+                    <stanza verse="3">Hata kama kondoo wakitoweka kundini,</stanza>
+
+
+                    <stanza>na mifugo isiwemo zizini,</stanza>
+
+                    <stanza verse="4">Mimi nitaendelea kumfurahia Mwenyezi Mungu,</stanza>
+
+                    <stanza>nitamshangilia Mungu wa wokovu wangu.</stanza>
+
+                    <stanza type='gloria'>Utukufu una Baba, Mwana, na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa hata milele ni vivyo. Amin.</stanza>
+
+                </item>
+            </section>
+            <section>
+                <title>Zaburi Ya Siku</title>
+                <number>9</number>
+                <rubric>Inaweza kuimbwa au kusemwa kwa majibizano, na imalizikapo yaimbwe au yasemwe maneno haya:</rubric>
+                <item includeGloria="true">Utukufu una Baba, Mwana, na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa hata milele ni vivyo. Amin.</item>
+                <item who="none">none</item>
+            </section>
+            <section>
+                <title>Somo la Kwanza (Kutoka Agano la Kale.)</title>
+                <number>10</number>
+                <rubric>Mwanzo wa somo msomaji aseme:</rubric>
+                <item who='reader'>Somo la kwanza lapatikana katika kitabu cha/waraka wa ...sura ya ... kuanzia mstari wa ...</item>
+                <item type='rubric'>Mwisho wa somo msomaji aseme:</item>
+                <item who='reader'>Hili ndilo neno la Bwana.</item>
+                <item who='all'>Tumshukuru Mungu.</item>
+            </section>
+            <section type='canticles' visibility='indexed'>
+                <number>11</number>
+                <title>Wimbo wa Masihi, Wimbo wa Zakaria au Wimbo wa Paulo</title>
+                <item includeGloria='true' type='versedStanzas'>
+                    <title>Wimbo wa Masihi</title>
+                    <ref>Mwanzo 12:3, Kumbukumbu 18:15f, 2 Samueli 7:12f, Isaya 53:4, Danieli 7:13-22</ref>
+                    <stanza verse='1'>Yesu uzao wa Ibrahimu abariki mataifa:</stanza>
+                    <stanza verse='2'>Yesu nabii mfano wa Musa anaweka huru wanaogandamizwa:</stanza>
+                    <stanza verse='3'>Yesu, Bwana wa mfalme Daudi huongoza watu wake:</stanza>
+                    <stanza verse='4'>Yesu, Mtumishi wa Mungu anavumilia na kuokoa:</stanza>
+                    <stanza verse='5'>Yesu Mwana wa Adamu aliuwawa na kufufuka.</stanza>
+                    <stanza type='gloria'>Utukufu una Baba, Mwana na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa hata milele ni vivyo. Amin.</stanza>
+                </item>
+
+                <item includeGloria='true' type='versedStanzas'>
+                    <title>Wimbo wa Zakaria (Benedictus)</title>
+                    <ref>Luka 1:68-79</ref>
+                    <stanza verse='1'>Atukuzwe Bwana Mungu wa Israeli:</stanza>
+                    <stanza>kwani amewajia na kuwakomboa watu wake.</stanza>
+                    <stanza verse='2'>Ametupatia Mwokozi shujaa:</stanza>
+                    <stanza>mzawa wa Daudi mtumishi wake.</stanza>
+                    <stanza verse='3'>Aliahidi hapo kale kwa njia ya manabii</stanza>
+                    <stanza>wake watakatifu: kwamba atatuokoa mikononi</stanza>
+                    <stanza>mwa adui zetu, na kutoka mikononi mwa wote wanaotuchukia.</stanza>
+                    <stanza verse='4'>Alisema atawahurumia wazee wetu,</stanza>
+                    <stanza>a kukumbuka agano lake takatifu</stanza>
+                    <stanza verse='5'>Alimwaapia Abrahamu babu yetu;</stanza>
+                    <stanza> kwamba atatujalia sisi, tukombolewe mikononi mwa adui zetu,</stanza>
+                    <stanza verse='6'>Tupate kumtumikia bila hofu:</stanza>
+                    <stanza>tuwe wanyofu na waadilifu mbele yake,</stanza>
+                    <stanza>siku zote za maisha yetu.</stanza>
+                    <stanza verse='7'>Nawe mwanangu, utaitwa, nabii wa Mungu Mkuu:</stanza>
+                    <stanza>tamtangulia Bwana kumtayarishia njia yake;</stanza>
+                    <stanza verse='8'>Kuwatangazia watu kwamba wataokolewa</stanza>
+                    <stanza>kwa kuondolewa dhambi zao.</stanza>
+                    <stanza verse='9'>Mungu wetu ni mpole na mwenye huruma,</stanza>
+                    <stanza verse='10'>Atatuchomozea mwanga kutoka juu, na</stanza>
+                    <stanza>kuwaangazia wote wanaokaa katika giza kuu la</stanza>
+                    <stanza indent='0'>kifo, aongoze hatua zetu katika njia ya amani. </stanza>
+                    <stanza type='gloria'>Utukufu una Baba, Mwana na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa, hata milele ni vivyo. Amin.</stanza>
+                </item>
+                <item type='versedStanzas'>
+                    <title>Wimbo wa Paulo</title>
+                    <ref>Wakolosai 1:15-18</ref>
+                    <stanza verse='1'>Kristo ni mfano wa Mungu asiyeonekana,</stanza>
+                    <stanza>ni mzaliwa wa kwanza wa viumbe vyote. </stanza>
+                    <stanza verse='2'>Maana kwake vitu vyote viliumbwa kila kitu</stanza>
+                    <stanza>duniani na mbinguni, vinavyoonekana na visivyoonekana:</stanza>
+                    <stanza verse='3'>Wenye enzi, watawala, wakuu na wenye nguvu;</stanza>
+                    <stanza>vyote viliumbwa kwake na kwa ajili yake.</stanza>
+                    <stanza verse='4'>Yeye alikuwako kabla ya vitu vyote;</stanza>
+                    <stanza>vyote hudumu mahali pake kwa uwezo wake.</stanza>
+                    <stanza verse='5'>Yeye ni kichwa cha mwili wake, yaani kanisa;</stanza>
+                    <stanza>Yeye ni chanzo cha uhai wa huo mwili:</stanza>
+                    <stanza indent='0'>Yeye ndiye mwanza, mzaliwa wa kwanza</stanza>
+                    <stanza indent='1'>Aliyefufuliwa kutoka wafu, ili awe na nafasi</stanza>
+                    <stanza indent='0'>Ya kwanza katika vitu vyote.</stanza>
+                    <stanza type='gloria'>Utukufu una Baba, Mwana na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa, hata milele ni vivyo. Amin. </stanza>
+                </item>
+            </section>
+            <section>
+                <title>Somo la Pili (Autoka Agano Jipya)</title>
+                <number>12</number>
+                <rubric>Mwanzo wa somo msomaji aseme:</rubric>
+                <item who='reader'>Somo la pili lapatikana katika kitabu cha/waraka wa ...sura ya ... kuanzia mstari wa ...</item>
+                <item type='rubric'>Mwisho wa somo msomaji aseme:</item>
+                <item who='reader'>Hili ndilo neno la Bwana.</item>
+                <item who='all'>Tumshukuru Mungu.</item>
+            </section>
+            <section type='canticles' visibility='collapsed'>
+                <number>13</number>
+                <title>Wimbo wa Yesu, Wimbo wa Kanisa au Wimbo wa Ufunuo</title>
+
+                <item type="versedStanzas">
+                    <title>Wimbo wa Yesu</title>
+
+
+                    <ref>Luka 6:27-28; 7:22–23, 10:21 Mathayo 25:35–36</ref>
+
+                    <stanza verse="1">Wapendeni adui zenu:</stanza>
+
+                    <stanza>Watendeeni mema wale wanaowachukieni.</stanza>
+
+                    <stanza verse="2">Watakieni Baraka wale wanaowalaani:</stanza>
+
+                    <stanza>Na waombeeni wale wanawatendea vibaya.</stanza>
+
+
+                    <stanza verse="3">Maana nilikuwa na njaa nanyi mkanipa chakula: </stanza>
+
+                    <stanza>nilikuwa na kiu nanyi mkanipa maji.</stanza>
+
+                    <stanza verse="4">Nilikuwa mgeni nanyi mkanikaribisha:</stanza>
+
+                    <stanza>Nilikuwa uchi mkanivika.</stanza>
+
+                    <stanza verse="5">Nilikuwa mgonjwa nanyi mkaja kunitazama:</stanza>
+
+                    <stanza>Nilikuwa gerezani nanyi mkaja Kunitembelea.</stanza>
+
+
+                    <stanza verse="6">Vipofu wanaona: viwete wanatembea.</stanza>
+
+                    <stanza>wenye ukoma wanatakaswa</stanza>
+
+                    <stanza verse="7">Viziwi wanasikia, wafu wanafufuliwa:</stanza>
+
+                    <stanza>na maskini wanahubiriwa habari njema.</stanza>
+
+                    <stanza>Heri mtu yule ambaye hana mashaka nami.</stanza>
+
+                    <stanza  type='gloria' indent='0'>Utukufu kwa Baba, Bwana wa Mbingu na dunia:</stanza>
+                    <stanza indent='1'>Utukufu kwa Mwana ambaye kwake Yeye vitu vyote vimetiishwa.</stanza>
+                    <stanza  type='gloria' indent='0'>Utukufu kwa Roho ambaye Mwana humfurahia,</stanza>
+                    <stanza  type='gloria' indent='1'>sasa hata milele. Amin.</stanza>
+                </item>
+
+
+                <item type="versedStanzas">
+                    <title>Wimbo wa Kanisa (Te Deum Laudamus)</title>
+
+                    <ref>Vifungu vya 14 -18 vinaweza kuachwa</ref>
+                    <stanza verse="1">EE MUNGU, twakusifu:</stanza>
+                    <stanza>twakukiri wewe ndiwe Bwana.</stanza>
+                    <stanza verse="2">Ulimwengu wote wakuabudu:</stanza>
+                    <stanza>Ee Baba wa milele.</stanza>
+                    <stanza verse="3">Malaika wote wakupazia sauti:</stanza>
+                    <stanza>nazo mbingu na nguvu zote zilizomo.</stanza>
+                    <stanza verse="4">Makerubi na Maserafi:</stanza>
+                    <stanza>wakuimbia daima.</stanza>
+                    <stanza verse="5">Mtakatifu, Mtakatifu, Mtakatifu:</stanza>
+                    <stanza>Bwana Mungu wa majeshi.</stanza>
+                    <stanza verse="6">Mbingu na nchi zimejaa:</stanza>
+                    <stanza>enzi ya utukufu wako.</stanza>
+                    <stanza verse="7">Jamii tukufu ya Mitume yakuhimidi:</stanza>
+                    <stanza>umati utukufu wa Manabii wakuhimidi.</stanza>
+                    <stanza verse="8">Jeshi tukufu la Mashahidi lakuhimidi:</stanza>
+                    <stanza>Kanisa takatifu lakukiri kote Baba mwenye enzi kuu.</stanza>
+                    <stanza verse="9">Tena Mwana wako pekee:</stanza>
+                    <stanza>wa kweli, wa kuabudiwa.</stanza>
+                    <stanza verse="10">Na Roho Mtakatifu:</stanza>
+                    <stanza>aletaye msaada.</stanza>
+                    <stanza verse="11">Ee Kristo ndiwe mfalme wa utukufu:</stanza>
+                    <stanza>Lindiwe Mwana wa milele wa Baba.</stanza>
+                    <stanza verse="12">Ulipojitwika mzigo wa kuokoa binadamu:</stanza>
+                    <stanza>hukuchukizwa na tumbo la Bikira.</stanza>
+                    <stanza verse="13">Ulipoushinda uchungu wa mauti:</stanza>
+                    <stanza>uliwafunulia waaminio ufalme wa mbinguni.</stanza>
+                    <stanza verse="14">Umekaa mkono wa kuume wa Mungu:</stanza>
+                    <stanza>katika utukufu wake Baba.</stanza>
+                    <stanza verse="15">Twaamini kwamba utakuja:</stanza>
+                    <stanza>kuwa Mhukumu wetu.</stanza>
+                    <stanza verse="16">Kwa hiyo, twakuomba, uwasadie watumishi wako:</stanza>
+                    <stanza>uliowakomboa kwa damu yako ya thamani.</stanza>
+                    <stanza verse="17">Wahesabiwe pamoja na watakatifu wako:</stanza>
+                    <stanza>katika utukufu wa milele.</stanza>
+                    <stanza verse="18">Uwaokoe watu wako, Bwana, uubariki urithi wako:</stanza>
+                    <stanza>uwamiliki, uwainue hata makao ya milele.</stanza>
+                    <stanza verse="19">Twakutukuza kila siku:</stanza>
+                    <stanza>twalisifu Jina lako sasa hata milele.</stanza>
+                    <stanza verse="20">Uwe radhi, Bwana kutulinda leo tusitende dhambi:</stanza>
+                    <stanza>uturehemu Ee Bwana, uturehemu.</stanza>
+                    <stanza verse="21">Utuonee huruma, Ee Bwana:</stanza>
+                    <stanza>kwa vile tulivyokutumaini Wewe.</stanza>
+                    <stanza verse="22">Nimekutumaini Wewe Bwana:</stanza>
+                    <stanza>nisiaibike milele.</stanza>
+
+                </item>
+
+
+
+                <item type="versedStanzas">
+                    <title>Wimbo wa Ufunuo</title>
+
+                    <ref>Ufunuo 19:6-8; 4:11; 5:9-10; 15:3-4; 5:13</ref>
+
+                    <stanza verse="1">Asifiwe Mungu! Maana Bwana Mungu wetu Mwenye Nguvu ametawala:</stanza>
+
+                    <stanza>Tufurahi na kushangilia; na tumtukuze.</stanza>
+
+                    <stanza verse="2">Anastahili Bwana Mungu wetu maana:</stanza>
+
+                    <stanza>Wewe uliumba vitu vyote.</stanza>
+
+                    <stanza verse="3">Anastahili mwana kondoo aliyeuawa:</stanza>
+
+                    <stanza>Ambaye kwa damu yake ametukomboa, ili tumrudie Mungu kutoka kila kabila, lugha, jamii na taifa, </stanza>
+
+                    <stanza verse="4">Matendo yako ni makuu na ya ajabu Ee Bwana, Mungu Mwenyezi:</stanza>
+
+                    <stanza>Njia zako ni za haki na kweli!</stanza>
+                    <stanza indent='+0'>Ewe mfalme wa milele.</stanza>
+
+                    <stanza verse="5">wana ni nani asiyekucha wewe;</stanza>
+
+                    <stanza>Nani asiyelitukuza jina lako?</stanza>
+                    <stanza indent='+0'>Wewe peke yako ni Mtakatifu. </stanza>
+
+
+                    <stanza verse="6">Mataifa yote yatakujia na kukuabudu:</stanza>
+
+                    <stanza>Maana matendo yako ya haki yamedhihirishwa.</stanza>
+
+                    <stanza indent="0">wake Yeye aketiye katika kiti cha enzi,
+                        na kwa mwana kondoo,</stanza>
+
+                    <stanza indent="1">Iwe sifa na heshima na utukufu na enzi,</stanza>
+
+                    <stanza indent="0">milele na milele, Amin</stanza>
+                </item>
+            </section>
+            <section>
+                <number>14</number>
+
+                <title>Matangazo</title>
+
+            </section>
+
+        </service>
+        <service apiName="eucharist">
+            <title>Ibada ya Ushirika Utakatifu</title>
+            <section visibility="collapsed">
+                <title>Maelezo</title>
+                <item>Watu wanapoambiwa wapige magoti, ieleweke kwamba wanaweza kuketi iwapo hawawezi kupiga magoti,</item>
+                <item>Nafasi za nyimbo, pambio na kwaya zawcza kuwekwa kama iiakavyofaa.</item>
+                <item>Ni vyema kuwepo mkate na divai ya kutosha ili kusiwe na haja ya kuvibariki mara kadhaa. Kadhalika, vile vilvyowekwa wakfu pia sharti vimalizwe.</item>
+                <item>Sala ya shukrani (sehemu ya 27) ni sala moja. Inapendekezwa kwamba watu wasimame isemwapo ili kuupa mkazo huo umoja.</item>
+                <item>Maombi maalum ya shukrani za kulingana na nyakati ambazo huingizwa katika ibada ya shukrani, (sehemu ya 27) yamewekwa katika faharasa. Watu tofauti wahi mizwe kuongoza maombi ya kutoka moyoni mwao.</item>
+                <item>“Kuumega mkate" inapatikana sehemu ya 29.</item>
+            </section>
+            <section>
+                <major_header>Taratibu ya Ibada</major_header>
+                <number>1</number>
+                <rubric>Kasisi anapoingia, watu wasimame.</rubric>
+            </section>
+            <section visibility="collapsed">
+                <number>2</number>
+                <rubric>Kisha asome aya ya Biblia.</rubric>
+                <item>Mojawapo va aya hizi au nyingine zifaazo, zisemwe na kasisi katika sehemu yo 2. Mungu akawanyeshea Mana wale, akawapa nafaka kutoka mbinguni.<ref>Zaburi 78:24</ref></item>
+                <item>Lakini nyinyi watu wa Yerusalemu mtaimba kwa furaha kama mfanyavyo wakati wa mkesha wa sikukuu. Mtajaa furaha kama watu wanaotembea kwa mdundo wa muziki wa filimbi kwenda mlimani kwa Mwenyezi Mungu, Mwamba wa Israeli,<ref>Isaya 30:29</ref></item>
+                <item>Mbona mnatumia fedha yenu kwa ajili ya kitu kisicho cha kula? Ya nini kutoa jasho lenu kwa kitu kisichoshibisha? Nisikilizeni mimi kwa makini, nanyi mtakula vilivyo bora, na kufurahia vinono.<ref>Isaya 55:2</ref></item>
+                <item >Yesu akawaambia, 'Mimi ndimi mkate wa uhai. Anayekuja kwangu hataona njaa; anayeniamini hataona kiu kamwe."<ref>Yohana 6:35</ref></item>
+                <item >Pasaka yetu, amekwisha tolewa kuwa sadaka. Basi, tufanye karamu hiyo si kwa chachu ile ya kale, chachu ya ubaya na uovu, bali kwa mkate usiotiwa chachu, mkate wa usafi na kweli.<ref>I Wakorintho 5:8</ref></item>
+                <item >Wote walikula chakula kile-kile cha kiroho, wakanywa pia kinywaji kilekile cha kiroho, maana walikunywa kutoka ule mwamba wa kiroho uliowafuata; Mwamba huo ulikuwa Kristo mwenyewe.<ref>I Wakorintho 10:3-4</ref></item>
+                <item type='rubric'>Lrismasi</item>
+                <item >Atajifungua mtoto wa kiume, nawe utampa jina Yesu, kwa kuwa yeye ndiye atakayewaokoa watu wake katika dhambi zao.<ref>Mathayo 1:21</ref></item>
+                <item type="rubric" >Easter</item>
+                <item> Alipoketi kula chakula pamoja nao, akachukua mkate, akaubariki, akaumega, akawapa. Mara macho yao yakafunguliwa, wakamtambua.<ref>Luka 24:30</ref></item>
+                <item type="rubric">Pentekoste</item>
+                <item >Maana sisi, tukiwa Wayahudi au watu wa mataifa mengine, watumwa au watu huru, sote tumebatizwa kwa Roho mmoja katika mwili huo mmoja; na sote tukanyweshwa Roho huyo mmoja.<ref>I Wakorintho 12:13</ref></item>
+            </section>
+            <section>
+                <number>3</number>
+                <rubric>Hatimaye awakaribishe watu akitumia maneno yafuatayo au mengine yanayofaa:</rubric>
+                <item who="minister">Bwana Yesu akae nanyi:</item>
+                <item who="people">Akae nawe pia</item>
+                <item who="minister">TDunia na vyote vilivyomo ni mali ya Bwana:</item>
+                <item who="people">Mbingu nazishangilie na dunia ifurahi.</item>
+                <item who="minister">Msaada wetu u katika jina la Bwana</item>
+                <item who="people">Aliyeziumba mbingu na nchi.</item>
+                <item who="minister">Nilifurahi waliponiambia </item>
+                <item who="people">"Twendeni nyumbani kwa Baba." </item>
+                <item who="minister">Msifuni Bwana Yesu:</item>
+                <item who="people">Jina la Bwana litukuzwe.</item>
+            </section>
+            <section visibility="collapsed" schedule="[christmas,easter,pentecost]">
+                <rubric>Matamko yafuatayo yaongezewe sala hii kulingana na nyakati zake.</rubric>
+                <item type="rubric">Krismasi</item>
+                <item who="minister">Mfalme wa Amani amezaliwa:</item>
+                <item who="people">Njooni tumuabudu. </item>
+                <item type="rubric">Pasaka</item>
+                <item who="minister">Kristo amefufuka</item>
+                <item who="people">Amefufuka kweli kweli! Aleluya!</item>
+                <item type="rubric">Pentekoste</item>
+                <item who="minister">Roho wa Bwana yuko hapa:</item>
+                <item who="people">Amefufuka kweli kweli! Aleluya!</item>
+            </section>
+            <section>
+                <item who="minister">Na tuombe.</item>
+                <item who='none'>none</item>
+            </section>
+            <section type="eitherOr">
+                <number>4</number>
+                <rubric>Watu wapige magoti. Mojawapo ya sala zifuatazo za utakaso isemwe na wote.</rubric>
+                <item who="all" type="stanzas">
+                    <stanza>Wote Mwenyezi Mungu,</stanza>
+                    <stanza>ufichuaye mambo</stanza>
+                    <stanza>yaliyositirika gizani,</stanza>
+                    <stanza>unayezijua siri za mioyo yetu.</stanza>
+                    <stanza>Ututakase na kutuhuisha kwa Roho wako, </stanza>
+                    <stanza>ili tuenende katika mwanga</stanza>
+                    <stanza>na kulitukuza jina lako,</stanza>
+                    <stanza>kwa Yesu Kristo</stanza>
+                    <stanza>aliye nuru ya ulimwengu. Amin. </stanza>
+                </item>
+                <item type="rubric">Au</item>
+                <item who="all" type="stanzas">
+                    <stanza>Wote Mwenyezi Mungu,</stanza>
+                    <stanza>ambaye kwako wewe mioyo yote iwazi,</stanza>
+                    <stanza>haja zetu umezijua,</stanza>
+                    <stanza>wala hakuna la siri lililofichika kwako: </stanza>
+                    <stanza>Uyasafishe mawazo ya mioyo yetu</stanza>
+                    <stanza>kwa uvuvio wa Roho wako Mtakatifu,</stanza>
+                    <stanza>ili tukupendeze kwa ukamilifu;</stanza>
+                    <stanza>na kulitukuza jina lako kama itupasavyo,</stanza>
+                    <stanza>kwa Kristo Bwana wetu. Amin.</stanza>
+                </item>
+
+            </section>
+            <section visibility="collapsed">
+                <title>Sheria za Mungu (Amri Kumi)</title>
+                <number>5</number>
+                <rubric>Watu waendelee kupiga magoti kisha kasisi asome Amri kumi, au ufupisho wake kama ilivyo katika Agano jipya. Kasisi Sikieni amri za Mungu, na mjitahidi
+                    kuzitekeleza.</rubric>
+                <item who="minister">Sikieni amri za Mungu, na mjitahidi kuzitekeleza.</item>
+                <item who="minister">Mimi ndimi Mwenyezi Mungu, Mungu wako, niliyekutoa nchini Misri, ambako ulikuwa mitumwa. Usiwe na miungu mingine ila mimi</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usijifanyie sanamu ya miungu wa uongo, au kinyago cha kitu chochote kilicho mbinguni, katika nchi, au majini chini ya dunia. Usiisujudie wala kuitumikia; kwa kuwaa mimi Mwenyezi-Mungu, Mungu wako, ni Mungu mwenye wivu</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usilitaje bure jina langu mimi Mwenyezi Mungu, Mungu wako. Maana mimi Mwenyezi Mungu sitaacha kumwadhibu anayetumiajina langu vibaya.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usisahau kuiweka takatifu siku ya Sabato. Siku sita fanya kazi na tenda mambo yako yote. Lakini siku ya saba ni Sabato ya Mwenyezi Mungu, Mungu wako.Siku hiyo usifanye kazi yoyote, wewe, wala mwanao, wala binti yako, wala mtumwa wako, wala watumishi wako wa kike, wala mnyama wako wa kulugwa, wala mgeni aliye nyumban mwako. Maana kwa siku sita mimi Mwenyezi Mungu niliziumba mbingu na dunia, bahari na vyote vilivyomo, kisha nikapumzika siku ya saba Kwa hiyo mimi Mwenyezi Mungu nilibariki siku ya Sabato, nikaitakasa.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Waheshimu baba yako na mama yako, ili uishi maisha marefu katika nchi ninayokupa mimi Mwenyezi Mungu, Mungu wako.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiue.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usizini.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiibe.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usimshuhudie jirani yako uongo.</item>
+                <item who="people">Amin, Bwana, uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiitamani nyumba ya jirani yako, wala mke wake, wala mtumwa wake wa kiume au wa kike, wala ng'ombe wake, wala punda wake, wala chochote kilicho mali ya jirani yako.</item>
+                <item who="people">Amin Bwana uturehemu, twakusihi uziandike amri hizi zote mioyoni mwetu.</item>
+                <item type="rubric">Au</item>
+            </section>
+            <section visibility="collapsed">
+                <title>ufafanuzi wa Sheria Kama Ulivyo Katika Agana Jipya</title>
+                <number>6</number>
+                <rubric>Sehemu hii yaweza kuongozwa na viongozi wawili:mmoja asome jinsi ilivyo katika Agano la Kale, na mwingine ufafanuzi kama ulivyo katika Agaпо Jіруа.</rubric>
+                <item who="minister">Bwana wetu Yesu Kristo alisema, kama wanipenda, mtazishika amri zangu, heri wao walisikiao Neno la Mungu na kulitii. Sikieni basi, Mungu awaambiayo watu
+                    wake:</item>
+                <item who="minister"> Mimi ni Bwana Mungu wako: usiwe na miungu mingine ila Mimi. Mpende Bwana Mungu wako kwa moyo wako wote, na roho yako yote, na akili zako zote, na kwa nguvu zako zote.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usijifanyie sanamu.</item>
+                <item who="minister">Mungu ni Roho, na wao wamwabuduo imewapasa kumwabudu katika roho na kweli.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiliaibishe jina la Bwana Mungu wako.</item>
+                <item who="minister">Umwabudu yeye kwa kicho na heshima.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Ikumbuke siku ya Bwana Mungu wako, uitakakase.</item>
+                <item who="minister">Kristo amefufuka kutoka katika wafu: Panieni mambo yaliyo juu wala sio yale yaliyo chini duniani.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Waheshimu baba yako na mama yako.</item>
+                <item who="minister">Kama mtu hawatunzi watu wa jamaa yake, hasa wale wa nyumbani kwake, basi mtu huyo ameikana imani, na ni mwovu zaidi kuliko mtu asiyeamini.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiue.</item>
+                <item who="minister">Yeyote anayemkasirikia ndugu yake, lazima ahukumiwe.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usizini.</item>
+                <item who="minister">takayemtazama mwanamke kwa kumtamani amekwisha zini naye moyoni
+                    mwake.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usiibe</item>
+                <item who="minister">Mwizi asiibe tena, bali afanye kazi njema kwa mikono yake apate kitu cha kusaidia maskini.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usishuhudie uongo.</item>
+                <item who="minister">Kila mtu na aseme lililo la kweli.</item>
+                <item who="people">Amin, Bwana uturehemu, utujalie neema tuweze kuitii amri hii.</item>
+                <item who="minister">Usitamani chochote kilicho mali ya jirani yako.</item>
+                <item who="minister">Kutoa ni vyema zaidi ya kupokea. Mpende jirani yako kama unavyojipenda mwenyewe, maana upendo ndio utimilifu wa sheria.</item>
+                <item who="people">Amin, Bwana uturehemu; twakusihi uziandike amri hizi zote mioyoni mwetu.</item>
+                <item type="rubric">Au</item>
+            </section>
+            <section visibility="collapsed">
+                <title>Ufupisho wa Sheria (Amri Kumi)</title>
+                <number>7</number>
+                <item who="minister">Bwana wetu Yesu Kristo alisema: Amri ya kwanza na iliyo kuu ndiyo hii:</item>
+                <item who="minister">'Sikiliza Israeli Bwana Mungu wetu, ndiye peke yake Bwana. Mpende Bwana Mungu wako kwa moyo wako wote, kwa roho yako yote, kwa akili yako yote na kwa nguvu zako zote;'</item>
+                <item who="minister">Na ya pili ndiyo hii: Mpende jirani yako kama unavyojipenda mwenyewe. Hakuna amri nyingine iliyo kubwa zaidi kuliko hizi'.</item>
+                <item who="people">Amin, Bwana uturehemu,twakusihi uzi andike amri hizi zote mioyoni mwetu.</item>
+            </section>
+            <section>
+                <title>Gloria na Kyrie Eleison' (Bwana Uturehemu)</title>
+                <rubric>Mtindo wowote kati ya hizi zifuatazo waweza kuimbwa au kusemwa:</rubric>
+                <item who="minister">Tunasimama kumtukuza Bwana.</item>
+                <item type='rubric'>Ama</item>
+            </section>
+            <section visibility="collapsed">
+                <rubric>Mtindo huu wa kwanza waweza kuandamana na kupiga makoji kwa utaratibu:.</rubric>
+                <item who="minister">Utukufu uwe kwa Baba</item>
+                <item who="people">Utukufu uwe kwa Mwana </item>
+                <item who="minister">Utukufu uwe kwa Roho Mtakatifu</item>
+                <item who="people">Daima Mungu mmoja katika Utatu</item>
+                <item who="minister">Utukuzwe nyumbani</item>
+                <item who="people">Utukuzwe kanisani</item>
+                <item who="minister"> Utukuzwe Kenya</item>
+                <item who="people">Utukuzwe Africa</item>
+                <item who="minister">Utukuzwe duniani</item>
+                <item who="people">Utukuzwe mbinguni</item>
+                <item who="minister">Utukufu uwe kwa Baba</item>
+                <item who="people">Utukufu uwe kwa Mwana </item>
+                <item who="minister">Utukufu uwe kwa Roho Mtakatifu</item>
+                <item who="people">Daima Mungu mmoja katika Utatu</item>
+                <item who="minister">Aleluya</item>
+                <item who="people">Amin</item>
+
+            </section>
+            <section visibility="collapsed">
+                <item type='rubric'>Au Mtindo Huu</item>
+                <number>9</number>
+                <item type="stanzas" who="all">
+                    <stanza>Wote Atukuzwe Mungu juu mbinguni,</stanza>
+                    <stanza>na duniani iwe amani kwa watu aliowaridhia.</stanza>
+                    <stanza>Twakusifu, twakuhimidi, twakuabudu, twakutukuza, twakushukuru kwa ajili</stanza>
+                    <stanza>ya utukufu wako mkuu,</stanza>
+                    <stanza>Bwana Mungu, Mfalme wa mbinguni,</stanza>
+                    <stanza>Mungu Baba Mwenyezi. Ee Bwana,</stanza>
+                    <stanza>Mwana pekeo, Yesu Kristo, Bwana Mungu,</stanza>
+                    <stanza>Mwana kondoo wa Mungu, Mwana wa Baba,</stanza>
+                    <stanza>uchukuaye dhambi za ulimwengu, uturehemu;</stanza>
+                    <stanza>uchukuaye dhambi za ulimwengu,</stanza>
+                    <stanza>ukubali kuomba kwetu;</stanza>
+                    <stanza>uketiye mkono wa kuume wa Mungu Baba, uturehemu.</stanza>
+                    <stanza>Maana ndiwe pekeo mtakatifu;</stanza>
+                    <stanza>ndiwe pekeo Bwana, ndiwe pekeo,</stanza>
+                    <stanza>Ee Kristo pamoja na Roho Mtakatifu. uliye mwenye adhama katika utukufu wa Mungu Baba. Amin.</stanza>
+                </item>
+                <item who="none">none</item>
+            </section>
+            <section visibility="collapsed">
+                <rubric>Au kwa Wakati wa Saumu</rubric>
+                <number>10</number>
+                <item type='rubric'>Wakati wa saumu dua hii “Bwana Uturehemu" inapendekezwa badala ya Gloria:</item>
+                <item who="minister">Bwana Uturehemu</item>
+                <item who="people">Ee Bwana Uturehemu</item>
+                <item who="minister">Kristo Uturehemu</item>
+                <item who="people">Kristo Uturehemu </item>
+                <item who="minister">Kristo Uturehemu</item>
+                <item who="people">Kristo Uturehemu </item>
+                <item type="rubric">Watu waendelee kusimama.</item>
+            </section>
+
+        </service>
+    </prayer_book>
+</prayer_books>
