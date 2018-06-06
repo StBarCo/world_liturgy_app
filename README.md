@@ -14,7 +14,7 @@ The purpose of this app is to enable churches to easily create electronic versio
 * Integrate church calendar and lectionary with prayer services.
 * Support for Bible texts and link with lectionaries.
 * Support for song books.
-* Support for seaching within a service.
+* Support for searching within a service.
 * User's ability to change font size.
 
 ## XML Format for texts
@@ -24,5 +24,7 @@ Will be documented soon.
 
 ### Contributors
 We are looking for help in creating this project. Contact me at info@worldliturgy.org
+
+
 
 
