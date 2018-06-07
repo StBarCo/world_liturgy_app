@@ -22,7 +22,7 @@ abstract class _$PrayerBooksContainerSerializerMixin {
 
 PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) => new PrayerBook(
     json['language'] as String,
-    json['apiName'] as String,
+    json['id'] as String,
     json['title'] == null
         ? null
         : new Title.fromJson(json['title'] as Map<String, dynamic>),
@@ -33,19 +33,19 @@ PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) => new PrayerBook(
 
 abstract class _$PrayerBookSerializerMixin {
   String get language;
-  String get apiName;
+  String get id;
   Title get titleObject;
   List<Service> get services;
   Map<String, dynamic> toJson() => <String, dynamic>{
         'language': language,
-        'apiName': apiName,
+        'id': id,
         'title': titleObject,
         'service': services
       };
 }
 
 Service _$ServiceFromJson(Map<String, dynamic> json) => new Service(
-    json['apiName'] as String,
+    json['id'] as String,
     json['title'] == null
         ? null
         : new Title.fromJson(json['title'] as Map<String, dynamic>),
@@ -55,14 +55,11 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => new Service(
         ?.toList());
 
 abstract class _$ServiceSerializerMixin {
-  String get apiName;
+  String get id;
   Title get titleObject;
   List<Section> get sections;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'apiName': apiName,
-        'title': titleObject,
-        'section': sections
-      };
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{'id': id, 'title': titleObject, 'section': sections};
 }
 
 Section _$SectionFromJson(Map<String, dynamic> json) => new Section(

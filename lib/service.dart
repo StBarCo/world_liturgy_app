@@ -4,8 +4,9 @@ import 'globals.dart' as globals;
 
 class ServiceView extends StatelessWidget{
   final currentService;
+  final currentIndexes;
 
-  ServiceView({Key key, @required this.currentService}) : super(key: key);
+  ServiceView({Key key, @required this.currentService, @required this.currentIndexes}) : super(key: key);
 
 //  ServiceViewState();
 
@@ -17,7 +18,7 @@ class ServiceView extends StatelessWidget{
 //    Service currentService = currentPrayerBook.services[serviceIndex];
 
     return new Scaffold (
-      drawer: _buildDrawer(allPrayerBooks.prayerBooks),
+      drawer: _buildDrawer(allPrayerBooks.prayerBooks, currentIndexes),
       appBar: new AppBar(
         title: new Text(currentService.title),
         actions:  <Widget>[
@@ -38,14 +39,14 @@ class ServiceView extends StatelessWidget{
     );
   }
 
-  Drawer _buildDrawer(prayerBooks) {
+  Drawer _buildDrawer(prayerBooks, currentIndexes) {
     return Drawer(
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the Drawer if there isn't enough vertical
       // space to fit everything.
       child: new ListView.builder(
         itemBuilder: (BuildContext context, int index) =>
-        new DrawerPrayerBookEntry(context, prayerBooks[index]),
+        new DrawerPrayerBookEntry(context, prayerBooks[index], currentIndexes),
         itemCount: prayerBooks.length,
       ),
     );
@@ -62,7 +63,9 @@ class ServiceView extends StatelessWidget{
         itemBuilder: (context, index) {
            var section = service.sections[index];
                 return _buildSection(context, section);
-        }
+        },
+
+
     );
   }
 
@@ -160,17 +163,20 @@ class ServiceView extends StatelessWidget{
 }
 
 class DrawerPrayerBookEntry extends StatelessWidget {
-  const DrawerPrayerBookEntry(BuildContext context, this.prayerBook);
+  const DrawerPrayerBookEntry(BuildContext context, this.prayerBook, this.currentIndexes);
 
   final PrayerBook prayerBook;
+  final currentIndexes;
 
-  Widget _buildTiles(BuildContext context, PrayerBook prayerbook) {
-    if (prayerbook.services.isEmpty)
-      return new ListTile(title: new Text(prayerbook.title ?? 'No Title'));
+  Widget _buildTiles(BuildContext context, PrayerBook prayerBook) {
+    if (prayerBook.services.isEmpty)
+      return new ListTile(title: new Text(prayerBook.title ?? 'No Title'));
     return new ExpansionTile(
-      key: new PageStorageKey<PrayerBook>(prayerbook),
-      title: new Text(prayerbook.title ?? 'No title'),
-      children: _buildServicesTiles(context, prayerbook),
+      key: new PageStorageKey<PrayerBook>(prayerBook),
+      title: new Text(prayerBook.title ?? 'No title'),
+      children: _buildServicesTiles(context, prayerBook),
+      initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
+
     );
   }
 
@@ -183,15 +189,16 @@ class DrawerPrayerBookEntry extends StatelessWidget {
   List<Widget> _buildServicesTiles(context, prayerBook) {
     List<Widget> servicesList = [];
 //    Service serviceName;
-    for (var serviceName in prayerBook.services) {
+    for (var service in prayerBook.services) {
       servicesList.add(new ListTile(
-        title: new Text(serviceName.title ?? 'No title',),
+        title: new Text(service.title ?? 'No title',),
+        selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
         onTap: () {
           Navigator.pop(context);
           Navigator.push(context, new MaterialPageRoute(
             builder: (BuildContext context) {
               return ServiceView(
-                  currentService: serviceName,
+                  currentService: service, currentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
               );
             },
           ));

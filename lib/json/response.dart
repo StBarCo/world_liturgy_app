@@ -17,7 +17,7 @@ class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerM
 @JsonSerializable()
 class PrayerBook extends Object with _$PrayerBookSerializerMixin {
   final String language;
-  final String apiName;
+  final String id;
 
   @JsonKey(nullable: true, name: "title")
   final Title titleObject;
@@ -28,7 +28,7 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
 
   PrayerBook(
       this.language,
-      this.apiName,
+      this.id,
       this.titleObject,
       this.services,
       );
@@ -39,7 +39,7 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
 @JsonSerializable()
 class Service extends Object with _$ServiceSerializerMixin {
 
-  final String apiName;
+  final String id;
 
   @JsonKey(nullable: true, name: "title")
   final Title titleObject;
@@ -49,7 +49,7 @@ class Service extends Object with _$ServiceSerializerMixin {
   final List<Section> sections;
 
   Service(
-      this.apiName,
+      this.id,
       this.titleObject,
       this.sections,
       );

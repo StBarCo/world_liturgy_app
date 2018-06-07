@@ -55,18 +55,18 @@
                         </xs:choice>
                         <xs:attribute type="xs:string" name="sectionType" use="optional"/>
                         <xs:attribute type="xs:string" name="visibility" use="optional"/>
-                        <xs:attribute type="xs:string" name="apiName" use="optional"/>
+                        <xs:attribute type="xs:string" name="id" use="optional"/>
                         <xs:attribute type="xs:string" name="link" use="optional"/>
                         <xs:attribute type="xs:string" name="schedule" use="optional"/>
                         <xs:attribute type="xs:string" name="type" use="optional"/>
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
-                  <xs:attribute type="xs:string" name="apiName" use="optional"/>
+                  <xs:attribute type="xs:string" name="id" use="required"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
-            <xs:attribute type="xs:string" name="apiName" use="optional"/>
+            <xs:attribute type="xs:string" name="id" use="required"/>
             <xs:attribute type="xs:string" name="language" use="optional"/>
           </xs:complexType>
         </xs:element>
