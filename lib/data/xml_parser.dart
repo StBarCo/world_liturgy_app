@@ -2,7 +2,7 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:xml2json/xml2json.dart';
 import 'dart:convert';
-import 'package:kenya_liturgy/json/response.dart';
+import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'dart:async';
 import 'dart:io';
 

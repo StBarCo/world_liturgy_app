@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'response.g.dart';
+part 'serializePrayerBook.g.dart';
 
 @JsonSerializable()
 class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerMixin {
-  @JsonKey(name: 'prayer_book')
+  @JsonKey(fromJson: _decodePrayerBookorService, name:'prayer_book')
   final List<PrayerBook> prayerBooks;
 
   PrayerBooksContainer(
@@ -23,7 +23,7 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
   final Title titleObject;
   String get title => clean(this.titleObject?.$t);
 
-  @JsonKey(name: "service")
+  @JsonKey(name: "service", fromJson: _decodePrayerBookorService)
   final List<Service> services;
 
   PrayerBook(
@@ -45,7 +45,7 @@ class Service extends Object with _$ServiceSerializerMixin {
   final Title titleObject;
   String get title => clean(this.titleObject?.$t);
 
-  @JsonKey(name: "section")
+  @JsonKey(name: "section", fromJson: _decodeSection)
   final List<Section> sections;
 
   Service(
@@ -87,7 +87,7 @@ class Section extends Object with _$SectionSerializerMixin {
   final Rubric rubricObject;
   String get rubric => clean(this.rubricObject?.$t);
 
-  @JsonKey(name: "item", nullable: true)
+  @JsonKey(name: "item", nullable: true, fromJson: _decodeItem)
   final List<Item> items;
 
   String get indexName{
@@ -179,7 +179,7 @@ class Item extends Object with _$ItemSerializerMixin{
   final Title refObject;
   String get ref => clean(this.refObject?.$t);
 
-  @JsonKey(nullable: true, name:'stanza')
+  @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
   final List<Stanza> stanzas;
 
   Item(
@@ -215,3 +215,76 @@ class Stanza extends Object with _$StanzaSerializerMixin {
 }
 
 String clean(String s) => s?.replaceAll(new RegExp(r"\\r\\n+ *|\\"), '');
+
+List<dynamic> _decodePrayerBookorService(itemOrList){
+  List<dynamic> list = [];
+  if (itemOrList == null){
+    return null;
+  }
+  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  if (list.first['service'] != null){
+    return list.map((e) =>
+    e == null ? null : new PrayerBook.fromJson(e as Map<String, dynamic>))
+        ?.toList();
+  }else if (list.first['section'] != null){
+    return list.map((e) =>
+    e == null ? null : new Service.fromJson(e as Map<String, dynamic>))
+        ?.toList();
+  }else{
+    return null;
+  }
+
+}
+
+List<dynamic> _decodeSection(itemOrList){
+  List<dynamic> list = [];
+  if (itemOrList == null){
+    return null;
+  }
+  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new Section.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}
+
+List<dynamic> _decodeItem(itemOrList){
+  List<dynamic> list = [];
+  if (itemOrList == null){
+    return null;
+  }
+  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new Item.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}
+
+List<dynamic> _decodeStanza(itemOrList){
+  List<dynamic> list = [];
+  if (itemOrList == null){
+    return null;
+  }
+  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new Stanza.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}

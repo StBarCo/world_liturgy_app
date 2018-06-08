@@ -1,5 +1,5 @@
-library kenya_liturgy.globals;
-import 'package:kenya_liturgy/json/response.dart';
-import 'dart:async';
+library world_liturgy_app.globals;
+//import 'json/serializePrayerBook.dart';
+//import 'dart:async';
 
 dynamic allPrayerBooks;

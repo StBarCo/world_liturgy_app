@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kenya_liturgy/json/response.dart';
+import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'globals.dart' as globals;
 
 class ServiceView extends StatelessWidget{

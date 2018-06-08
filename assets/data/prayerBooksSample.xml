@@ -2,10 +2,10 @@
 <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?>
 <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'>
-    <prayer_book apiName="englishPrayerBook" language="english">
+    <prayer_book id="englishPrayerBook" language="english">
         <!--title, and rubric can only be used 1x per parent-->
         <title>Our Modern Services</title>
-        <service apiName="morningPrayer">
+        <service id="morningPrayer">
             <title>Morning Worship</title>
             <!--section visibility: hidden will not display the section. but it will be linked to at another point in the service.-->
             <!--section visibility: collapsed will show the title and on tap will display the section in full-->
@@ -29,7 +29,7 @@
                 <item who='leader'>renewed in the spirit,</item>
                 <item who='people'>together we are one.</item>
             </section>
-            <section apiName="introSentences" visibility='collapsed'>
+            <section id="introSentences" visibility='collapsed'>
                 <title>Sentences</title>
                 <number>2</number>
                 <rubric>One or more of these sentences may be said after the introduction.</rubric>
@@ -92,7 +92,6 @@
             <section>
                 <number>3</number>
                 <item who='all'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='none'>None</item>
 
             </section>
             <section>
@@ -213,7 +212,6 @@
                 <number>9</number>
                 <rubric>The PSALM appointed for the day may be sung or said antiphonally and should end with:</rubric>
                 <item >Glory to the Father, Son and the Holy Spirit: as it was in the beginning, is now and ever shall be. Amen.</item>
-                <item who="none">none</item>
             </section>
             <section>
                 <title>FIRST READING from the Old Testament</title>
@@ -455,7 +453,7 @@
             </section>
 
         </service>
-        <service apiName="eucharist">
+        <service id="eucharist">
             <title>Service of Holy Communion</title>
             <section visibility="collapsed">
                 <title>Notes</title>
@@ -515,7 +513,6 @@
             </section>
             <section>
                 <item who="minister">Let us pray.</item>
-                <item who='none'>none</item>
             </section>
             <section type="eitherOr">
                 <number>4</number>
@@ -554,7 +551,6 @@
             <section>
                 <number>24</number>
                 <item who="all">Thank you Father, for forgiveness; We come to vour table as your children, not presuming but assured, not trusting ourselves but your Word; we hunger and thirst for righteousness, and ask for our hearts to be satisfied with the body and blood of your Son, Jesus Christ the righteous.Amen.</item>
-                <item who="none">none</item>
 
             </section>
             <section>
@@ -692,39 +688,38 @@
                 <item>And now we give you thanks because within the royal priesthood of your Church you ordain pastors and consecrate bishops, to tend and guide your flock, to proclaim the good news of salvation and to celebrate the sacraments of the New Covenant.</item>
             </section>
         </service>
-        <!--  <service apiName="Evening Prayer">
-                  <title>Evening Worship</title>
-                  <section type="Intro Sentences">
-                      <title>Introductory Sentences</title>
-                      <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                      <item>Let us enter his gates with thanksgiving.</item>
-                      <item>Worship him in the splendor of his holiness.</item>
-                  </section>
-                  <section>
-                      <title>Order of Service</title>
-                      <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                      <item who='leader'>The Lord be with you.</item>
-                      <item who='people'>And also with you.</item>
-                      <item who='leader'>We are heirs of the Father.</item>
-                      <item who='people'>joint heirs with the son,</item>
-                      <item who='leader'>renewed in the spirit,</item>
-                      <item who='people'>together we are one.</item>
-                  </section>
-                  <section>
-                      <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                      <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                      <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-                  </section>
-                  <section>
-                      <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                      <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-                      <item who='none'>none</item>
-                  </section>
-              </service> -->
+        <service id="Evening Prayer">
+              <title>Evening Worship</title>
+              <section type="Intro Sentences">
+                  <title>Introductory Sentences</title>
+                  <rubric>One or more of these sentences may be said after the introduction.</rubric>
+                  <item>Let us enter his gates with thanksgiving.</item>
+                  <item>Worship him in the splendor of his holiness.</item>
+              </section>
+              <section>
+                  <title>Order of Service</title>
+                  <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
+                  <item who='leader'>The Lord be with you.</item>
+                  <item who='people'>And also with you.</item>
+                  <item who='leader'>We are heirs of the Father.</item>
+                  <item who='people'>joint heirs with the son,</item>
+                  <item who='leader'>renewed in the spirit,</item>
+                  <item who='people'>together we are one.</item>
+              </section>
+              <section>
+                  <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
+                  <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
+                  <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
+              </section>
+              <section>
+                  <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
+                  <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
+              </section>
+          </service>
     </prayer_book>
-    <prayer_book apiName="swahiliPrayerBook" language="swahili">
+    <prayer_book id="swahiliPrayerBook" language="swahili">
         <title>Kitabu Kipya Cha Ibada</title>
-        <service apiName="morningPrayer">
+        <service id="morningPrayer">
             <title>Ibada ya Asubuhi</title>
             <!--section visibility: hidden will not display the section. but it will be linked to at another point in the service.-->
             <!--section visibility: collapsed will show the title and on tap will display the section in full-->
@@ -749,7 +744,7 @@
                 <item who='leader'>Tunafanywa upya kwa njia ya Roho wa Mungu</item>
                 <item who='people'>Sote tu wamoja katika Kristo.</item>
             </section>
-            <section apiName="introSentences" visibility='collapsed'>
+            <section id="introSentences" visibility='collapsed'>
                 <!--major_header is an additional option. Primary use would be to separate the liturgy of the Word and from the Table.-->
                 <title>Aya za Biblia</title>
                 <number>2</number>
@@ -814,7 +809,6 @@
             <section>
                 <number>3</number>
                 <item who='all'>Baba uishiye milele, Mungu wa wazazi wetu wa kale, mbele zako vitu vyote vinatetemeka, bali kupitia kwa mwanao, twakaribia kiti chako cha enzi. Tumeasi na kukataa kutenda mema; Mioyo yetu imelemewa na dhambi: Turehemu ee Bwana, usituhesabie makosa yetu. Tujalie furaha ya msamaha, na utuangazie mioyoni mwetu utukufu wa Yeye aliyekufa na kufufuka kwa ajili yetu, Yesu Kristo Bwana wetu. Amin.</item>
-                <!--<item who='none'>None</item>-->
 
             </section>
             <section>
@@ -955,7 +949,6 @@
                 <number>9</number>
                 <rubric>Inaweza kuimbwa au kusemwa kwa majibizano, na imalizikapo yaimbwe au yasemwe maneno haya:</rubric>
                 <item includeGloria="true">Utukufu una Baba, Mwana, na Roho Mtakatifu; Ulivyokuwa mwanzo, ulivyo sasa hata milele ni vivyo. Amin.</item>
-                <item who="none">none</item>
             </section>
             <section>
                 <title>Somo la Kwanza (Kutoka Agano la Kale.)</title>
@@ -1185,7 +1178,7 @@
             </section>
 
         </service>
-        <service apiName="eucharist">
+        <service id="eucharist">
             <title>Ibada ya Ushirika Utakatifu</title>
             <section visibility="collapsed">
                 <title>Maelezo</title>
@@ -1245,7 +1238,6 @@
             </section>
             <section>
                 <item who="minister">Na tuombe.</item>
-                <item who='none'>none</item>
             </section>
             <section type="eitherOr">
                 <number>4</number>
@@ -1395,7 +1387,6 @@
                     <stanza>ndiwe pekeo Bwana, ndiwe pekeo,</stanza>
                     <stanza>Ee Kristo pamoja na Roho Mtakatifu. uliye mwenye adhama katika utukufu wa Mungu Baba. Amin.</stanza>
                 </item>
-                <item who="none">none</item>
             </section>
             <section visibility="collapsed">
                 <rubric>Au kwa Wakati wa Saumu</rubric>

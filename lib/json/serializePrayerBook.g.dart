@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'response.dart';
+part of 'serializePrayerBook.dart';
 
 // **************************************************************************
 // Generator: JsonSerializableGenerator
@@ -8,11 +8,9 @@ part of 'response.dart';
 
 PrayerBooksContainer _$PrayerBooksContainerFromJson(
         Map<String, dynamic> json) =>
-    new PrayerBooksContainer((json['prayer_book'] as List)
-        ?.map((e) => e == null
-            ? null
-            : new PrayerBook.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+    new PrayerBooksContainer(json['prayer_book'] == null
+        ? null
+        : _decodePrayerBookorService(json['prayer_book']));
 
 abstract class _$PrayerBooksContainerSerializerMixin {
   List<PrayerBook> get prayerBooks;
@@ -26,10 +24,9 @@ PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) => new PrayerBook(
     json['title'] == null
         ? null
         : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    (json['service'] as List)
-        ?.map((e) =>
-            e == null ? null : new Service.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+    json['service'] == null
+        ? null
+        : _decodePrayerBookorService(json['service']));
 
 abstract class _$PrayerBookSerializerMixin {
   String get language;
@@ -49,10 +46,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) => new Service(
     json['title'] == null
         ? null
         : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    (json['section'] as List)
-        ?.map((e) =>
-            e == null ? null : new Section.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+    json['section'] == null ? null : _decodeSection(json['section']));
 
 abstract class _$ServiceSerializerMixin {
   String get id;
@@ -79,10 +73,7 @@ Section _$SectionFromJson(Map<String, dynamic> json) => new Section(
     json['rubric'] == null
         ? null
         : new Rubric.fromJson(json['rubric'] as Map<String, dynamic>),
-    (json['item'] as List)
-        ?.map((e) =>
-            e == null ? null : new Item.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    json['item'] == null ? null : _decodeItem(json['item']),
     json['schedule'] as String);
 
 abstract class _$SectionSerializerMixin {
@@ -144,10 +135,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) => new Item(
     json['ref'] == null
         ? null
         : new Title.fromJson(json['ref'] as Map<String, dynamic>),
-    (json['stanza'] as List)
-        ?.map((e) =>
-            e == null ? null : new Stanza.fromJson(e as Map<String, dynamic>))
-        ?.toList());
+    json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 
 abstract class _$ItemSerializerMixin {
   String get $t;

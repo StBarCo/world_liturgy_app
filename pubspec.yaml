@@ -1,4 +1,4 @@
-name: kenya_liturgy
+name: world_liturgy_app
 description: An app for the Anglican Church of Kenya
 
 dependencies:
@@ -8,17 +8,17 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.0
+  cupertino_icons: '>=0.1.0'
 
   #library to convert the xml files to json
-  xml2json: ^2.0.14
+  xml2json: '>=2.0.14'
 
   #to transform the JSON into Dart object
   #works with build_runner and json_serializable
-  json_annotation: ^0.2.3
+  json_annotation: '>=0.2.3'
 
   #add function to capitalize
-  strings: ^0.0.6
+  strings: '>=0.0.6'
 
   #add material designed search bar function
 #  material_search: "^0.2.7"
@@ -27,8 +27,8 @@ dependencies:
 
 dev_dependencies:
   #works with json_annotation. see above
-  build_runner: '>=0.8.0 <0.8.8'
-  json_serializable: ^0.5.0
+  build_runner: '>=0.8.0'
+  json_serializable: '>=0.5.0'
 
 
   flutter_test:

@@ -56,7 +56,7 @@ packages:
       name: build_runner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.3"
+    version: "0.8.9"
   built_collection:
     dependency: transitive
     description:
