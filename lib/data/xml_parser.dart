@@ -3,21 +3,26 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:xml2json/xml2json.dart';
 import 'dart:convert';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
+import 'package:world_liturgy_app/json/serializeCalendar.dart';
 import 'dart:async';
 import 'dart:io';
 
-Future<String> _loadXmlAsset() async {
+Future<String> _loadXmlAsset(fileName) async {
 //  if no prayerbook file, load sample file
+  final basePath = 'assets/data/';
+  final extension = '.xml';
+  final sample = 'Sample';
+
   try {
-    return await rootBundle.loadString('assets/data/prayerBooks.xml');
+    return await rootBundle.loadString(basePath + fileName + extension);
   } catch(_) {
-    return await rootBundle.loadString('assets/data/prayerBooksSample.xml');
+    return await rootBundle.loadString(basePath + fileName + sample + extension);
   }
 
 }
 
-Future<PrayerBooksContainer> loadXml() async {
-  String rawXml = await _loadXmlAsset();
+Future<String> _loadAndParseXmltoJson(fileName) async {
+  String rawXml = await _loadXmlAsset(fileName);
 
 //Regex that removes line breaks between elements -- this allows the
 //  annoying parser to correctly parse the data.
@@ -26,8 +31,19 @@ Future<PrayerBooksContainer> loadXml() async {
   final Xml2Json myTransformer = new Xml2Json();
   myTransformer.parse(rawXml);
   final jsonString =  myTransformer.toGData();
-//  var jsonMap = json.decode(jsonString);
-  PrayerBooksContainer allPrayerBooks = PrayerBooksContainer.fromJson( json.decode(jsonString)["prayer_books"]);
 
-  return allPrayerBooks;
+  return jsonString;
+}
+
+
+Future<PrayerBooksContainer> loadPrayerBooks() async {
+  String jsonString = await _loadAndParseXmltoJson('prayerBooks');
+
+  return PrayerBooksContainer.fromJson( json.decode(jsonString)["prayer_books"]);
+}
+
+Future<CalendarScaffold> loadCalendar() async {
+  String jsonString = await _loadAndParseXmltoJson('calendar');
+
+  return CalendarScaffold.fromJson( json.decode(jsonString)["calendar"]);
 }

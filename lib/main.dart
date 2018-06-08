@@ -7,7 +7,7 @@ import 'globals.dart' as globals;
 
 
 void main() async {
-  final allPrayerBooks = await loadXml();
+  final allPrayerBooks = await loadPrayerBooks();
   globals.allPrayerBooks = allPrayerBooks;
   runApp(new MyApp());
 }

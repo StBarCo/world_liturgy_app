@@ -1,47 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <calendar>
     <type>Western</type>
-    <colors>
-        <!--liturgical colors for the seasons
-        colors for individual feast days are modified on the day itself-->
-        <advent>Purple</advent>
-        <christmas>White</christmas>
-        <epiphany>Gold or White</epiphany>
-        <lent>Purple or Lent Array</lent>
-        <easter>White</easter>
-        <ordinary>Green</ordinary>
-    </colors>
     <structure>
         <christmas_cycle>
             <season>
-
-                <week>
-                    <season>Advent</season>
-                    <color>Purple</color>
-                    <title>First Sunday of Advent</title>
-                    <weeksFromCycle>-4</weeksFromCycle>
-                </week>
+                <!--type can be : fixedLength,flexibleLength,sundayClosestTo-->
+                <id>advent</id>
+                <type>fixedLength</type>
+                <color>Purple</color>
+                <order>-1</order>
+                <start_week>1</start_week>
+                <end_week>4</end_week>
             </season>
-
-
-
-
+            <season>
+                <id>christmas</id>
+                <type>fixedLength</type>
+                <color>White</color>
+                <order>0</order>
+                <start_week>0</start_week>
+                <end_week>2</end_week>
+                <length>12</length>
+                <length_unit>days</length_unit>
+            </season>
+            <season>
+                <id>epiphany</id>
+                <type>fixedLength</type>
+                <color>White</color>
+                <order>1</order>
+                <start_week>0</start_week>
+                <end_week>2</end_week>
+                <length>32</length>
+                <length_unit>days</length_unit>
+            </season>
         </christmas_cycle>
         <easter_cycle>
-
+            <season>
+                <id>preLent</id>
+                <type>flexibleLength</type>
+                <color>Green</color>
+                <order>-2</order>
+                <start_date>
+                    <month>2</month>
+                    <day>3</day>
+                </start_date>
+                <start_week>5</start_week>
+                <end_week>1</end_week>
+                <flexible_at>beginning</flexible_at>
+            </season>
+            <season>
+                <id>lent</id>
+                <type>fixedLength</type>
+                <color>Purple</color>
+                <order>-1</order>
+                <start_week>0</start_week>
+                <end_week>6</end_week>
+                <length>46</length>
+                <length_unit>days</length_unit>
+            </season>
+            <season>
+                <id>easter</id>
+                <type>fixedLength</type>
+                <color>White</color>
+                <order>0</order>
+                <start_week>1</start_week>
+                <end_week>7</end_week>
+                <length>49</length>
+                <length_unit>days</length_unit>
+            </season>
+            <season>
+                <id>pentecost</id>
+                <type>flexibleLength</type>
+                <color>Green</color>
+                <order>1</order>
+                <start_week>1</start_week>
+                <end_week>24</end_week>
+                <flexible_at>end</flexible_at>
+                <number_weeks_stuck_to_end>5</number_weeks_stuck_to_end>
+            </season>
         </easter_cycle>
 
         <!--ordinary cycle may not be used, depending on the calendar
         e.g. the American 1979 prayer book defines the dates as 'Sunday closest to [date]'
         while the Kenyan prayer book continues to count sequentially from Pentecost
         so the Kenyan prayerbook will not use the ordinary time, but the American one will.-->
-        <ordinary_cycle>
+        <!--<ordinary_cycle>-->
 
-        </ordinary_cycle>
+        <!--</ordinary_cycle>-->
     </structure>
 
-    <holy_days>
+    <festivals_and_feasts>
 
-    </holy_days>
+    </festivals_and_feasts>
 
 </calendar>
