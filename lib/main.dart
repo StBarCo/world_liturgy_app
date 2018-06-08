@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'service.dart';
 import 'data/xml_parser.dart';
 import 'globals.dart' as globals;
-import 'dart:async';
-import 'package:kenya_liturgy/json/response.dart';
+//import 'dart:async';
+//import 'json/serializePrayerBook.dart';
 
 
 void main() async {

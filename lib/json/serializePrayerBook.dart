@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'response.g.dart';
+part 'serializePrayerBook.g.dart';
 
 @JsonSerializable()
 class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerMixin {
