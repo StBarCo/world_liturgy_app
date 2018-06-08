@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
 //        primaryColor: Colors.white,
 //
       ),
-      home: ServiceView(currentService: globals.allPrayerBooks.prayerBooks[0].services[0], currentIndexes: {"prayerBook": 'englishPrayerBook', "service": 'morningPrayer'}),
+      home: ServiceView(currentService: globals.allPrayerBooks.prayerBooks[0].services[0], currentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}),
     );
   }
 }
