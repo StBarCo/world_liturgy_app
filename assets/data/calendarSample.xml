@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calendar>
+    <type>Western</type>
+    <colors>
+        <!--liturgical colors for the seasons
+        colors for individual feast days are modified on the day itself-->
+        <advent>Purple</advent>
+        <christmas>White</christmas>
+        <epiphany>Gold or White</epiphany>
+        <lent>Purple or Lent Array</lent>
+        <easter>White</easter>
+        <ordinary>Green</ordinary>
+    </colors>
+    <structure>
+        <christmas_cycle>
+            <season>
+
+                <week>
+                    <season>Advent</season>
+                    <color>Purple</color>
+                    <title>First Sunday of Advent</title>
+                    <weeksFromCycle>-4</weeksFromCycle>
+                </week>
+            </season>
+
+
+
+
+        </christmas_cycle>
+        <easter_cycle>
+
+        </easter_cycle>
+
+        <!--ordinary cycle may not be used, depending on the calendar
+        e.g. the American 1979 prayer book defines the dates as 'Sunday closest to [date]'
+        while the Kenyan prayer book continues to count sequentially from Pentecost
+        so the Kenyan prayerbook will not use the ordinary time, but the American one will.-->
+        <ordinary_cycle>
+
+        </ordinary_cycle>
+    </structure>
+
+    <holy_days>
+
+    </holy_days>
+
+</calendar>
