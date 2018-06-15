@@ -42,6 +42,24 @@
                 </div>
 
                 </xsl:when>
+                <xsl:when test="@type ='collectsSeasons' or @type = 'collectsFeasts' ">
+                  <xsl:for-each select="collect">
+                    <h5>id:<xsl:value-of select='@id'/></h5>
+                    <h3><xsl:value-of select='title'/></h3>
+                    <h4><xsl:value-of select='subtitle'/></h4>
+                    <p><i><xsl:value-of select='ref'/></i></p>
+                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="rubric[not(@type='postCommunion')]"/></p>
+
+                    <xsl:apply-templates select="prayer" />
+                    <xsl:if test='post_communion_prayer'><p><i>Post Communion</i></p></xsl:if>
+                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="rubric[@type='postCommunion']"/></p>
+
+                    <xsl:apply-templates select="post_communion_prayer" />
+
+                    <div style='border:1px dotted grey; margin-top:5px;'></div>
+                    </xsl:for-each>
+
+                  </xsl:when>
               <xsl:otherwise>
                 <xsl:apply-templates select="item" />
               </xsl:otherwise>
@@ -56,7 +74,7 @@
   </html>
 </xsl:template>
 
-<xsl:template match='item'>
+<xsl:template match='item | prayer | post_communion_prayer'>
   <div style='width:100%; display:flow-root'>
     <xsl:choose>
       <xsl:when test="@type = 'rubric'">

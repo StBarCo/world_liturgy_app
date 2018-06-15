@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="prayer_books">
     <xs:complexType>
@@ -5,43 +6,88 @@
         <xs:element name="prayer_book" maxOccurs="unbounded" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:string" name="title" minOccurs="1" maxOccurs="1">
+              <xs:element name="title">
                 <xs:annotation>
                   <xs:documentation>title, and rubric can only be used 1x per parent</xs:documentation>
                 </xs:annotation>
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="Our Modern Services"/>
+                    <xs:enumeration value="Kitabu Kipya Cha Ibada"/>
+                  </xs:restriction>
+                </xs:simpleType>
               </xs:element>
               <xs:element name="service" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType mixed="true">
                   <xs:sequence>
-                    <xs:element type="xs:string" name="title" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="title" minOccurs="0"/>
                     <xs:element name="section" maxOccurs="unbounded" minOccurs="0">
                       <xs:annotation>
-                        <xs:documentation>section visibility: hidden will not display the section. but it will be linked to at another point in the service.section visibility: collapsed will show the title and on tap will display the section in fullsection visibility: indexed will show first lines of children with link to display full contents of a single child</xs:documentation>
+                        <xs:documentation>section visibility: hidden will not display the section. but it will be linked to at another point in the service.section visibility: collapsed will show the title and on tap will display the section in fullsection visibility: indexed will show first lines of children with link to display full contents of a single childsection visibility: hidden will not display the section. but it will be linked to at another point in the service.section visibility: collapsed will show the title and on tap will display the section in fullsection visibility: indexed will show first lines of children with link to display full contents of a single child</xs:documentation>
                       </xs:annotation>
-                      <xs:complexType>
-                        <xs:choice maxOccurs="unbounded" minOccurs="0" >
+                      <xs:complexType mixed="true">
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
                           <xs:element type="xs:string" name="title">
                             <xs:annotation>
                               <xs:documentation>major_header is an additional option. Primary use would be to separate the liturgy of the Word and from the Table.</xs:documentation>
                             </xs:annotation>
                           </xs:element>
-                          <xs:element type="xs:string" name="major_header" maxOccurs="1"/>
-                          <xs:element type="xs:byte" name="number" maxOccurs="1"/>
-                          <xs:element type="xs:string" name="rubric" maxOccurs="1"/>
-                          <xs:element name="item">
+                          <xs:element name="major_header">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:enumeration value="Order of Service"/>
+                                <xs:enumeration value="The Ministry of the Word"/>
+                                <xs:enumeration value="Intercessions"/>
+                                <xs:enumeration value="Ministry of the Sacrament"/>
+                                <xs:enumeration value="Appendix to the Service of Holy Communion"/>
+                                <xs:enumeration value="Taritabu Ya Ibada"/>
+                                <xs:enumeration value="Taratibu ya Ibada"/>
+                                <xs:enumeration value="Huduma ya Neno"/>
+                                <xs:enumeration value="Maombezi ya Dua (Sala za kuombea mahitaji mbalimbali)"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element name="number">
                             <xs:complexType mixed="true">
                               <xs:sequence>
-                                <xs:element type="xs:byte" name="number" minOccurs="0" maxOccurs="1"/>
-                                <xs:element type="xs:string" name="title" minOccurs="0" maxOccurs="1"/>
-                                <xs:element type="xs:string" name="ref" minOccurs="0" maxOccurs="1"/>
-                                <xs:element type="xs:string" name="reading" minOccurs="0"/>
+                                <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="type" use="optional"/>
+                              <xs:attribute type="xs:string" name="who" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="rubric">
+                            <xs:complexType mixed="true">
+                              <xs:sequence>
+                                <xs:element name="stanza" maxOccurs="unbounded" minOccurs="0">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute type="xs:byte" name="indent" use="optional"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute type="xs:string" name="type" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="item">
+                            <xs:annotation>
+                              <xs:documentation><![CDATA[<item type="lectionaryReading"></item><item type="lectionaryReading"></item><title>Special Thanksgivings</title><item type="lectionaryReading"></item><item type="lectionaryReading"></item><title>Special Thanksgivings</title>]]></xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType mixed="true">
+                              <xs:sequence>
+                                <xs:element type="xs:byte" name="number" minOccurs="0"/>
+                                <xs:element type="xs:string" name="title" minOccurs="0"/>
+                                <xs:element type="xs:string" name="ref" minOccurs="0"/>
                                 <xs:element name="stanza" maxOccurs="unbounded" minOccurs="0">
                                   <xs:complexType>
                                     <xs:simpleContent>
                                       <xs:extension base="xs:string">
                                         <xs:attribute type="xs:byte" name="verse" use="optional"/>
-                                        <xs:attribute type="xs:byte" name="indent" use="optional"/>
                                         <xs:attribute type="xs:string" name="type" use="optional"/>
+                                        <xs:attribute type="xs:byte" name="indent" use="optional"/>
                                       </xs:extension>
                                     </xs:simpleContent>
                                   </xs:complexType>
@@ -52,21 +98,56 @@
                               <xs:attribute type="xs:string" name="includeGloria" use="optional"/>
                             </xs:complexType>
                           </xs:element>
+                          <xs:element name="collect">
+                            <xs:complexType>
+                              <xs:choice maxOccurs="unbounded" minOccurs="0">
+                                <xs:element type="xs:string" name="title"/>
+                                <xs:element type="xs:string" name="subtitle"/>
+                                <xs:element type="xs:string" name="ref"/>
+                                <xs:element name="rubric">
+                                  <xs:complexType>
+                                    <xs:simpleContent>
+                                      <xs:extension base="xs:string">
+                                        <xs:attribute type="xs:string" name="type" use="optional"/>
+                                      </xs:extension>
+                                    </xs:simpleContent>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="prayer">
+                                  <xs:complexType mixed="true">
+                                    <xs:sequence>
+                                      <xs:element name="stanza" maxOccurs="unbounded" minOccurs="0">
+
+                                      </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="type" use="optional"/>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="post_communion_prayer">
+                                  <xs:complexType mixed="true">
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:choice>
+                              <xs:attribute type="xs:string" name="id" use="optional"/>
+                            </xs:complexType>
+                          </xs:element>
                         </xs:choice>
                         <xs:attribute type="xs:string" name="sectionType" use="optional"/>
                         <xs:attribute type="xs:string" name="visibility" use="optional"/>
                         <xs:attribute type="xs:string" name="id" use="optional"/>
-                        <xs:attribute type="xs:string" name="link" use="optional"/>
                         <xs:attribute type="xs:string" name="schedule" use="optional"/>
                         <xs:attribute type="xs:string" name="type" use="optional"/>
                       </xs:complexType>
                     </xs:element>
                   </xs:sequence>
-                  <xs:attribute type="xs:string" name="id" use="required"/>
+                  <xs:attribute type="xs:string" name="id" use="optional"/>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>
-            <xs:attribute type="xs:string" name="id" use="required"/>
+            <xs:attribute type="xs:string" name="id" use="optional"/>
             <xs:attribute type="xs:string" name="language" use="optional"/>
           </xs:complexType>
         </xs:element>

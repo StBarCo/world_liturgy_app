@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'service.dart';
 import 'data/xml_parser.dart';
 import 'globals.dart' as globals;
+import 'json/serializeCalendar.dart';
 //import 'dart:async';
 //import 'json/serializePrayerBook.dart';
+import 'calendar.dart';
 
 
-void main() async {
+void main() async{
   final allPrayerBooks = await loadPrayerBooks();
   globals.allPrayerBooks = allPrayerBooks;
+
+  final calendarScaffold = await loadCalendar();
+  globals.calendarScaffold = calendarScaffold;
+
+//  initialBuild();
+
   runApp(new MyApp());
 }
 
@@ -31,7 +39,12 @@ class MyApp extends StatelessWidget {
 //        primaryColor: Colors.white,
 //
       ),
-      home: ServiceView(currentService: globals.allPrayerBooks.prayerBooks[0].services[0], currentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}),
+
+//      home:Calendar(),
+      home: ServiceView(
+          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
+          currentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}
+          ),
     );
   }
 }
@@ -49,3 +62,5 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 }
+
+

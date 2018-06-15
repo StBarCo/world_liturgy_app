@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?>
 <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'>
+    xsi:noNamespaceSchemaLocation='validate/prayerBooks.OLD.xsd'>
     <prayer_book id="englishPrayerBook" language="english">
         <!--title, and rubric can only be used 1x per parent-->
         <title>Our Modern Services</title>

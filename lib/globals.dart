@@ -3,3 +3,4 @@ library world_liturgy_app.globals;
 //import 'dart:async';
 
 dynamic allPrayerBooks;
+dynamic calendarScaffold;

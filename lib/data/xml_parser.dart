@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
 import 'dart:async';
-import 'dart:io';
+//import 'dart:io';
 
 Future<String> _loadXmlAsset(fileName) async {
 //  if no prayerbook file, load sample file
@@ -35,15 +35,12 @@ Future<String> _loadAndParseXmltoJson(fileName) async {
   return jsonString;
 }
 
-
 Future<PrayerBooksContainer> loadPrayerBooks() async {
   String jsonString = await _loadAndParseXmltoJson('prayerBooks');
-
-  return PrayerBooksContainer.fromJson( json.decode(jsonString)["prayer_books"]);
+  return PrayerBooksContainer.fromJson(json.decode(jsonString)["prayer_books"]);
 }
 
 Future<CalendarScaffold> loadCalendar() async {
   String jsonString = await _loadAndParseXmltoJson('calendar');
-
-  return CalendarScaffold.fromJson( json.decode(jsonString)["calendar"]);
+  return CalendarScaffold.fromJson(json.decode(jsonString)["calendar"]);
 }

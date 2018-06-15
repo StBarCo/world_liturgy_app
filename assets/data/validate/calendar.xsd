@@ -1,0 +1,129 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="special" type="xs:string"/>
+  <xs:element name="days_before" type="xs:byte"/>
+  <xs:element name="id" type="xs:string"/>
+  <xs:element name="color" type="xs:string"/>
+  <xs:element name="start_week" type="xs:byte"/>
+  <xs:element name="end_week" type="xs:byte"/>
+  <xs:element name="start_date">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="special" minOccurs="0"/>
+        <xs:element ref="month" minOccurs="0"/>
+        <xs:element ref="day" minOccurs="0"/>
+        <xs:element ref="days_after" minOccurs="0"/>
+        <xs:element ref="days_before" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="end_date">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="special" minOccurs="0"/>
+        <xs:element ref="days_before" minOccurs="0"/>
+        <xs:element ref="month" minOccurs="0"/>
+        <xs:element ref="day" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="length" type="xs:byte"/>
+  <xs:element name="length_unit" type="xs:string"/>
+  <xs:element name="month" type="xs:integer"/>
+  <xs:element name="day" type="xs:integer"/>
+  <xs:element name="week_order" type="xs:string"/>
+  <xs:element name="weeks_disappear_at" type="xs:string"/>
+  <xs:element name="days_after" type="xs:byte"/>
+  <xs:element name="type" type="xs:string" />
+  <xs:element name="flexible_at" type="xs:string"/>
+  <xs:element name="number_weeks_stuck_to_end" type="xs:integer"/>
+  <xs:element name="order" type="xs:integer"/>
+  <xs:element name="season">
+    <xs:complexType>
+      <xs:choice maxOccurs="unbounded" minOccurs="0">
+        <xs:element ref="id">
+          <xs:annotation>
+            <xs:documentation>type can be : ,flexibleLength,sundayClosestToids for advent, christmas, lent, easter are unchangeable</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="color"/>
+        <xs:element ref="start_week"/>
+        <xs:element ref="end_week"/>
+        <xs:element ref="start_date">
+          <xs:annotation>
+            <xs:documentation>start date and end date can either be a hard date using 'month' and 'day' tags
+              or they can be based on a special date of the church year: beginningOfYear, endOfYear, christmas, ashWednesday, easter, pentecost
+
+              the special start date can take a days_after element, and end date will take days_before. If days before or days after is not specified, then it will take the date as given.&lt;end_week>24&lt;/end_week>&lt;end_week>24&lt;/end_week></xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="end_date"/>
+        <xs:element ref="length"/>
+        <xs:element ref="length_unit"/>
+        <xs:element ref="week_order"/>
+        <xs:element ref="weeks_disappear_at"/>
+        <xs:element ref="type"/>
+        <xs:element ref="flexible_at"/>
+        <xs:element ref="number_weeks_stuck_to_end"/>
+        <xs:element ref="order"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="title" type="xs:string"/>
+  <xs:element name="date">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="month" minOccurs="0"/>
+        <xs:element ref="day" minOccurs="0"/>
+        <xs:element ref="special" minOccurs="0"/>
+        <xs:element ref="days_before" minOccurs="0"/>
+        <xs:element ref="days_after" minOccurs="0"/>
+        <xs:element ref="type" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="optional_celebration_sunday" type="xs:string"/>
+  <xs:element name="holy_day">
+    <xs:complexType mixed="true">
+      <xs:all>
+          <xs:element ref="id" />
+          <xs:element ref="title" minOccurs="0"/>
+          <xs:element ref="date" />
+          <xs:element ref="color" minOccurs="0"/>
+          <xs:element ref="length_unit" minOccurs="0"/>
+          <xs:element ref="length" minOccurs="0"/>
+          <xs:element ref="type" minOccurs="0"/>
+          <xs:element ref='optional_celebration_sunday' minOccurs="0"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="structure">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="season" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="holy_days">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="holy_day" maxOccurs="unbounded" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="calendar">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="type"/>
+        <xs:element ref="structure">
+          <xs:annotation>
+            <xs:documentation>ordinary cycle may not be used, depending on the calendar
+              e.g. the American 1979 prayer book defines the dates as 'Sunday closest to [date]'
+              while the Kenyan prayer book continues to count sequentially from Pentecost
+              so the Kenyan prayerbook will not use the ordinary time, but the American one will.&lt;ordinary_cycle>&lt;/ordinary_cycle></xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="holy_days"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,83 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<calendar>
+<calendar  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation='validate/calendar.xsd'>
     <type>Western</type>
     <structure>
-        <christmas_cycle>
             <season>
-                <!--type can be : fixedLength,flexibleLength,sundayClosestTo-->
+                <!--type can be : ,flexibleLength,sundayClosestTo-->
+                <!--ids for advent, christmas, lent, easter are unchangeable-->
                 <id>advent</id>
-                <type>fixedLength</type>
                 <color>Purple</color>
-                <order>-1</order>
                 <start_week>1</start_week>
                 <end_week>4</end_week>
+                <start_date>
+                    <special>beginningOfYear</special>
+
+                    <!--start date and end date can either be a hard date using 'month' and 'day' tags
+                    or they can be based on a special date of the church year: beginningOfYear, endOfYear, christmas, ashWednesday, easter, pentecost
+
+                    the special start date can take a days_after element, and end date will take days_before. If days before or days after is not specified, then it will take the date as given.-->
+                </start_date>
+                <end_date>
+                    <special>christmas</special>
+                    <days_before>1</days_before>
+                </end_date>
+
             </season>
             <season>
                 <id>christmas</id>
-                <type>fixedLength</type>
                 <color>White</color>
-                <order>0</order>
                 <start_week>0</start_week>
                 <end_week>2</end_week>
+                <start_date>
+                    <special>christmas</special>
+                </start_date>
                 <length>12</length>
                 <length_unit>days</length_unit>
             </season>
             <season>
                 <id>epiphany</id>
-                <type>fixedLength</type>
                 <color>White</color>
-                <order>1</order>
                 <start_week>0</start_week>
-                <end_week>2</end_week>
+                <end_week>4</end_week>
+                <start_date>
+                    <month>01</month>
+                    <day>06</day>
+                </start_date>
+                <end_date>
+                    <month>02</month>
+                    <day>02</day>
+                </end_date>
                 <length>32</length>
                 <length_unit>days</length_unit>
             </season>
-        </christmas_cycle>
-        <easter_cycle>
             <season>
                 <id>preLent</id>
-                <type>flexibleLength</type>
                 <color>Green</color>
-                <order>-2</order>
+                <week_order>reversed</week_order>
                 <start_date>
                     <month>2</month>
                     <day>3</day>
                 </start_date>
+                <end_date>
+                    <special>ashWednesday</special>
+                    <days_before>1</days_before>
+                </end_date>
                 <start_week>5</start_week>
                 <end_week>1</end_week>
-                <flexible_at>beginning</flexible_at>
+                <weeks_disappear_at>beginning</weeks_disappear_at>
             </season>
             <season>
                 <id>lent</id>
-                <type>fixedLength</type>
                 <color>Purple</color>
-                <order>-1</order>
                 <start_week>0</start_week>
                 <end_week>6</end_week>
+                <start_date>
+                    <special>ashWednesday</special>
+                </start_date>
+                <end_date>
+                    <special>easter</special>
+                    <days_before>1</days_before>
+                </end_date>
                 <length>46</length>
                 <length_unit>days</length_unit>
             </season>
             <season>
                 <id>easter</id>
-                <type>fixedLength</type>
                 <color>White</color>
-                <order>0</order>
                 <start_week>1</start_week>
                 <end_week>7</end_week>
-                <length>49</length>
+                <start_date>
+                    <special>easter</special>
+
+                </start_date>
+                <length>50</length>
                 <length_unit>days</length_unit>
             </season>
             <season>
-                <id>pentecost</id>
+                <id>afterPentecost</id>
                 <type>flexibleLength</type>
-                <color>Green</color>
-                <order>1</order>
-                <start_week>1</start_week>
-                <end_week>24</end_week>
                 <flexible_at>end</flexible_at>
                 <number_weeks_stuck_to_end>5</number_weeks_stuck_to_end>
+
+                <color>Green</color>
+                <order>1</order>
+                <start_week>0</start_week>
+                <!--<end_week>24</end_week>-->
+                <start_date>
+                    <special>pentecost</special>
+                    <days_after>1</days_after>
+                </start_date>
+                <end_date>
+                    <special>endOfYear</special>
+                    <days_before>35</days_before>
+                </end_date>
+
             </season>
-        </easter_cycle>
+        <season>
+            <id>lastSundayAfterTrinity</id>
+            <type>flexibleLength</type>
+            <flexible_at>end</flexible_at>
+
+            <color>Green</color>
+            <start_week>0</start_week>
+            <!--<end_week>24</end_week>-->
+            <start_date>
+                <special>endOfYear</special>
+                <days_before>34</days_before>
+            </start_date>
+            <end_date>
+                <special>endOfYear</special>
+                <days_before>28</days_before>
+            </end_date>
+        </season>
+        <season>
+            <id>preAdvent</id>
+            <color>Green</color>
+
+            <start_date>
+                <special>endOfYear</special>
+                <days_before>27</days_before>
+            </start_date>
+            <week_order>reversed</week_order>
+            <end_date>
+                <special>endOfYear</special>
+            </end_date>
+
+        </season>
 
         <!--ordinary cycle may not be used, depending on the calendar
         e.g. the American 1979 prayer book defines the dates as 'Sunday closest to [date]'
@@ -87,9 +154,428 @@
 
         <!--</ordinary_cycle>-->
     </structure>
-
-    <festivals_and_feasts>
-
-    </festivals_and_feasts>
+    <holy_days>
+        <holy_day>
+            <id>christmasEve</id>
+            <title>Christmas Eve</title>
+            <date>
+                <month>12</month>
+                <day>24</day>
+            </date>
+            <optional_celebration_sunday>false</optional_celebration_sunday>
+            <color>Purple</color>
+        </holy_day>
+        <holy_day>
+            <id>christmas</id>
+            <title>Christmas</title>
+            <type>principal</type>
+            <date>
+                <special>christmas</special>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>epiphany</id>
+            <title>Epiphany</title>
+            <type>principal</type>
+            <date>
+                <month>1</month>
+                <day>6</day>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>presentation</id>
+            <title>The Presentation of Christ in the Temple</title>
+            <type>principal</type>
+            <date>
+                <month>2</month>
+                <day>2</day>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>ashWednesday</id>
+            <title>Ash Wednesday</title>
+            <type>principal</type>
+            <date>
+                <special>ashWednesday</special>
+            </date>
+            <color>Purple or Lent Array</color>
+        </holy_day>
+        <holy_day>
+            <id>palmSunday</id>
+            <title>Palm Sunday</title>
+            <date>
+                <special>easter</special>
+                <days_before>7</days_before>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>maundyThursday</id>
+            <title>Maundy Thursday</title>
+            <type>principal</type>
+            <date>
+                <special>easter</special>
+                <days_before>3</days_before>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>goodFriday</id>
+            <title>Good Friday</title>
+            <type>principal</type>
+            <date>
+                <special>easter</special>
+                <days_before>2</days_before>
+            </date>
+            <color>None</color>
+        </holy_day>
+        <holy_day>
+            <id>easterEve</id>
+            <title>Easter Eve</title>
+            <date>
+                <special>easter</special>
+                <days_before>1</days_before>
+            </date>
+            <color>None</color>
+        </holy_day>
+        <holy_day>
+            <id>easter</id>
+            <title>Easter Day</title>
+            <type>principal</type>
+            <date>
+                <special>easter</special>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>ascension</id>
+            <title>Ascension Day</title>
+            <type>principal</type>
+            <date>
+                <special>easter</special>
+                <days_after>40</days_after>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>pentecost</id>
+            <title>Day of Pentecost / Whit Sunday</title>
+            <type>Principal Feast</type>
+            <date>
+                <special>pentecost</special>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>trinity</id>
+            <title>Trinity Sunday</title>
+            <type>Principal Feast</type>
+            <date>
+                <special>pentecost</special>
+                <days_after>7</days_after>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>corpusChristi</id>
+            <title>The Day of Thanksgiving for the Institution of Holy Communion</title>
+            <date>
+                <special>pentecost</special>
+                <days_after>11</days_after>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>bibleSunday</id>
+            <title>Bible Sunday</title>
+            <date>
+                <month>9</month>
+                <day>11</day>
+                <type>sundayClosestTo</type>
+            </date>
+            <color>Green</color>
+        </holy_day>
+        <holy_day>
+            <id>allSaints</id>
+            <title>All Saints Day</title>
+            <type>principal</type>
+            <date>
+                <month>11</month>
+                <day>1</day>
+            </date>
+            <color>Gold or White</color>
+            <optional_celebration_sunday>true</optional_celebration_sunday>
+        </holy_day>
+        <holy_day>
+            <id>christTheKing</id>
+            <title>The Sunday next before Advent</title>
+            <date>
+                <special>endOfYear</special>
+                <days_before>6</days_before>
+            </date>
+            <color>Red or White</color>
+        </holy_day>
+        <holy_day>
+            <id>namingOfJesus</id>
+            <title>The Naming and Circumcision</title>
+            <date>
+                <month>1</month>
+                <day>1</day>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>weekOfPrayer</id>
+            <title>The Week of Prayer for Christian Unity</title>
+            <date>
+                <month>1</month>
+                <day>18</day>
+            </date>
+            <length>7</length>
+            <length_unit>days</length_unit>
+        </holy_day>
+        <holy_day>
+            <id>conversionOfPaul</id>
+            <title>The Conversion of Paul</title>
+            <date>
+                <month>1</month>
+                <day>25</day>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>josephOfNazareth</id>
+            <title>Joseph of Nazareth</title>
+            <date>
+                <month>3</month>
+                <day>19</day>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>annunciation</id>
+            <title>The Annunciation of Our Lord</title>
+            <type>principal</type>
+            <date>
+                <month>3</month>
+                <day>25</day>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
+            <id>stMark</id>
+            <title>St. Mark</title>
+            <type>Evangelist</type>
+            <color>Red</color>
+            <date>
+                <month>4</month>
+                <day>25</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>stPhillipAndStJames</id>
+            <title>St. Phillip and St. James</title>
+            <type>Apostles</type>
+            <date>
+                <month>5</month>
+                <day>1</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>stMatthias</id>
+            <title>St. Matthias</title>
+            <type>Apostle</type>
+            <date>
+                <month>5</month>
+                <day>14</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>visitation</id>
+            <title>The Visit of the Blessed Virgin Mary to Elizabeth</title>
+            <color>White</color>
+            <date>
+                <month>5</month>
+                <day>31</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>barnabas</id>
+            <title>Barnabas</title>
+            <date>
+                <month>6</month>
+                <day>11</day>
+            </date>
+            <type>Apostle</type>
+        </holy_day>
+        <holy_day>
+            <id>birthOfJohnBaptist</id>
+            <title>The Birth of John the Baptist</title>
+            <date>
+                <month>6</month>
+                <day>24</day>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>peterAndPaul</id>
+            <title>Peter and Paul</title>
+            <color>Red</color>
+            <type>Apostles</type>
+            <date>
+                <month>6</month>
+                <day>29</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>Thomas</id>
+            <type>Apostles</type>
+            <date>
+                <month>7</month>
+                <day>3</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>maryMagdalene</id>
+            <title>MaryMagdalene</title>
+            <color>White</color>
+            <date>
+                <month>07</month>
+                <day>22</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>james</id>
+            <title>James</title>
+            <type>Apostle</type>
+            <date>
+                <month>7</month>
+                <day>25</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>transfiguration</id>
+            <title>The Transfiguration of Our Lord</title>
+            <color>Gold or White</color>
+            <type>principal</type>
+            <date>
+                <month>08</month>
+                <day>6</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>virginMary</id>
+            <title>The Blessed Virgin Mary</title>
+            <color>White</color>
+            <date>
+                <month>08</month>
+                <day>15</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>bartholomew</id>
+            <title>Bartholomew</title>
+            <type>Apostles</type>
+            <date>
+                <month>8</month>
+                <day>24</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>holyCross</id>
+            <title>Holy Cross Day</title>
+            <color>Red</color>
+            <date>
+                <month>9</month>
+                <day>14</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>matthew</id>
+            <title>Matthew</title>
+            <type>Apostle and Evangelist</type>
+            <color>Red</color>
+            <date>
+                <month>9</month>
+                <day>21</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>michaelAndAngels</id>
+            <title>Michael and All Angels</title>
+            <date>
+                <month>9</month>
+                <day>29</day>
+            </date>
+            <color>White</color>
+        </holy_day>
+        <holy_day>
+            <id>luke</id>
+            <title>Luke</title>
+            <type>Evangelist</type>
+            <date>
+                <month>10</month>
+                <day>18</day>
+            </date>
+            <color>Red</color>
+        </holy_day>
+        <holy_day>
+            <id>simonAndJude</id>
+            <title>Simon and Jude</title>
+            <color>Red</color>
+            <date>
+                <month>10</month>
+                <day>28</day>
+            </date>
+            <type>Apostles</type>
+        </holy_day>
+        <holy_day>
+            <id>andrew</id>
+            <title>Andrew</title>
+            <type>Apostles</type>
+            <color>Red</color>
+            <date>
+                <month>11</month>
+                <day>30</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>stephen</id>
+            <title>Stephen</title>
+            <type>Deacon, First Martyr</type>
+            <color>Red</color>
+            <date>
+                <month>12</month>
+                <day>26</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>john</id>
+            <title>John</title>
+            <color>Red</color>
+            <type>Apostle and Evangelist</type>
+            <date>
+                <month>12</month>
+                <day>27</day>
+            </date>
+        </holy_day>
+        <holy_day>
+            <id>holyInnocents</id>
+            <title>The Holy Innocents</title>
+            <color>Red</color>
+            <date>
+                <month>12</month>
+                <day>28</day>
+            </date>
+        </holy_day>
+    </holy_days>
 
 </calendar>

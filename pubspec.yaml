@@ -24,6 +24,9 @@ dependencies:
 #  material_search: "^0.2.7"
 #currently needing resolution of https://github.com/flutter/flutter/issues/12319
 
+  sqflite: any
+  path_provider: "^0.3.1"
+
 
 dev_dependencies:
   #works with json_annotation. see above
@@ -52,6 +55,8 @@ flutter:
   assets:
     - assets/data/prayerBooks.xml
     - assets/data/prayerBooksSample.xml
+#    - assets/data/calendar.xml
+    - assets/data/calendarSample.xml
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
