@@ -15,7 +15,7 @@ dependencies:
 
   #to transform the JSON into Dart object
   #works with build_runner and json_serializable
-  json_annotation: '>=0.2.3'
+  json_annotation: '>=0.2.8'
 
   #add function to capitalize
   strings: '>=0.0.6'
@@ -24,18 +24,18 @@ dependencies:
 #  material_search: "^0.2.7"
 #currently needing resolution of https://github.com/flutter/flutter/issues/12319
 
-  sqflite: any
-  path_provider: "^0.3.1"
+#  sqflite: any
+#  path_provider: "^0.3.1"
 
 
 dev_dependencies:
   #works with json_annotation. see above
-  build_runner: '>=0.8.0'
-  json_serializable: '>=0.5.0'
+#  build_runner: '>=0.8.9'
+  json_serializable: '>=0.5.7'
 
 
-  flutter_test:
-    sdk: flutter
+#  flutter_test:
+#    sdk: flutter
 
 
 # For information on the generic Dart part of this file, see the
@@ -53,7 +53,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/data/prayerBooks.xml
+#    - assets/data/prayerBooks.xml
     - assets/data/prayerBooksSample.xml
 #    - assets/data/calendar.xml
     - assets/data/calendarSample.xml

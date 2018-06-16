@@ -220,6 +220,9 @@ class Stanza extends Object with _$StanzaSerializerMixin {
 String clean(String s) => s?.replaceAll(new RegExp(r"\\r\\n+ *|\\"), '');
 
 List<dynamic> _decodePrayerBookorService(itemOrList){
+//  debugPrint(itemOrList);
+  print('begin decode Prayerbook or Service');
+
   List<dynamic> list = [];
   if (itemOrList == null){
     return null;
@@ -229,6 +232,8 @@ List<dynamic> _decodePrayerBookorService(itemOrList){
   }else{
     list.add(itemOrList);
   }
+
+  print(list.toString().substring(0,20));
 
   if (list.first['service'] != null){
     return list.map((e) =>
@@ -245,6 +250,8 @@ List<dynamic> _decodePrayerBookorService(itemOrList){
 }
 
 List<dynamic> _decodeSection(itemOrList){
+//  debugPrint(itemOrList);
+  print('begin decode sections of a service');
   List<dynamic> list = [];
   if (itemOrList == null){
     return null;
@@ -255,12 +262,16 @@ List<dynamic> _decodeSection(itemOrList){
     list.add(itemOrList);
   }
 
+  print(list.toString().substring(0,20));
+
   return list.map((e) =>
   e == null ? null : new Section.fromJson(e as Map<String, dynamic>))
       ?.toList();
 }
 
 List<dynamic> _decodeItem(itemOrList){
+//  debugPrint(itemOrList);
+
   List<dynamic> list = [];
   if (itemOrList == null){
     return null;
@@ -277,6 +288,7 @@ List<dynamic> _decodeItem(itemOrList){
 }
 
 List<dynamic> _decodeStanza(itemOrList){
+//  debugPrint(itemOrList);
   List<dynamic> list = [];
   if (itemOrList == null){
     return null;
@@ -291,3 +303,4 @@ List<dynamic> _decodeStanza(itemOrList){
   e == null ? null : new Stanza.fromJson(e as Map<String, dynamic>))
       ?.toList();
 }
+
