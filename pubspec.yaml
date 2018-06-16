@@ -24,8 +24,8 @@ dependencies:
 #  material_search: "^0.2.7"
 #currently needing resolution of https://github.com/flutter/flutter/issues/12319
 
-#  sqflite: any
-#  path_provider: "^0.3.1"
+  sqflite: any
+  path_provider: "^0.3.1"
 
 
 dev_dependencies:
@@ -53,7 +53,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-#    - assets/data/prayerBooks.xml
+    - assets/data/prayerBooks.xml
     - assets/data/prayerBooksSample.xml
 #    - assets/data/calendar.xml
     - assets/data/calendarSample.xml

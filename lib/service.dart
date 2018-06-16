@@ -319,35 +319,48 @@ Widget _buildSectionHeader(section){
   if (section.majorHeader != null){
     headerList.add(_majorHeader(section.majorHeader));
   }
-  if (section.number !=null || section.title != null){
-    List<Widget> row = [];
-    if (section.number !=null){
-      row.add(_sectionNumber(section.number));
-    }
-    if (section.title !=null){
-      row.add(new Flexible(child:_sectionTitle(section.title)));
-    }
 
-    headerList.add(new
-      Padding(
-        padding: new EdgeInsets.only(top:16.0, bottom: 0.0, left: 42.0, right: 42.0),
-        child: Row(
-          children: row,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-        )
-    ));
+  if (section.number !=null){
+    headerList.add(Center(child:_sectionNumber(section.number)));
   }
+  if (section.title !=null){
+    headerList.add(new Padding(
+        padding: new EdgeInsets.only(bottom: 8.0, left: 20.0, right: 20.0),
+        child:_sectionTitle(section.title)));
+  }
+
+//  if (section.number !=null || section.title != null){
+//    List<Widget> row = [];
+//    if (section.number !=null){
+//      headerList.add(_sectionNumber(section.number));
+//    }
+//    if (section.title !=null){
+//      headerList.add(new Flexible(child:_sectionTitle(section.title)));
+//    }
+//
+//    headerList.add(new
+//      Padding(
+//        padding: new EdgeInsets.only(top:16.0, bottom: 0.0, left: 42.0, right: 42.0),
+//        child: Row(
+//          children: row,
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          crossAxisAlignment: CrossAxisAlignment.center,
+//        )
+//    ));
+//  }
 
   if (section.rubric != null) {
     headerList.add(new Padding(
         child:_rubric(section.rubric),
-        padding: new EdgeInsets.only(bottom: 8.0, left: 20.0, right: 20.0),
+        padding: new EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0),
     ));
   }
-  return Column(
-    children: headerList,
-    mainAxisAlignment: MainAxisAlignment.start,
+  return Padding(
+    child: Column(
+      children: headerList,
+      mainAxisAlignment: MainAxisAlignment.start,
+    ),
+    padding: EdgeInsets.only(top:20.0, bottom: 0.0),
   );
 }
 
