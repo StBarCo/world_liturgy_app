@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
-import 'globals.dart' as globals;
+import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
+import 'package:world_liturgy_app/calendar.dart';
 
 class ServiceView extends StatelessWidget{
   final currentService;
@@ -79,6 +80,10 @@ class ServiceView extends StatelessWidget{
 
     List<Widget> _buildItemsList(BuildContext context, section){
       List<Widget> itemsList = new List<Widget>();
+
+      if (section.type == 'collectOfTheDay'){
+        itemsList.add(DailyCollect() );
+      }
 
       if (section.visibility == 'collapsed') {
         itemsList.add(_buildHeaderForCollapsed(context, section));

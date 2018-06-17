@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:world_liturgy_app/data/database.dart';
-import 'package:world_liturgy_app/globals.dart';
+import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
 
@@ -66,7 +66,7 @@ class SeasonOrFeast{
   int sectionIndex;
   int collectIndex;
 
-  static final columns = ["id", "prayerBookIndex" "serviceIndex", "sectionIndex", "collectIndex" ];
+  static final columns = ["id", "prayerBookIndex", "serviceIndex", "sectionIndex", "collectIndex" ];
 
   Map toMap() {
     Map map = {
@@ -117,6 +117,31 @@ Future<List> calculateCalendarsForDatabase()  async{
 
   return createMapOfYear(calendar, 2018);
 
+
+}
+
+List calculateSeasonsAndFeastsIndexForDatabase(){
+  List collects = [];
+  globals.allPrayerBooks.prayerBooks.asMap().forEach((prayerBookIndex, prayerBook) {
+    int serviceIndex = prayerBook.getServiceIndexById("collects");
+    if (serviceIndex != -1){
+      prayerBook.services[serviceIndex].sections.asMap().forEach((sectionIndex,
+          section) {
+        if (section.collects != null) {
+          section.collects.asMap().forEach((collectIndex, collect) {
+            collects.add({
+              "id": collect.id,
+              "prayerBookIndex": prayerBookIndex,
+              "serviceIndex": serviceIndex,
+              "sectionIndex": sectionIndex,
+              "collectIndex": collectIndex
+            });
+          });
+        }
+      });
+    }
+  });
+  return collects;
 
 }
 

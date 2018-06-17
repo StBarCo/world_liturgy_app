@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:synchronized/synchronized.dart';
-//import 'package:world_liturgy_app/globals.dart' as globals;
+import 'package:world_liturgy_app/globals.dart' as globals;
 
 class DatabaseClient {
   Database _db;
@@ -61,9 +61,16 @@ class DatabaseClient {
               )''');
 
       var batch = txn.batch();
+
       List days = await calculateCalendarsForDatabase();
 
       days.forEach((day) => batch.insert('calendar', day));
+
+
+
+      List collects = calculateSeasonsAndFeastsIndexForDatabase();
+
+      collects.forEach((collect) => batch.insert('seasonsAndFeasts', collect));
 
       await batch.commit(noResult: true);
 
@@ -72,7 +79,7 @@ class DatabaseClient {
     });
 
     var count = Sqflite
-        .firstIntValue(await _db.rawQuery("SELECT COUNT(*) FROM calendar"));
+        .firstIntValue(await _db.rawQuery("SELECT COUNT(*) FROM seasonsAndFeasts"));
 //    assert(count == 2);
 
 
@@ -103,7 +110,7 @@ class DatabaseClient {
   }
 
   Future fetchSeasonOrFeast(String id, int prayerBookIndex) async {
-    List results = await _db.query("seasonsAndFeasts", columns: SeasonOrFeast.columns, where: "id = ? AND prayerBookIndex = ?", whereArgs: [id, prayerBookIndex]);
+    dynamic results = await _db.query("seasonsAndFeasts", columns: SeasonOrFeast.columns, where: "id = ? AND prayerBookIndex = ?", whereArgs: [id, prayerBookIndex]);
 
     SeasonOrFeast seasonOrFeast = SeasonOrFeast.fromMap(results[0]);
 

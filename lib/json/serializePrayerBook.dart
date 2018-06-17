@@ -461,7 +461,7 @@ _decodePostCommunionPrayers(itemOrList){
 }
 
 String _asAttribute(item){
-  return item[r'$t'];
+  return clean(item[r'$t']);
 }
 
 int _asIntAttribute(item){

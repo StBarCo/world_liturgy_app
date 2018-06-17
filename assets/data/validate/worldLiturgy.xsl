@@ -11,7 +11,7 @@
       <xsl:for-each select="prayer_books/prayer_book">
         <h1><xsl:value-of select='title'/></h1>
         <xsl:for-each select="service">
-
+          <h1><xsl:value-of select='title'/></h1>
           <xsl:for-each select="section">
             <h2><xsl:value-of select='major_header'/></h2>
             <h3><xsl:value-of select='number'/> &#160;&#160;<xsl:value-of select='title'/></h3>
