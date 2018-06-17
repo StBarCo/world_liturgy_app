@@ -30,7 +30,7 @@ dependencies:
 
 dev_dependencies:
   #works with json_annotation. see above
-#  build_runner: '>=0.8.9'
+  build_runner: '>=0.8.9'
   json_serializable: '>=0.5.7'
 
 

@@ -324,7 +324,9 @@
                               <xs:choice maxOccurs="unbounded" minOccurs="0">
                                 <xs:element type="xs:string" name="title"/>
                                 <xs:element type="xs:string" name="ref"/>
-                                <xs:element name="prayer">
+                                <xs:element type="xs:string" name="collect_rubric"/>
+                                <xs:element type="xs:string" name="post_communion_rubric"/>
+                                <xs:element name="collect">
                                   <xs:complexType mixed="true">
                                     <xs:sequence>
                                       <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>

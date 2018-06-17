@@ -321,7 +321,7 @@ Widget _buildSectionHeader(section){
   }
 
   if (section.number !=null){
-    headerList.add(Center(child:_sectionNumber(section.number)));
+    headerList.add(Center(child:_sectionNumber(section.number.toString())));
   }
   if (section.title !=null){
     headerList.add(new Padding(
@@ -377,7 +377,7 @@ Widget _sectionNumber(number){
 //    fit: BoxFit.fitHeight,
     child: new Transform(
       child: new CircleAvatar(
-          child: new Text(number,textScaleFactor: 2.0,),
+          child: new Text(number.toString(),textScaleFactor: 2.0,),
 //          backgroundColor: Colors.black26,
       ),
       alignment: Alignment.center,

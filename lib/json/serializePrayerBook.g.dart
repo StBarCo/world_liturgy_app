@@ -3,14 +3,14 @@
 part of 'serializePrayerBook.dart';
 
 // **************************************************************************
-// Generator: JsonSerializableGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-PrayerBooksContainer _$PrayerBooksContainerFromJson(
-        Map<String, dynamic> json) =>
-    new PrayerBooksContainer(json['prayer_book'] == null
-        ? null
-        : _decodePrayerBookorService(json['prayer_book']));
+PrayerBooksContainer _$PrayerBooksContainerFromJson(Map<String, dynamic> json) {
+  return new PrayerBooksContainer(json['prayer_book'] == null
+      ? null
+      : _decodePrayerBookorService(json['prayer_book']));
+}
 
 abstract class _$PrayerBooksContainerSerializerMixin {
   List<PrayerBook> get prayerBooks;
@@ -18,146 +18,188 @@ abstract class _$PrayerBooksContainerSerializerMixin {
       <String, dynamic>{'prayer_book': prayerBooks};
 }
 
-PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) => new PrayerBook(
-    json['language'] as String,
-    json['id'] as String,
-    json['title'] == null
-        ? null
-        : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    json['service'] == null
-        ? null
-        : _decodePrayerBookorService(json['service']));
+PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) {
+  return new PrayerBook(
+      json['language'] as String,
+      json['id'] as String,
+      json['title'] == null ? null : _asAttribute(json['title']),
+      json['service'] == null
+          ? null
+          : _decodePrayerBookorService(json['service']));
+}
 
 abstract class _$PrayerBookSerializerMixin {
   String get language;
   String get id;
-  Title get titleObject;
+  String get title;
   List<Service> get services;
   Map<String, dynamic> toJson() => <String, dynamic>{
         'language': language,
         'id': id,
-        'title': titleObject,
+        'title': title,
         'service': services
       };
 }
 
-Service _$ServiceFromJson(Map<String, dynamic> json) => new Service(
-    json['id'] as String,
-    json['title'] == null
-        ? null
-        : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    json['section'] == null ? null : _decodeSection(json['section']));
+Service _$ServiceFromJson(Map<String, dynamic> json) {
+  return new Service(
+      json['id'] as String,
+      json['title'] == null ? null : _asAttribute(json['title']),
+      json['section'] == null ? null : _decodeSection(json['section']));
+}
 
 abstract class _$ServiceSerializerMixin {
   String get id;
-  Title get titleObject;
+  String get title;
   List<Section> get sections;
   Map<String, dynamic> toJson() =>
-      <String, dynamic>{'id': id, 'title': titleObject, 'section': sections};
+      <String, dynamic>{'id': id, 'title': title, 'section': sections};
 }
 
-Section _$SectionFromJson(Map<String, dynamic> json) => new Section(
-    json['type'] as String,
-    json['visibility'] as String,
-    json['fetchItemsFrom'] as String,
-    json['major_header'] == null
-        ? null
-        : new MajorHeader.fromJson(
-            json['major_header'] as Map<String, dynamic>),
-    json['title'] == null
-        ? null
-        : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    json['number'] == null
-        ? null
-        : new Title.fromJson(json['number'] as Map<String, dynamic>),
-    json['rubric'] == null
-        ? null
-        : new Rubric.fromJson(json['rubric'] as Map<String, dynamic>),
-    json['item'] == null ? null : _decodeItem(json['item']),
-    json['schedule'] as String);
+Section _$SectionFromJson(Map<String, dynamic> json) {
+  return new Section(
+      json['type'] as String,
+      json['visibility'] as String,
+      json['fetchItemsFrom'] as String,
+      json['major_header'] == null ? null : _asAttribute(json['major_header']),
+      json['title'] == null ? null : _asAttribute(json['title']),
+      json['number'] == null ? null : _asIntAttribute(json['number']),
+      json['rubric'] == null ? null : _asAttribute(json['rubric']),
+      json['item'] == null ? null : _decodeItem(json['item']),
+      json['collect'] == null ? null : _decodeCollect(json['collect']),
+      json['schedule'] as String);
+}
 
 abstract class _$SectionSerializerMixin {
   String get type;
   String get visibility;
   String get schedule;
   String get fetchItemsFrom;
-  MajorHeader get majorHeaderObject;
-  Title get titleObject;
-  Title get numberObject;
-  Rubric get rubricObject;
+  String get majorHeader;
+  String get title;
+  int get number;
+  String get rubric;
   List<Item> get items;
+  List<Collect> get collects;
   Map<String, dynamic> toJson() => <String, dynamic>{
         'type': type,
         'visibility': visibility,
         'schedule': schedule,
         'fetchItemsFrom': fetchItemsFrom,
-        'major_header': majorHeaderObject,
-        'title': titleObject,
-        'number': numberObject,
-        'rubric': rubricObject,
-        'item': items
+        'major_header': majorHeader,
+        'title': title,
+        'number': number,
+        'rubric': rubric,
+        'item': items,
+        'collect': collects
       };
 }
 
-MajorHeader _$MajorHeaderFromJson(Map<String, dynamic> json) =>
-    new MajorHeader(json[r'$t'] as String);
-
-abstract class _$MajorHeaderSerializerMixin {
-  String get $t;
-  Map<String, dynamic> toJson() => <String, dynamic>{r'$t': $t};
+Item _$ItemFromJson(Map<String, dynamic> json) {
+  return new Item(
+      json[r'$t'] as String,
+      json['who'] as String,
+      json['type'] as String,
+      json['includeGloria'] as String,
+      json['title'] == null ? null : _asAttribute(json['title']),
+      json['ref'] == null ? null : _asAttribute(json['ref']),
+      json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 }
-
-Title _$TitleFromJson(Map<String, dynamic> json) =>
-    new Title(json[r'$t'] as String);
-
-abstract class _$TitleSerializerMixin {
-  String get $t;
-  Map<String, dynamic> toJson() => <String, dynamic>{r'$t': $t};
-}
-
-Rubric _$RubricFromJson(Map<String, dynamic> json) =>
-    new Rubric(json[r'$t'] as String, json['link'] as String);
-
-abstract class _$RubricSerializerMixin {
-  String get $t;
-  String get link;
-  Map<String, dynamic> toJson() => <String, dynamic>{r'$t': $t, 'link': link};
-}
-
-Item _$ItemFromJson(Map<String, dynamic> json) => new Item(
-    json[r'$t'] as String,
-    json['who'] as String,
-    json['type'] as String,
-    json['includeGloria'] as String,
-    json['title'] == null
-        ? null
-        : new Title.fromJson(json['title'] as Map<String, dynamic>),
-    json['ref'] == null
-        ? null
-        : new Title.fromJson(json['ref'] as Map<String, dynamic>),
-    json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 
 abstract class _$ItemSerializerMixin {
   String get $t;
   String get who;
   String get type;
   String get includeGloria;
-  Title get titleObject;
-  Title get refObject;
+  String get title;
+  String get ref;
   List<Stanza> get stanzas;
   Map<String, dynamic> toJson() => <String, dynamic>{
         r'$t': $t,
         'who': who,
         'type': type,
         'includeGloria': includeGloria,
-        'title': titleObject,
-        'ref': refObject,
+        'title': title,
+        'ref': ref,
         'stanza': stanzas
       };
 }
 
-Stanza _$StanzaFromJson(Map<String, dynamic> json) => new Stanza(
-    json['verse'] as String, json['indent'] as String, json[r'$t'] as String);
+Collect _$CollectFromJson(Map<String, dynamic> json) {
+  return new Collect(
+      json['id'] as String,
+      json['title'] == null ? null : _asAttribute(json['title']),
+      json['ref'] == null ? null : _asAttribute(json['ref']),
+      json['color'] == null ? null : _asAttribute(json['color']),
+      json['date'] == null ? null : _asAttribute(json['date']),
+      json['type'] == null ? null : _asAttribute(json['type']),
+      json['collect_rubric'] == null
+          ? null
+          : _asAttribute(json['collect_rubric']),
+      json['post_communion_rubric'] == null
+          ? null
+          : _asAttribute(json['post_communion_rubric']),
+      json['collect'] == null ? null : _decodeCollectPrayers(json['collect']),
+      json['post_communion_prayer'] == null
+          ? null
+          : _decodePostCommunionPrayers(json['post_communion_prayer']));
+}
+
+abstract class _$CollectSerializerMixin {
+  String get id;
+  String get title;
+  String get ref;
+  String get color;
+  String get date;
+  String get type;
+  String get collectRubric;
+  String get postCommunionRubric;
+  List<CollectPrayer> get collectPrayers;
+  List<PostCommunionPrayer> get postCommunionPrayers;
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'title': title,
+        'ref': ref,
+        'color': color,
+        'date': date,
+        'type': type,
+        'collect_rubric': collectRubric,
+        'post_communion_rubric': postCommunionRubric,
+        'collect': collectPrayers,
+        'post_communion_prayer': postCommunionPrayers
+      };
+}
+
+CollectPrayer _$CollectPrayerFromJson(Map<String, dynamic> json) {
+  return new CollectPrayer(json[r'$t'] as String, json['type'] as String,
+      json['stanza'] == null ? null : _decodeStanza(json['stanza']));
+}
+
+abstract class _$CollectPrayerSerializerMixin {
+  String get $t;
+  String get type;
+  List<Stanza> get stanzas;
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{r'$t': $t, 'type': type, 'stanza': stanzas};
+}
+
+PostCommunionPrayer _$PostCommunionPrayerFromJson(Map<String, dynamic> json) {
+  return new PostCommunionPrayer(json[r'$t'] as String, json['type'] as String,
+      json['stanza'] == null ? null : _decodeStanza(json['stanza']));
+}
+
+abstract class _$PostCommunionPrayerSerializerMixin {
+  String get $t;
+  String get type;
+  List<Stanza> get stanzas;
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{r'$t': $t, 'type': type, 'stanza': stanzas};
+}
+
+Stanza _$StanzaFromJson(Map<String, dynamic> json) {
+  return new Stanza(
+      json['verse'] as String, json['indent'] as String, json[r'$t'] as String);
+}
 
 abstract class _$StanzaSerializerMixin {
   String get $t;

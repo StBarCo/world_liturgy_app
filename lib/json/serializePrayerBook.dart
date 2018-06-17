@@ -19,9 +19,8 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
   final String language;
   final String id;
 
-  @JsonKey(nullable: true, name: "title")
-  final Title titleObject;
-  String get title => clean(this.titleObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String title;
 
   @JsonKey(name: "service", fromJson: _decodePrayerBookorService)
   final List<Service> services;
@@ -29,13 +28,22 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
   PrayerBook(
       this.language,
       this.id,
-      this.titleObject,
+      this.title,
       this.services,
       );
   factory PrayerBook.fromJson(Map<String, dynamic> json) => _$PrayerBookFromJson(json);
 
   getService(String id){
-    return this.services.where((service) => service.id == id);
+    return this.services.where((service) => service.id == id).toList();
+  }
+
+  getServiceIndexById(String id){
+    List list = [];
+    this.services.forEach((service){
+      list.add(service.id);
+    });
+
+    return list.indexOf(id);
   }
 }
 
@@ -44,20 +52,32 @@ class Service extends Object with _$ServiceSerializerMixin {
 
   final String id;
 
-  @JsonKey(nullable: true, name: "title")
-  final Title titleObject;
-  String get title => clean(this.titleObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String title;
 
   @JsonKey(name: "section", fromJson: _decodeSection)
   final List<Section> sections;
 
   Service(
       this.id,
-      this.titleObject,
+      this.title,
       this.sections,
       );
 
   factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+
+  getSection(String id){
+    return this.sections.where((section) => section.type == id).toList();
+  }
+
+  getSectionIndexByType(String type){
+    List list = [];
+    this.sections.forEach((section){
+      list.add(section.type);
+    });
+
+    return list.indexOf(type);
+  }
 }
 
 @JsonSerializable()
@@ -74,29 +94,28 @@ class Section extends Object with _$SectionSerializerMixin {
   @JsonKey(nullable: true,)
   final String fetchItemsFrom;
 
-  @JsonKey(nullable: true, name: "major_header")
-  final MajorHeader majorHeaderObject;
-  String get majorHeader => clean(this.majorHeaderObject?.$t);
+  @JsonKey(nullable: true, name: "major_header", fromJson: _asAttribute)
+  final String majorHeader;
 
-  @JsonKey(nullable: true, name: "title")
-  final Title titleObject;
-  String get title => clean(this.titleObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String title;
 
-  @JsonKey(nullable: true, name: "number")
-  final Title numberObject;
-  String get number => clean(this.numberObject?.$t);
+  @JsonKey(nullable: true,  fromJson: _asIntAttribute)
+  final int number;
 
-  @JsonKey(nullable: true, name:"rubric")
-  final Rubric rubricObject;
-  String get rubric => clean(this.rubricObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String rubric;
 
   @JsonKey(name: "item", nullable: true, fromJson: _decodeItem)
   final List<Item> items;
 
+  @JsonKey(name: "collect", nullable: true, fromJson: _decodeCollect)
+  final List<Collect> collects;
+
   String get indexName{
     String string = '';
     if (this.number != null){
-      string += this.number + ': ';
+      string += this.number.toString() + ': ';
     }
     if (this.majorHeader != null){
       string += this.majorHeader + ' ';
@@ -120,45 +139,46 @@ class Section extends Object with _$SectionSerializerMixin {
       this.type,
       this.visibility,
       this.fetchItemsFrom,
-      this.majorHeaderObject,
-      this.titleObject,
-      this.numberObject,
-      this.rubricObject,
+      this.majorHeader,
+      this.title,
+      this.number,
+      this.rubric,
       this.items,
+      this.collects,
       this.schedule,
       );
   factory Section.fromJson(Map<String, dynamic> json) => _$SectionFromJson(json);
 
 }
 
-@JsonSerializable()
-class MajorHeader extends Object with _$MajorHeaderSerializerMixin {
-  final String $t;
-  String get text => clean(this.$t);
-
-  MajorHeader(this.$t);
-  factory MajorHeader.fromJson(Map<String, dynamic> json) => _$MajorHeaderFromJson(json) ;
-}
-
-@JsonSerializable()
-class Title extends Object with _$TitleSerializerMixin {
-  final String $t;
-  String get text => clean(this.$t);
-
-  Title(this.$t);
-  factory Title.fromJson(Map<String, dynamic> json) => _$TitleFromJson(json) ;
-}
-
-@JsonSerializable()
-class Rubric extends Object with _$RubricSerializerMixin {
-  final String $t;
-  String get text => clean(this.$t);
-
-  final String link;
-
-  Rubric(this.$t, this.link);
-  factory Rubric.fromJson(Map<String, dynamic> json) => _$RubricFromJson(json);
-}
+//@JsonSerializable()
+//class MajorHeader extends Object with _$MajorHeaderSerializerMixin {
+//  final String $t;
+//  String get text => clean(this.$t);
+//
+//  MajorHeader(this.$t);
+//  factory MajorHeader.fromJson(Map<String, dynamic> json) => _$MajorHeaderFromJson(json) ;
+//}
+//
+//@JsonSerializable()
+//class Title extends Object with _$TitleSerializerMixin {
+//  final String $t;
+//  String get text => clean(this.$t);
+//
+//  Title(this.$t);
+//  factory Title.fromJson(Map<String, dynamic> json) => _$TitleFromJson(json) ;
+//}
+//
+//@JsonSerializable()
+//class Rubric extends Object with _$RubricSerializerMixin {
+//  final String $t;
+//  String get text => clean(this.$t);
+//
+//  final String link;
+//
+//  Rubric(this.$t, this.link);
+//  factory Rubric.fromJson(Map<String, dynamic> json) => _$RubricFromJson(json);
+//}
 
 @JsonSerializable()
 class Item extends Object with _$ItemSerializerMixin{
@@ -174,13 +194,11 @@ class Item extends Object with _$ItemSerializerMixin{
   @JsonKey(nullable: true)
   final String includeGloria;
 
-  @JsonKey(nullable: true, name: "title")
-  final Title titleObject;
-  String get title => clean(this.titleObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String title;
 
-  @JsonKey(nullable: true, name: "ref")
-  final Title refObject;
-  String get ref => clean(this.refObject?.$t);
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String ref;
 
   @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
   final List<Stanza> stanzas;
@@ -190,11 +208,100 @@ class Item extends Object with _$ItemSerializerMixin{
       this.who,
       this.type,
       this.includeGloria,
-      this.titleObject,
-      this.refObject,
+      this.title,
+      this.ref,
       this.stanzas,
       );
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+
+}
+
+@JsonSerializable()
+class Collect extends Object with _$CollectSerializerMixin{
+
+  @JsonKey(nullable: true,)
+  final String id;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String title;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String ref;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String color;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String date;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String type;
+
+  @JsonKey(nullable: true, name:"collect_rubric", fromJson: _asAttribute)
+  final String collectRubric;
+
+  @JsonKey(nullable: true, name:"post_communion_rubric", fromJson: _asAttribute)
+  final String postCommunionRubric;
+
+  @JsonKey(nullable: true, name:"collect", fromJson: _decodeCollectPrayers)
+  final List<CollectPrayer> collectPrayers;
+
+  @JsonKey(nullable: true, name:"post_communion_prayer", fromJson: _decodePostCommunionPrayers)
+  final List<PostCommunionPrayer> postCommunionPrayers;
+
+
+  Collect(
+      this.id,
+      this.title,
+      this.ref,
+      this.color,
+      this.date,
+      this.type,
+      this.collectRubric,
+      this.postCommunionRubric,
+      this.collectPrayers,
+      this.postCommunionPrayers,
+      );
+  factory Collect.fromJson(Map<String, dynamic> json) => _$CollectFromJson(json);
+
+}
+
+@JsonSerializable()
+class CollectPrayer extends Object with _$CollectPrayerSerializerMixin{
+  final String $t;
+  String get text => clean(this.$t);
+
+  @JsonKey(nullable: true)
+  final String type;
+
+  @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
+  final List<Stanza> stanzas;
+
+  CollectPrayer(
+      this.$t,
+      this.type,
+      this.stanzas,
+      );
+  factory CollectPrayer.fromJson(Map<String, dynamic> json) => _$CollectPrayerFromJson(json);
+}
+
+@JsonSerializable()
+class PostCommunionPrayer extends Object with _$PostCommunionPrayerSerializerMixin{
+  final String $t;
+  String get text => clean(this.$t);
+
+  @JsonKey(nullable: true)
+  final String type;
+
+  @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
+  final List<Stanza> stanzas;
+
+  PostCommunionPrayer(
+      this.$t,
+      this.type,
+      this.stanzas,
+      );
+  factory PostCommunionPrayer.fromJson(Map<String, dynamic> json) => _$PostCommunionPrayerFromJson(json);
 
 }
 
@@ -219,21 +326,19 @@ class Stanza extends Object with _$StanzaSerializerMixin {
 
 String clean(String s) => s?.replaceAll(new RegExp(r"\\r\\n+ *|\\"), '');
 
-List<dynamic> _decodePrayerBookorService(itemOrList){
-//  debugPrint(itemOrList);
-  print('begin decode Prayerbook or Service');
+_decodePrayerBookorService(itemOrList){
 
-  List<dynamic> list = [];
   if (itemOrList == null){
     return null;
   }
-  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+
+  List<dynamic> list = [];
+
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
     list = itemOrList;
   }else{
     list.add(itemOrList);
   }
-
-  print(list.toString().substring(0,20));
 
   if (list.first['service'] != null){
     return list.map((e) =>
@@ -246,37 +351,33 @@ List<dynamic> _decodePrayerBookorService(itemOrList){
   }else{
     return null;
   }
-
 }
 
-List<dynamic> _decodeSection(itemOrList){
-//  debugPrint(itemOrList);
-  print('begin decode sections of a service');
-  List<dynamic> list = [];
+_decodeSection(itemOrList){
   if (itemOrList == null){
     return null;
   }
-  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
     list = itemOrList;
   }else{
     list.add(itemOrList);
   }
-
-  print(list.toString().substring(0,20));
 
   return list.map((e) =>
   e == null ? null : new Section.fromJson(e as Map<String, dynamic>))
       ?.toList();
 }
 
-List<dynamic> _decodeItem(itemOrList){
-//  debugPrint(itemOrList);
+_decodeItem(itemOrList){
 
-  List<dynamic> list = [];
   if (itemOrList == null){
     return null;
   }
-  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
     list = itemOrList;
   }else{
     list.add(itemOrList);
@@ -287,13 +388,14 @@ List<dynamic> _decodeItem(itemOrList){
       ?.toList();
 }
 
-List<dynamic> _decodeStanza(itemOrList){
-//  debugPrint(itemOrList);
-  List<dynamic> list = [];
+_decodeStanza(itemOrList){
+
   if (itemOrList == null){
     return null;
   }
-  if (itemOrList.runtimeType.toString() == 'List<dynamic>'){
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
     list = itemOrList;
   }else{
     list.add(itemOrList);
@@ -304,3 +406,64 @@ List<dynamic> _decodeStanza(itemOrList){
       ?.toList();
 }
 
+_decodeCollect(itemOrList){
+
+  if (itemOrList == null){
+    return null;
+  }
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new Collect.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}
+
+_decodeCollectPrayers(itemOrList){
+
+  if (itemOrList == null){
+    return null;
+  }
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new CollectPrayer.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}
+
+_decodePostCommunionPrayers(itemOrList){
+
+  if (itemOrList == null){
+    return null;
+  }
+
+  List<dynamic> list = [];
+  if (['List<dynamic>', '_GrowableList<dynamic>'].contains(itemOrList.runtimeType.toString())){
+    list = itemOrList;
+  }else{
+    list.add(itemOrList);
+  }
+
+  return list.map((e) =>
+  e == null ? null : new PostCommunionPrayer.fromJson(e as Map<String, dynamic>))
+      ?.toList();
+}
+
+String _asAttribute(item){
+  return item[r'$t'];
+}
+
+int _asIntAttribute(item){
+  return int.parse(item[r'$t']);
+}

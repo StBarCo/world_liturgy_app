@@ -95,10 +95,6 @@ class Season extends Object with _$SeasonSerializerMixin {
       );
 
   factory Season.fromJson(Map<String, dynamic> json) => _$SeasonFromJson(json);
-
-
-
-
 }
 
 @JsonSerializable()
@@ -171,11 +167,12 @@ class Date extends Object with _$DateSerializerMixin {
 String clean(String s) => s?.replaceAll(new RegExp(r"\\r\\n+ *|\\"), '');
 
 
-List<dynamic> _decodeSeason(itemOrList){
-  List<dynamic> list = [];
+_decodeSeason(itemOrList){
   if (itemOrList == null){
     return null;
   }
+  List<dynamic> list = [];
+
   if (itemOrList.runtimeType.toString() == '_InternalLinkedHashMap<String, dynamic>'){
     list = itemOrList['season'];
   }else{
