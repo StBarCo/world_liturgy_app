@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'service.dart';
-import 'data/xml_parser.dart';
+import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'globals.dart' as globals;
 import 'json/serializeCalendar.dart';
 //import 'dart:async';
 //import 'json/serializePrayerBook.dart';
-import 'calendar.dart';
+import 'package:world_liturgy_app/model/calendar.dart';
+import 'package:world_liturgy_app/data/database.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 void main() async{
+
   final allPrayerBooks = await loadPrayerBooks();
   globals.allPrayerBooks = allPrayerBooks;
 
-  final calendarScaffold = await loadCalendar();
-  globals.calendarScaffold = calendarScaffold;
+  globals.db = new DatabaseClient();
+  await globals.db.create();
+//  final calendarScaffold = await loadCalendar();
+//  globals.calendarScaffold = calendarScaffold;
 
 //  initialBuild();
+  var day = await globals.db.fetchDay(17895);
 
   runApp(new MyApp());
 }

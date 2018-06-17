@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
-import 'data/xml_parser.dart';
+import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'dart:async';
 import 'globals.dart' as globals;
 
@@ -148,7 +148,6 @@ List<Widget> initialBuild(){
             'holyDayId': holyDay.id,
             'holyDayColor': holyDay.color,
             'holyDayType': holyDay.type,
-            'principalOptionalCelebrationSunday': holyDay.optionalCelebrationSunday
 
           });
         }
@@ -168,7 +167,6 @@ List<Widget> initialBuild(){
               'holyDayId': holyDay.id,
               'holyDayColor': holyDay.color,
               'holyDayType': holyDay.type,
-              'principalOptionalCelebrationSunday': holyDay.optionalCelebrationSunday
 
             });
           }
