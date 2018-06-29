@@ -33,74 +33,126 @@ class DatabaseClient {
 
     _db = await openDatabase(dbPath, version: 1,
         onCreate: this._onCreate);
+
+//    set current day into globals
+
   }
 
   Future _onCreate(Database _db, int version) async {
-    await _db.transaction((txn) async {
-      await txn.execute('''
-              CREATE TABLE calendar (
-                date int PRIMARY KEY, 
-                season TEXT NOT NULL,
-                weekId TEXT NOT NULL,
-                seasonColor TEXT NOT NULL,
-                principalFeastId TEXT,
-                principalColor TEXT,
-                principalOptionalCelebrationSunday TEXT,
-                holyDayId TEXT,
-                holyDayColor TEXT,
-                holyDayType TEXT
-              )''');
+    try {
+      await _db.transaction((txn) async {
+        await txn.execute('''
+                CREATE TABLE days (
+                  date INTEGER PRIMARY KEY, 
+                  season TEXT NOT NULL,
+                  weekID TEXT NOT NULL,
+                  seasonColor TEXT NOT NULL,
+                  principalFeastID TEXT,
+                  principalColor TEXT,
+                  principalOptionalCelebrationSunday TEXT,
+                  holyDayID TEXT,
+                  holyDayColor TEXT,
+                  holyDayType TEXT,
+                  weekServiceIndex INTEGER,
+                  weekSectionIndex INTEGER,
+                  weekCollectIndex INTEGER,
+                  principalFeastServiceIndex INTEGER,
+                  principalFeastSectionIndex INTEGER,
+                  principalFeastCollectIndex INTEGER,
+                  holyDayServiceIndex INTEGER,
+                  holyDaySectionIndex INTEGER,
+                  holyDayCollectIndex INTEGER
+                )''');
 
-      await txn.execute('''
-              CREATE TABLE seasonsAndFeasts (
-                id TEXT NOT NULL,
-                prayerBookIndex INTEGER NOT NULL,
-                serviceIndex INTEGER NOT NULL,
-                sectionIndex INTEGER NOT NULL,
-                collectIndex INTEGER NOT NULL
-              )''');
+        await txn.execute('''
+                CREATE TABLE prayers (
+                  id TEXT NOT NULL,
+                  prayerBookIndex INTEGER NOT NULL,
+                  serviceIndex INTEGER NOT NULL,
+                  sectionIndex INTEGER NOT NULL,
+                  collectIndex INTEGER NOT NULL
+                )''');
 
-      var batch = txn.batch();
+        var batch = txn.batch();
 
-      List days = await calculateCalendarsForDatabase();
+        List days = await calculateCalendarsForDatabase();
 
-      days.forEach((day) => batch.insert('calendar', day));
+        days.forEach((day) => batch.insert('days', day));
 
 
+//
+//        List collects = calculateSeasonsAndFeastsIndexForDatabase();
+//
+//        collects.forEach((collect) => batch.insert('prayers', collect));
 
-      List collects = calculateSeasonsAndFeastsIndexForDatabase();
+        await batch.commit(noResult: true);
 
-      collects.forEach((collect) => batch.insert('seasonsAndFeasts', collect));
+//      TODO: Iterate through collects and compare prayerbooks index numbers
+//      TODO: Iterate through list of days and check that all ids have matching collects -- print in console any differences
+//        TODO: on database create print calendar into the log.
+//      TODO: remove prayerbook index from seasons and feasts and make id primary key
+//      TODO: make seasonsandFeast primary key a foreign key for the calendar table.
 
-      await batch.commit(noResult: true);
+      });
+    } catch (e, s) {
+      print(s);
+    }
 
-//      TODO: Iterate through Collects and Add Indexes to DB.
-
-    });
-
-    var count = Sqflite
-        .firstIntValue(await _db.rawQuery("SELECT COUNT(*) FROM seasonsAndFeasts"));
+//    var count = Sqflite
+//        .firstIntValue(await _db.rawQuery("SELECT COUNT(*) FROM seasonsAndFeasts"));
 //    assert(count == 2);
 
 
   }
 
   Future insertDay(Day day) async {
-    dynamic newDay =  await _db.insert("calendar", day.toMap());
+    dynamic newDay =  await _db.insert("days", day.toMap());
 
     return newDay;
   }
 
-  Future insertSeasonOrFeast(SeasonOrFeast collect) async {
-    dynamic newCollect =  await _db.insert("calendar", collect.toMap());
+  Future insertSeasonOrFeast(Prayer collect) async {
+    dynamic newCollect =  await _db.insert("prayers", collect.toMap());
 
     return newCollect;
   }
 
   Future fetchDay(int date) async {
-    dynamic results = await _db.query("calendar", columns: Day.columns, where: "date = ?", whereArgs: [date]);
+    dynamic results = await _db.query("days", columns: Day.columns, where: "date = ?", whereArgs: [date]);
 //    List<Map> list = await _db.rawQuery('SELECT * FROM calendar');
-    if (results == null){
+//    dynamic results = await _db.rawQuery(
+//      '''SELECT
+//            date,
+//            season,
+//            weekID,
+//            seasonColor,
+//            principalFeastID,
+//            principalColor,
+//            principalOptionalCelebrationSunday,
+//            holyDayID,
+//            holyDayColor,
+//            holyDayType,
+//            weekServiceIndex,
+//            weekSectionIndex,
+//            weekCollectIndex,
+//            principalFeastServiceIndex,
+//            principalFeastSectionIndex,
+//            principalFeastCollectIndex,
+//            holyDayServiceIndex,
+//            holyDaySectionIndex,
+//            holyDayCollectIndex
+//
+//        FROM days days
+//
+//        LEFT JOIN prayers weekIndex ON days.weekID=weekIndex.id
+//        LEFT JOIN prayers feastIndex ON feastIndex.id = days.holyDayID
+//        LEFT JOIN prayers holyDayIndex ON holyDayIndex.id = days.principalFeastID
+//
+//        WHERE date = ?
+//      ''', [date]);
+
+
+    if (results.length == 0){
       return null;
     } else {
       Day activeDay = Day.fromMap(results[0]);
@@ -110,9 +162,9 @@ class DatabaseClient {
   }
 
   Future fetchSeasonOrFeast(String id, int prayerBookIndex) async {
-    dynamic results = await _db.query("seasonsAndFeasts", columns: SeasonOrFeast.columns, where: "id = ? AND prayerBookIndex = ?", whereArgs: [id, prayerBookIndex]);
+    dynamic results = await _db.query("prayers", columns: Prayer.columns, where: "id = ? AND prayerBookIndex = ?", whereArgs: [id, prayerBookIndex]);
 
-    SeasonOrFeast seasonOrFeast = SeasonOrFeast.fromMap(results[0]);
+    Prayer seasonOrFeast = Prayer.fromMap(results[0]);
 
     return seasonOrFeast;
   }

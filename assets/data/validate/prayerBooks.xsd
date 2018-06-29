@@ -19,239 +19,6 @@
               </xs:element>
               <xs:element name="service" maxOccurs="unbounded" minOccurs="0">
                 <xs:annotation>
-                  <xs:documentation><![CDATA[<service id="eveningWorship">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="lateEveningPrayer">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="serviceOfBaptism">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="conditionalBaptism">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="emergencyBaptism">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="admissionToHolyCommunion">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="aRevisedCatechism">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="confirmationAndComissioning">
-            <title>Evening Worship</title>
-            <section type="Intro Sentences">
-                <title>Introductory Sentences</title>
-                <rubric>One or more of these sentences may be said after the introduction.</rubric>
-                <item>Let us enter his gates with thanksgiving.</item>
-                <item>Worship him in the splendor of his holiness.</item>
-            </section>
-            <section>
-                <title>Order of Service</title>
-                <rubric>At the entry of the procession the people stand. A hymn is sung after which the people remain standing and the leader welcomes them with the following words.</rubric>
-                <item who='leader'>The Lord be with you.</item>
-                <item who='people'>And also with you.</item>
-                <item who='leader'>We are heirs of the Father.</item>
-                <item who='people'>joint heirs with the son,</item>
-                <item who='leader'>renewed in the spirit,</item>
-                <item who='people'>together we are one.</item>
-            </section>
-            <section>
-                <item who='leader'>If we say that we have no sin we deceive ourselves and the truth is not in us. If we confess our sins, in repentance and trust, God is faithful and just, and will forgive us our sins. So let us confess them to our Father.</item>
-                <item who='people'>Eternal Father, God of our ancestors, before your power all things tremble, but through your son, we approach your throne. We have done wrong and neglected to do right; our sins weigh heavily on our hearts: Lord have mercy, count them not against us. Grant us the joy of forgiveness and lighten our hearts with the glory of Christ, who died and rose again for us. Amen.</item>
-                <item who='leader'>The God and Father of our Lord Jesus Christ rejoices at repentance and declares his acceptance. The dead are alive, the lost are found. His goodness and mercy will follow you all the days of your life, and you will live in the house of the Lord for ever.</item>
-            </section>
-            <section>
-                <rubric>When a minister is not present the lay leader is to use the following prayer.</rubric>
-                <item who='leader'>Lord of mercy, grant us your pardon and peace; that cleansed from our sins and with peace in our hearts, we may be free to serve you; through Jesus Christ our Lord. Amen.</item>
-
-            </section>
-        </service>
-        <service id="admittingChristiansFromOtherChurches"></service>]]></xs:documentation>
                 </xs:annotation>
                 <xs:complexType>
                   <xs:sequence>
@@ -302,6 +69,7 @@
                                 <xs:element type="xs:byte" name="number" minOccurs="0"/>
                                 <xs:element type="xs:string" name="title" minOccurs="0"/>
                                 <xs:element type="xs:string" name="ref" minOccurs="0"/>
+
                                 <xs:element name="stanza" maxOccurs="unbounded" minOccurs="0">
                                   <xs:complexType>
                                     <xs:simpleContent>
@@ -315,18 +83,37 @@
                                 </xs:element>
                               </xs:sequence>
                               <xs:attribute type="xs:string" name="who" use="optional"/>
+                              <xs:attribute type="xs:string" name="other" use="optional"/>
                               <xs:attribute type="xs:string" name="type" use="optional"/>
                               <xs:attribute type="xs:string" name="includeGloria" use="optional"/>
                             </xs:complexType>
                           </xs:element>
+
                           <xs:element name="collect">
                             <xs:complexType>
-                              <xs:choice maxOccurs="unbounded" minOccurs="0">
-                                <xs:element type="xs:string" name="title"/>
-                                <xs:element type="xs:string" name="ref"/>
-                                <xs:element type="xs:string" name="collect_rubric"/>
-                                <xs:element type="xs:string" name="post_communion_rubric"/>
-                                <xs:element name="collect">
+                              <xs:sequence >
+                                <xs:element type="xs:string" name="title" />
+                                <xs:element type="xs:string" name="subtitle" minOccurs="0"/>
+                                <xs:element type="xs:string" name="color" minOccurs="0"/>
+                                <xs:element type="xs:string" name="ref" minOccurs="0"/>
+                                <xs:element type="xs:string" name="type" minOccurs="0"/>
+                                <xs:element type="xs:string" name="date" minOccurs="0"/>
+
+
+                                <xs:element type="xs:string" name="collect_rubric" minOccurs="0" />
+                                <xs:element name="collect" minOccurs="0" maxOccurs="unbounded" >
+                                  <xs:complexType mixed="true" >
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
+                                    </xs:sequence>
+                                    <xs:attribute type="xs:string" name="type" use="optional">
+
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="post_communion_rubric" minOccurs="0"/>
+
+                                <xs:element name="post_communion_prayer" minOccurs="0" maxOccurs="unbounded">
                                   <xs:complexType mixed="true">
                                     <xs:sequence>
                                       <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
@@ -334,36 +121,8 @@
                                     <xs:attribute type="xs:string" name="type" use="optional"/>
                                   </xs:complexType>
                                 </xs:element>
-                                <xs:element name="rubric">
-                                  <xs:complexType>
-                                    <xs:simpleContent>
-                                      <xs:extension base="xs:string">
-                                        <xs:attribute type="xs:string" name="type" use="optional"/>
-                                      </xs:extension>
-                                    </xs:simpleContent>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element name="post_communion_prayer">
-                                  <xs:complexType mixed="true">
-                                    <xs:sequence>
-                                      <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
-                                    </xs:sequence>
-                                    <xs:attribute type="xs:string" name="type" use="optional"/>
-                                  </xs:complexType>
-                                </xs:element>
-                                <xs:element type="xs:string" name="type"/>
-                                <xs:element type="xs:string" name="subtitle"/>
-                                <xs:element name="color">
-                                  <xs:simpleType>
-                                    <xs:restriction base="xs:string">
-                                      <xs:enumeration value="White"/>
-                                      <xs:enumeration value="Gold or White"/>
-                                      <xs:enumeration value="Red"/>
-                                    </xs:restriction>
-                                  </xs:simpleType>
-                                </xs:element>
-                                <xs:element type="xs:string" name="date"/>
-                              </xs:choice>
+
+                              </xs:sequence>
                               <xs:attribute type="xs:string" name="id" use="optional"/>
                             </xs:complexType>
                           </xs:element>

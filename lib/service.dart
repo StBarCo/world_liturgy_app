@@ -14,13 +14,14 @@ class ServiceView extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    final allPrayerBooks = globals.allPrayerBooks;
+    checkForCurrentDay();
+
 
 //    PrayerBook currentPrayerBook = allPrayerBooks.prayerBooks[prayerBookIndex];
 //    Service currentService = currentPrayerBook.services[serviceIndex];
 
     return new Scaffold (
-      drawer: _buildDrawer(allPrayerBooks.prayerBooks, currentIndexes),
+      drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, currentIndexes),
       appBar: new AppBar(
         title: new Text(currentService.title),
         actions:  <Widget>[
@@ -58,38 +59,38 @@ class ServiceView extends StatelessWidget{
 //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
   Widget _buildService(BuildContext context, Service service) {
-
+    String language = getLanguageFromIndex(currentIndexes['prayerBook']);
     return new ListView.builder(
         padding: const EdgeInsets.all(16.0),
         itemCount: service.sections.length,
         itemBuilder: (context, index) {
            var section = service.sections[index];
-                return _buildSection(context, section);
+                return _buildSection(context, section, language);
         },
 
 
     );
   }
 
-    Widget _buildSection(BuildContext context, section){
+    Widget _buildSection(BuildContext context, section, language){
 //      final alreadySaved = _saved.contains(pair);
       return new Column(
-        children: _buildItemsList(context, section),
+        children: _buildItemsList(context, section, language),
       );
     }
 
-    List<Widget> _buildItemsList(BuildContext context, section){
+    List<Widget> _buildItemsList(BuildContext context, section, language){
       List<Widget> itemsList = new List<Widget>();
 
       if (section.type == 'collectOfTheDay'){
-        itemsList.add(DailyCollect() );
+        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "collect",) );
       }
 
       if (section.visibility == 'collapsed') {
-        itemsList.add(_buildHeaderForCollapsed(context, section));
+        itemsList.add(_buildHeaderForCollapsed(context, section, language));
       } else if (section.visibility == 'indexed'){
         itemsList.add(_buildSectionHeader( section));
-        itemsList.add(_buildLinksForIndexed(context, section));
+        itemsList.add(_buildLinksForIndexed(context, section, language));
       } else if (section.visibility == 'hidden') {
         itemsList.add(new Row());
       } else {
@@ -99,7 +100,7 @@ class ServiceView extends StatelessWidget{
           if (section.items != null) {
             var prevItemWho;
             for (var item in section.items) {
-              Widget row = _buildItem(item, prevItemWho);
+              Widget row = _buildItem(item, language, prevItemWho, );
               var padding = new Padding(
                 padding: EdgeInsets.only(top: 0.0),
                 child: row,
@@ -107,31 +108,42 @@ class ServiceView extends StatelessWidget{
               if (row != null) itemsList.add(padding);
               prevItemWho = item.who;
             }
+          } else if (section.collects != null){
+            for (var collect in section.collects) {
+              Widget column = buildCollect(collect);
+              var padding = new Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: column,
+              );
+              if (column != null) itemsList.add(padding);
+
+            }
+//            itemsList.add(new Text("This is a collect"));
           }
         }
         return itemsList;
       }
 
 
-  _buildHeaderForCollapsed(context, section){
+  _buildHeaderForCollapsed(context, section, language){
     return GestureDetector(
         onTap: () {
           var route = new MaterialPageRoute(
               builder: (BuildContext context) =>
-              new ExpandedSection(section: section,)
+              new ExpandedSection(section: section, currentIndexes: currentIndexes)
           );
           Navigator.push(context, route);
         },
         child: new Column(
           children: <Widget>[
             _buildSectionHeader(section),
-            new Text('Tap to expand.'.toUpperCase(), style: _rubricTextStyle,)
+            new Text(capitalize(globals.translate(language,"tapToExpand")), style: _rubricTextStyle,)
           ],
         )
     );
   }
 
-  _buildLinksForIndexed(context, section) {
+  _buildLinksForIndexed(context, section, language) {
     List<Widget> headers = [];
 
     for (var item in section.items) {
@@ -157,7 +169,7 @@ class ServiceView extends StatelessWidget{
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text('Tap to expand.', style: _rubricTextStyle, textAlign: TextAlign.center),
+                child: new Text(capitalize(globals.translate(language,"tapToExpand")), style: _rubricTextStyle, textAlign: TextAlign.center),
               ),
             ],
           )
@@ -196,19 +208,22 @@ class DrawerPrayerBookEntry extends StatelessWidget {
     List<Widget> servicesList = [];
 //    Service serviceName;
     for (var service in prayerBook.services) {
-      servicesList.add(new ListTile(
-        title: new Text(service.title ?? 'No title',),
-        selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
-        onTap: () {
-          Navigator.pop(context);
-          Navigator.push(context, new MaterialPageRoute(
-            builder: (BuildContext context) {
-              return ServiceView(
-                  currentService: service, currentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
-              );
+      servicesList.add(new Padding(
+          padding: EdgeInsets.only(left:20.0),
+          child: new ListTile(
+            title: new Text(service.title ?? 'No title',),
+            selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context, new MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ServiceView(
+                      currentService: service, currentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
+                  );
+                },
+              ));
             },
-          ));
-        },
+          )
       ));
     }
     return servicesList;
@@ -218,8 +233,9 @@ class DrawerPrayerBookEntry extends StatelessWidget {
 
 class ExpandedSection extends StatelessWidget {
   final Section section;
+  final currentIndexes;
 
-  ExpandedSection({ Key key, this.section}) : super(key: key);
+  ExpandedSection({ Key key, this.section, this.currentIndexes}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +245,7 @@ class ExpandedSection extends StatelessWidget {
         ),
         body: new ListView(
           padding: const EdgeInsets.all(16.0),
-          children: _buildExpandedSectionItems(section),
+          children: _buildExpandedSectionItems(section, getLanguageFromIndex(currentIndexes['prayerBook'])),
 
         )
     );
@@ -237,7 +253,7 @@ class ExpandedSection extends StatelessWidget {
 
 
 
-  List<Widget> _buildExpandedSectionItems(section) {
+  List<Widget> _buildExpandedSectionItems(section, language) {
     List<Widget> itemsList = new List<Widget>();
     if (section.rubric != null) {
       itemsList.add(new Padding(
@@ -248,7 +264,7 @@ class ExpandedSection extends StatelessWidget {
     if (section.items != null) {
       var prevItemWho;
       for (var item in section.items) {
-        Widget row = _buildItem(item, prevItemWho);
+        Widget row = _buildItem(item, language, prevItemWho);
         var padding = new Padding(
           padding: EdgeInsets.only(top: 8.0),
           child: row,
@@ -308,7 +324,7 @@ class ExpandedIndexedItem extends StatelessWidget {
   }
   List<Widget> _buildExpandedIndexedItems(item) {
 
-    return _stanzasColumn(item, returnType: 'list');
+    return stanzasColumn(item, returnType: 'list');
   }
 }
 
@@ -420,30 +436,30 @@ Widget _majorHeader(header){
   );
 }
 
-Widget _buildItem(item, [prevItemWho]){
+Widget _buildItem(item, language, [prevItemWho]){
   if (item.type == 'title' && item.text != null){
     return Padding(child:_sectionTitle(item.text),padding: EdgeInsets.only(top: 12.0),);
   }else if (item.type == 'rubric'){
     return Padding(child:_rubric(item.text),padding: EdgeInsets.only(top:18.0),);
   }else if (item.who == 'leader' || item.who == 'minister'
-      || item.who == 'reader' || item.who == 'assistant'){
-    return _leaderItem(item, prevItemWho);
-  } else if (item.who == 'people' || item.who == 'all') {
-    return _peopleItem(item, prevItemWho);
+      || item.who == 'reader' || item.who == 'leaderOther' || item.who == 'bishop' || item.who == "archBishop"){
+    return _leaderItem(item, language, prevItemWho);
+  } else if (item.who == 'people' || item.who == 'all' || item.who== 'peopleOther') {
+    return _peopleItem(item, language, prevItemWho);
   } else if (item.who == 'none') {
     return null;
   } else if (item.type == 'versedStanzas') {
-    return _stanzasColumn(item);
+    return stanzasColumn(item);
   } else if (item.type == 'stanzas' ){
-    return Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:_stanzasColumn(item));
+    return Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(item));
   } else if (item.who == null) {
-    return _genericItem(item);
+    return genericItem(item);
   } else {
     return _unknownItem(item);
   }
 }
 
-Widget _leaderItem(item, prevItemWho){
+Widget _leaderItem(item, language, prevItemWho){
   Icon _pickedIcon = item.who == 'minister' ? Icon(Icons.person) : item.who == 'reader' ? Icon(Icons.local_library) : Icon(Icons.person);
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,26 +468,30 @@ Widget _leaderItem(item, prevItemWho){
       new Opacity(
         opacity: item.who == prevItemWho ? 0.0 : 1.0,
         child: new Column(
+
           children: <Widget>[
             new CircleAvatar(
                 child: _pickedIcon
             ),
+            new Container(
+              constraints: new BoxConstraints(maxWidth: 70.0),
+              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: _avatarTextStyle,),
+            ),
 
-            new Text(capitalize(item.who), style: _avatarTextStyle,),
           ],
         )
       ),
       new Flexible(
         child: new Padding(
           padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
-          child:  _isStanzas(item) ? _stanzasColumn(item) : _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
+          child:  _isStanzas(item) ? stanzasColumn(item) : _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
         )
       ),
     ],
   );
 }
 
-Widget _peopleItem(item, prevItemWho){
+Widget _peopleItem(item, language, prevItemWho){
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.end,
@@ -484,7 +504,7 @@ Widget _peopleItem(item, prevItemWho){
                 top:12.0
             ),
 
-            child: _isStanzas(item) ? _stanzasColumn(item, style: _peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, _peopleItemTextStyle, TextAlign.right) : _itemText(item, _peopleItemTextStyle, TextAlign.right),
+            child: _isStanzas(item) ? stanzasColumn(item, style: _peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, _peopleItemTextStyle, TextAlign.right) : _itemText(item, _peopleItemTextStyle, TextAlign.right),
 
           )
       ),
@@ -496,7 +516,10 @@ Widget _peopleItem(item, prevItemWho){
                   child: Icon(Icons.people)
               ),
 
-              new Text(capitalize(item.who), style: _avatarTextStyle,),
+              new Container(
+                constraints: new BoxConstraints(maxWidth: 70.0),
+                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: _avatarTextStyle, textAlign: TextAlign.center,),
+              ),
             ],
           )
       ),
@@ -504,14 +527,14 @@ Widget _peopleItem(item, prevItemWho){
   );
 }
 
-Widget _genericItem(item){
+Widget genericItem(item){
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       new Expanded(
         child: new Padding(
           child: _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
-          padding: EdgeInsets.symmetric(horizontal: 18.0),
+          padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
         ),
       )
 
@@ -549,7 +572,12 @@ Widget _unknownItem(item){
 }
 
 bool _doesItemHasRef(item){
-  return item.ref != null;
+  try {
+    return item.ref != null;
+  }
+  catch (e) {
+    return false;
+  }
 }
 
 bool _isStanzas(item){
@@ -586,7 +614,7 @@ RichText _itemTextWithRef(item,[TextStyle style, TextAlign alignment = TextAlign
 //text style is passed on, return type can be either column or list.
 //column is used for general creation, but a list will be used in an expanded
 //indexed item.
-dynamic _stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
+dynamic stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
   List<Widget> stanzaList = new List();
 
   if (item.title != null) {
@@ -600,17 +628,17 @@ dynamic _stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
   var _itemType = item.type;
   for (var stanza in item.stanzas){
     Widget row;
-    if(_itemType == 'versedStanzas') {
+    if(_itemType == 'versedStanzas' && stanza.type != 'gloria') {
       row = _versedStanza(stanza, style);
-    }else if(_itemType == 'stanzas'){
+    }else {
       row= _stanza(stanza, style);
     }
 
     var padding = new Padding(
-      padding: EdgeInsets.symmetric(vertical: 0.0),
+      padding: EdgeInsets.symmetric(vertical: 3.0),
       child: row,
     );
-    if (row != null) stanzaList.add(row);
+    if (row != null) stanzaList.add(padding);
   }
 
   if (returnType == 'list'){
@@ -635,7 +663,7 @@ Widget _versedStanza(stanza, [TextStyle style]){
           child: new Padding(
             padding: EdgeInsets.only(
             left: stanza.verse != null ? 0.0 : 18.0,
-            bottom: stanza.verse != null ? 0.0 : 6.0,
+            bottom: stanza.verse != null ? 0.0 : 3.0,
             ),
             child: _itemText(stanza,style),
           ),
@@ -661,6 +689,141 @@ Widget _stanza(stanza, [TextStyle style]){
   );
 }
 
+Widget buildCollect(Collect collect){
+  List<Widget> children = [];
+
+  if(collect.title != null){
+    children.add(collectTitle(collect.title));
+  }
+  if(collect.subtitle != null){
+    children.add(collectSubtitle(collect.subtitle));
+  }
+
+  if(collect.type != null){
+    children.add(collectProperty(collect.type));
+  }
+
+  if (collect.date != null){
+    children.add(collectProperty(collect.date));
+  }
+
+  if (collect.color != null){
+    children.add(collectProperty(collect.color));
+  }
+
+  if (collect.ref != null){
+    children.add(collectProperty(collect.ref));
+  }
+
+  if (collect.collectRubric  != null || collect.collectPrayers != null){
+    children.add(prayerHeader('Collect'));
+  }
+  if (collect.collectRubric != null){
+    children.add(_rubric(collect.collectRubric));
+  }
+
+  if (collect.collectPrayers != null){
+
+    children.addAll(prayers(collect.collectPrayers));
+
+  }
+
+  if (collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) {
+    children.add(prayerHeader('Post-Communion Prayer'));
+  }
+
+  if (collect.postCommunionRubric != null){
+    children.add(_rubric(collect.postCommunionRubric));
+  }
+
+  if (collect.postCommunionPrayers != null){
+    List<Widget> collectList = [];
+    for (var prayer in collect.postCommunionPrayers){
+
+      if (prayer.type == 'versedStanzas') {
+        collectList.add(stanzasColumn(prayer));
+      } else if (prayer.type == 'stanzas' ){
+        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
+      } else {
+        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text)));
+      }
+    }
+    if (collectList.length > 1){
+      collectList.insert(1,_rubric('Or'));
+    }
+    children.addAll(collectList);
+  }
+
+  return new Column(
+    children: children,
+  );
+}
+
+Widget collectTitle(title){
+  return Padding(
+      padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+      child: new Text(
+        title,
+        style: _canticleTitleTextStyle,
+        textAlign: TextAlign.center,
+      ),
+
+  );
+}
+
+Widget collectSubtitle(title){
+  return Padding(
+      padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+      child: new Text(
+        title,
+        style: _collectSubtitleStyle,
+        textAlign: TextAlign.center,
+      )
+  );
+}
+
+Widget prayerHeader(header){
+  return Padding(
+      padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
+      child: new Text(
+        header,
+        style: _collectPrayerHeaderStyle,
+        textAlign: TextAlign.center,
+      )
+  );
+}
+
+List<Widget> prayers(listOfPrayers){
+  List<Widget> collectList = [];
+  for (var prayer in listOfPrayers){
+
+    if (prayer.type == 'versedStanzas') {
+      collectList.add(stanzasColumn(prayer));
+    } else if (prayer.type == 'stanzas' ){
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
+    } else {
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text != null ? prayer.text : '')));
+    }
+  }
+  if (collectList.length > 1){
+    collectList.insert(1,_rubric('Or'));
+  }
+
+  return collectList;
+}
+
+
+Widget collectProperty(property){
+  return Padding(
+      padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+      child: new Text(
+        property,
+        textAlign: TextAlign.center,
+        style: _collectPropertyStyle,
+      ),
+  );
+}
+
 Widget _canticleTitle(title){
   return Padding(
       padding: new EdgeInsets.only(top:12.0, bottom: 8.0),
@@ -671,6 +834,8 @@ Widget _canticleTitle(title){
       )
   );
 }
+
+
 
 Widget _titleReference(ref){
   return Text(
@@ -687,6 +852,14 @@ TextStyle _majorHeaderTextStyle = new TextStyle(fontSize: 20.0, );
 TextStyle _avatarTextStyle = new TextStyle(fontSize: 10.0, color: Colors.black54);
 TextStyle _canticleTitleTextStyle = new TextStyle(fontSize: 16.0);
 TextStyle _titleRefTextStyle = new TextStyle(fontStyle: FontStyle.italic, fontSize: 14.0, );
+TextStyle _collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic);
+TextStyle _collectPropertyStyle = new TextStyle(fontStyle: FontStyle.italic,  fontSize: 10.0);
+TextStyle _collectPrayerHeaderStyle = new TextStyle(fontWeight: FontWeight.bold);
 
 
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
+String getLanguageFromIndex(prayerBookIndex){
+  return globals.allPrayerBooks.getPrayerBook(prayerBookIndex).language;
+
+}

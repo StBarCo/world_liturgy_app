@@ -10,27 +10,36 @@ class Day {
 
   DateTime date;
   String season;
-  String weekId;
+  String weekID;
   String seasonColor;
   String principalFeastID;
   String principalColor;
   String principalOptionalCelebrationSunday;
-  String holyDayId;
+  String holyDayID;
   String holyDayColor;
   String holyDayType;
+  int weekServiceIndex;
+  int weekSectionIndex;
+  int weekCollectIndex;
+  int principalFeastServiceIndex;
+  int principalFeastSectionIndex;
+  int principalFeastCollectIndex;
+  int holyDayServiceIndex;
+  int holyDaySectionIndex;
+  int holyDayCollectIndex;
 
-  static final columns = ["date", "season", "weekId", "seasonColor", "principalFeastID", "principalColor", "principalOptionalCelebrationSunday", "holyDayId", "holyDayColor", "holyDayType" ];
+  static final columns = ["date", "season", "weekId", "seasonColor", "principalFeastID", "principalColor", "principalOptionalCelebrationSunday", "holyDayId", "holyDayColor", "holyDayType", 'weekServiceIndex', 'weekSectionIndex', 'weekCollectIndex', 'principalFeastServiceIndex', 'principalFeastSectionIndex', 'principalFeastCollectIndex', 'holyDayServiceIndex', 'holyDaySectionIndex', 'holyDayCollectIndex' ];
 
   Map toMap() {
     Map map = {
     "date": constructDaysSince(date),
     "season": season,
-    "weekId": weekId,
+    "weekId": weekID,
     "seasonColor": seasonColor,
     "principalFeastID": principalFeastID,
     "principalColor": principalColor,
     "principalOptionalCelebrationSunday": principalOptionalCelebrationSunday,
-    "holyDayId": holyDayId,
+    "holyDayId": holyDayID,
     "holyDayColor": holyDayColor,
     "holyDayType": holyDayType,
     };
@@ -42,14 +51,23 @@ class Day {
     Day day = new Day();
     day.date = decodeDaysSince(map["date"]);
     day.season = map["season"];
-    day.weekId = map["weekId"];
+    day.weekID = map["weekID"];
     day.seasonColor = map["seasonColor"];
     day.principalFeastID = map["principalFeastID"];
     day.principalColor = map["principalColor"];
     day.principalOptionalCelebrationSunday = map["principalOptionalCelebrationSunday"];
-    day.holyDayId = map["holyDayId"];
+    day.holyDayID = map["holyDayID"];
     day.holyDayColor = map["holyDayColor"];
     day.holyDayType = map["holyDayType"];
+    day.weekServiceIndex = map['weekServiceIndex'];
+    day.weekSectionIndex = map['weekSectionIndex'];
+    day.weekCollectIndex = map['weekCollectIndex'];
+    day.principalFeastServiceIndex = map['principalFeastServiceIndex'];
+    day.principalFeastSectionIndex = map['principalFeastSectionIndex'];
+    day.principalFeastCollectIndex = map['principalFeastCollectIndex'];
+    day.holyDayServiceIndex = map['holyDayServiceIndex'];
+    day.holyDaySectionIndex = map['holyDaySectionIndex'];
+    day.holyDayCollectIndex = map['holyDayCollectIndex'];
 
     return day;
   }
@@ -57,21 +75,21 @@ class Day {
 
 }
 
-class SeasonOrFeast{
-  SeasonOrFeast();
+class Prayer{
+  Prayer();
 
   String id;
-  int prayerBookIndex;
+//  int prayerBookIndex;
   int serviceIndex;
   int sectionIndex;
   int collectIndex;
 
-  static final columns = ["id", "prayerBookIndex", "serviceIndex", "sectionIndex", "collectIndex" ];
+  static final columns = ["id", "serviceIndex", "sectionIndex", "collectIndex" ];
 
   Map toMap() {
     Map map = {
       "id": id,
-      "prayerBookIndex": prayerBookIndex,
+//      "prayerBookIndex": prayerBookIndex,
       "serviceIndex": serviceIndex,
       "sectionIndex": sectionIndex,
       "collectIndex": collectIndex,
@@ -81,9 +99,9 @@ class SeasonOrFeast{
   }
 
   static fromMap(Map map) {
-    SeasonOrFeast collect = new SeasonOrFeast();
+    Prayer collect = new Prayer();
     collect.id = map["id"];
-    collect.prayerBookIndex = map["prayerBookIndex"];
+//    collect.prayerBookIndex = map["prayerBookIndex"];
     collect.serviceIndex = map["serviceIndex"];
     collect.sectionIndex = map["sectionIndex"];
     collect.collectIndex = map["collectIndex"];
@@ -98,6 +116,7 @@ int constructDaysSince(DateTime date){
   return date.difference(new DateTime(1970,1,1)).inDays;
 }
 
+
 DateTime decodeDaysSince(days){
   return DateTime(1970,1,1).add(new Duration(days: days ));
 }
@@ -105,43 +124,73 @@ DateTime decodeDaysSince(days){
 
 Future<List> calculateCalendarsForDatabase()  async{
   CalendarScaffold calendar = await loadCalendar();
+  Map collectIndexes = calculateSeasonsAndFeastsIndexForDatabase();
 
   List listAsMap = [];
   int firstYear = DateTime.now().year;
   for (int year = firstYear; year >= firstYear+2; year++ ) {
-    listAsMap.addAll(createMapOfYear(calendar, year));
+    listAsMap.addAll(createMapOfYear(calendar, year, collectIndexes));
   }
 
 //  List<Day> days = [];
 //  listAsMap.forEach((DateTime date, dynamic day) => days.add(Day.fromMap(v)) );
 
-  return createMapOfYear(calendar, 2018);
+  return createMapOfYear(calendar, 2017, collectIndexes);
 
 
 }
 
-List calculateSeasonsAndFeastsIndexForDatabase(){
+Map calculateSeasonsAndFeastsIndexForDatabase(){
   List collects = [];
+  Map collectsVerify = {};
+
   globals.allPrayerBooks.prayerBooks.asMap().forEach((prayerBookIndex, prayerBook) {
+
     int serviceIndex = prayerBook.getServiceIndexById("collects");
     if (serviceIndex != -1){
       prayerBook.services[serviceIndex].sections.asMap().forEach((sectionIndex,
           section) {
         if (section.collects != null) {
           section.collects.asMap().forEach((collectIndex, collect) {
-            collects.add({
-              "id": collect.id,
-              "prayerBookIndex": prayerBookIndex,
-              "serviceIndex": serviceIndex,
-              "sectionIndex": sectionIndex,
-              "collectIndex": collectIndex
-            });
+            if(collectsVerify[collect.id] == null){
+              collectsVerify[collect.id] = {
+                "id": collect.id,
+//              "prayerBookIndex": prayerBookIndex,
+                "serviceIndex": serviceIndex,
+                "sectionIndex": sectionIndex,
+                "collectIndex": collectIndex
+                };
+            }
+            if(indexVerified(collectsVerify[collect.id], serviceIndex, sectionIndex, collectIndex) ){
+              collects.add({
+                "id": collect.id,
+//              "prayerBookIndex": prayerBookIndex,
+                "serviceIndex": serviceIndex,
+                "sectionIndex": sectionIndex,
+                "collectIndex": collectIndex
+              });
+            } else {
+              print("Collect Indexes do not match!!");
+              print("Previous");
+              print(collectsVerify[collect.id].toString());
+              print("Current Service:" + serviceIndex.toString() + " Section:" + sectionIndex.toString() + " Collect:" + collectIndex.toString());
+            }
+
+
           });
         }
       });
     }
   });
-  return collects;
+//  return collects;
+  return collectsVerify;
+
+}
+
+bool indexVerified(previous, serviceIndex, sectionIndex, collectIndex){
+  return previous['serviceIndex'] == serviceIndex
+      && previous['sectionIndex'] == sectionIndex
+      && previous['collectIndex'] == collectIndex;
 
 }
 
@@ -149,7 +198,7 @@ Day dayFromMap(DateTime dateString, dynamic day) {
   return Day.fromMap(day);
 }
 
-List createMapOfYear(CalendarScaffold calendar , int beginYear) {
+List createMapOfYear(CalendarScaffold calendar , int beginYear, collectIndexes) {
 //  setCalendar();
 
   Map<DateTime, dynamic> calendarMap = {};
@@ -191,8 +240,29 @@ List createMapOfYear(CalendarScaffold calendar , int beginYear) {
         if(day.weekday == DateTime.sunday){
           season.weekOrder == 'reversed' ? week -=1 : week += 1;
         }
-        String weekId = season.id+week.toString();
-        calendarMap[day] = {'date': constructDaysSince(day), 'season': season.id, 'weekId': weekId, 'seasonColor': season.color};
+        String weekID = season.id+week.toString();
+        calendarMap[day] = {
+          'date': constructDaysSince(day),
+          'season': season.id,
+          'weekID': weekID,
+          'seasonColor': season.color,
+        };
+        String indexID;
+        if (collectIndexes[weekID] != null) {
+          indexID = weekID;
+        }else {
+          indexID = weekID.substring(0, weekID.length - 1);
+        }
+        if (collectIndexes[indexID] != null){
+          calendarMap[day].addAll({
+            'weekServiceIndex': collectIndexes[indexID]['serviceIndex'],
+            'weekSectionIndex': collectIndexes[indexID]['sectionIndex'],
+            'weekCollectIndex': collectIndexes[indexID]['collectIndex'],
+          });
+
+
+        }
+        print(currentDay.toString());
       }
 
       currentDay = endDate.add(oneDay);
@@ -213,37 +283,77 @@ List createMapOfYear(CalendarScaffold calendar , int beginYear) {
         if (calendarMap.containsKey(dateToAdd)){
           if (holyDay.type == 'principal') {
             calendarMap[dateToAdd].addAll({
-              'principalFeastId': holyDay.id,
+              'principalFeastID': holyDay.id,
               'principalColor': holyDay.color,
-              'principalOptionalCelebrationSunday': holyDay.optionalCelebrationSunday
+              'principalOptionalCelebrationSunday': holyDay.optionalCelebrationSunday,
             });
+            if ( collectIndexes[holyDay.id] != null){
+              calendarMap[dateToAdd].addAll({
+                'principalFeastServiceIndex': collectIndexes[holyDay.id]['serviceIndex'],
+                'principalFeastSectionIndex': collectIndexes[holyDay.id]['sectionIndex'],
+                'principalFeastCollectIndex': collectIndexes[holyDay.id]['collectIndex']
+              });
+
+            }
           } else {
 
             calendarMap[dateToAdd].addAll({
-              'holyDayId': holyDay.id,
+              'holyDayID': holyDay.id,
               'holyDayColor': holyDay.color,
               'holyDayType': holyDay.type,
+              'principalOptionalCelebrationSunday': holyDay.optionalCelebrationSunday,
+
 
             });
+
+            if ( collectIndexes[holyDay.id] != null){
+              calendarMap[dateToAdd].addAll({
+                'holyDayServiceIndex': collectIndexes[holyDay.id]['serviceIndex'],
+                'holyDaySectionIndex': collectIndexes[holyDay.id]['sectionIndex'],
+                'holyDayCollectIndex': collectIndexes[holyDay.id]['collectIndex']
+              });
+
+            }
           }
 
           if (holyDay.optionalCelebrationSunday == 'true' && dateToAdd.weekday != DateTime.sunday ){
             dateToAdd = dateToAdd.add(new Duration(days: 7-dateToAdd.weekday));
             if (holyDay.type == 'principal') {
               calendarMap[dateToAdd].addAll({
-                'principalFeastId': holyDay.id,
+                'principalFeastID': holyDay.id,
                 'principalColor': holyDay.color,
                 'principalOptionalCelebrationSunday': holyDay
-                    .optionalCelebrationSunday
+                    .optionalCelebrationSunday,
               });
+              if ( collectIndexes[holyDay.id] != null) {
+                calendarMap[dateToAdd].addAll({
+                  'principalFeastServiceIndex': collectIndexes[holyDay
+                      .id]['serviceIndex'],
+                  'principalFeastSectionIndex': collectIndexes[holyDay
+                      .id]['sectionIndex'],
+                  'principalFeastCollectIndex': collectIndexes[holyDay
+                      .id]['collectIndex']
+                });
+              }
             } else {
 
               calendarMap[dateToAdd].addAll({
-                'holyDayId': holyDay.id,
+                'holyDayID': holyDay.id,
                 'holyDayColor': holyDay.color,
                 'holyDayType': holyDay.type,
-
+                'holyDayServiceIndex': collectIndexes[holyDay.id]['serviceIndex'],
+                'holyDaySectionIndex': collectIndexes[holyDay.id]['sectionIndex'],
+                'holyDayCollectIndex': collectIndexes[holyDay.id]['collectIndex']
               });
+
+              if ( collectIndexes[holyDay.id] != null){
+                calendarMap[dateToAdd].addAll({
+                  'holyDayServiceIndex': collectIndexes[holyDay.id]['serviceIndex'],
+                  'holyDaySectionIndex': collectIndexes[holyDay.id]['sectionIndex'],
+                  'holyDayCollectIndex': collectIndexes[holyDay.id]['collectIndex']
+                });
+
+              }
             }
           }
         }

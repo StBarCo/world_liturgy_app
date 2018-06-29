@@ -102,6 +102,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
       json['type'] as String,
       json['includeGloria'] as String,
       json['title'] == null ? null : _asAttribute(json['title']),
+      json['other'] as String,
       json['ref'] == null ? null : _asAttribute(json['ref']),
       json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 }
@@ -113,6 +114,7 @@ abstract class _$ItemSerializerMixin {
   String get includeGloria;
   String get title;
   String get ref;
+  String get other;
   List<Stanza> get stanzas;
   Map<String, dynamic> toJson() => <String, dynamic>{
         r'$t': $t,
@@ -121,6 +123,7 @@ abstract class _$ItemSerializerMixin {
         'includeGloria': includeGloria,
         'title': title,
         'ref': ref,
+        'other': other,
         'stanza': stanzas
       };
 }
@@ -129,6 +132,7 @@ Collect _$CollectFromJson(Map<String, dynamic> json) {
   return new Collect(
       json['id'] as String,
       json['title'] == null ? null : _asAttribute(json['title']),
+      json['subtitle'] == null ? null : _asAttribute(json['subtitle']),
       json['ref'] == null ? null : _asAttribute(json['ref']),
       json['color'] == null ? null : _asAttribute(json['color']),
       json['date'] == null ? null : _asAttribute(json['date']),
@@ -148,6 +152,7 @@ Collect _$CollectFromJson(Map<String, dynamic> json) {
 abstract class _$CollectSerializerMixin {
   String get id;
   String get title;
+  String get subtitle;
   String get ref;
   String get color;
   String get date;
@@ -159,6 +164,7 @@ abstract class _$CollectSerializerMixin {
   Map<String, dynamic> toJson() => <String, dynamic>{
         'id': id,
         'title': title,
+        'subtitle': subtitle,
         'ref': ref,
         'color': color,
         'date': date,
@@ -197,14 +203,19 @@ abstract class _$PostCommunionPrayerSerializerMixin {
 }
 
 Stanza _$StanzaFromJson(Map<String, dynamic> json) {
-  return new Stanza(
-      json['verse'] as String, json['indent'] as String, json[r'$t'] as String);
+  return new Stanza(json['verse'] as String, json['indent'] as String,
+      json[r'$t'] as String, json['type'] as String);
 }
 
 abstract class _$StanzaSerializerMixin {
   String get $t;
   String get verse;
   String get indent;
-  Map<String, dynamic> toJson() =>
-      <String, dynamic>{r'$t': $t, 'verse': verse, 'indent': indent};
+  String get type;
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        r'$t': $t,
+        'verse': verse,
+        'indent': indent,
+        'type': type
+      };
 }

@@ -14,6 +14,8 @@
                     <special>beginningOfYear</special>
 
                     <!--start date and end date can either be a hard date using 'month' and 'day' tags
+
+
                     or they can be based on a special date of the church year: beginningOfYear, endOfYear, christmas, ashWednesday, easter, pentecost
 
                     the special start date can take a days_after element, and end date will take days_before. If days before or days after is not specified, then it will take the date as given.-->
@@ -95,18 +97,17 @@
                 <length_unit>days</length_unit>
             </season>
             <season>
-                <id>afterPentecost</id>
+                <id>pentecost</id>
                 <type>flexibleLength</type>
                 <flexible_at>end</flexible_at>
                 <number_weeks_stuck_to_end>5</number_weeks_stuck_to_end>
 
                 <color>Green</color>
                 <order>1</order>
-                <start_week>0</start_week>
+                <start_week>1</start_week>
                 <!--<end_week>24</end_week>-->
                 <start_date>
                     <special>pentecost</special>
-                    <days_after>1</days_after>
                 </start_date>
                 <end_date>
                     <special>endOfYear</special>
@@ -175,6 +176,14 @@
             <color>Gold or White</color>
         </holy_day>
         <holy_day>
+            <id>christmasNight</id>
+            <title>Christmas</title>
+            <date>
+                <special>christmas</special>
+            </date>
+            <color>Gold or White</color>
+        </holy_day>
+        <holy_day>
             <id>epiphany</id>
             <title>Epiphany</title>
             <type>principal</type>
@@ -202,6 +211,14 @@
                 <special>ashWednesday</special>
             </date>
             <color>Purple or Lent Array</color>
+        </holy_day>
+        <holy_day>
+          <id>motheringSunday</id>
+          <title>Mothering Sunday</title>
+          <date>
+            <special>easter</special>
+            <days_before>21</days_before>
+          </date>
         </holy_day>
         <holy_day>
             <id>palmSunday</id>
@@ -376,7 +393,7 @@
             </date>
         </holy_day>
         <holy_day>
-            <id>stPhillipAndStJames</id>
+            <id>stPhilipAndStJames</id>
             <title>St. Phillip and St. James</title>
             <type>Apostles</type>
             <date>

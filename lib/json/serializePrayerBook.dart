@@ -12,6 +12,19 @@ class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerM
       );
 
   factory PrayerBooksContainer.fromJson(Map<String, dynamic> json) => _$PrayerBooksContainerFromJson(json);
+
+  getPrayerBookIndexById(String id){
+    List list = [];
+    this.prayerBooks.forEach((prayerBook){
+      list.add(prayerBook.id);
+    });
+
+    return list.indexOf(id);
+  }
+
+  getPrayerBook(String id){
+    return this.prayerBooks.where((prayerBook) => prayerBook.id == id).toList().first;
+  }
 }
 
 @JsonSerializable()
@@ -117,14 +130,13 @@ class Section extends Object with _$SectionSerializerMixin {
     if (this.number != null){
       string += this.number.toString() + ': ';
     }
-    if (this.majorHeader != null){
-      string += this.majorHeader + ' ';
-    }else if (this.title != null){
-      string += this.title + ' - ';
-    }else if (this.rubric !=null){
+    if (this.title != null){
+      string += this.title;
+    } else if (this.rubric != null){
       string += this.rubric;
-    }else if (this.items[0]?.text != null){
-      string += this.items[0].text.toString();
+
+    } else {
+      string += this.items.first.text;
     }
 
     if (string.length > 27){
@@ -200,6 +212,9 @@ class Item extends Object with _$ItemSerializerMixin{
   @JsonKey(nullable: true, fromJson: _asAttribute)
   final String ref;
 
+  @JsonKey(nullable: true)
+  final String other;
+
   @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
   final List<Stanza> stanzas;
 
@@ -209,6 +224,7 @@ class Item extends Object with _$ItemSerializerMixin{
       this.type,
       this.includeGloria,
       this.title,
+      this.other,
       this.ref,
       this.stanzas,
       );
@@ -224,6 +240,9 @@ class Collect extends Object with _$CollectSerializerMixin{
 
   @JsonKey(nullable: true, fromJson: _asAttribute)
   final String title;
+
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String subtitle;
 
   @JsonKey(nullable: true, fromJson: _asAttribute)
   final String ref;
@@ -253,6 +272,7 @@ class Collect extends Object with _$CollectSerializerMixin{
   Collect(
       this.id,
       this.title,
+      this.subtitle,
       this.ref,
       this.color,
       this.date,
@@ -277,6 +297,9 @@ class CollectPrayer extends Object with _$CollectPrayerSerializerMixin{
   @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
   final List<Stanza> stanzas;
 
+  String get title => null;
+  String get ref => null;
+
   CollectPrayer(
       this.$t,
       this.type,
@@ -295,6 +318,9 @@ class PostCommunionPrayer extends Object with _$PostCommunionPrayerSerializerMix
 
   @JsonKey(nullable: true, name:'stanza', fromJson: _decodeStanza)
   final List<Stanza> stanzas;
+
+  String get title => null;
+  String get ref => null;
 
   PostCommunionPrayer(
       this.$t,
@@ -317,10 +343,14 @@ class Stanza extends Object with _$StanzaSerializerMixin {
   @JsonKey(nullable: true)
   final String indent;
 
+  @JsonKey(nullable: true)
+  final String type;
+
   Stanza(
       this.verse,
       this.indent,
-      this.$t);
+      this.$t,
+      this.type);
   factory Stanza.fromJson(Map<String, dynamic> json) => _$StanzaFromJson(json);
 }
 
@@ -461,9 +491,23 @@ _decodePostCommunionPrayers(itemOrList){
 }
 
 String _asAttribute(item){
-  return clean(item[r'$t']);
+  try {
+    return clean(item[r'$t']);
+  } catch (e){
+    print(e);
+    print("Error serializing PrayerBooks in _asAttribute function");
+    print(item.toString());
+  }
 }
 
 int _asIntAttribute(item){
-  return int.parse(item[r'$t']);
+
+  try {
+    return int.parse(item[r'$t']);
+  } catch (e){
+    print(e);
+    print("Error serializing PrayerBooks in _asIntAttribute function");
+    print(item.toString());
+  }
+
 }
