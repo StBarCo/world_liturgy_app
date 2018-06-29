@@ -5,7 +5,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:synchronized/synchronized.dart';
-import 'package:world_liturgy_app/globals.dart' as globals;
 
 class DatabaseClient {
   Database _db;
@@ -31,8 +30,11 @@ class DatabaseClient {
     String dbPath = join(path.path, "database.db");
 
 
-    _db = await openDatabase(dbPath, version: 1,
-        onCreate: this._onCreate);
+    _db = await openDatabase(dbPath, version: 9,
+        onCreate: this._onCreate,
+        onUpgrade: onDatabaseDowngradeDelete,
+        onDowngrade: onDatabaseDowngradeDelete,
+        );
 
 //    set current day into globals
 

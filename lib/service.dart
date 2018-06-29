@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/json/serializeCalendar.dart';
 import 'package:world_liturgy_app/calendar.dart';
 
 class ServiceView extends StatelessWidget{
@@ -84,45 +83,58 @@ class ServiceView extends StatelessWidget{
 
       if (section.type == 'collectOfTheDay'){
         itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "collect",) );
-      }
+      } else if (section.type == 'postCommunionOfTheDay') {
+        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "postCommunion",) );
 
-      if (section.visibility == 'collapsed') {
-        itemsList.add(_buildHeaderForCollapsed(context, section, language));
-      } else if (section.visibility == 'indexed'){
-        itemsList.add(_buildSectionHeader( section));
-        itemsList.add(_buildLinksForIndexed(context, section, language));
-      } else if (section.visibility == 'hidden') {
-        itemsList.add(new Row());
+      } else if (section.type == 'scheduled' && section.schedule.contains(globals.currentDay.season)) {
+        itemsList.addAll(_buildNormalSection(section, language));
+      } else if (section.type == 'scheduledFeast' && (section.schedule == globals.currentDay.principalFeastID || section.schedule == globals.currentDay.holyDayID)){
+        itemsList.addAll(_buildNormalSection(section, language));
       } else {
-        if (_sectionHasHeader(section)) {
-          itemsList.add(_buildSectionHeader(section));
+        if (section.visibility == 'collapsed') {
+          itemsList.add(_buildHeaderForCollapsed(context, section, language));
+        } else if (section.visibility == 'indexed'){
+          itemsList.add(_buildSectionHeader( section));
+          itemsList.add(_buildLinksForIndexed(context, section, language));
+        } else if (section.visibility == 'hidden') {
+          itemsList.add(new Row());
+        } else {
+          itemsList.addAll(_buildNormalSection(section, language));
         }
-          if (section.items != null) {
-            var prevItemWho;
-            for (var item in section.items) {
-              Widget row = _buildItem(item, language, prevItemWho, );
-              var padding = new Padding(
-                padding: EdgeInsets.only(top: 0.0),
-                child: row,
-              );
-              if (row != null) itemsList.add(padding);
-              prevItemWho = item.who;
-            }
-          } else if (section.collects != null){
-            for (var collect in section.collects) {
-              Widget column = buildCollect(collect);
-              var padding = new Padding(
-                padding: EdgeInsets.only(bottom: 10.0),
-                child: column,
-              );
-              if (column != null) itemsList.add(padding);
 
-            }
-//            itemsList.add(new Text("This is a collect"));
-          }
-        }
-        return itemsList;
       }
+      return itemsList;
+    }
+
+  List<Widget> _buildNormalSection(section, language){
+    List<Widget> itemsList = [];
+
+    if (_sectionHasHeader(section)) {
+      itemsList.add(_buildSectionHeader(section));
+    }
+    if (section.items != null) {
+      var prevItemWho;
+      for (var item in section.items) {
+        Widget row = _buildItem(item, language, prevItemWho, );
+        var padding = new Padding(
+          padding: EdgeInsets.only(top: 0.0),
+          child: row,
+        );
+        if (row != null) itemsList.add(padding);
+        prevItemWho = item.who;
+      }
+    } else if (section.collects != null){
+      for (var collect in section.collects) {
+        Widget column = buildDailyPrayers(collect, language);
+        var padding = new Padding(
+          padding: EdgeInsets.only(bottom: 30.0),
+          child: column,
+        );
+        if (column != null) itemsList.add(padding);
+      }
+    }
+    return itemsList;
+  }
 
 
   _buildHeaderForCollapsed(context, section, language){
@@ -137,7 +149,7 @@ class ServiceView extends StatelessWidget{
         child: new Column(
           children: <Widget>[
             _buildSectionHeader(section),
-            new Text(capitalize(globals.translate(language,"tapToExpand")), style: _rubricTextStyle,)
+            new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: _rubricTextStyle,)
           ],
         )
     );
@@ -169,7 +181,7 @@ class ServiceView extends StatelessWidget{
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(capitalize(globals.translate(language,"tapToExpand")), style: _rubricTextStyle, textAlign: TextAlign.center),
+                child: new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: _rubricTextStyle, textAlign: TextAlign.center),
               ),
             ],
           )
@@ -210,6 +222,7 @@ class DrawerPrayerBookEntry extends StatelessWidget {
     for (var service in prayerBook.services) {
       servicesList.add(new Padding(
           padding: EdgeInsets.only(left:20.0),
+
           child: new ListTile(
             title: new Text(service.title ?? 'No title',),
             selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
@@ -223,6 +236,7 @@ class DrawerPrayerBookEntry extends StatelessWidget {
                 },
               ));
             },
+            dense: true,
           )
       ));
     }
@@ -689,54 +703,62 @@ Widget _stanza(stanza, [TextStyle style]){
   );
 }
 
-Widget buildCollect(Collect collect){
+Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
+
+  Map<String, List> buildTypes = {
+    'full': ['title', 'subtitle', 'type', 'date', 'color', 'ref', 'collects', 'postCommunions' ],
+    'collect':['title', 'subtitle', 'type', 'date', 'collects'],
+    'postCommunion':['title', 'subtitle', 'type', 'date', 'postCommunions'],
+  };
+
+  List sectionsToBuild = buildTypes[buildType];
   List<Widget> children = [];
 
-  if(collect.title != null){
+  if(collect.title != null && sectionsToBuild.contains('title')){
     children.add(collectTitle(collect.title));
   }
-  if(collect.subtitle != null){
+  if(collect.subtitle != null && sectionsToBuild.contains('subtitle')){
     children.add(collectSubtitle(collect.subtitle));
   }
 
-  if(collect.type != null){
+  if(collect.type != null && sectionsToBuild.contains('type')){
     children.add(collectProperty(collect.type));
   }
 
-  if (collect.date != null){
+  if (collect.date != null && sectionsToBuild.contains('date')){
     children.add(collectProperty(collect.date));
   }
 
-  if (collect.color != null){
+  if (collect.color != null && sectionsToBuild.contains('color')){
     children.add(collectProperty(collect.color));
   }
 
-  if (collect.ref != null){
+  if (collect.ref != null && sectionsToBuild.contains('ref')){
     children.add(collectProperty(collect.ref));
   }
 
-  if (collect.collectRubric  != null || collect.collectPrayers != null){
-    children.add(prayerHeader('Collect'));
+  if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collect')){
+    children.add(prayerHeader(globals.translate(language, "collect")));
   }
-  if (collect.collectRubric != null){
+  if (collect.collectRubric != null  && sectionsToBuild.contains('collects')){
     children.add(_rubric(collect.collectRubric));
   }
 
-  if (collect.collectPrayers != null){
+  if (collect.collectPrayers != null  && sectionsToBuild.contains('collects')){
 
     children.addAll(prayers(collect.collectPrayers));
 
   }
 
-  if (collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) {
-    children.add(prayerHeader('Post-Communion Prayer'));
+  if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collect')) {
+    children.add(prayerHeader(globals.translate(language, 'postCommunionPrayer')));
   }
 
-  if (collect.postCommunionRubric != null){
+  if (collect.postCommunionRubric != null  && sectionsToBuild.contains('postCommunions')){
     children.add(_rubric(collect.postCommunionRubric));
   }
 
-  if (collect.postCommunionPrayers != null){
+  if (collect.postCommunionPrayers != null  && sectionsToBuild.contains('postCommunions')){
     List<Widget> collectList = [];
     for (var prayer in collect.postCommunionPrayers){
 
@@ -761,7 +783,7 @@ Widget buildCollect(Collect collect){
 
 Widget collectTitle(title){
   return Padding(
-      padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+      padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         title,
         style: _canticleTitleTextStyle,
@@ -802,7 +824,7 @@ List<Widget> prayers(listOfPrayers){
     } else if (prayer.type == 'stanzas' ){
       collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
     } else {
-      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text != null ? prayer.text : '')));
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0, vertical:6.0),child: Text(prayer.text != null ? prayer.text : '')));
     }
   }
   if (collectList.length > 1){
@@ -851,7 +873,7 @@ TextStyle _sectionTitleTextStyle = new TextStyle(fontSize: 18.0);
 TextStyle _majorHeaderTextStyle = new TextStyle(fontSize: 20.0, );
 TextStyle _avatarTextStyle = new TextStyle(fontSize: 10.0, color: Colors.black54);
 TextStyle _canticleTitleTextStyle = new TextStyle(fontSize: 16.0);
-TextStyle _titleRefTextStyle = new TextStyle(fontStyle: FontStyle.italic, fontSize: 14.0, );
+TextStyle _titleRefTextStyle = new TextStyle(fontStyle: FontStyle.italic, fontSize: 12.0, );
 TextStyle _collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic);
 TextStyle _collectPropertyStyle = new TextStyle(fontStyle: FontStyle.italic,  fontSize: 10.0);
 TextStyle _collectPrayerHeaderStyle = new TextStyle(fontWeight: FontWeight.bold);

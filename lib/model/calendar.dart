@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:async';
-import 'package:world_liturgy_app/data/database.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
@@ -127,16 +125,16 @@ Future<List> calculateCalendarsForDatabase()  async{
   Map collectIndexes = calculateSeasonsAndFeastsIndexForDatabase();
 
   List listAsMap = [];
-  int firstYear = DateTime.now().year;
-  for (int year = firstYear; year >= firstYear+2; year++ ) {
+  int firstYear = DateTime.now().year -1;
+  for (int year = firstYear; year <= firstYear+3; year++ ) {
     listAsMap.addAll(createMapOfYear(calendar, year, collectIndexes));
   }
 
 //  List<Day> days = [];
 //  listAsMap.forEach((DateTime date, dynamic day) => days.add(Day.fromMap(v)) );
 
-  return createMapOfYear(calendar, 2017, collectIndexes);
-
+//  return createMapOfYear(calendar, 2017, collectIndexes);
+  return listAsMap;
 
 }
 
@@ -262,7 +260,6 @@ List createMapOfYear(CalendarScaffold calendar , int beginYear, collectIndexes) 
 
 
         }
-        print(currentDay.toString());
       }
 
       currentDay = endDate.add(oneDay);

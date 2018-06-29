@@ -35,37 +35,46 @@ class _CalendarItemState extends State<CalendarItem> {
   @override
   Widget build(BuildContext context) {
     collectOfWeek = setCollectOfWeek(day, widget.currentPrayerBookIndex);
+    collectOfPrincipalFeast = setCollectOfPrincipalFeast(day, widget.currentPrayerBookIndex);
+    collectOfHolyDay = setCollectOfHolyDay(day, widget.currentPrayerBookIndex);
 
     if (collectOfWeek == null) {
       return new Text('');
     }
 
     return new Column(
-        children: buildCalendarItemList(collectOfWeek),
+        children: buildCalendarItemList(context),
     );
 
   }
 
-  List<Widget> buildCalendarItemList(collect){
+  List<Widget> buildCalendarItemList(context){
     List<Widget> list = [];
-    switch (widget.buildType){
-      case "collect":{
-        list.add(new Text(collect.title));
-        list.add(new Text(collect.subtitle));
-//          new Text(collect.collectRubric),
-//        list.add(buildItem(collect.collectPrayers[0]));
 
-        if (collect.collectPrayers[0].type == 'versedStanzas') {
-          list.add( stanzasColumn(collect.collectPrayers[0]));
-        } else if (collect.collectPrayers[0].type == 'stanzas' ){
-          list.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(collect.collectPrayers[0])));
-        } else {
-          list.add(genericItem(collect.collectPrayers[0]));
-        }
-      }
-      break;
-
+    if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, widget.buildType) ) {
+      list.add(buildDailyPrayers(collectOfPrincipalFeast,
+          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          widget.buildType));
     }
+
+    if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
+      list.add(buildDailyPrayers(collectOfWeek,
+          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          widget.buildType));
+    }
+
+    if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, widget.buildType)) {
+      list.add(buildDailyPrayers(collectOfHolyDay,
+          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          widget.buildType));
+    }
+
+    if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
+      list.add(buildDailyPrayers(collectOfWeek,
+          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          widget.buildType));
+    }
+
     return list;
   }
 
@@ -89,4 +98,42 @@ Collect setCollectOfWeek(day, prayerBookId){
   } else {
     return null;
   }
+}
+
+Collect setCollectOfPrincipalFeast(day, prayerBookId){
+  if(day.principalFeastID != null){
+    return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.principalFeastServiceIndex].sections[day.principalFeastSectionIndex].collects[day.principalFeastCollectIndex];
+  } else {
+    return null;
+  }
+}
+
+Collect setCollectOfHolyDay(day, prayerBookId){
+  if(day.holyDayID != null){
+    return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.holyDayServiceIndex].sections[day.holyDaySectionIndex].collects[day.holyDayCollectIndex];
+  } else {
+    return null;
+  }
+}
+
+bool hasContentToBuild(Collect collect, buildType){
+  switch (buildType){
+    case "full" :{
+      return true;
+    }
+    break;
+
+    case 'collect': {
+      return collect.collectPrayers !=null;
+    }
+    break;
+
+    case 'postCommunion':{
+      return collect.postCommunionPrayers != null;
+    }
+    break;
+  }
+  return false;
+
+
 }

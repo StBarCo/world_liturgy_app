@@ -10,9 +10,13 @@ DatabaseClient db;
 Day currentDay;
 Map translationMap = {
   'en_ke':{
+//    TRANSLATIONS FOR INSTRUCTIONS
     'or': 'or',
     'tapToExpand': 'Tap to Expand',
 
+//    TRANSLATIONS FOR TERMS
+    'collect': 'Collect',
+    'postCommunionPrayer': 'Post-Communion Prayer',
 
 
 //    TRANSLATIONS FOR LEADERS
@@ -36,6 +40,10 @@ Map translationMap = {
   'sw_ke':{
     'or': 'au',
     'tapToExpand': 'Bomba ili Kupanua',
+
+    //    TRANSLATIONS FOR TERMS
+    'collect': 'Sala',
+    'postCommunionPrayer': 'Baada ya Ushirika',
 
 
 
