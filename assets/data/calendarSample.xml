@@ -280,7 +280,7 @@
         <holy_day>
             <id>pentecost</id>
             <title>Day of Pentecost / Whit Sunday</title>
-            <type>Principal Feast</type>
+            <type>principal</type>
             <date>
                 <special>pentecost</special>
             </date>
@@ -289,7 +289,7 @@
         <holy_day>
             <id>trinity</id>
             <title>Trinity Sunday</title>
-            <type>Principal Feast</type>
+            <type>principal</type>
             <date>
                 <special>pentecost</special>
                 <days_after>7</days_after>

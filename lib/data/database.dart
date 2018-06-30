@@ -30,7 +30,7 @@ class DatabaseClient {
     String dbPath = join(path.path, "database.db");
 
 
-    _db = await openDatabase(dbPath, version: 9,
+    _db = await openDatabase(dbPath, version: 8,
         onCreate: this._onCreate,
         onUpgrade: onDatabaseDowngradeDelete,
         onDowngrade: onDatabaseDowngradeDelete,
