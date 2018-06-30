@@ -2,12 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/service.dart';
 import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
-import 'json/serializeCalendar.dart';
-//import 'dart:async';
-//import 'json/serializePrayerBook.dart';
-import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/data/database.dart';
-import 'package:sqflite/sqflite.dart';
 
 
 void main() async{

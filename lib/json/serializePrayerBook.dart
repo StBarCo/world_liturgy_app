@@ -497,6 +497,7 @@ String _asAttribute(item){
     print(e);
     print("Error serializing PrayerBooks in _asAttribute function");
     print(item.toString());
+    return null;
   }
 }
 
@@ -508,6 +509,7 @@ int _asIntAttribute(item){
     print(e);
     print("Error serializing PrayerBooks in _asIntAttribute function");
     print(item.toString());
+    return null;
   }
 
 }
