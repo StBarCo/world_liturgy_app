@@ -1,0 +1,44 @@
+
+
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="songbooks">
+    <xs:annotation>
+      <xs:documentation>&lt;?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?>  &lt;prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'></xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="book">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="title"/>
+              <xs:element name="song" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType mixed="true">
+                  <xs:choice maxOccurs="unbounded" minOccurs="0">
+                    <xs:element type="xs:short" name="number"/>
+                    <xs:element type="xs:string" name="title"/>
+                    <xs:element name="verse">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="chorus">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
+                        </xs:sequence>
+                        <xs:attribute type="xs:byte" name="afterVerse"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:choice>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:string" name="id"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

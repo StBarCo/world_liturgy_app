@@ -57,8 +57,11 @@ flutter:
   assets:
     - assets/data/prayerBooks.xml
     - assets/data/prayerBooksSample.xml
-#    - assets/data/calendar.xml
+    - assets/data/calendar.xml
     - assets/data/calendarSample.xml
+    - assets/data/songBooks.xml
+    - assets/data/songBooksSample.xml
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 

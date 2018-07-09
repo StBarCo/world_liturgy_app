@@ -737,7 +737,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
     children.add(collectProperty(collect.ref));
   }
 
-  if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collect')){
+  if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')){
     children.add(prayerHeader(globals.translate(language, "collect")));
   }
   if (collect.collectRubric != null  && sectionsToBuild.contains('collects')){
@@ -750,7 +750,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
 
   }
 
-  if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collect')) {
+  if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')) {
     children.add(prayerHeader(globals.translate(language, 'postCommunionPrayer')));
   }
 
