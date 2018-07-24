@@ -746,7 +746,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
 
   if (collect.collectPrayers != null  && sectionsToBuild.contains('collects')){
 
-    children.addAll(prayers(collect.collectPrayers));
+    children.addAll(prayers(collect.collectPrayers, language));
 
   }
 
@@ -759,21 +759,24 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   }
 
   if (collect.postCommunionPrayers != null  && sectionsToBuild.contains('postCommunions')){
-    List<Widget> collectList = [];
-    for (var prayer in collect.postCommunionPrayers){
+//    List<Widget> collectList = [];
+//    for (var prayer in collect.postCommunionPrayers){
+//
+//      if (prayer.type == 'versedStanzas') {
+//        collectList.add(stanzasColumn(prayer));
+//      } else if (prayer.type == 'stanzas' ){
+//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
+//      } else {
+//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text)));
+//      }
+//    }
+//    if (collectList.length > 1){
+//      collectList.insert(1,_rubric('Or'));
+//    }
+//    children.addAll(collectList);
+    children.addAll(prayers(collect.postCommunionPrayers, language));
 
-      if (prayer.type == 'versedStanzas') {
-        collectList.add(stanzasColumn(prayer));
-      } else if (prayer.type == 'stanzas' ){
-        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
-      } else {
-        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text)));
-      }
-    }
-    if (collectList.length > 1){
-      collectList.insert(1,_rubric('Or'));
-    }
-    children.addAll(collectList);
+
   }
 
   return new Column(
@@ -815,7 +818,7 @@ Widget prayerHeader(header){
   );
 }
 
-List<Widget> prayers(listOfPrayers){
+List<Widget> prayers(listOfPrayers, language){
   List<Widget> collectList = [];
   for (var prayer in listOfPrayers){
 
@@ -828,7 +831,7 @@ List<Widget> prayers(listOfPrayers){
     }
   }
   if (collectList.length > 1){
-    collectList.insert(1,_rubric('Or'));
+    collectList.insert(1,_rubric(globals.translate(language, 'or')));
   }
 
   return collectList;

@@ -93,7 +93,7 @@ checkForCurrentDay() {
 }
 
 Collect setCollectOfWeek(day, prayerBookId){
-  if(day.weekID != null){
+  if(day != null && day.weekID != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.weekServiceIndex].sections[day.weekSectionIndex].collects[day.weekCollectIndex];
   } else {
     return null;
@@ -101,7 +101,7 @@ Collect setCollectOfWeek(day, prayerBookId){
 }
 
 Collect setCollectOfPrincipalFeast(day, prayerBookId){
-  if(day.principalFeastID != null){
+  if(day != null && day.principalFeastID != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.principalFeastServiceIndex].sections[day.principalFeastSectionIndex].collects[day.principalFeastCollectIndex];
   } else {
     return null;
@@ -109,7 +109,7 @@ Collect setCollectOfPrincipalFeast(day, prayerBookId){
 }
 
 Collect setCollectOfHolyDay(day, prayerBookId){
-  if(day.holyDayID != null){
+  if(day != null && day.holyDayID != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.holyDayServiceIndex].sections[day.holyDaySectionIndex].collects[day.holyDayCollectIndex];
   } else {
     return null;
