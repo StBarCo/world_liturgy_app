@@ -47,7 +47,7 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
   factory PrayerBook.fromJson(Map<String, dynamic> json) => _$PrayerBookFromJson(json);
 
   getService(String id){
-    return this.services.where((service) => service.id == id).toList();
+    return this.services.where((service) => service.id == id).first;
   }
 
   getServiceIndexById(String id){

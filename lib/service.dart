@@ -3,27 +3,63 @@ import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/calendar.dart';
 
-class ServiceView extends StatelessWidget{
-  final currentService;
-  final currentIndexes;
+class ServiceView extends StatefulWidget{
+  final initialCurrentIndexes;
 
-  ServiceView({Key key, @required this.currentService, @required this.currentIndexes}) : super(key: key);
+  ServiceView({Key key, @required this.initialCurrentIndexes}) : super(key: key);
 
-//  ServiceViewState();
+  @override
+  _ServiceViewState createState() => new _ServiceViewState();
+}
+
+class _ServiceViewState extends State<ServiceView>{
+  Map currentIndexes;
+  Service currentService;
+
+  _ServiceViewState();
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndexes = widget.initialCurrentIndexes;
+    currentService = _getServiceFromIndexes(currentIndexes);
+  }
+
+  Service _getServiceFromIndexes(indexes){
+    return globals.allPrayerBooks.getPrayerBook(indexes['prayerBook']).getService(indexes['service']);
+  }
+
+  void _changeLanguage(){
+    setState(() {
+      int maxPbIndex = globals.allPrayerBooks.prayerBooks.length -1;
+      int currentPbIndex = globals.allPrayerBooks.getPrayerBookIndexById(currentIndexes['prayerBook']);
+      if(currentPbIndex == maxPbIndex){
+        currentIndexes['prayerBook'] = globals.allPrayerBooks.prayerBooks.first.id;
+      } else {
+        currentIndexes['prayerBook'] = globals.allPrayerBooks.prayerBooks[currentPbIndex + 1].id;
+      }
+
+      currentService = _getServiceFromIndexes(currentIndexes);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     checkForCurrentDay();
-
-
-//    PrayerBook currentPrayerBook = allPrayerBooks.prayerBooks[prayerBookIndex];
-//    Service currentService = currentPrayerBook.services[serviceIndex];
 
     return new Scaffold (
       drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, currentIndexes),
       appBar: new AppBar(
         title: new Text(currentService.title),
         actions:  <Widget>[
+          IconButton(
+            icon: Icon(Icons.swap_horiz),
+            onPressed: () {
+              _changeLanguage();
+            },
+          ),
 
 //          eventually will use MaterialSearch to find index item and navigate to it
 //        first need resolution on this: https://github.com/flutter/flutter/issues/12319
@@ -53,7 +89,6 @@ class ServiceView extends StatelessWidget{
       ),
     );
   }
-  
 
 //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
@@ -225,13 +260,13 @@ class DrawerPrayerBookEntry extends StatelessWidget {
 
           child: new ListTile(
             title: new Text(service.title ?? 'No title',),
-            selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
+            selected: service.id == this.currentIndexes['service'] && prayerBook.id == this.currentIndexes['prayerBook'],
             onTap: () {
               Navigator.pop(context);
               Navigator.push(context, new MaterialPageRoute(
                 builder: (BuildContext context) {
                   return ServiceView(
-                      currentService: service, currentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
+                      initialCurrentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
                   );
                 },
               ));

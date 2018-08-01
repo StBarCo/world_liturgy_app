@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
 
 //      home:Calendar(),
       home: ServiceView(
-          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
-          currentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}
+//          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
+          initialCurrentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}
           ),
     );
   }
