@@ -1,11 +1,13 @@
 library world_liturgy_app.globals;
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
+import 'package:world_liturgy_app/json/serializeSongBook.dart';
 import 'package:world_liturgy_app/data/database.dart';
 import 'package:world_liturgy_app/model/calendar.dart';
 
 PrayerBooksContainer allPrayerBooks;
 CalendarScaffold calendarScaffold;
+SongBooksContainer allSongBooks;
 DatabaseClient db;
 Day currentDay;
 Map translationMap = {

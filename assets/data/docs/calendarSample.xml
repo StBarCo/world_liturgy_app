@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <calendar  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation='validate/calendar.xsd'>
+    xsi:noNamespaceSchemaLocation='../validate/calendar.xsd'>
     <type>Western</type>
     <structure>
             <season>

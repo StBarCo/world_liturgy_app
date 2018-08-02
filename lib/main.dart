@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/service.dart';
+import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/songs.dart';
 import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/data/database.dart';
 
 
+
 void main() async{
 
   globals.allPrayerBooks = await loadPrayerBooks();
+  globals.allSongBooks = await loadSongBooks();
 
   globals.db = new DatabaseClient();
   await globals.db.create();
@@ -38,27 +42,99 @@ class MyApp extends StatelessWidget {
       ),
 
 //      home:Calendar(),
-      home: ServiceView(
+      home: HomePage(
 //          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
-          initialCurrentIndexes: {"prayerBook": globals.allPrayerBooks.prayerBooks[0].id, "service": globals.allPrayerBooks.prayerBooks[0].services[0].id}
+
           ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+
+class HomePage extends StatefulWidget{
+  final initialCurrentIndexes;
+
+  HomePage({Key key, @required this.initialCurrentIndexes}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _HomePageState createState() => new _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
+  final Key keyServices = PageStorageKey('pageKeyServices');
+  final Key keySongs = PageStorageKey('pageKeySongs');
+
+  int currentTab = 0;
+
+  ServicePage servicePage;
+  SongsPage songPage;
+  List<Widget> pages;
+  Widget currentPage;
+
+  @override
+  void initState(){
+    servicePage = ServicePage(
+        initialCurrentIndexes: {
+          "prayerBook": globals.allPrayerBooks.prayerBooks[0].id,
+          "service": globals.allPrayerBooks.prayerBooks[0].services[0].id
+        },
+        key: keyServices,
+    );
+    songPage = SongsPage(
+      key: keySongs,
+    );
+
+    pages = [servicePage,songPage];
+    super.initState();
+
+    currentPage = servicePage;
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-  }
+    checkForCurrentDay();
 
+    return new Scaffold (
+
+      body: currentPage,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentTab,
+        onTap: (int index){
+          setState((){
+            currentTab = index;
+            currentPage = pages[index];
+          });
+        },
+
+//        as of flutter 5.1 when navbar has >3 items type becomes shifting and text color is white
+//        type: BottomNavigationBarType.fixed,
+
+          items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Prayer Book'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.music_note),
+            title: Text('Songs'),
+          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.book),
+//            title: Text('Bible'),
+//          ),
+//          BottomNavigationBarItem(
+//            icon: Icon(Icons.calendar_today),
+//            title: Text('Lectionary'),
+//          ),
+        ]
+      ),
+    );
+  }
 }
+
+
+
 
 
 

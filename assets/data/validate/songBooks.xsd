@@ -1,12 +1,11 @@
-
-
-<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="songbooks">
     <xs:annotation>
       <xs:documentation>&lt;?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?>  &lt;prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'></xs:documentation>
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:element type="xs:string" name="revisions"/>
         <xs:element name="book">
           <xs:complexType>
             <xs:sequence>
@@ -14,8 +13,11 @@
               <xs:element name="song" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType mixed="true">
                   <xs:choice maxOccurs="unbounded" minOccurs="0">
-                    <xs:element type="xs:short" name="number"/>
-                    <xs:element type="xs:string" name="title"/>
+                    <xs:sequence>
+                      <xs:element type="xs:short" name="number" minOccurs="0"/>
+                      <xs:element type="xs:string" name="title" maxOccurs="1"/>
+                      <xs:element type="xs:string" name="subtitle" maxOccurs="1"/>
+                    </xs:sequence>
                     <xs:element name="verse">
                       <xs:complexType>
                         <xs:sequence>
@@ -23,12 +25,12 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-                    <xs:element name="chorus">
+                    <xs:element name="refrain">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element type="xs:string" name="stanza" maxOccurs="unbounded" minOccurs="0"/>
                         </xs:sequence>
-                        <xs:attribute type="xs:byte" name="afterVerse"/>
+                        <xs:attribute type="xs:byte" name="afterVerse" use="optional"/>
                       </xs:complexType>
                     </xs:element>
                   </xs:choice>
@@ -42,3 +44,4 @@
     </xs:complexType>
   </xs:element>
 </xs:schema>
+

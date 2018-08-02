@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?> -->
 <!-- <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'> -->
-<songbooks  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/songBooks.xsd'>
+<songbooks  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='../validate/songBooks.xsd'>
   <book id='tenziZaRohoni'>
     <title>Tenzi Za Rohoni</title>
     <song>
@@ -13,12 +13,12 @@
         <stanza>Damu imenisafisha;</stanza>
         <stanza>Sifa kwa mwana Kondoo.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Utukufu, Aleluya!</stanza>
         <stanza>Sifa kwa Mwana Kondoo!</stanza>
         <stanza>Damu imenisafisha,</stanza>
         <stanza>Utukufu kwa Yesu!</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Nilijitahidi sana</stanza>
         <stanza>Ila sikupata raha;</stanza>
@@ -63,10 +63,10 @@
         <stanza>Twamsifu Mungu kwa Mwana wa Pendo,</stanza>
         <stanza>Aliyetufia na kupaa juu.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Aleluya! Usifiwe; Aleluya! Amin.</stanza>
         <stanza>Aleluya! Usifiwe, utubariki.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Twamsifu Mungu kwa Roho Mtukufu,</stanza>
         <stanza>Ametufunulia Mwokozi wetu.</stanza>
@@ -241,12 +241,12 @@
         <stanza>Na rehema za daima;</stanza>
         <stanza>Ni dawa yake njema.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Imbeni, malaika,</stanza>
         <stanza>Sifa za Yesu Bwana;</stanza>
         <stanza>Pweke limetukuka</stanza>
         <stanza>Jina lake Yesu.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Hatufai kuwa hai,</stanza>
         <stanza>Wala hatutumai,</stanza>
@@ -355,12 +355,12 @@
         <stanza>Unapozuru wengine,</stanza>
         <stanza>Usinipite.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Yesu,Yesu,</stanza>
         <stanza>Unisikie;</stanza>
         <stanza>Unapozuru wengine,</stanza>
         <stanza>Usinipite.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Kiti chako cha rehema,</stanza>
         <stanza>Nakitazama;</stanza>
@@ -389,12 +389,12 @@
       <stanza>Hawezi mwingine</stanza>
       <stanza>Kunifaa.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Yesu, nakuhitaji</stanza>
       <stanza>Vivyo kila saa!</stanza>
       <stanza>Niwezeshe, Mwokozi,</stanza>
       <stanza>Nakujia.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Nina haja nawe;</stanza>
       <stanza>Kaa nami,</stanza>
@@ -531,11 +531,11 @@
         <stanza>Sina wema wa kutosha</stanza>
         <stanza>Dhambi zangu kuziosha;</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Kwake Yesu nasimma,</stanza>
         <stanza>Ndiye mwamba: ni salama</stanza>
         <stanza>Ndiye mwamba: ni salama.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Njia yangu iwe ndefu</stanza>
         <stanza>Yeye hunipa wokovu;</stanza>
@@ -564,12 +564,12 @@
         <stanza>Kukubali neno lake</stanza>
         <stanza>Nina raha moyoni.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Yesu,Yesu namwamini,</stanza>
         <stanza>Nimemwona thabiti;</stanza>
         <stanza>Yesu,Yesu,yu thamani,</stanza>
         <stanza>Ahadi zake kweli.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Kumtegemea Mwokozi,</stanza>
         <stanza>Kwangu tamu kabisa,</stanza>
@@ -598,10 +598,10 @@
       <stanza>Nikimridhisha atanidumisha</stanza>
       <stanza>Taamini nitii pia.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Amini utii, njia pweke ni hii</stanza>
       <stanza>Ya furaha kwa Yesu: amini ukatii.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Giza sina kwangu wala hata wingu</stanza>
       <stanza>Yeye mara huviondoa</stanza>
@@ -636,12 +636,12 @@
         <stanza>Humtazama mpaka nje:</stanza>
         <stanza>Nyakati zote ni wake yeye.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Nyakati zote nimo pendoni,</stanza>
         <stanza>Nyakati zote ni uzimani,</stanza>
         <stanza>Humtazama hata atokee,</stanza>
         <stanza>Nyakati zote mimi ni wake.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Vita sipigi visivyo haki,</stanza>
         <stanza>Na Bwana wangu hapiganiki;</stanza>
@@ -676,12 +676,12 @@
         <stanza>Mrithi wa wokovu wake</stanza>
         <stanza>Nimezawa kwa Roho yake.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Habari njema, raha yangu</stanza>
         <stanza>Yesu ndiye Mwokozi wangu,</stanza>
         <stanza>Habari njema, raha yangu</stanza>
         <stanza>Yesu ndiye mwokozi wangu.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Kumsalimu moyo wangu,</stanza>
         <stanza>Mara namwona raha yangu;</stanza>
@@ -754,10 +754,10 @@
         <stanza>Nguvu zote pia za duniani</stanza>
         <stanza>Hazitakudhuru ukiamini.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Yesu yuko mbele, Yesu yu nyuma,</stanza>
         <stanza>Yesu vivyo kando, walindwa vyema.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Adui shetani, na nguvu zake,</stanza>
         <stanza>Bwana ameshinda, kwa kifo chake;</stanza>
@@ -786,12 +786,12 @@
         <stanza>Nilikosa msaada,</stanza>
         <stanza>kuniponya mateso.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Usifiwe Msalaba!</stanza>
         <stanza>Lisifiwe kaburi!</stanza>
         <stanza>Linalozidi yote,</stanza>
         <stanza>Asifiwe Mwokozi!</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Hata nilipofika,</stanza>
         <stanza>Mahali pa Msalaba,</stanza>
@@ -850,10 +850,10 @@
         <stanza>Kwa mambo yote umenijulisha,</stanza>
         <stanza>Ni salama rohoni mwangu.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Salama rohoni,</stanza>
         <stanza>Ni salama rohoni mwangu.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Ingawa shetani atanitesa,</stanza>
         <stanza>Nitajipa moyo kwani</stanza>
@@ -882,13 +882,13 @@
       <stanza>Sina giza tena, ila mwanga pia</stanza>
       <stanza>Kwa Yesu mwokozi wangu.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Amani moyoni mwangu,</stanza>
       <stanza>kwa Yesu, Mwokozi wangu;</stanza>
       <stanza>Sina shaka kamwe,</stanza>
       <stanza>Kwa sababu yeye,</stanza>
       <stanza>Yu nami moyoni mwangu.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Sina haja tena, ya kutanga-tanga,</stanza>
       <stanza>Ndiye kiongozi wangu.</stanza>
@@ -923,12 +923,12 @@
         <stanza>Kwa bei ya mauti yake</stanza>
         <stanza>Nimekuwa mtoto wake.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Kombolewa!</stanza>
         <stanza>Nakombolewa na damu;</stanza>
         <stanza>Kombolewa!</stanza>
         <stanza>Mimi mwana wake kweli.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Kukombolewa nafurahi,</stanza>
         <stanza>Kupita lugha kutamka;</stanza>
@@ -999,10 +999,10 @@
       <stanza>Mungu ni pendo, apenda watu;</stanza>
       <stanza>Mungu ni pendo, anipenda</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Sikilizeni furaha yangu,</stanza>
       <stanza>Mungu ni pendo, anipenda.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Nilipotea katika dhambi,</stanza>
       <stanza>Nikawa mtumwa wa shetani.</stanza>
@@ -1025,12 +1025,12 @@
       <stanza>Sisi wake watoto;</stanza>
       <stanza>kutulinda si zito.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Yesu anipenda,</stanza>
       <stanza>Yesu anipenda,</stanza>
       <stanza>Kweli anipenda,</stanza>
       <stanza>Mungu amesema.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Kwa kupenda akafa</stanza>
       <stanza>Niokoke na kufa;</stanza>
@@ -1059,12 +1059,12 @@
       <stanza>Kuniambia mwake chuoni</stanza>
       <stanza>Ya kuwa nami Yesu pendoni.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Anipenda Mwokozi Yesu,</stanza>
       <stanza>Anipenda, anipenda;</stanza>
       <stanza>Anipenda Mwokozi Yesu,</stanza>
       <stanza>Anipenda mimi.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Nimuachapo kutanga mbali,</stanza>
       <stanza>Yeye yu vivyo, hupenda kweli,</stanza>
@@ -1161,12 +1161,12 @@
       <stanza>Wambieni wa mbali</stanza>
       <stanza>Habari ya wokovu.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Tangazeni kwa bidii,</stanza>
       <stanza>“Akubali wakosa!”</stanza>
       <stanza>Liwe neno dhahiri,</stanza>
       <stanza>“Akubali wakosa!”</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Awakubali Bwana</stanza>
       <stanza>Neno lake amini</stanza>
@@ -1195,12 +1195,12 @@
         <stanza>Hivi sasa tegemea</stanza>
         <stanza>Neno la salama.</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Tegemea, tegemea,</stanza>
         <stanza>akwita sasa.</stanza>
         <stanza>Ni Mwokozi, ni</stanza>
         <stanza>Mwokozi; amini sasa.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Yesu amemwaga damu</stanza>
         <stanza>Ya nyingi baraka;</stanza>
@@ -1308,12 +1308,12 @@
         <stanza>Duniani kote neno wapate,</stanza>
         <stanza>Atakaye na aje!</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Ni “Atakaye”, ni “atakaye”,</stanza>
         <stanza>Pwani hata bara, na litangae;</stanza>
         <stanza>Ni Baba Mpenzi alinganaye</stanza>
         <stanza>Atakaye na aje.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>Anijiliaye, Yesu asema,</stanza>
         <stanza>Asikawe, aje hima mapema;</stanza>
@@ -1336,14 +1336,14 @@
       <stanza>Usafiwe dhambi zako,</stanza>
       <stanza>Humwoni ni Mwema wako?</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Unaitwa! Itika tu!</stanza>
       <stanza>Umwendee Bwana Yesu!</stanza>
       <stanza>Sifiche makosa yako,</stanza>
       <stanza>Uungame dhambi zako!</stanza>
       <stanza>Kristo tu umuamini,</stanza>
       <stanza>Ndiyo njia ua Mbinguni.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Alilipa damu yake</stanza>
       <stanza>Ili kukukweza kwake;</stanza>
@@ -1372,12 +1372,12 @@
         <stanza>Imo Chuoni; na Mwenyewe,</stanza>
         <stanza>Hapa asema, Njoo!</stanza>
       </verse>
-      <chorus>
+      <refrain>
         <stanza>Na furaha tutaiona,</stanza>
         <stanza>Mioyo ikitakata sana,</stanza>
         <stanza>Kwako, Mwokozi, kuonana,</stanza>
         <stanza>Na milele kukaa.</stanza>
-      </chorus>
+      </refrain>
       <verse>
         <stanza>”Wana na waje”, atwambia,</stanza>
         <stanza>Furahini mkisikia,</stanza>
@@ -1436,10 +1436,10 @@
       <stanza>Nikasafiwe kwa damu</stanza>
       <stanza>Ya kwangikwa kwako.</stanza>
     </verse>
-    <chorus>
+    <refrain>
       <stanza>Nimesogea Mtini pako,</stanza>
       <stanza>Unisafi kwa damu ya kwangikwa kwako.</stanza>
-    </chorus>
+    </refrain>
     <verse>
       <stanza>Ni mnuonge kweli,</stanza>
       <stanza>Umenipa nguvu,</stanza>

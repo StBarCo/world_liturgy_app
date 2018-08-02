@@ -3,20 +3,21 @@ import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/calendar.dart';
 
-class ServiceView extends StatefulWidget{
+class ServicePage extends StatefulWidget{
   final initialCurrentIndexes;
 
-  ServiceView({Key key, @required this.initialCurrentIndexes}) : super(key: key);
+  ServicePage({Key key, @required this.initialCurrentIndexes}) : super(key: key);
 
   @override
-  _ServiceViewState createState() => new _ServiceViewState();
+  _ServicePageState createState() => new _ServicePageState();
 }
 
-class _ServiceViewState extends State<ServiceView>{
+class _ServicePageState extends State<ServicePage> {
   Map currentIndexes;
   Service currentService;
+  ScrollController _serviceScrollController = new ScrollController();
 
-  _ServiceViewState();
+  _ServicePageState();
 
   @override
   void initState() {
@@ -25,35 +26,50 @@ class _ServiceViewState extends State<ServiceView>{
     currentService = _getServiceFromIndexes(currentIndexes);
   }
 
-  Service _getServiceFromIndexes(indexes){
-    return globals.allPrayerBooks.getPrayerBook(indexes['prayerBook']).getService(indexes['service']);
+  Service _getServiceFromIndexes(indexes) {
+    return globals.allPrayerBooks.getPrayerBook(indexes['prayerBook'])
+        .getService(indexes['service']);
   }
 
-  void _changeLanguage(){
+  void _changeLanguage() {
     setState(() {
-      int maxPbIndex = globals.allPrayerBooks.prayerBooks.length -1;
-      int currentPbIndex = globals.allPrayerBooks.getPrayerBookIndexById(currentIndexes['prayerBook']);
-      if(currentPbIndex == maxPbIndex){
-        currentIndexes['prayerBook'] = globals.allPrayerBooks.prayerBooks.first.id;
+      int maxPbIndex = globals.allPrayerBooks.prayerBooks.length - 1;
+      int currentPbIndex = globals.allPrayerBooks.getPrayerBookIndexById(
+          currentIndexes['prayerBook']);
+      if (currentPbIndex == maxPbIndex) {
+        currentIndexes['prayerBook'] =
+            globals.allPrayerBooks.prayerBooks.first.id;
       } else {
-        currentIndexes['prayerBook'] = globals.allPrayerBooks.prayerBooks[currentPbIndex + 1].id;
+        currentIndexes['prayerBook'] =
+            globals.allPrayerBooks.prayerBooks[currentPbIndex + 1].id;
       }
 
       currentService = _getServiceFromIndexes(currentIndexes);
     });
   }
 
+  void _changeService(String prayerBook, String service, previousService) {
+    setState(() {
+      currentIndexes['service'] = service;
+      currentIndexes['prayerBook'] = prayerBook;
+      currentService = _getServiceFromIndexes(currentIndexes);
+
+
+      if(service != previousService){
+        _serviceScrollController.jumpTo(0.0);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     checkForCurrentDay();
 
     return new Scaffold (
-      drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, currentIndexes),
+      drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
       appBar: new AppBar(
         title: new Text(currentService.title),
-        actions:  <Widget>[
+        actions: <Widget>[
           IconButton(
             icon: Icon(Icons.swap_horiz),
             onPressed: () {
@@ -77,43 +93,83 @@ class _ServiceViewState extends State<ServiceView>{
     );
   }
 
-  Drawer _buildDrawer(prayerBooks, currentIndexes) {
+
+  Drawer _buildDrawer(prayerBooks) {
     return Drawer(
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the Drawer if there isn't enough vertical
       // space to fit everything.
       child: new ListView.builder(
         itemBuilder: (BuildContext context, int index) =>
-        new DrawerPrayerBookEntry(context, prayerBooks[index], currentIndexes),
+            drawerPrayerBookEntry(context, prayerBooks[index]),
         itemCount: prayerBooks.length,
       ),
     );
   }
 
-//TODO: Look at refactoring service building with widget classes
+  Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook) {
+    if (prayerBook.services.isEmpty)
+      return new ListTile(title: new Text(prayerBook.title ?? 'No Title'));
+    return new ExpansionTile(
+      key: new PageStorageKey<PrayerBook>(prayerBook),
+      title: new Text(prayerBook.title ?? 'No title', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+      children: _buildServicesTiles(context, prayerBook),
+      initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
+
+    );
+  }
+
+  List<Widget> _buildServicesTiles(context, prayerBook) {
+    List<Widget> servicesList = [];
+//    Service serviceName;
+    for (var service in prayerBook.services) {
+      servicesList.add(new Padding(
+          padding: EdgeInsets.only(left:20.0),
+
+          child: new ListTile(
+            title: new Text(service.title ?? 'No title',),
+            selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
+            onTap: () {
+              Navigator.pop(context);
+              _changeService(prayerBook.id, service.id, currentIndexes['service']);
+            },
+            dense: true,
+          )
+      ));
+    }
+    return servicesList;
+
+  }
+
+  //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
-  Widget _buildService(BuildContext context, Service service) {
+  Widget _buildService(BuildContext context, Service service ) {
     String language = getLanguageFromIndex(currentIndexes['prayerBook']);
     return new ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: service.sections.length,
-        itemBuilder: (context, index) {
-           var section = service.sections[index];
-                return _buildSection(context, section, language);
-        },
+      padding: const EdgeInsets.all(16.0),
+      itemCount: service.sections.length,
+      itemBuilder: (context, index) {
+        var section = service.sections[index];
+        return _buildSection(context, currentIndexes, section, language);
+      },
+      controller: _serviceScrollController,
 
 
     );
   }
 
-    Widget _buildSection(BuildContext context, section, language){
+}
+
+
+
+    Widget _buildSection(BuildContext context, currentIndexes, section, language){
 //      final alreadySaved = _saved.contains(pair);
       return new Column(
-        children: _buildItemsList(context, section, language),
+        children: _buildItemsList(context, currentIndexes, section, language),
       );
     }
 
-    List<Widget> _buildItemsList(BuildContext context, section, language){
+    List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language){
       List<Widget> itemsList = new List<Widget>();
 
       if (section.type == 'collectOfTheDay'){
@@ -127,7 +183,7 @@ class _ServiceViewState extends State<ServiceView>{
         itemsList.addAll(_buildNormalSection(section, language));
       } else {
         if (section.visibility == 'collapsed') {
-          itemsList.add(_buildHeaderForCollapsed(context, section, language));
+          itemsList.add(_buildHeaderForCollapsed(context, currentIndexes, section, language));
         } else if (section.visibility == 'indexed'){
           itemsList.add(_buildSectionHeader( section));
           itemsList.add(_buildLinksForIndexed(context, section, language));
@@ -172,7 +228,7 @@ class _ServiceViewState extends State<ServiceView>{
   }
 
 
-  _buildHeaderForCollapsed(context, section, language){
+  _buildHeaderForCollapsed(context, currentIndexes, section, language){
     return GestureDetector(
         onTap: () {
           var route = new MaterialPageRoute(
@@ -225,60 +281,11 @@ class _ServiceViewState extends State<ServiceView>{
     }
     return Padding(child: new Column(children:headers), padding: EdgeInsets.symmetric(horizontal: 48.0),);
   }
-}
-
-class DrawerPrayerBookEntry extends StatelessWidget {
-  const DrawerPrayerBookEntry(BuildContext context, this.prayerBook, this.currentIndexes);
-
-  final PrayerBook prayerBook;
-  final currentIndexes;
-
-  Widget _buildTiles(BuildContext context, PrayerBook prayerBook) {
-    if (prayerBook.services.isEmpty)
-      return new ListTile(title: new Text(prayerBook.title ?? 'No Title'));
-    return new ExpansionTile(
-      key: new PageStorageKey<PrayerBook>(prayerBook),
-      title: new Text(prayerBook.title ?? 'No title'),
-      children: _buildServicesTiles(context, prayerBook),
-      initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
-
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _buildTiles(context, prayerBook);
-  }
 
 
-  List<Widget> _buildServicesTiles(context, prayerBook) {
-    List<Widget> servicesList = [];
-//    Service serviceName;
-    for (var service in prayerBook.services) {
-      servicesList.add(new Padding(
-          padding: EdgeInsets.only(left:20.0),
 
-          child: new ListTile(
-            title: new Text(service.title ?? 'No title',),
-            selected: service.id == this.currentIndexes['service'] && prayerBook.id == this.currentIndexes['prayerBook'],
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context, new MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return ServiceView(
-                      initialCurrentIndexes: {'prayerBook':prayerBook.id, 'service': service.id},
-                  );
-                },
-              ));
-            },
-            dense: true,
-          )
-      ));
-    }
-    return servicesList;
 
-  }
-}
+
 
 class ExpandedSection extends StatelessWidget {
   final Section section;

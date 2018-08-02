@@ -4,12 +4,14 @@ import 'package:xml2json/xml2json.dart';
 import 'dart:convert';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
+import 'package:world_liturgy_app/json/serializeSongBook.dart';
+
 import 'dart:async';
 //import 'dart:io';
 
 Future<String> _loadXmlAsset(fileName) async {
 //  if no prayerbook file, load sample file
-  final basePath = 'assets/data/';
+  final basePath = 'assets/data/docs/';
   final extension = '.xml';
   final sample = 'Sample';
 
@@ -43,4 +45,9 @@ Future<PrayerBooksContainer> loadPrayerBooks() async {
 Future<CalendarScaffold> loadCalendar() async {
   String jsonString = await _loadAndParseXmltoJson('calendar');
   return CalendarScaffold.fromJson(json.decode(jsonString)["calendar"]);
+}
+
+Future<SongBooksContainer> loadSongBooks() async {
+  String jsonString = await _loadAndParseXmltoJson('songBooks');
+  return SongBooksContainer.fromJson(json.decode(jsonString)["songbooks"]);
 }
