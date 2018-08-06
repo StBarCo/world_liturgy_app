@@ -12,11 +12,11 @@
               <xs:element type="xs:string" name="title"/>
               <xs:element name="song" maxOccurs="unbounded" minOccurs="0">
                 <xs:complexType mixed="true">
-                  <xs:choice maxOccurs="unbounded" minOccurs="0">
+                  <xs:choice maxOccurs="unbounded" minOccurs="2">
                     <xs:sequence>
                       <xs:element type="xs:short" name="number" minOccurs="0"/>
-                      <xs:element type="xs:string" name="title" maxOccurs="1"/>
-                      <xs:element type="xs:string" name="subtitle" maxOccurs="1"/>
+                      <xs:element type="xs:string" name="title" />
+                      <xs:element type="xs:string" name="subtitle" minOccurs="0"/>
                     </xs:sequence>
                     <xs:element name="verse">
                       <xs:complexType>

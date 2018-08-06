@@ -75,12 +75,15 @@ abstract class _$VerseSerializerMixin {
 
 Refrain _$RefrainFromJson(Map<String, dynamic> json) {
   return new Refrain(
-      json['stanza'] == null ? null : _decodeStanza(json['stanza']));
+      json['stanza'] == null ? null : _decodeStanza(json['stanza']),
+      json['afterVerse'] == null ? null : _asInt(json['afterVerse']));
 }
 
 abstract class _$RefrainSerializerMixin {
+  int get afterVerse;
   List<Stanza> get stanzas;
-  Map<String, dynamic> toJson() => <String, dynamic>{'stanza': stanzas};
+  Map<String, dynamic> toJson() =>
+      <String, dynamic>{'afterVerse': afterVerse, 'stanza': stanzas};
 }
 
 Stanza _$StanzaFromJson(Map<String, dynamic> json) {

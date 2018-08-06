@@ -5,7 +5,7 @@ import 'package:world_liturgy_app/songs.dart';
 import 'package:world_liturgy_app/json/xml_parser.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/data/database.dart';
-
+import 'dart:async';
 
 
 void main() async{
@@ -52,9 +52,8 @@ class MyApp extends StatelessWidget {
 
 
 class HomePage extends StatefulWidget{
-  final initialCurrentIndexes;
 
-  HomePage({Key key, @required this.initialCurrentIndexes}) : super(key: key);
+  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => new _HomePageState();
@@ -90,12 +89,54 @@ class _HomePageState extends State<HomePage> {
     currentPage = servicePage;
   }
 
+  Future<bool> _exitApp(BuildContext context) {
+    return showDialog(
+      context: context,
+
+      child: new AlertDialog(
+        title: new Text('Do you want to exit this application?'),
+        content: new Text('We hate to see you leave...'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: new Text('Yes'),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
+
+  Future<bool> _showExit(BuildContext context) {
+    if (currentTab != 0) {
+      setState((){
+        currentTab = 0;
+        currentPage = pages[0];
+      });
+    } else
+      return _exitApp(context);
+  }
+
+
+//    if (currentTab != 0){
+
+//    } else {
+//      false;
+//    }
+//  }
+
 
   @override
   Widget build(BuildContext context) {
     checkForCurrentDay();
 
-    return new Scaffold (
+    return new WillPopScope(
+      onWillPop: () => _showExit(context),
+      child:  new Scaffold (
 
       body: currentPage,
       bottomNavigationBar: BottomNavigationBar(
@@ -129,6 +170,7 @@ class _HomePageState extends State<HomePage> {
 //          ),
         ]
       ),
+    )
     );
   }
 }

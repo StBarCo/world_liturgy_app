@@ -80,12 +80,15 @@ class Verse extends Object with _$VerseSerializerMixin {
 
 @JsonSerializable()
 class Refrain extends Object with _$RefrainSerializerMixin {
+  @JsonKey(nullable:true, fromJson: _asInt)
+  final int afterVerse;
 
   @JsonKey(name: "stanza", nullable: true, fromJson: _decodeStanza)
   final List<Stanza> stanzas;
 
   Refrain(
       this.stanzas,
+      this.afterVerse,
       );
 
   factory Refrain.fromJson(Map<String, dynamic> json) => _$RefrainFromJson(json);
@@ -188,4 +191,17 @@ String _asAttribute(item){
     print(item.toString());
     return null;
   }
+}
+
+int _asInt(item){
+
+  try {
+    return int.parse(item);
+  } catch (e){
+    print(e);
+    print("Error serializing SongBooks in _asIntAttribute function");
+    print(item.toString());
+    return null;
+  }
+
 }

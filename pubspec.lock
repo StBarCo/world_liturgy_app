@@ -14,7 +14,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.4"
+    version: "1.5.0"
   async:
     dependency: transitive
     description:
@@ -257,7 +257,7 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.4"
+    version: "0.12.3+1"
   meta:
     dependency: transitive
     description:
@@ -332,13 +332,6 @@ packages:
     dependency: transitive
     description:
       name: quiver
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  quiver_hashcode:
-    dependency: transitive
-    description:
-      name: quiver_hashcode
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
@@ -423,7 +416,7 @@ packages:
       name: tuple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   typed_data:
     dependency: transitive
     description:
