@@ -22,7 +22,7 @@ class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerM
     return list.indexOf(id);
   }
 
-  getPrayerBook(String id){
+  PrayerBook getPrayerBook(String id){
     return this.prayerBooks.where((prayerBook) => prayerBook.id == id).toList().first;
   }
 }

@@ -4,6 +4,7 @@ import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'globals.dart' as globals;
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/service.dart';
+import 'package:world_liturgy_app/app.dart';
 
 class CalendarItem extends StatefulWidget {
   const CalendarItem({
@@ -25,6 +26,7 @@ class _CalendarItemState extends State<CalendarItem> {
   Collect collectOfPrincipalFeast;
   Collect collectOfHolyDay;
   Day day;
+  String language;
 
   _CalendarItemState() {
     checkForCurrentDay();
@@ -37,6 +39,10 @@ class _CalendarItemState extends State<CalendarItem> {
     collectOfWeek = setCollectOfWeek(day, widget.currentPrayerBookIndex);
     collectOfPrincipalFeast = setCollectOfPrincipalFeast(day, widget.currentPrayerBookIndex);
     collectOfHolyDay = setCollectOfHolyDay(day, widget.currentPrayerBookIndex);
+    final languageState = LanguageState.of(context);
+
+    language = languageState.currentLanguage;
+
 
     if (collectOfWeek == null) {
       return new Text('');
@@ -53,25 +59,25 @@ class _CalendarItemState extends State<CalendarItem> {
 
     if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, widget.buildType) ) {
       list.add(buildDailyPrayers(collectOfPrincipalFeast,
-          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          language,
           widget.buildType));
     }
 
     if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfWeek,
-          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          language,
           widget.buildType));
     }
 
     if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfHolyDay,
-          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          language,
           widget.buildType));
     }
 
     if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfWeek,
-          getLanguageFromIndex(widget.currentPrayerBookIndex),
+          language,
           widget.buildType));
     }
 

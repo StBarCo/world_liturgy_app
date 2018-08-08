@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/styles.dart';
+import 'package:world_liturgy_app/app.dart';
 
 class ServicePage extends StatefulWidget{
   final initialCurrentIndexes;
@@ -16,6 +18,7 @@ class _ServicePageState extends State<ServicePage> {
   Map currentIndexes;
   Service currentService;
   ScrollController _serviceScrollController = new ScrollController();
+  String currentLanguage;
 
   _ServicePageState();
 
@@ -32,61 +35,76 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   void _changeLanguage() {
-    setState(() {
       int maxPbIndex = globals.allPrayerBooks.prayerBooks.length - 1;
       int currentPbIndex = globals.allPrayerBooks.getPrayerBookIndexById(
           currentIndexes['prayerBook']);
-      if (currentPbIndex == maxPbIndex) {
-        currentIndexes['prayerBook'] =
-            globals.allPrayerBooks.prayerBooks.first.id;
-      } else {
-        currentIndexes['prayerBook'] =
-            globals.allPrayerBooks.prayerBooks[currentPbIndex + 1].id;
-      }
+      int newPbIndex = currentPbIndex == maxPbIndex ? 0 : currentPbIndex + 1;
+
+      currentIndexes['prayerBook'] =
+          globals.allPrayerBooks.prayerBooks[newPbIndex].id;
 
       currentService = _getServiceFromIndexes(currentIndexes);
-    });
+      LanguageState.of(context).onTap(globals.allPrayerBooks.prayerBooks[newPbIndex].language);
   }
 
   void _changeService(String prayerBook, String service, previousService) {
-    setState(() {
-      currentIndexes['service'] = service;
-      currentIndexes['prayerBook'] = prayerBook;
-      currentService = _getServiceFromIndexes(currentIndexes);
+    bool changingBook = currentIndexes['prayerBook'] == prayerBook ? false : true;
+    currentIndexes['service'] = service;
+    currentIndexes['prayerBook'] = prayerBook;
+    currentService = _getServiceFromIndexes(currentIndexes);
 
 
-      if(service != previousService){
-        _serviceScrollController.jumpTo(0.0);
-      }
-    });
+    if(service != previousService){
+      _serviceScrollController.jumpTo(0.0);
+    }
+
+//    if changing prayerBooks
+    if(changingBook){
+      LanguageState.of(context).onTap(globals.allPrayerBooks.getPrayerBook(prayerBook).language);
+    }else{
+      setState(() {
+      });
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     checkForCurrentDay();
+    final languageState = LanguageState.of(context);
+    currentLanguage = languageState.currentLanguage;
+
 
     return new Scaffold (
       drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
       appBar: new AppBar(
         title: new Text(currentService.title),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.swap_horiz),
-            onPressed: () {
+          FlatButton(
+            onPressed: (){
               _changeLanguage();
             },
-          ),
+            padding: EdgeInsets.all(0.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                    Icons.swap_horiz,
+                  color: Theme.of(context).primaryIconTheme.color,
+                  size: 30.0,
 
-//          eventually will use MaterialSearch to find index item and navigate to it
-//        first need resolution on this: https://github.com/flutter/flutter/issues/12319
-////        currently flutter cannot go to item
-//          new IconButton(
-//            onPressed: () {
-////              _showMaterialSearch(context);
-//            },
-//            tooltip: 'Search',
-//            icon: new Icon(Icons.search),
-//          )
+                ),
+                Text(
+                  globals.translate(currentLanguage, 'languageName'),
+                  style: TextStyle(
+                    color: Theme.of(context).primaryTextTheme.button.color,
+                    fontSize: 10.0,
+                  )
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       body: _buildService(context, currentService),
@@ -144,13 +162,12 @@ class _ServicePageState extends State<ServicePage> {
   //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
   Widget _buildService(BuildContext context, Service service ) {
-    String language = getLanguageFromIndex(currentIndexes['prayerBook']);
     return new ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemCount: service.sections.length,
       itemBuilder: (context, index) {
         var section = service.sections[index];
-        return _buildSection(context, currentIndexes, section, language);
+        return _buildSection(context, currentIndexes, section, currentLanguage);
       },
       controller: _serviceScrollController,
 
@@ -233,14 +250,14 @@ class _ServicePageState extends State<ServicePage> {
         onTap: () {
           var route = new MaterialPageRoute(
               builder: (BuildContext context) =>
-              new ExpandedSection(section: section, currentIndexes: currentIndexes)
+              new ExpandedSection(section: section, currentIndexes: currentIndexes, language: language)
           );
           Navigator.push(context, route);
         },
         child: new Column(
           children: <Widget>[
             _buildSectionHeader(section),
-            new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: _rubricTextStyle,)
+            new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: rubricTextStyle,)
           ],
         )
     );
@@ -262,17 +279,17 @@ class _ServicePageState extends State<ServicePage> {
             children: <Widget>[
               new Padding(
                   padding: EdgeInsets.only(top:12.0),
-                  child:  new Text(item.title, style: _canticleTitleTextStyle, textAlign: TextAlign.center),
+                  child:  new Text(item.title, style: canticleTitleTextStyle, textAlign: TextAlign.center),
 
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(item.ref ?? '', style: _titleRefTextStyle, textAlign: TextAlign.center,),
+                child: new Text(item.ref ?? '', style: titleRefTextStyle, textAlign: TextAlign.center,),
 
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: _rubricTextStyle, textAlign: TextAlign.center),
+                child: new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: rubricTextStyle, textAlign: TextAlign.center),
               ),
             ],
           )
@@ -290,18 +307,20 @@ class _ServicePageState extends State<ServicePage> {
 class ExpandedSection extends StatelessWidget {
   final Section section;
   final currentIndexes;
+  final String language;
 
-  ExpandedSection({ Key key, this.section, this.currentIndexes}) : super(key: key);
+  ExpandedSection({ Key key, this.section, this.currentIndexes, this.language}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
         appBar: new AppBar(
           title: _sectionIndexName(section),
         ),
         body: new ListView(
           padding: const EdgeInsets.all(16.0),
-          children: _buildExpandedSectionItems(section, getLanguageFromIndex(currentIndexes['prayerBook'])),
+          children: _buildExpandedSectionItems(section, language),
 
         )
     );
@@ -443,8 +462,8 @@ Widget _buildSectionHeader(section){
 
 Widget _rubric(rubric) {
     return Text(
-      rubric.toUpperCase(),
-      style: _rubricTextStyle,
+      rubric,
+      style: rubricTextStyle,
       textAlign: TextAlign.center,
     );
   }
@@ -468,7 +487,7 @@ Widget _sectionNumber(number){
 Widget _sectionTitle(title){
      return Text(
         title ,
-        style: _sectionTitleTextStyle,
+        style: sectionTitleTextStyle,
         textAlign: TextAlign.center,
       );
 }
@@ -486,7 +505,7 @@ Widget _majorHeader(header){
       child:
       Text(
         header ,
-        style: _majorHeaderTextStyle,
+        style: majorHeaderTextStyle,
         textAlign: TextAlign.center,
       )
   );
@@ -531,7 +550,7 @@ Widget _leaderItem(item, language, prevItemWho){
             ),
             new Container(
               constraints: new BoxConstraints(maxWidth: 70.0),
-              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: _avatarTextStyle,),
+              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: avatarTextStyle,),
             ),
 
           ],
@@ -560,7 +579,7 @@ Widget _peopleItem(item, language, prevItemWho){
                 top:12.0
             ),
 
-            child: _isStanzas(item) ? stanzasColumn(item, style: _peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, _peopleItemTextStyle, TextAlign.right) : _itemText(item, _peopleItemTextStyle, TextAlign.right),
+            child: _isStanzas(item) ? stanzasColumn(item, style: peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, peopleItemTextStyle, TextAlign.right) : _itemText(item, peopleItemTextStyle, TextAlign.right),
 
           )
       ),
@@ -574,7 +593,7 @@ Widget _peopleItem(item, language, prevItemWho){
 
               new Container(
                 constraints: new BoxConstraints(maxWidth: 70.0),
-                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: _avatarTextStyle, textAlign: TextAlign.center,),
+                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: avatarTextStyle, textAlign: TextAlign.center,),
               ),
             ],
           )
@@ -608,7 +627,7 @@ Widget _unknownItem(item){
               child: Icon(Icons.error),
               backgroundColor: Colors.red,
           ),
-          new Text(item.who ?? '',style: _avatarTextStyle,),
+          new Text(item.who ?? '',style: avatarTextStyle,),
         ],
       ),
       new Expanded(
@@ -660,7 +679,7 @@ RichText _itemTextWithRef(item,[TextStyle style, TextAlign alignment = TextAlign
           style: new TextStyle(color: Colors.black),
           children:[
             new TextSpan(text: '   '),
-            new TextSpan(text:item.ref, style: _titleRefTextStyle),
+            new TextSpan(text:item.ref, style: titleRefTextStyle),
 
           ]
       )
@@ -831,7 +850,7 @@ Widget collectTitle(title){
       padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         title,
-        style: _canticleTitleTextStyle,
+        style: canticleTitleTextStyle,
         textAlign: TextAlign.center,
       ),
 
@@ -843,7 +862,7 @@ Widget collectSubtitle(title){
       padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         title,
-        style: _collectSubtitleStyle,
+        style: collectSubtitleStyle,
         textAlign: TextAlign.center,
       )
   );
@@ -854,7 +873,7 @@ Widget prayerHeader(header){
       padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         header,
-        style: _collectPrayerHeaderStyle,
+        style: collectPrayerHeaderStyle,
         textAlign: TextAlign.center,
       )
   );
@@ -886,7 +905,7 @@ Widget collectProperty(property){
       child: new Text(
         property,
         textAlign: TextAlign.center,
-        style: _collectPropertyStyle,
+        style: collectPropertyStyle,
       ),
   );
 }
@@ -896,7 +915,7 @@ Widget _canticleTitle(title){
       padding: new EdgeInsets.only(top:12.0, bottom: 8.0),
       child: new Text(
         title,
-        style: _canticleTitleTextStyle,
+        style: canticleTitleTextStyle,
         textAlign: TextAlign.center,
       )
   );
@@ -907,26 +926,12 @@ Widget _canticleTitle(title){
 Widget _titleReference(ref){
   return Text(
     ref,
-    style: _titleRefTextStyle,
+    style: titleRefTextStyle,
     textAlign: TextAlign.center,
   );
 }
 
-TextStyle _peopleItemTextStyle = new TextStyle(fontWeight: FontWeight.bold, );
-TextStyle _rubricTextStyle = new TextStyle(fontSize: 10.0, color: Colors.black54 );
-TextStyle _sectionTitleTextStyle = new TextStyle(fontSize: 18.0);
-TextStyle _majorHeaderTextStyle = new TextStyle(fontSize: 20.0, );
-TextStyle _avatarTextStyle = new TextStyle(fontSize: 10.0, color: Colors.black54);
-TextStyle _canticleTitleTextStyle = new TextStyle(fontSize: 16.0);
-TextStyle _titleRefTextStyle = new TextStyle(fontStyle: FontStyle.italic, fontSize: 12.0, );
-TextStyle _collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic);
-TextStyle _collectPropertyStyle = new TextStyle(fontStyle: FontStyle.italic,  fontSize: 10.0);
-TextStyle _collectPrayerHeaderStyle = new TextStyle(fontWeight: FontWeight.bold);
-
-
 String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
-String getLanguageFromIndex(prayerBookIndex){
-  return globals.allPrayerBooks.getPrayerBook(prayerBookIndex).language;
 
-}
+
