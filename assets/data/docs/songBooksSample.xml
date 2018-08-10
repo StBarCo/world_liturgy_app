@@ -1,12 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?> -->
-<!-- <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'> -->
-<songbooks  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='../validate/songBooks.xsd'>
+<?xml version="1.0" encoding="UTF-8"?><!-- <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?> --><!-- <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'> -->
+<songbooks xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation='../validate/songBooks.xsd'>
+  <revisions>
+    <version>
+      <date>10 Aug 2018</date>
+      <number>1.0</number>
+      <notes>Initial version of Tenzi Za Rohoni with Subtitles</notes>
+    </version>
+
+  </revisions>
   <book id='tenziZaRohoni'>
     <title>Tenzi Za Rohoni</title>
     <song>
       <number>1</number>
       <title>Mwokozi Umeokoa</title>
+      <subtitle>Precious Saviour</subtitle>
       <verse>
         <stanza>Mwokozi umeokoa,</stanza>
         <stanza>Nimekuwa wako wewe.</stanza>
@@ -59,6 +67,7 @@
     <song>
       <number>2</number>
       <title>Twamsifu Mungu</title>
+      <subtitle>We Praise Thee, O God</subtitle>
       <verse>
         <stanza>Twamsifu Mungu kwa Mwana wa Pendo,</stanza>
         <stanza>Aliyetufia na kupaa juu.</stanza>
@@ -87,6 +96,7 @@
     <song>
       <number>3</number>
       <title>Hata Ndimi Elfu</title>
+      <subtitle>O for a Thousand Tongues to Sing</subtitle>
       <verse>
         <stanza>Hata ndimi elfu elfu,</stanza>
         <stanza>Hazitoshi kweli</stanza>
@@ -127,6 +137,7 @@
     <song>
       <number>4</number>
       <title>Jina la Yesu, salamu!</title>
+      <subtitle>All Hail the Power of Jesus' Name</subtitle>
       <verse>
         <stanza>Jina la Yesu, Salamu!</stanza>
         <stanza>Lisujudieni,</stanza>
@@ -164,49 +175,51 @@
         <stanza>Ni “Enzi mpeni.”</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>5</number>
-    <title>Jina Lake Yesu Tamu</title>
-    <verse>
-      <stanza>Jina lake Yesu tamu;</stanza>
-      <stanza>Tukilisikia</stanza>
-      <stanza>Hutupoza, tena hamu</stanza>
-      <stanza>Hutuondolea.</stanza>
-    </verse>
-    <verse>
-      <stanza>Roho iliyoumia</stanza>
-      <stanza>Kwalo hutibika,</stanza>
-      <stanza>Chakula, njaani pia;</stanza>
-      <stanza>Raha, tukichoka.</stanza>
-    </verse>
-    <verse>
-      <stanza>Jina hili ni msingi,</stanza>
-      <stanza>Ngao, ngome, mwamba,</stanza>
-      <stanza>Kwa hili napata wingi,</stanza>
-      <stanza>Kwangu ni akiba.</stanza>
-    </verse>
-    <verse>
-      <stanza>Yesu, Mchunga, Rafiki</stanza>
-      <stanza>Mwalimu, Kuhani,</stanza>
-      <stanza>Mwanzo, Mwisho, Njia, Haki,</stanza>
-      <stanza>Uzima kifoni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Moyo wangu hauwezi,</stanza>
-      <stanza>Kukusifu kweli,</stanza>
-      <stanza>Ila sifa zangu hizi,</stanza>
-      <stanza>Bwana zikubali.</stanza>
-    </verse>
-    <verse>
-      <stanza>Na utakaponiita,</stanza>
-      <stanza>Kuja kwako Bwana,</stanza>
-      <stanza>Huko kwako sitaacha</stanza>
-      <stanza>Kukusifu sana.</stanza>
-    </verse>
-  </song>
+      <title>Jina Lake Yesu Tamu</title>
+      <subtitle>How Sweet the Name of Jesus Sounds</subtitle>
+      <verse>
+        <stanza>Jina lake Yesu tamu;</stanza>
+        <stanza>Tukilisikia</stanza>
+        <stanza>Hutupoza, tena hamu</stanza>
+        <stanza>Hutuondolea.</stanza>
+      </verse>
+      <verse>
+        <stanza>Roho iliyoumia</stanza>
+        <stanza>Kwalo hutibika,</stanza>
+        <stanza>Chakula, njaani pia;</stanza>
+        <stanza>Raha, tukichoka.</stanza>
+      </verse>
+      <verse>
+        <stanza>Jina hili ni msingi,</stanza>
+        <stanza>Ngao, ngome, mwamba,</stanza>
+        <stanza>Kwa hili napata wingi,</stanza>
+        <stanza>Kwangu ni akiba.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu, Mchunga, Rafiki</stanza>
+        <stanza>Mwalimu, Kuhani,</stanza>
+        <stanza>Mwanzo, Mwisho, Njia, Haki,</stanza>
+        <stanza>Uzima kifoni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Moyo wangu hauwezi,</stanza>
+        <stanza>Kukusifu kweli,</stanza>
+        <stanza>Ila sifa zangu hizi,</stanza>
+        <stanza>Bwana zikubali.</stanza>
+      </verse>
+      <verse>
+        <stanza>Na utakaponiita,</stanza>
+        <stanza>Kuja kwako Bwana,</stanza>
+        <stanza>Huko kwako sitaacha</stanza>
+        <stanza>Kukusifu sana.</stanza>
+      </verse>
+    </song>
     <song>
       <number>6</number>
       <title>Baba, Mwana, Roho</title>
+      <subtitle>Holy Holy Holy, Lord God Almighty</subtitle>
       <verse>
         <stanza>Baba, Mwana, Roho, Mungu mwenye enzi,</stanza>
         <stanza>Kila tukiamka tunakuabudu</stanza>
@@ -235,6 +248,7 @@
     <song>
       <number>7</number>
       <title>Ni tabibu wa Karibu</title>
+      <subtitle>The Great Physician Now Is Near</subtitle>
       <verse>
         <stanza>Ni tabibu wa karibu;</stanza>
         <stanza>Tabibu wa ajabu;</stanza>
@@ -281,6 +295,7 @@
     <song>
       <number>8</number>
       <title>Taji Mvikeni</title>
+      <subtitle>Crown Him With Many Crowns</subtitle>
       <verse>
         <stanza>Taji mvikeni,</stanza>
         <stanza>Taji nyingi tena,</stanza>
@@ -315,6 +330,7 @@
     <song>
       <number>9</number>
       <title>Yesu Kwetu Ni Rafiki</title>
+      <subtitle>What A Friend We Have In Jesus</subtitle>
       <verse>
         <stanza>Yesu kwetu ni rafiki,</stanza>
         <stanza>Hwamiwa haja pia;</stanza>
@@ -349,6 +365,7 @@
     <song>
       <number>10</number>
       <title>Usinipite!</title>
+      <subtitle>Pass Me Not!</subtitle>
       <verse>
         <stanza>Usinipite Mwokozi,</stanza>
         <stanza>Unisikie;</stanza>
@@ -380,83 +397,86 @@
         <stanza>Bwana mwingine.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>11</number>
-    <title>Nina haja nawe</title>
-    <verse>
-      <stanza>Nina haja nawe</stanza>
-      <stanza>Kila saa;</stanza>
-      <stanza>Hawezi mwingine</stanza>
-      <stanza>Kunifaa.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Yesu, nakuhitaji</stanza>
-      <stanza>Vivyo kila saa!</stanza>
-      <stanza>Niwezeshe, Mwokozi,</stanza>
-      <stanza>Nakujia.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Nina haja nawe;</stanza>
-      <stanza>Kaa nami,</stanza>
-      <stanza>Na maonjo haya,</stanza>
-      <stanza>Hayaumi.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nina haja nawe;</stanza>
-      <stanza>Kila hali,</stanza>
-      <stanza>Maisha ni bure,</stanza>
-      <stanza>Uli mbali.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nina haja nawe,</stanza>
-      <stanza>Nifundishe</stanza>
-      <stanza>Na ahadi zako</stanza>
-      <stanza>Zifikishe.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nina haja nawe,</stanza>
-      <stanza>Mweza yote,</stanza>
-      <stanza>Ni wako kabisa</stanza>
-      <stanza>Siku zote.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Nina haja nawe</title>
+      <subtitle>I Need Thee Every Hour</subtitle>
+      <verse>
+        <stanza>Nina haja nawe</stanza>
+        <stanza>Kila saa;</stanza>
+        <stanza>Hawezi mwingine</stanza>
+        <stanza>Kunifaa.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Yesu, nakuhitaji</stanza>
+        <stanza>Vivyo kila saa!</stanza>
+        <stanza>Niwezeshe, Mwokozi,</stanza>
+        <stanza>Nakujia.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Nina haja nawe;</stanza>
+        <stanza>Kaa nami,</stanza>
+        <stanza>Na maonjo haya,</stanza>
+        <stanza>Hayaumi.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nina haja nawe;</stanza>
+        <stanza>Kila hali,</stanza>
+        <stanza>Maisha ni bure,</stanza>
+        <stanza>Uli mbali.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nina haja nawe,</stanza>
+        <stanza>Nifundishe</stanza>
+        <stanza>Na ahadi zako</stanza>
+        <stanza>Zifikishe.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nina haja nawe,</stanza>
+        <stanza>Mweza yote,</stanza>
+        <stanza>Ni wako kabisa</stanza>
+        <stanza>Siku zote.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>12</number>
-    <title>Ewe Roho Wa Mbinguni</title>
-    <verse>
-      <stanza>Ewe Roho wa Mbinguni</stanza>
-      <stanza>Uje kwetu sasa.</stanza>
-      <stanza>Ufanye makazi yako</stanza>
-      <stanza>Ndani ya Kanisa.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ndiwe mwanga, umulike</stanza>
-      <stanza>Tupate jikana;</stanza>
-      <stanza>Mengi kwetu yapunguka,</stanza>
-      <stanza>Tujalize, Bwana.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ndiwe Moto, teketeza</stanza>
-      <stanza>Taka zetu zote:</stanza>
-      <stanza>Moyo na iwe sadaka</stanza>
-      <stanza>Ya Mwokozi, yote.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ndiwe Umande, na kwako</stanza>
-      <stanza>Tutaburudika,</stanza>
-      <stanza>Nchi kavu itakuwa</stanza>
-      <stanza>Ni yenye Baraka.</stanza>
-    </verse>
-    <verse>
-      <stanza>Roho wa Mbinguni uwe</stanza>
-      <stanza>Nasi hapa chini,</stanza>
-      <stanza>Mwili uufananishe</stanza>
-      <stanza>Na kichwa Mbinguni.</stanza>
-    </verse>
-  </song>
+      <title>Ewe Roho Wa Mbinguni</title>
+      <subtitle>Spirit Divine Attend Our Prayers</subtitle>
+      <verse>
+        <stanza>Ewe Roho wa Mbinguni</stanza>
+        <stanza>Uje kwetu sasa.</stanza>
+        <stanza>Ufanye makazi yako</stanza>
+        <stanza>Ndani ya Kanisa.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ndiwe mwanga, umulike</stanza>
+        <stanza>Tupate jikana;</stanza>
+        <stanza>Mengi kwetu yapunguka,</stanza>
+        <stanza>Tujalize, Bwana.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ndiwe Moto, teketeza</stanza>
+        <stanza>Taka zetu zote:</stanza>
+        <stanza>Moyo na iwe sadaka</stanza>
+        <stanza>Ya Mwokozi, yote.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ndiwe Umande, na kwako</stanza>
+        <stanza>Tutaburudika,</stanza>
+        <stanza>Nchi kavu itakuwa</stanza>
+        <stanza>Ni yenye Baraka.</stanza>
+      </verse>
+      <verse>
+        <stanza>Roho wa Mbinguni uwe</stanza>
+        <stanza>Nasi hapa chini,</stanza>
+        <stanza>Mwili uufananishe</stanza>
+        <stanza>Na kichwa Mbinguni.</stanza>
+      </verse>
+    </song>
     <song>
       <number>13</number>
       <title>Tafuta Daima Utakatifu</title>
+      <subtitle>Take Time To Be Holy</subtitle>
       <verse>
         <stanza>Tafuta daima utakatifu;</stanza>
         <stanza>Fanya urafiki na Wakristo tu;</stanza>
@@ -485,6 +505,7 @@
     <song>
       <number>14</number>
       <title>Yesu Kwa Imani</title>
+      <subtitle>My Faith Looks Up To Thee</subtitle>
       <verse>
         <stanza>Yesu kwa imani,</stanza>
         <stanza>Nakutumaini,</stanza>
@@ -525,6 +546,7 @@
     <song>
       <number>15</number>
       <title>Cha Kutumaini Sina</title>
+      <subtitle>My Hope Is Built On Nothing Less</subtitle>
       <verse>
         <stanza>Chakutumaini sina</stanza>
         <stanza>Ila damu yake Bwana,</stanza>
@@ -558,6 +580,7 @@
     <song>
       <number>16</number>
       <title>Kumtegemea Mwokozi</title>
+      <subtitle>'Tis So Sweet To Trust In Jesus</subtitle>
       <verse>
         <stanza>Kumtegemea Mwokozi,</stanza>
         <stanza>Kwangu tamu kabisa;</stanza>
@@ -589,47 +612,49 @@
         <stanza>Uwe nami dawamu.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>17</number>
-    <title>Namwandama Bwana</title>
-    <verse>
-      <stanza>Namwndama Bwana kwa alilonena</stanza>
-      <stanza>Njia yangu huning’azia;</stanza>
-      <stanza>Nikimridhisha atanidumisha</stanza>
-      <stanza>Taamini nitii pia.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Amini utii, njia pweke ni hii</stanza>
-      <stanza>Ya furaha kwa Yesu: amini ukatii.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Giza sina kwangu wala hata wingu</stanza>
-      <stanza>Yeye mara huviondoa</stanza>
-      <stanza>Woga, wasiwasi, sononeko, basi;</stanza>
-      <stanza>Huamini nitii pia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Masumbuko yote, sikitiko lote;</stanza>
-      <stanza>Kwa mapenzi hunilipia;</stanza>
-      <stanza>Baa, dhara, dhiki, vivyo hubariki</stanza>
-      <stanza>Taamini nitii pia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Mimi sitajua raha sawasawa</stanza>
-      <stanza>Ila yote Yesu kumpa;</stanza>
-      <stanza>Napata fadhili na radhi kamili,</stanza>
-      <stanza>Taamini nitii pia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nitamfurahia na kumtumaini,</stanza>
-      <stanza>Majumbani na njia-njia;</stanza>
-      <stanza>Agizo natenda, nikitumwa hwenda,</stanza>
-      <stanza>Huamini nitii pia.</stanza>
-    </verse>
-  </song>
+      <title>Namwandama Bwana</title>
+      <subtitle>When We Walk With The Lord</subtitle>
+      <verse>
+        <stanza>Namwndama Bwana kwa alilonena</stanza>
+        <stanza>Njia yangu huning’azia;</stanza>
+        <stanza>Nikimridhisha atanidumisha</stanza>
+        <stanza>Taamini nitii pia.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Amini utii, njia pweke ni hii</stanza>
+        <stanza>Ya furaha kwa Yesu: amini ukatii.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Giza sina kwangu wala hata wingu</stanza>
+        <stanza>Yeye mara huviondoa</stanza>
+        <stanza>Woga, wasiwasi, sononeko, basi;</stanza>
+        <stanza>Huamini nitii pia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Masumbuko yote, sikitiko lote;</stanza>
+        <stanza>Kwa mapenzi hunilipia;</stanza>
+        <stanza>Baa, dhara, dhiki, vivyo hubariki</stanza>
+        <stanza>Taamini nitii pia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Mimi sitajua raha sawasawa</stanza>
+        <stanza>Ila yote Yesu kumpa;</stanza>
+        <stanza>Napata fadhili na radhi kamili,</stanza>
+        <stanza>Taamini nitii pia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nitamfurahia na kumtumaini,</stanza>
+        <stanza>Majumbani na njia-njia;</stanza>
+        <stanza>Agizo natenda, nikitumwa hwenda,</stanza>
+        <stanza>Huamini nitii pia.</stanza>
+      </verse>
+    </song>
     <song>
       <number>18</number>
       <title>Akifa Yesu Nikafa Naye</title>
+      <subtitle>Dying With Jesus By Death Reckoned Mine</subtitle>
       <verse>
         <stanza>Akifa Yesu nikafa naye</stanza>
         <stanza>Uzima upya huishi naye;</stanza>
@@ -670,6 +695,7 @@
     <song>
       <number>19</number>
       <title>Ndiyo Dhamana, Yesu Wangu</title>
+      <subtitle>Blessed Assurance, Jesus Is Mine</subtitle>
       <verse>
         <stanza>Ndiyo dhamana, Yesu wangu;</stanza>
         <stanza>Hunipa furaha za Mbingu;</stanza>
@@ -704,6 +730,7 @@
     <song>
       <number>20</number>
       <title>Ninaye Rafiki Naye</title>
+      <subtitle>I’ve Found A Friend, Oh Such A Friend</subtitle>
       <verse>
         <stanza>Ninaye Rafiki naye</stanza>
         <stanza>Alinipenda mbele;</stanza>
@@ -748,6 +775,7 @@
     <song>
       <number>21</number>
       <title>Roho Yangu Hima</title>
+      <subtitle>Be Quick, My Soul, And Light Thy Lamp</subtitle>
       <verse>
         <stanza>Roho yangu hima, na taa yako</stanza>
         <stanza>Kaiwashe vyema, hapa si pako;</stanza>
@@ -844,6 +872,7 @@
     <song>
       <number>23</number>
       <title>Ni Salama Rohoni Mwangu</title>
+      <subtitle>When Peace Like A River</subtitle>
       <verse>
         <stanza>Nionapo amani kama shwari,</stanza>
         <stanza>Ama nionapo shida;</stanza>
@@ -873,50 +902,52 @@
         <stanza>Ni salama rohoni mwangu.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>24</number>
-    <title>Mwokozi Moyoni Mwangu</title>
-    <verse>
-      <stanza>Tangu siku hiyo aliponijia,</stanza>
-      <stanza>Akae moyoni mwangu,</stanza>
-      <stanza>Sina giza tena, ila mwanga pia</stanza>
-      <stanza>Kwa Yesu mwokozi wangu.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Amani moyoni mwangu,</stanza>
-      <stanza>kwa Yesu, Mwokozi wangu;</stanza>
-      <stanza>Sina shaka kamwe,</stanza>
-      <stanza>Kwa sababu yeye,</stanza>
-      <stanza>Yu nami moyoni mwangu.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Sina haja tena, ya kutanga-tanga,</stanza>
-      <stanza>Ndiye kiongozi wangu.</stanza>
-      <stanza>Dhambi zangu zote zimeondolewa,</stanza>
-      <stanza>Na Yesu, Mwanawe Mungu.</stanza>
-    </verse>
-    <verse>
-      <stanza>Matumaini yangu ni ya hakika,</stanza>
-      <stanza>Katika Mwokozi wangu.</stanza>
-      <stanza>Hofu zangu na hamu zimeondoka,</stanza>
-      <stanza>kwa kuwa ninaye Yesu.</stanza>
-    </verse>
-    <verse>
-      <stanza>Siogopi tena, nikiitwa kufa,</stanza>
-      <stanza>Yu nami daima, Yesu.</stanza>
-      <stanza>Mlango wa Mbinguni ni yeye pia,</stanza>
-      <stanza>“Tapita humo kwa damu.”</stanza>
-    </verse>
-    <verse>
-      <stanza>Nitaketi na yeye huko milele,</stanza>
-      <stanza>Nisifu Mwokozi wangu.</stanza>
-      <stanza>Nina raha moyoni majira yote,</stanza>
-      <stanza>Kwa Yesu, Mwanawe Mungu.</stanza>
-    </verse>
-  </song>
+      <title>Mwokozi Moyoni Mwangu</title>
+      <subtitle>Since Jesus Came Into My Heart</subtitle>
+      <verse>
+        <stanza>Tangu siku hiyo aliponijia,</stanza>
+        <stanza>Akae moyoni mwangu,</stanza>
+        <stanza>Sina giza tena, ila mwanga pia</stanza>
+        <stanza>Kwa Yesu mwokozi wangu.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Amani moyoni mwangu,</stanza>
+        <stanza>kwa Yesu, Mwokozi wangu;</stanza>
+        <stanza>Sina shaka kamwe,</stanza>
+        <stanza>Kwa sababu yeye,</stanza>
+        <stanza>Yu nami moyoni mwangu.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Sina haja tena, ya kutanga-tanga,</stanza>
+        <stanza>Ndiye kiongozi wangu.</stanza>
+        <stanza>Dhambi zangu zote zimeondolewa,</stanza>
+        <stanza>Na Yesu, Mwanawe Mungu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Matumaini yangu ni ya hakika,</stanza>
+        <stanza>Katika Mwokozi wangu.</stanza>
+        <stanza>Hofu zangu na hamu zimeondoka,</stanza>
+        <stanza>kwa kuwa ninaye Yesu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Siogopi tena, nikiitwa kufa,</stanza>
+        <stanza>Yu nami daima, Yesu.</stanza>
+        <stanza>Mlango wa Mbinguni ni yeye pia,</stanza>
+        <stanza>“Tapita humo kwa damu.”</stanza>
+      </verse>
+      <verse>
+        <stanza>Nitaketi na yeye huko milele,</stanza>
+        <stanza>Nisifu Mwokozi wangu.</stanza>
+        <stanza>Nina raha moyoni majira yote,</stanza>
+        <stanza>Kwa Yesu, Mwanawe Mungu.</stanza>
+      </verse>
+    </song>
     <song>
       <number>25</number>
       <title>Nimekombolewa na Yesu</title>
+      <subtitle>Redeemed! How I Love To Proclaim It !</subtitle>
       <verse>
         <stanza>Nimekombolewa na Yesu</stanza>
         <stanza>Aliyenirehemia;</stanza>
@@ -948,247 +979,255 @@
         <stanza>Ili alipo, niwepo.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>26</number>
-    <title>Yesu Unipendaye</title>
-    <verse>
-      <stanza>Yesu unipendaye</stanza>
-      <stanza>Kwako nakimbilia,</stanza>
-      <stanza>Ni wewe utoshaye,</stanza>
-      <stanza>Mwovu akinijia;</stanza>
-      <stanza>Yafiche ubavuni,</stanza>
-      <stanza>Mwako maisha yangu;</stanza>
-      <stanza>Nifiikishe mbinguni</stanza>
-      <stanza>Wokoe moyo wangu.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ngome nyingine sina;</stanza>
-      <stanza>Nategemea kwako.</stanza>
-      <stanza>Usinitupe Bwana ,</stanza>
-      <stanza>Nipe neema yako,</stanza>
-      <stanza>Ninakuamania</stanza>
-      <stanza>Mwenye kuniwezesha;</stanza>
-      <stanza>Shari wanikingia,</stanza>
-      <stanza>Vitani wanitosha.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nakutaka Mpaji</stanza>
-      <stanza>Vyote napata kwako;</stanza>
-      <stanza>Niwapo muhitaji,</stanza>
-      <stanza>Utanijazi vyako;</stanza>
-      <stanza>Nao waangukao</stanza>
-      <stanza>Wanyonge wape nguvu;</stanza>
-      <stanza>Poza wauguao,</stanza>
-      <stanza>Uongoze vipofu.</stanza>
-    </verse>
-    <verse>
-      <stanza>Bwana umeniosha</stanza>
-      <stanza>Moyo kwa damu yako;</stanza>
-      <stanza>Neema ya kutosha</stanza>
-      <stanza>Yapatikana kwako;</stanza>
-      <stanza>Kwako Bwana naona</stanza>
-      <stanza>Kisima cha uzima;</stanza>
-      <stanza>Mwangu moyoni Bwana,</stanza>
-      <stanza>Bubujika daima.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Yesu Unipendaye</title>
+      <subtitle>Jesus, Lover Of My Soul</subtitle>
+      <verse>
+        <stanza>Yesu unipendaye</stanza>
+        <stanza>Kwako nakimbilia,</stanza>
+        <stanza>Ni wewe utoshaye,</stanza>
+        <stanza>Mwovu akinijia;</stanza>
+        <stanza>Yafiche ubavuni,</stanza>
+        <stanza>Mwako maisha yangu;</stanza>
+        <stanza>Nifiikishe mbinguni</stanza>
+        <stanza>Wokoe moyo wangu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ngome nyingine sina;</stanza>
+        <stanza>Nategemea kwako.</stanza>
+        <stanza>Usinitupe Bwana ,</stanza>
+        <stanza>Nipe neema yako,</stanza>
+        <stanza>Ninakuamania</stanza>
+        <stanza>Mwenye kuniwezesha;</stanza>
+        <stanza>Shari wanikingia,</stanza>
+        <stanza>Vitani wanitosha.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nakutaka Mpaji</stanza>
+        <stanza>Vyote napata kwako;</stanza>
+        <stanza>Niwapo muhitaji,</stanza>
+        <stanza>Utanijazi vyako;</stanza>
+        <stanza>Nao waangukao</stanza>
+        <stanza>Wanyonge wape nguvu;</stanza>
+        <stanza>Poza wauguao,</stanza>
+        <stanza>Uongoze vipofu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Bwana umeniosha</stanza>
+        <stanza>Moyo kwa damu yako;</stanza>
+        <stanza>Neema ya kutosha</stanza>
+        <stanza>Yapatikana kwako;</stanza>
+        <stanza>Kwako Bwana naona</stanza>
+        <stanza>Kisima cha uzima;</stanza>
+        <stanza>Mwangu moyoni Bwana,</stanza>
+        <stanza>Bubujika daima.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>27</number>
-    <title>Mungu ni Pendo</title>
-    <verse>
-      <stanza>Mungu ni pendo, apenda watu;</stanza>
-      <stanza>Mungu ni pendo, anipenda</stanza>
-    </verse>
-    <refrain>
-      <stanza>Sikilizeni furaha yangu,</stanza>
-      <stanza>Mungu ni pendo, anipenda.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Nilipotea katika dhambi,</stanza>
-      <stanza>Nikawa mtumwa wa shetani.</stanza>
-    </verse>
-    <verse>
-      <stanza>Akaja Yesu kuniokoa,</stanza>
-      <stanza>Yeye kanipa kuwa huru.</stanza>
-    </verse>
-    <verse>
-      <stanza>Sababu hii namtumikia,</stanza>
-      <stanza>Namsifu yeye siku zote.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Mungu ni Pendo</title>
+      <subtitle>God Is Love</subtitle>
+      <verse>
+        <stanza>Mungu ni pendo, apenda watu;</stanza>
+        <stanza>Mungu ni pendo, anipenda</stanza>
+      </verse>
+      <refrain>
+        <stanza>Sikilizeni furaha yangu,</stanza>
+        <stanza>Mungu ni pendo, anipenda.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Nilipotea katika dhambi,</stanza>
+        <stanza>Nikawa mtumwa wa shetani.</stanza>
+      </verse>
+      <verse>
+        <stanza>Akaja Yesu kuniokoa,</stanza>
+        <stanza>Yeye kanipa kuwa huru.</stanza>
+      </verse>
+      <verse>
+        <stanza>Sababu hii namtumikia,</stanza>
+        <stanza>Namsifu yeye siku zote.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>28</number>
-    <title>Anipenda Kweli</title>
-    <verse>
-      <stanza>Anipenda ni kweli;</stanza>
-      <stanza>Mungu anena hili;</stanza>
-      <stanza>Sisi wake watoto;</stanza>
-      <stanza>kutulinda si zito.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Yesu anipenda,</stanza>
-      <stanza>Yesu anipenda,</stanza>
-      <stanza>Kweli anipenda,</stanza>
-      <stanza>Mungu amesema.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Kwa kupenda akafa</stanza>
-      <stanza>Niokoke na kufa;</stanza>
-      <stanza>Atazidi taka,</stanza>
-      <stanza>Sana ataniweka.</stanza>
-    </verse>
-    <verse>
-      <stanza>Anipenda kabisa;</stanza>
-      <stanza>Niuguapo sasa</stanza>
-      <stanza>Anitunza Mbinguni</stanza>
-      <stanza>Nniliyelala chini.</stanza>
-    </verse>
-    <verse>
-      <stanza>Kunipenda haachi,</stanza>
-      <stanza>Tu sote hapa chini</stanza>
-      <stanza>Baada ya mashaka</stanza>
-      <stanza>Kwake tanipeleka.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Anipenda Kweli</title>
+      <subtitle>Jesus Loves Me, This I Know</subtitle>
+      <verse>
+        <stanza>Anipenda ni kweli;</stanza>
+        <stanza>Mungu anena hili;</stanza>
+        <stanza>Sisi wake watoto;</stanza>
+        <stanza>kutulinda si zito.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Yesu anipenda,</stanza>
+        <stanza>Yesu anipenda,</stanza>
+        <stanza>Kweli anipenda,</stanza>
+        <stanza>Mungu amesema.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Kwa kupenda akafa</stanza>
+        <stanza>Niokoke na kufa;</stanza>
+        <stanza>Atazidi taka,</stanza>
+        <stanza>Sana ataniweka.</stanza>
+      </verse>
+      <verse>
+        <stanza>Anipenda kabisa;</stanza>
+        <stanza>Niuguapo sasa</stanza>
+        <stanza>Anitunza Mbinguni</stanza>
+        <stanza>Nniliyelala chini.</stanza>
+      </verse>
+      <verse>
+        <stanza>Kunipenda haachi,</stanza>
+        <stanza>Tu sote hapa chini</stanza>
+        <stanza>Baada ya mashaka</stanza>
+        <stanza>Kwake tanipeleka.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>29</number>
-    <title>Baba yetu aliye Mbinguni</title>
-    <verse>
-      <stanza>Baba yetu aliye Mbinguni</stanza>
-      <stanza>Amenifurahisha yakini</stanza>
-      <stanza>Kuniambia mwake chuoni</stanza>
-      <stanza>Ya kuwa nami Yesu pendoni.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Anipenda Mwokozi Yesu,</stanza>
-      <stanza>Anipenda, anipenda;</stanza>
-      <stanza>Anipenda Mwokozi Yesu,</stanza>
-      <stanza>Anipenda mimi.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Nimuachapo kutanga mbali,</stanza>
-      <stanza>Yeye yu vivyo, hupenda kweli,</stanza>
-      <stanza>Hunirejeza kwake moyoni;</stanza>
-      <stanza>Kweli yu nami Yesu pendoni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Anipenda! Nami nampenda;</stanza>
-      <stanza>Kwa wokovu alionitenda;</stanza>
-      <stanza>Akanifia Msalabani</stanza>
-      <stanza>Kwa kuwa nami Yesu pendoni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Haya kujua yanipa raha;</stanza>
-      <stanza>Kumuamini kuna furaha;</stanza>
-      <stanza>Humfukuza mara shetani,</stanza>
-      <stanza>Kwona yu nami Yesu pendoni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Sifa ni nyingi asifiwazo,</stanza>
-      <stanza>Moja ni sana katika hizo,</stanza>
-      <stanza>Wala siachi, hata Mbinguni,</stanza>
-      <stanza>Kwimba, “Yu nami Yesu pendoni”.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Baba yetu aliye Mbinguni</title>
+      <subtitle>I Am So Glad That Our Father In Heaven</subtitle>
+      <verse>
+        <stanza>Baba yetu aliye Mbinguni</stanza>
+        <stanza>Amenifurahisha yakini</stanza>
+        <stanza>Kuniambia mwake chuoni</stanza>
+        <stanza>Ya kuwa nami Yesu pendoni.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Anipenda Mwokozi Yesu,</stanza>
+        <stanza>Anipenda, anipenda;</stanza>
+        <stanza>Anipenda Mwokozi Yesu,</stanza>
+        <stanza>Anipenda mimi.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Nimuachapo kutanga mbali,</stanza>
+        <stanza>Yeye yu vivyo, hupenda kweli,</stanza>
+        <stanza>Hunirejeza kwake moyoni;</stanza>
+        <stanza>Kweli yu nami Yesu pendoni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Anipenda! Nami nampenda;</stanza>
+        <stanza>Kwa wokovu alionitenda;</stanza>
+        <stanza>Akanifia Msalabani</stanza>
+        <stanza>Kwa kuwa nami Yesu pendoni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Haya kujua yanipa raha;</stanza>
+        <stanza>Kumuamini kuna furaha;</stanza>
+        <stanza>Humfukuza mara shetani,</stanza>
+        <stanza>Kwona yu nami Yesu pendoni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Sifa ni nyingi asifiwazo,</stanza>
+        <stanza>Moja ni sana katika hizo,</stanza>
+        <stanza>Wala siachi, hata Mbinguni,</stanza>
+        <stanza>Kwimba, “Yu nami Yesu pendoni”.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>30</number>
-    <title>Nilikuwa Kondoo Aliyepotea</title>
-    <verse>
-      <stanza>Nilikuwa kondoo aliyepotea,</stanza>
-      <stanza>Sikupenda zizi kamwe, ila kutembea</stanza>
-      <stanza>Nilikuwa mwana asiyesikia,</stanza>
-      <stanza>Sikupenda baba yangu wala kutulia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Na mchunga mwema alinitafuta,</stanza>
-      <stanza>Baba kwa mapenzi ndiye aliyenivuta;</stanza>
-      <stanza>Karibu ya kufa, kwa kiu na kwa njaa,</stanza>
-      <stanza>Waliniona mnyonge, waliniokoa.</stanza>
-    </verse>
-    <verse>
-      <stanza>Yesu ni mchunga, mwenziwe hapana,</stanza>
-      <stanza>Aliosha taka zangu, dhambi nyingi sana;</stanza>
-      <stanza>Kwa vidonda vyangu alitia dawa.</stanza>
-      <stanza>Ndiye aliyenipata, na kwake nalindwa.</stanza>
-    </verse>
-    <verse>
-      <stanza>Nilikuwa kondoo aliyepotea</stanza>
-      <stanza>Sasa nampenda Baba, na mchunga pia;</stanza>
-      <stanza>Kwanza nilitanga na kukosa sana,</stanza>
-      <stanza>Hivi nyumbani mwa Baba sipotei tena.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Nilikuwa Kondoo Aliyepotea</title>
+      <subtitle>I Was A Wandering Sheep</subtitle>
+      <verse>
+        <stanza>Nilikuwa kondoo aliyepotea,</stanza>
+        <stanza>Sikupenda zizi kamwe, ila kutembea</stanza>
+        <stanza>Nilikuwa mwana asiyesikia,</stanza>
+        <stanza>Sikupenda baba yangu wala kutulia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Na mchunga mwema alinitafuta,</stanza>
+        <stanza>Baba kwa mapenzi ndiye aliyenivuta;</stanza>
+        <stanza>Karibu ya kufa, kwa kiu na kwa njaa,</stanza>
+        <stanza>Waliniona mnyonge, waliniokoa.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu ni mchunga, mwenziwe hapana,</stanza>
+        <stanza>Aliosha taka zangu, dhambi nyingi sana;</stanza>
+        <stanza>Kwa vidonda vyangu alitia dawa.</stanza>
+        <stanza>Ndiye aliyenipata, na kwake nalindwa.</stanza>
+      </verse>
+      <verse>
+        <stanza>Nilikuwa kondoo aliyepotea</stanza>
+        <stanza>Sasa nampenda Baba, na mchunga pia;</stanza>
+        <stanza>Kwanza nilitanga na kukosa sana,</stanza>
+        <stanza>Hivi nyumbani mwa Baba sipotei tena.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>31</number>
-    <title>Msingi Imara</title>
-    <verse>
-      <stanza>Msingi imara, enyi wa kweli,</stanza>
-      <stanza>Umekwisha pigwa kwa neno hili;</stanza>
-      <stanza>Aongeze lipi? Mnayo pia</stanza>
-      <stanza>Kwa Yesu mliomkimbilia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Wambiwapo vuka maji ya giza,</stanza>
-      <stanza>Mito ya mashaka taipunguza;</stanza>
-      <stanza>Takupa nawe, nikuwezeshe,</stanza>
-      <stanza>Ipata kufaa, isikutishe!</stanza>
-    </verse>
-    <verse>
-      <stanza>Utakapopishwa ndani ya moto</stanza>
-      <stanza>Nnguvu nitakupa, upate pato;</stanza>
-      <stanza>Huteketezwi, ila taka zako,</stanza>
-      <stanza>Na zitasalia dhahabu zako.</stanza>
-    </verse>
-    <verse>
-      <stanza>Hata zije mvi, walio wangu</stanza>
-      <stanza>Hawaoni kwisha mapenzi yangu;</stanza>
-      <stanza>Nazo zitakapowenea, ndipo</stanza>
-      <stanza>Mabegani mwangu niwatwekapo.</stanza>
-    </verse>
-    <verse>
-      <stanza>Na mtu aliyenitegemea</stanza>
-      <stanza>Kamwe kwa adui sitamtia;</stanza>
-      <stanza>Nguvu za jehanam zijapotisha,</stanza>
-      <stanza>Mtu wangu kamwe sitamuacha.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Msingi Imara</title>
+      <subtitle>How Firm A Foundation, Ye Saints Of The Lord</subtitle>
+      <verse>
+        <stanza>Msingi imara, enyi wa kweli,</stanza>
+        <stanza>Umekwisha pigwa kwa neno hili;</stanza>
+        <stanza>Aongeze lipi? Mnayo pia</stanza>
+        <stanza>Kwa Yesu mliomkimbilia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Wambiwapo vuka maji ya giza,</stanza>
+        <stanza>Mito ya mashaka taipunguza;</stanza>
+        <stanza>Takupa nawe, nikuwezeshe,</stanza>
+        <stanza>Ipata kufaa, isikutishe!</stanza>
+      </verse>
+      <verse>
+        <stanza>Utakapopishwa ndani ya moto</stanza>
+        <stanza>Nnguvu nitakupa, upate pato;</stanza>
+        <stanza>Huteketezwi, ila taka zako,</stanza>
+        <stanza>Na zitasalia dhahabu zako.</stanza>
+      </verse>
+      <verse>
+        <stanza>Hata zije mvi, walio wangu</stanza>
+        <stanza>Hawaoni kwisha mapenzi yangu;</stanza>
+        <stanza>Nazo zitakapowenea, ndipo</stanza>
+        <stanza>Mabegani mwangu niwatwekapo.</stanza>
+      </verse>
+      <verse>
+        <stanza>Na mtu aliyenitegemea</stanza>
+        <stanza>Kamwe kwa adui sitamtia;</stanza>
+        <stanza>Nguvu za jehanam zijapotisha,</stanza>
+        <stanza>Mtu wangu kamwe sitamuacha.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>32</number>
-    <title>Yesu Awakubali Wakosa</title>
-    <verse>
-      <stanza>Yesu awakubali,</stanza>
-      <stanza>Wakosa, wahalifu,</stanza>
-      <stanza>Wambieni wa mbali</stanza>
-      <stanza>Habari ya wokovu.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Tangazeni kwa bidii,</stanza>
-      <stanza>“Akubali wakosa!”</stanza>
-      <stanza>Liwe neno dhahiri,</stanza>
-      <stanza>“Akubali wakosa!”</stanza>
-    </refrain>
-    <verse>
-      <stanza>Awakubali Bwana</stanza>
-      <stanza>Neno lake amini</stanza>
-      <stanza>Watu kila aina</stanza>
-      <stanza>Waje kwake tengoni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Mimi ni safi moyo</stanza>
-      <stanza>Na mbele ya sharia,</stanza>
-      <stanza>Aliye safi roho</stanza>
-      <stanza>Kwake ilitimia.</stanza>
-    </verse>
-    <verse>
-      <stanza>Akubali wakosa;</stanza>
-      <stanza>Nami anikubali;</stanza>
-      <stanza>Alivyonitakasa</stanza>
-      <stanza>Mbinguni niwasili.</stanza>
-    </verse>
-  </song>
+      <title>Yesu Awakubali Wakosa</title>
+      <subtitle>Sinners, Jesus Will Receive</subtitle>
+      <verse>
+        <stanza>Yesu awakubali,</stanza>
+        <stanza>Wakosa, wahalifu,</stanza>
+        <stanza>Wambieni wa mbali</stanza>
+        <stanza>Habari ya wokovu.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Tangazeni kwa bidii,</stanza>
+        <stanza>“Akubali wakosa!”</stanza>
+        <stanza>Liwe neno dhahiri,</stanza>
+        <stanza>“Akubali wakosa!”</stanza>
+      </refrain>
+      <verse>
+        <stanza>Awakubali Bwana</stanza>
+        <stanza>Neno lake amini</stanza>
+        <stanza>Watu kila aina</stanza>
+        <stanza>Waje kwake tengoni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Mimi ni safi moyo</stanza>
+        <stanza>Na mbele ya sharia,</stanza>
+        <stanza>Aliye safi roho</stanza>
+        <stanza>Kwake ilitimia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Akubali wakosa;</stanza>
+        <stanza>Nami anikubali;</stanza>
+        <stanza>Alivyonitakasa</stanza>
+        <stanza>Mbinguni niwasili.</stanza>
+      </verse>
+    </song>
     <song>
       <number>33</number>
       <title>Dhambi Ikikulemea</title>
+      <subtitle>Come, Every Soul By Sin Oppressed</subtitle>
       <verse>
         <stanza>Dhambi ikikulemea,</stanza>
         <stanza>Kwa Bwana rehema;</stanza>
@@ -1223,6 +1262,7 @@
     <song>
       <number>34</number>
       <title>Njoni Wenye Dhambi</title>
+      <subtitle>Come, Ye Sinners, Poor And Wretched</subtitle>
       <verse>
         <stanza>Njoni! Njoni! Wenye dhambi,</stanza>
         <stanza>Njoni, msikawie;</stanza>
@@ -1274,6 +1314,7 @@
     <song>
       <number>35</number>
       <title>Twende Kwake</title>
+      <subtitle>Come To Jesus Just Now</subtitle>
       <verse>
         <stanza>Twende kwake, twende kwake, kwake Yesu sasa,</stanza>
         <stanza>Sasa twende kwake, kwake Yesu sasa!</stanza>
@@ -1302,6 +1343,7 @@
     <song>
       <number>36</number>
       <title>Anisikiaye Aliye Yote</title>
+      <subtitle>Whosoever Will</subtitle>
       <verse>
         <stanza>Anisikiaye, aliye yote;</stanza>
         <stanza>Sasa litangae, wajue wote,</stanza>
@@ -1327,45 +1369,47 @@
         <stanza>Atakaye na aje.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>37</number>
-    <title>Waitwa, Mwovu, Na Bwana</title>
-    <verse>
-      <stanza>Waitwa, mwovu, na Bwana</stanza>
-      <stanza>Umwendee hima sana,</stanza>
-      <stanza>Usafiwe dhambi zako,</stanza>
-      <stanza>Humwoni ni Mwema wako?</stanza>
-    </verse>
-    <refrain>
-      <stanza>Unaitwa! Itika tu!</stanza>
-      <stanza>Umwendee Bwana Yesu!</stanza>
-      <stanza>Sifiche makosa yako,</stanza>
-      <stanza>Uungame dhambi zako!</stanza>
-      <stanza>Kristo tu umuamini,</stanza>
-      <stanza>Ndiyo njia ua Mbinguni.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Alilipa damu yake</stanza>
-      <stanza>Ili kukukweza kwake;</stanza>
-      <stanza>Alikufa yeye Bwana,</stanza>
-      <stanza>Mimi nawe tuwe wema.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ukifanywa kuwa mwema</stanza>
-      <stanza>Mwishoni utasimama,</stanza>
-      <stanza>Utaingia rahani</stanza>
-      <stanza>Na wapenzi wa zamani.</stanza>
-    </verse>
-    <verse>
-      <stanza>Ni mwanga tu, nchi ile;</stanza>
-      <stanza>Uovu hauko kule,</stanza>
-      <stanza>Kwamba wataka ufike</stanza>
-      <stanza>Sharti huku uosheke.</stanza>
-    </verse>
-  </song>
+      <title>Waitwa, Mwovu, Na Bwana</title>
+      <subtitle>Beulah Land</subtitle>
+      <verse>
+        <stanza>Waitwa, mwovu, na Bwana</stanza>
+        <stanza>Umwendee hima sana,</stanza>
+        <stanza>Usafiwe dhambi zako,</stanza>
+        <stanza>Humwoni ni Mwema wako?</stanza>
+      </verse>
+      <refrain>
+        <stanza>Unaitwa! Itika tu!</stanza>
+        <stanza>Umwendee Bwana Yesu!</stanza>
+        <stanza>Sifiche makosa yako,</stanza>
+        <stanza>Uungame dhambi zako!</stanza>
+        <stanza>Kristo tu umuamini,</stanza>
+        <stanza>Ndiyo njia ua Mbinguni.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Alilipa damu yake</stanza>
+        <stanza>Ili kukukweza kwake;</stanza>
+        <stanza>Alikufa yeye Bwana,</stanza>
+        <stanza>Mimi nawe tuwe wema.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ukifanywa kuwa mwema</stanza>
+        <stanza>Mwishoni utasimama,</stanza>
+        <stanza>Utaingia rahani</stanza>
+        <stanza>Na wapenzi wa zamani.</stanza>
+      </verse>
+      <verse>
+        <stanza>Ni mwanga tu, nchi ile;</stanza>
+        <stanza>Uovu hauko kule,</stanza>
+        <stanza>Kwamba wataka ufike</stanza>
+        <stanza>Sharti huku uosheke.</stanza>
+      </verse>
+    </song>
     <song>
       <number>38</number>
       <title>Twende Kwa Yesu</title>
+      <subtitle>Come To The Saviour, Make No Delay</subtitle>
       <verse>
         <stanza>Twende kwa Yesu mimi nawe,</stanza>
         <stanza>Njia atwonya tuijue</stanza>
@@ -1391,86 +1435,256 @@
         <stanza>Ewe kijana, Njoo.</stanza>
       </verse>
     </song>
-  <song>
+    <song>
       <number>39</number>
-    <title>Mwenye Dhambi Huna Raha</title>
-    <verse>
-      <stanza>Mwenye dhambi huna raha,</stanza>
-      <stanza>Sikiza nakusihi,</stanza>
-      <stanza>Utapata msamaha</stanza>
-      <stanza>Kwake Yesu Mwokozi!</stanza>
-      <stanza>Njoo hima, njoo hima,</stanza>
-      <stanza>Naye atafurahi.</stanza>
-    </verse>
-    <verse>
-      <stanza>Yesu anakwita sana</stanza>
-      <stanza>Naye yuko Mbinguni;</stanza>
-      <stanza>Hofu ya kifo hapana</stanza>
-      <stanza>Kwake ukiamini.</stanza>
-      <stanza>Njoo hima, njoo hima,</stanza>
-      <stanza>Utapata amani.</stanza>
-    </verse>
-    <verse>
-      <stanza>Hatakwita siku zote;</stanza>
-      <stanza>Ni ya sasa nafasi.</stanza>
-      <stanza>Lete na uchafu wote,</stanza>
-      <stanza>Kukawa haipasi.</stanza>
-      <stanza>Njoo hima, njoo hima,</stanza>
-      <stanza>Ni wokovu halisi.</stanza>
-    </verse>
-    <verse>
-      <stanza>Uzima uko kwa Bwana</stanza>
-      <stanza>Twae uzima hasa</stanza>
-      <stanza>Bure unapatikana,</stanza>
-      <stanza>Wokovu twae sasa!</stanza>
-      <stanza>Njoo hima, njoo hima,</stanza>
-      <stanza>Twae utakatifu.</stanza>
-    </verse>
-  </song>
-  <song>
+      <title>Mwenye Dhambi Huna Raha</title>
+      <subtitle>Come, Ye Sinners, Poor And Wretched</subtitle>
+      <verse>
+        <stanza>Mwenye dhambi huna raha,</stanza>
+        <stanza>Sikiza nakusihi,</stanza>
+        <stanza>Utapata msamaha</stanza>
+        <stanza>Kwake Yesu Mwokozi!</stanza>
+        <stanza>Njoo hima, njoo hima,</stanza>
+        <stanza>Naye atafurahi.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu anakwita sana</stanza>
+        <stanza>Naye yuko Mbinguni;</stanza>
+        <stanza>Hofu ya kifo hapana</stanza>
+        <stanza>Kwake ukiamini.</stanza>
+        <stanza>Njoo hima, njoo hima,</stanza>
+        <stanza>Utapata amani.</stanza>
+      </verse>
+      <verse>
+        <stanza>Hatakwita siku zote;</stanza>
+        <stanza>Ni ya sasa nafasi.</stanza>
+        <stanza>Lete na uchafu wote,</stanza>
+        <stanza>Kukawa haipasi.</stanza>
+        <stanza>Njoo hima, njoo hima,</stanza>
+        <stanza>Ni wokovu halisi.</stanza>
+      </verse>
+      <verse>
+        <stanza>Uzima uko kwa Bwana</stanza>
+        <stanza>Twae uzima hasa</stanza>
+        <stanza>Bure unapatikana,</stanza>
+        <stanza>Wokovu twae sasa!</stanza>
+        <stanza>Njoo hima, njoo hima,</stanza>
+        <stanza>Twae utakatifu.</stanza>
+      </verse>
+    </song>
+    <song>
       <number>40</number>
-    <title>Nasikia Kuitwa</title>
-    <verse>
-      <stanza>Nasikia kwitwa</stanza>
-      <stanza>Na sauti yako</stanza>
-      <stanza>Nikasafiwe kwa damu</stanza>
-      <stanza>Ya kwangikwa kwako.</stanza>
-    </verse>
-    <refrain>
-      <stanza>Nimesogea Mtini pako,</stanza>
-      <stanza>Unisafi kwa damu ya kwangikwa kwako.</stanza>
-    </refrain>
-    <verse>
-      <stanza>Ni mnuonge kweli,</stanza>
-      <stanza>Umenipa nguvu,</stanza>
-      <stanza>Ulivyonisafi taka,</stanza>
-      <stanza>Ni utimilivu.</stanza>
-    </verse>
-    <verse>
-      <stanza>Yesu hunijuvya;</stanza>
-      <stanza>Mapenzi, imani;</stanza>
-      <stanza>Tumai, amani, radhi,</stanza>
-      <stanza>Hapa na Mbinguni.</stanza>
-    </verse>
-    <verse>
-      <stanza>Huipa imara,</stanza>
-      <stanza>Kazi yake, ndani:</stanza>
-      <stanza>Huongezeka neema,</stanza>
-      <stanza>Ashindwe Shetani.</stanza>
-    </verse>
-    <verse>
-      <stanza>Huishuhudia,</stanza>
-      <stanza>Myoyo ya imani</stanza>
-      <stanza>Ya kuzipata ahadi,</stanza>
-      <stanza>Wakimuamini.</stanza>
-    </verse>
-    <verse>
-      <stanza>Napata wokovu,</stanza>
-      <stanza>Wema na neema;</stanza>
-      <stanza>kwako Bwana nina nguvu</stanza>
-      <stanza>Na haki daima.</stanza>
-    </verse>
-  </song>
+      <title>Nasikia Kuitwa</title>
+      <subtitle>I Hear Thy Welcome Voice</subtitle>
+      <verse>
+        <stanza>Nasikia kwitwa</stanza>
+        <stanza>Na sauti yako</stanza>
+        <stanza>Nikasafiwe kwa damu</stanza>
+        <stanza>Ya kwangikwa kwako.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Nimesogea Mtini pako,</stanza>
+        <stanza>Unisafi kwa damu ya kwangikwa kwako.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Ni mnuonge kweli,</stanza>
+        <stanza>Umenipa nguvu,</stanza>
+        <stanza>Ulivyonisafi taka,</stanza>
+        <stanza>Ni utimilivu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu hunijuvya;</stanza>
+        <stanza>Mapenzi, imani;</stanza>
+        <stanza>Tumai, amani, radhi,</stanza>
+        <stanza>Hapa na Mbinguni.</stanza>
+      </verse>
+      <verse>
+        <stanza>Huipa imara,</stanza>
+        <stanza>Kazi yake, ndani:</stanza>
+        <stanza>Huongezeka neema,</stanza>
+        <stanza>Ashindwe Shetani.</stanza>
+      </verse>
+      <verse>
+        <stanza>Huishuhudia,</stanza>
+        <stanza>Myoyo ya imani</stanza>
+        <stanza>Ya kuzipata ahadi,</stanza>
+        <stanza>Wakimuamini.</stanza>
+      </verse>
+      <verse>
+        <stanza>Napata wokovu,</stanza>
+        <stanza>Wema na neema;</stanza>
+        <stanza>kwako Bwana nina nguvu</stanza>
+        <stanza>Na haki daima.</stanza>
+      </verse>
+    </song>
+    <song>
+      <number>41</number>
+      <title>Yesu Aliniita, "Njoo"</title>
+      <subtitle>I Heard The Voice Of Jesus Say</subtitle>
+      <verse>
+        <stanza>Yesu aliniita, “njoo,</stanza>
+        <stanza>Raha iko kwangu,</stanza>
+        <stanza>Kichwa chako ukilaze</stanza>
+        <stanza>Kifuani mwangu.”</stanza>
+        <stanza>Nilikwenda kwake mara,</stanza>
+        <stanza>Sana nilichoka;</stanza>
+        <stanza>Nikapata kwake raha,</stanza>
+        <stanza>Na furaha tena.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu aliniita, “njoo,</stanza>
+        <stanza>Kwangu kuna maji,</stanza>
+        <stanza>Maji ya uzima, bure,</stanza>
+        <stanza>Unywe uwe hai, ”</stanza>
+        <stanza>Nilikwenda kwake mara</stanza>
+        <stanza>Na maji nikanywa:</stanza>
+        <stanza>Naishi kwake, na kiu</stanza>
+        <stanza>Kamwe sina tena.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu aliniita, “njoo,</stanza>
+        <stanza>Dunia ni giza,</stanza>
+        <stanza>Ukinitazama nuru</stanza>
+        <stanza>Takung’arizia.”</stanza>
+        <stanza>Nilikwenda kwake mara</stanza>
+        <stanza>Yeye jua langu,</stanza>
+        <stanza>Ni kila wakati mwanga</stanza>
+        <stanza>Safarini mwangu.</stanza>
+      </verse>
+    </song>
+    <song>
+      <number>42</number>
+      <title>Kivulini mwa Yesu</title>
+      <subtitle>In The Shadow Of His Wings</subtitle>
+      <verse>
+        <stanza>Kivulini mwa Yesu kuna Kituo:</stanza>
+        <stanza>Kituo mbali na hamu, kituo kilicho tamu.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Kivulini mwa Yesu kuna kituo;</stanza>
+        <stanza>kivulini mwa Yesu kuna kituo;</stanza>
+        <stanza>Raha tu, mle; amani tupu,</stanza>
+        <stanza>Furaha tele; kivulini mwa Yesu</stanza>
+        <stanza>Raha tu, mle; amani tupu,</stanza>
+        <stanza>Furaha tele; kivulini mwa Yesu.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Kivulini mwa Yesu nina amani</stanza>
+        <stanza>Iliyopita fahamu, tena itakayodumu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Kivulini mwa Yesu, nina furaha;</stanza>
+        <stanza>Furaha yenye fahari, ya kueneza habari.</stanza>
+      </verse>
+    </song>
+    <song>
+      <number>43</number>
+      <title>Yesu Akwita</title>
+      <subtitle>Jesus Is Tenderly Calling Today</subtitle>
+      <verse>
+        <stanza>Yesu akwita, chanena Chuo:</stanza>
+        <stanza>Uje leo, uje leo;</stanza>
+        <stanza>Kwani kusita? Akwita, Njoo;</stanza>
+        <stanza>Unatanga upeo.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Hwita leo, hwita leo.</stanza>
+        <stanza>Yesu akwita kwa upole akwita leo.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Waliochoka, wapumzike,</stanza>
+        <stanza>Hwita leo, hwita leo:</stanza>
+        <stanza>Wenye mizigo, wakamtweke,</stanza>
+        <stanza>wapate mapumuo.</stanza>
+      </verse>
+      <verse>
+        <stanza>Anakungoja, uliye yote,</stanza>
+        <stanza>Uje leo, uje leo;</stanza>
+        <stanza>Uliyekosa usijifiche:</stanza>
+        <stanza>Woshwe, uvikwe nguo.</stanza>
+      </verse>
+      <verse>
+        <stanza>Yesu asihi wakawiao,</stanza>
+        <stanza>Waje leo, waje leo.</stanza>
+        <stanza>Watafurahi waaminio;</stanza>
+        <stanza>Usije kwani? Njoo.</stanza>
+      </verse>
+    </song>
+    <song>
+      <number>44</number>
+      <title>Kukawa Na Giza Dunia Yote</title>
+      <subtitle>The Whole World Was Lost In The Darkness Of Sin</subtitle>
+      <verse>
+        <stanza>Kukawa na giza dunia yote,</stanza>
+        <stanza>Ni Mwanga wa ulimwengu,</stanza>
+        <stanza>Ikaisha ulipokuja yote,</stanza>
+        <stanza>Ni mwanga wa ulimwengu.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Jua, Yesu hana mwenziwe!</stanza>
+        <stanza>Nalipofuka kama wewe:</stanza>
+        <stanza>Nakuombea umwone nawe,</stanza>
+        <stanza>Ni mwanga wa ulimwengu.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Hatuna giza tudumuo mwake,</stanza>
+        <stanza>Ni mwanga wa ulimwengu;</stanza>
+        <stanza>Tumwandamiapo nyayoni mwake</stanza>
+        <stanza>Ni mwanga wa ulimwengu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Enyi wa gizani wenye kutanga!</stanza>
+        <stanza>Ni mwanga wa ulimwengu,</stanza>
+        <stanza>Kaulekeeni, mpate lenga;</stanza>
+        <stanza>Ni mwanga wa ulimwengu.</stanza>
+      </verse>
+      <verse>
+        <stanza>Tutamwona Mwokozi juu ya mbingu</stanza>
+        <stanza>Ni mwanga wa ulimwengu:</stanza>
+        <stanza>Ni nuru za mbingu kondoo wa Mungu</stanza>
+        <stanza>Ni mwanga wa ulimwengu.</stanza>
+      </verse>
+    </song>
+    <song>
+      <number>45</number>
+      <title>Mtazame Huyo! Aliyeangikwa Juu</title>
+      <subtitle>There Is Life For A Look At The Crucified One</subtitle>
+      <verse>
+        <stanza>Mtazame Huyo! Aliyeangikwa juu</stanza>
+        <stanza>Hivi sasa upate ishi.</stanza>
+        <stanza>Mwenye – dhambi dhaifu, mtazame tu</stanza>
+        <stanza>Wala usifanye tashwishi.</stanza>
+      </verse>
+      <refrain>
+        <stanza>Tazama! Tazama! Tazama uishi!</stanza>
+        <stanza>Mtazame huyo aliyeangikwa juu</stanza>
+        <stanza>Hivi sasa upate ishi.</stanza>
+      </refrain>
+      <verse>
+        <stanza>Kama mwana kondoo hakuondoa dhambi,</stanza>
+        <stanza>Na makosa yako maovu!</stanza>
+        <stanza>Kama deni zetu zote hakulipa</stanza>
+        <stanza>Mbona imemwagika damu?</stanza>
+      </verse>
+      <verse>
+        <stanza>Si kutubu na sala ikomboayo,</stanza>
+        <stanza>Ila damu ndiyo salama;</stanza>
+        <stanza>Na aliyeimwaga aweza, sasa,</stanza>
+        <stanza>Dhambi zako kukufutia.</stanza>
+      </verse>
+      <verse>
+        <stanza>Usiwe na shaka, Mungu amesema,</stanza>
+        <stanza>Hakuna alilolisaza;</stanza>
+        <stanza>Hapo alipokuja alitimiza</stanza>
+        <stanza>Kazi zote alizoanza.</stanza>
+      </verse>
+      <verse>
+        <stanza>Basi twae uzima, kwa kufurahi</stanza>
+        <stanza>Upokee kwa Bwana, sasa;</stanza>
+        <stanza>Ujijue hakika kwake kuishi</stanza>
+        <stanza>Yesu aishiye kabisa.</stanza>
+      </verse>
+    </song>
 
   </book>
 </songbooks>
