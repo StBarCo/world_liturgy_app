@@ -65,8 +65,8 @@ Map translationMap = {
     'exitMessage': 'Je, unataka kutoka?',
 
 //    Tab names
-    'songs': 'Wimbo',
-    'prayerBook': 'Kitabu cha Ibada',
+    'songs': 'Nyimbo',
+    'prayerBook': 'Maombe',
     'lectionary': 'Taratibu ya Masomo',
     'bible': 'Biblia',
 

@@ -367,7 +367,7 @@ packages:
       name: sqflite
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0+5"
+    version: "0.11.1"
   stack_trace:
     dependency: transitive
     description:
@@ -409,7 +409,7 @@ packages:
       name: synchronized
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.1"
+    version: "1.5.1+1"
   tuple:
     dependency: transitive
     description:

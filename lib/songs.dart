@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializeSongBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
+import 'package:world_liturgy_app/styles.dart';
 //import 'package:material_search/material_search.dart';
 
 class SongsPage extends StatefulWidget{
@@ -188,7 +189,7 @@ List<Widget> _buildServicesTiles(context, songList) {
 
         child: new ListTile(
           leading: Icon(Icons.music_note),
-          title: songTitle(song),
+          title: songTitle(song, style: songIndexTitleStyle),
           subtitle: songSubtitle(song),
           selected: false,
 
@@ -204,7 +205,7 @@ List<Widget> _buildServicesTiles(context, songList) {
 
 }
 
-Text  songTitle (Song song) {
+Text  songTitle (Song song, {style}) {
   String text = '';
 
   if(song.number != null){
@@ -216,24 +217,26 @@ Text  songTitle (Song song) {
   if(text == ''){
     text = 'No Title';
   }
-  return new Text(text);
+
+  if(style == null){
+    return new Text(text);
+  }else {
+    return new Text(text, style: style,);
+  }
 }
 
-Text songSubtitle (Song song) {
-  if(song.subtitle == null) {
-    if (song.verses.first.stanzas.first.text != null && song.title != null
-        && song.verses.first.stanzas.first.text.toLowerCase().replaceAll(
-            new RegExp(r"[^A-Za-z]+"), "") !=
-            song.title.toLowerCase().replaceAll(
-                new RegExp(r"[^A-Za-z]+"), "")) {
-      return Text(song.verses.first.stanzas.first.text + '...',
-        style: TextStyle(fontStyle: FontStyle.italic),);
-    }
-  }else{
-      return Text(song.subtitle);
+Text songSubtitle (Song song, [style]) {
+  String text = song.subtitle != null ? song.subtitle : '';
+
+  if(style == null){
+    return new Text(text, style: songIndexSubtitleTextStyle,);
+  }else {
+    return new Text(text, style: style,);
   }
-  return null;
+
 }
+
+
 
 class SongPage extends StatelessWidget {
 
@@ -245,7 +248,14 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: songTitle(song),
+        title: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            songTitle(song),
+            songSubtitle(song, songPageSubtitleTextStyle),
+          ],
+        )
       ),
       body: new ListView(
         padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
@@ -259,14 +269,6 @@ class SongPage extends StatelessWidget {
   List<Widget> _songBody (song){
     List<Widget> widgets = [];
 
-    if(song.subtitle != null){
-      var s = new Padding(
-
-        padding: EdgeInsets.only(top: 15.0),
-        child: Text(song.subtitle, style: TextStyle(fontStyle: FontStyle.italic, fontSize: 16.0, ), textAlign: TextAlign.center,)
-      );
-      widgets.add(s);
-    }
     int refrainLocation = null;
 
     if (song.refrain != null){
@@ -287,7 +289,7 @@ class SongPage extends StatelessWidget {
   Padding _refrain (refrain){
     List<Widget> list = [];
 
-    list.add(new Text('Refrain' + ':', style: TextStyle(fontStyle: FontStyle.italic),));
+    list.add(new Text('Refrain' + ':', style: songVerseHeaderStyle,));
 
   for (var stanza in refrain.stanzas) {
     list.add(_chorusStanza(stanza));
@@ -324,11 +326,11 @@ class SongPage extends StatelessWidget {
 
 
   Text _stanza (stanza){
-    return Text(stanza.text);
+    return Text(stanza.text, style: songVerseTextStyle,);
   }
 
   Text _chorusStanza (stanza){
-    return Text(stanza.text, style: TextStyle(fontWeight: FontWeight.bold),);
+    return Text(stanza.text, style: songChorusTextStyle);
   }
 
 

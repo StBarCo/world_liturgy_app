@@ -448,7 +448,7 @@ Widget _buildSectionHeader(section){
   if (section.rubric != null) {
     headerList.add(new Padding(
         child:_rubric(section.rubric),
-        padding: new EdgeInsets.only(bottom: 0.0, left: 20.0, right: 20.0),
+        padding: new EdgeInsets.only(bottom: 5.0, left: 20.0, right: 20.0),
     ));
   }
   return Padding(
@@ -462,7 +462,7 @@ Widget _buildSectionHeader(section){
 
 Widget _rubric(rubric) {
     return Text(
-      rubric,
+      rubric.toString().toUpperCase(),
       style: rubricTextStyle,
       textAlign: TextAlign.center,
     );
@@ -515,7 +515,7 @@ Widget _buildItem(item, language, [prevItemWho]){
   if (item.type == 'title' && item.text != null){
     return Padding(child:_sectionTitle(item.text),padding: EdgeInsets.only(top: 12.0),);
   }else if (item.type == 'rubric'){
-    return Padding(child:_rubric(item.text),padding: EdgeInsets.only(top:18.0),);
+    return Padding(child:_rubric(item.text),padding: EdgeInsets.only(top:18.0, bottom: 5.0),);
   }else if (item.who == 'leader' || item.who == 'minister'
       || item.who == 'reader' || item.who == 'leaderOther' || item.who == 'bishop' || item.who == "archBishop"){
     return _leaderItem(item, language, prevItemWho);
@@ -559,7 +559,7 @@ Widget _leaderItem(item, language, prevItemWho){
       new Flexible(
         child: new Padding(
           padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
-          child:  _isStanzas(item) ? stanzasColumn(item) : _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
+          child:  _isStanzas(item) ? stanzasColumn(item, style: generalTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style:  generalTextStyle),
         )
       ),
     ],
@@ -579,7 +579,7 @@ Widget _peopleItem(item, language, prevItemWho){
                 top:12.0
             ),
 
-            child: _isStanzas(item) ? stanzasColumn(item, style: peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, peopleItemTextStyle, TextAlign.right) : _itemText(item, peopleItemTextStyle, TextAlign.right),
+            child: _isStanzas(item) ? stanzasColumn(item, style: peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, style: peopleItemTextStyle, alignment:  TextAlign.right) : _itemText(item, style: peopleItemTextStyle, alignment:  TextAlign.right),
 
           )
       ),
@@ -608,7 +608,7 @@ Widget genericItem(item){
     children: <Widget>[
       new Expanded(
         child: new Padding(
-          child: _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
+          child: _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style: generalTextStyle),
           padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
         ),
       )
@@ -631,7 +631,7 @@ Widget _unknownItem(item){
         ],
       ),
       new Expanded(
-        child: _doesItemHasRef(item) ? _itemTextWithRef(item) : _itemText(item),
+        child: _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style: generalTextStyle),
       ),
 //          new Column(
 //            children: <Widget>[
@@ -659,7 +659,7 @@ bool _isStanzas(item){
   return item.type != null && item.type == 'stanzas' || item.type == 'versedStanzas';
 }
 
-Text _itemText(item,[TextStyle style, TextAlign alignment = TextAlign.left]){
+Text _itemText(item,{TextStyle style, TextAlign alignment = TextAlign.left}){
   if(style != null) {
     return Text(
       item.text, style: style,
@@ -670,7 +670,7 @@ Text _itemText(item,[TextStyle style, TextAlign alignment = TextAlign.left]){
   }
 }
 
-RichText _itemTextWithRef(item,[TextStyle style, TextAlign alignment = TextAlign.left]){
+RichText _itemTextWithRef(item, {TextStyle style, TextAlign alignment = TextAlign.left}){
   return RichText(
 
       textAlign: alignment,
@@ -704,9 +704,9 @@ dynamic stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
   for (var stanza in item.stanzas){
     Widget row;
     if(_itemType == 'versedStanzas' && stanza.type != 'gloria') {
-      row = _versedStanza(stanza, style);
+      row = _versedStanza(stanza, style: style);
     }else {
-      row= _stanza(stanza, style);
+      row= _stanza(stanza, style: style);
     }
 
     var padding = new Padding(
@@ -725,7 +725,7 @@ dynamic stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
   }
 }
 
-Widget _versedStanza(stanza, [TextStyle style]){
+Widget _versedStanza(stanza, {TextStyle style}){
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -740,14 +740,14 @@ Widget _versedStanza(stanza, [TextStyle style]){
             left: stanza.verse != null ? 0.0 : 18.0,
             bottom: stanza.verse != null ? 0.0 : 3.0,
             ),
-            child: _itemText(stanza,style),
+            child: _itemText(stanza, style: style),
           ),
       )
     ],
   );
 }
 
-Widget _stanza(stanza, [TextStyle style]){
+Widget _stanza(stanza, {TextStyle style}){
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -757,7 +757,7 @@ Widget _stanza(stanza, [TextStyle style]){
           padding: EdgeInsets.only(
             left: stanza.indent != null ? int.tryParse(stanza.indent)*18.0 ?? 0.0 : 0.0,
           ),
-          child: _itemText(stanza,style),
+          child: _itemText(stanza, style: style),
         ),
       )
     ]
@@ -886,9 +886,9 @@ List<Widget> prayers(listOfPrayers, language){
     if (prayer.type == 'versedStanzas') {
       collectList.add(stanzasColumn(prayer));
     } else if (prayer.type == 'stanzas' ){
-      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer, style: generalTextStyle)));
     } else {
-      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0, vertical:6.0),child: Text(prayer.text != null ? prayer.text : '')));
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0, vertical:6.0),child: Text(prayer.text != null ? prayer.text : '', style: generalTextStyle,)));
     }
   }
   if (collectList.length > 1){
