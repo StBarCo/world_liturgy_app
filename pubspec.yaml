@@ -25,9 +25,9 @@ dependencies:
 #currently needing resolution of https://github.com/flutter/flutter/issues/12319
 
   sqflite: any
-  path_provider: "^0.3.1"
+  path_provider: ">=0.3.1"
 
-  flutter_calendar: ^0.0.1
+#  flutter_calendar: '>0.0.1'
 
 
 dev_dependencies:
