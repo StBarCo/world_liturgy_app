@@ -146,22 +146,26 @@ class _HomePageState extends State<HomePage> {
     return showDialog(
       context: context,
 
-      child: new AlertDialog(
-        title: new Text(globals.translate(currentLanguage, 'exitMessage')),
-//        content: new Text('We hate to see you leave...'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text(globals.translate(currentLanguage, 'no')),
-          ),
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: new Text(globals.translate(currentLanguage, 'yes')),
-          ),
-        ],
-      ),
+
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text(globals.translate(currentLanguage, 'exitMessage')),
+          //        content: new Text('We hate to see you leave...'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text(globals.translate(currentLanguage, 'no')),
+            ),
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: new Text(globals.translate(currentLanguage, 'yes')),
+            ),
+          ],
+        );
+      },
     ) ??
         false;
+
   }
 
   Future<bool> _showExit(BuildContext context) {
