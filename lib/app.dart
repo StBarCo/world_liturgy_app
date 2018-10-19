@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.green,
+        fontFamily: 'WorkSans',
 //        primaryColor: Colors.white,
 //
       ),
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> {
         currentTab = 0;
         currentPage = pages[0];
       });
-      false;
+//      false;
     } else
       return _exitApp(context);
   }

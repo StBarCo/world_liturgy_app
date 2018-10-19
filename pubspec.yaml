@@ -21,13 +21,14 @@ dependencies:
   strings: '>=0.0.6'
 
   #add material designed search bar function
-#  material_search: "^0.2.7"
+#  material_search: ">=0.2.7"
 #currently needing resolution of https://github.com/flutter/flutter/issues/12319
 
   sqflite: any
   path_provider: ">=0.3.1"
+  marquee_flutter: ">=0.1.1"
 
-#  flutter_calendar: '>0.0.1'
+  flutter_calendar: '>0.0.8'
 
 
 dev_dependencies:
@@ -62,6 +63,19 @@ flutter:
 #    - assets/data/docs/songBooks.xml
     - assets/data/docs/songBooksSample.xml
 
+
+  fonts:
+    - family: WorkSans
+      fonts:
+        - asset: assets/fonts/WorkSans-Regular.ttf
+        - asset: assets/fonts/WorkSans-Black.ttf
+        - asset: assets/fonts/WorkSans-Bold.ttf
+        - asset: assets/fonts/WorkSans-ExtraBold.ttf
+        - asset: assets/fonts/WorkSans-ExtraLight.ttf
+        - asset: assets/fonts/WorkSans-Light.ttf
+        - asset: assets/fonts/WorkSans-Medium.ttf
+        - asset: assets/fonts/WorkSans-SemiBold.ttf
+        - asset: assets/fonts/WorkSans-Thin.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
