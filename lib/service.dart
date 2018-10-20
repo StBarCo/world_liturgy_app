@@ -4,6 +4,7 @@ import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/calendar.dart';
 import 'package:world_liturgy_app/styles.dart';
 import 'package:world_liturgy_app/app.dart';
+import 'package:world_liturgy_app/colors.dart';
 
 class ServicePage extends StatefulWidget{
   final initialCurrentIndexes;
@@ -75,49 +76,63 @@ class _ServicePageState extends State<ServicePage> {
     final languageState = LanguageState.of(context);
     currentLanguage = languageState.currentLanguage;
 
-
-    return new Scaffold (
-      drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
-      appBar: new AppBar(
-        title: new Text(currentService.title),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: (){
-              _changeLanguage();
-            },
-            padding: EdgeInsets.all(0.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(
-                    Icons.swap_horiz,
-                  color: Theme.of(context).primaryIconTheme.color,
-                  size: 30.0,
-
-                ),
-                Text(
-                  globals.translate(currentLanguage, 'languageName'),
-                  style: TextStyle(
-                    color: Theme.of(context).primaryTextTheme.button.color,
-                    fontSize: 10.0,
-                  )
-                ),
-              ],
-            ),
+    return new Theme(
+      data: baseTheme,
+      child: new Scaffold (
+        drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
+        appBar: new AppBar(
+          elevation: 1.0,
+          backgroundColor: kPrimaryLight,
+          textTheme: Theme.of(context).textTheme,
+          title: Text(
+              currentService.title,
+              style: Theme.of(context).textTheme.title.copyWith(
+                fontFamily: 'Signika',
+              ),
           ),
-        ],
-      ),
-      body: _buildService(context, currentService),
+
+          actions: <Widget>[
+            FlatButton(
+              onPressed: (){
+                _changeLanguage();
+              },
+              padding: EdgeInsets.all(0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.swap_horiz,
+                    color: Theme.of(context).primaryIconTheme.color,
+                    size: 30.0,
+
+                  ),
+                  Text(
+                      globals.translate(currentLanguage, 'languageName'),
+                      style: Theme.of(context).textTheme.caption.copyWith(
+                        color: Theme.of(context).primaryIconTheme.color,
+
+                      )
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        body: _buildService(context, currentService),
+
+      )
     );
   }
 
 
   Drawer _buildDrawer(prayerBooks) {
     return Drawer(
+
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the Drawer if there isn't enough vertical
       // space to fit everything.
       child: new ListView.builder(
+
         itemBuilder: (BuildContext context, int index) =>
             drawerPrayerBookEntry(context, prayerBooks[index]),
         itemCount: prayerBooks.length,
@@ -163,7 +178,7 @@ class _ServicePageState extends State<ServicePage> {
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
   Widget _buildService(BuildContext context, Service service ) {
     return new ListView.builder(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(0.0),
       itemCount: service.sections.length,
       itemBuilder: (context, index) {
         var section = service.sections[index];
@@ -181,9 +196,20 @@ class _ServicePageState extends State<ServicePage> {
 
     Widget _buildSection(BuildContext context, currentIndexes, section, language){
 //      final alreadySaved = _saved.contains(pair);
-      return new Column(
-        children: _buildItemsList(context, currentIndexes, section, language),
+      return new Card(
+
+        margin: EdgeInsets.only(bottom: 8.0),
+        elevation: 0.0,
+
+        child: new Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: new Column(
+            children: _buildItemsList(context, currentIndexes, section, language),
+          ),
+        )
+
       );
+
     }
 
     List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language){
@@ -195,35 +221,35 @@ class _ServicePageState extends State<ServicePage> {
         itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "postCommunion",) );
 
       } else if (section.type == 'scheduled' && section.schedule.contains(globals.currentDay.season)) {
-        itemsList.addAll(_buildNormalSection(section, language));
+        itemsList.addAll(_buildNormalSection(section, language, context));
       } else if (section.type == 'scheduledFeast' && (section.schedule == globals.currentDay.principalFeastID || section.schedule == globals.currentDay.holyDayID)){
-        itemsList.addAll(_buildNormalSection(section, language));
+        itemsList.addAll(_buildNormalSection(section, language, context));
       } else {
         if (section.visibility == 'collapsed') {
           itemsList.add(_buildHeaderForCollapsed(context, currentIndexes, section, language));
         } else if (section.visibility == 'indexed'){
-          itemsList.add(_buildSectionHeader( section));
+          itemsList.add(_buildSectionHeader( section, context));
           itemsList.add(_buildLinksForIndexed(context, section, language));
         } else if (section.visibility == 'hidden') {
           itemsList.add(new Row());
         } else {
-          itemsList.addAll(_buildNormalSection(section, language));
+          itemsList.addAll(_buildNormalSection(section, language, context));
         }
 
       }
       return itemsList;
     }
 
-  List<Widget> _buildNormalSection(section, language){
+  List<Widget> _buildNormalSection(section, language, context){
     List<Widget> itemsList = [];
 
     if (_sectionHasHeader(section)) {
-      itemsList.add(_buildSectionHeader(section));
+      itemsList.add(_buildSectionHeader(section, context));
     }
     if (section.items != null) {
       var prevItemWho;
       for (var item in section.items) {
-        Widget row = _buildItem(item, language, prevItemWho, );
+        Widget row = _buildItem(item, language, context, prevItemWho, );
         var padding = new Padding(
           padding: EdgeInsets.only(top: 0.0),
           child: row,
@@ -233,7 +259,7 @@ class _ServicePageState extends State<ServicePage> {
       }
     } else if (section.collects != null){
       for (var collect in section.collects) {
-        Widget column = buildDailyPrayers(collect, language);
+        Widget column = buildDailyPrayers(collect, language,context);
         var padding = new Padding(
           padding: EdgeInsets.only(bottom: 30.0),
           child: column,
@@ -256,8 +282,8 @@ class _ServicePageState extends State<ServicePage> {
         },
         child: new Column(
           children: <Widget>[
-            _buildSectionHeader(section),
-            new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: rubricTextStyle,)
+            _buildSectionHeader(section, context, collapsed: true),
+            new Text(globals.translate(language,"tapToExpand"), style: Theme.of(context).textTheme.caption.copyWith(color: kSecondaryColor),)
           ],
         )
     );
@@ -279,17 +305,27 @@ class _ServicePageState extends State<ServicePage> {
             children: <Widget>[
               new Padding(
                   padding: EdgeInsets.only(top:12.0),
-                  child:  new Text(item.title, style: canticleTitleTextStyle, textAlign: TextAlign.center),
+                  child:  new Text(item.title, style: Theme.of(context).textTheme.subhead.copyWith(
+                    fontSize: 16.0,
+                    color: Theme.of(context).accentColor,
+                  ), textAlign: TextAlign.center),
 
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(item.ref ?? '', style: titleRefTextStyle, textAlign: TextAlign.center,),
+                child: new Text(
+                  item.ref ?? '',
+                  style: Theme.of(context).textTheme.caption.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).accentColor
+                  ),
+                  textAlign: TextAlign.center,
+                ),
 
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(globals.translate(language,"tapToExpand").toUpperCase(), style: rubricTextStyle, textAlign: TextAlign.center),
+                child: new Text(globals.translate(language,"tapToExpand"), style: Theme.of(context).textTheme.caption.copyWith(color: kSecondaryColor, fontSize: 12.0), textAlign: TextAlign.center),
               ),
             ],
           )
@@ -313,33 +349,52 @@ class ExpandedSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return new Theme(
+      data: baseTheme,
+      child: new Scaffold(
+          appBar: new AppBar(
+            elevation: 1.0,
+            backgroundColor: kPrimaryLight,
+            textTheme: Theme.of(context).textTheme,
+            title: Text(section.indexName, style: Theme.of(context).textTheme.title.copyWith(
+            fontFamily: 'Signika',),)
+          ),
+          body: new ListView(
+            children: <Widget>[
+              new Card(
+                  margin: EdgeInsets.only(bottom: 8.0),
+                  elevation: 0.0,
+                  child: new Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                      child: new Column(
+                        children: _buildExpandedSectionItems(section, language, context),
+                      )
+                  )
+              )
+            ],
+          )
 
-    return new Scaffold(
-        appBar: new AppBar(
-          title: _sectionIndexName(section),
-        ),
-        body: new ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: _buildExpandedSectionItems(section, language),
+      )
 
-        )
     );
+
+
   }
 
 
 
-  List<Widget> _buildExpandedSectionItems(section, language) {
+  List<Widget> _buildExpandedSectionItems(section, language, context) {
     List<Widget> itemsList = new List<Widget>();
     if (section.rubric != null) {
       itemsList.add(new Padding(
-        child: _rubric(section.rubric),
+        child: _rubric(section.rubric, context),
         padding: new EdgeInsets.only(bottom: 8.0, left: 20.0, right: 20.0),
       ));
     }
     if (section.items != null) {
       var prevItemWho;
       for (var item in section.items) {
-        Widget row = _buildItem(item, language, prevItemWho);
+        Widget row = _buildItem(item, language, context, prevItemWho);
         var padding = new Padding(
           padding: EdgeInsets.only(top: 8.0),
           child: row,
@@ -363,43 +418,23 @@ class ExpandedIndexedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: _sectionTitle(item.title ??
-              'Not Named: Collapsed and Linked Sections Must have names'),
+          elevation: 1.0,
+          backgroundColor: kPrimaryLight,
+          textTheme: Theme.of(context).textTheme,
+          title: Text(item.title, style: Theme.of(context).textTheme.title.copyWith(
+            fontFamily: 'Signika',),),
         ),
         body: new ListView(
           padding: const EdgeInsets.all(16.0),
-          children: _buildExpandedIndexedItems(item),
+          children: _buildExpandedIndexedItems(item, context),
 
         )
     );
   }
 
+  List<Widget> _buildExpandedIndexedItems(item, context) {
 
-
-  List<Widget> _buildExpandedSectionItems(section) {
-    List<Widget> itemsList = new List<Widget>();
-    if (_sectionHasHeader(section)) {
-      itemsList.add(_buildSectionHeader(section));
-
-      if (section.items != null) {
-        var prevItemWho;
-        for (var item in section.items) {
-          Widget row = _buildItem(item, prevItemWho);
-          var padding = new Padding(
-            padding: EdgeInsets.only(top: 8.0),
-            child: row,
-          );
-          if (row != null) itemsList.add(padding);
-          prevItemWho = item.who;
-        }
-      }
-    }
-
-    return itemsList;
-  }
-  List<Widget> _buildExpandedIndexedItems(item) {
-
-    return stanzasColumn(item, returnType: 'list');
+    return stanzasColumn(item, context, returnType: 'list', exclude: 'title');
   }
 }
 
@@ -410,10 +445,11 @@ bool _sectionHasHeader(section){
       || section.majorHeader !=null;
 }
 
-Widget _buildSectionHeader(section){
+Widget _buildSectionHeader(section, context, {bool collapsed: false}){
+
   List<Widget> headerList = [];
   if (section.majorHeader != null){
-    headerList.add(_majorHeader(section.majorHeader));
+    headerList.add(_majorHeader(section.majorHeader, context));
   }
 
   if (section.number !=null){
@@ -422,7 +458,7 @@ Widget _buildSectionHeader(section){
   if (section.title !=null){
     headerList.add(new Padding(
         padding: new EdgeInsets.only(bottom: 8.0, left: 20.0, right: 20.0),
-        child:_sectionTitle(section.title)));
+        child:_sectionTitle(section.title, collapsed, context)));
   }
 
 //  if (section.number !=null || section.title != null){
@@ -446,24 +482,29 @@ Widget _buildSectionHeader(section){
 //  }
 
   if (section.rubric != null) {
-    headerList.add(new Padding(
-        child:_rubric(section.rubric),
-        padding: new EdgeInsets.only(bottom: 5.0, left: 20.0, right: 20.0),
+    headerList.add(Center(
+      child: new Padding(
+          child:_rubric(section.rubric, context),
+          padding: new EdgeInsets.only(bottom: 5.0, left: 20.0, right: 20.0),
+      ),
     ));
   }
   return Padding(
-    child: Column(
-      children: headerList,
-      mainAxisAlignment: MainAxisAlignment.start,
+
+    child: Center(
+      child: Column(
+        children: headerList,
+        mainAxisAlignment: MainAxisAlignment.start,
+      ),
     ),
-    padding: EdgeInsets.only(top:20.0, bottom: 0.0),
+    padding: EdgeInsets.only(top:0.0, bottom: 0.0),
   );
 }
 
-Widget _rubric(rubric) {
+Widget _rubric(rubric, context) {
     return Text(
-      rubric.toString().toUpperCase(),
-      style: rubricTextStyle,
+      rubric.toString(),
+      style: Theme.of(context).textTheme.caption,
       textAlign: TextAlign.center,
     );
   }
@@ -474,7 +515,8 @@ Widget _sectionNumber(number){
     child: new Transform(
       child: new CircleAvatar(
           child: new Text(number.toString(),textScaleFactor: 2.0,),
-//          backgroundColor: Colors.black26,
+          foregroundColor: kPrimaryDark,
+          backgroundColor: kPrimaryLight,
       ),
       alignment: Alignment.center,
 
@@ -484,57 +526,59 @@ Widget _sectionNumber(number){
   );
 }
 
-Widget _sectionTitle(title){
-     return Text(
-        title ,
-        style: sectionTitleTextStyle,
-        textAlign: TextAlign.center,
-      );
+Widget _sectionTitle(title, collapsed, context){
+  if(collapsed){
+    return Text(
+      title ,
+      style: Theme.of(context).textTheme.subhead.copyWith(color: Theme.of(context).accentColor),
+      textAlign: TextAlign.center,
+    );
+  } else {
+    return Text(
+      title ,
+      style: Theme.of(context).textTheme.subhead,
+      textAlign: TextAlign.center,
+    );
+  }
+
 }
 
-Widget _sectionIndexName(section){
-  return Text(
-      section.indexName,
-      textAlign: TextAlign.right,
-  );
-}
-
-Widget _majorHeader(header){
+Widget _majorHeader(header, context){
   return Padding(
-      padding: new EdgeInsets.only(top:30.0, bottom: 12.0),
+      padding: new EdgeInsets.only(top:0.0, bottom: 12.0),
       child:
       Text(
         header ,
-        style: majorHeaderTextStyle,
+        style: Theme.of(context).textTheme.headline,
         textAlign: TextAlign.center,
       )
   );
 }
 
-Widget _buildItem(item, language, [prevItemWho]){
+Widget _buildItem(item, language, context, [prevItemWho]){
   if (item.type == 'title' && item.text != null){
-    return Padding(child:_sectionTitle(item.text),padding: EdgeInsets.only(top: 12.0),);
+    return Padding(child:_sectionTitle(item.text, false, context),padding: EdgeInsets.only(top: 12.0),);
   }else if (item.type == 'rubric'){
-    return Padding(child:_rubric(item.text),padding: EdgeInsets.only(top:18.0, bottom: 5.0),);
+    return Padding(child:_rubric(item.text, context),padding: EdgeInsets.only(top:18.0, bottom: 5.0),);
   }else if (item.who == 'leader' || item.who == 'minister'
       || item.who == 'reader' || item.who == 'leaderOther' || item.who == 'bishop' || item.who == "archBishop"){
-    return _leaderItem(item, language, prevItemWho);
+    return _leaderItem(item, language, prevItemWho, context);
   } else if (item.who == 'people' || item.who == 'all' || item.who== 'peopleOther') {
-    return _peopleItem(item, language, prevItemWho);
+    return _peopleItem(item, language, prevItemWho, context);
   } else if (item.who == 'none') {
     return null;
   } else if (item.type == 'versedStanzas') {
-    return stanzasColumn(item);
+    return stanzasColumn(item, context);
   } else if (item.type == 'stanzas' ){
-    return Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(item));
+    return Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(item, context));
   } else if (item.who == null) {
-    return genericItem(item);
+    return genericItem(item, context);
   } else {
-    return _unknownItem(item);
+    return _unknownItem(item, context);
   }
 }
 
-Widget _leaderItem(item, language, prevItemWho){
+Widget _leaderItem(item, language, prevItemWho, context){
   Icon _pickedIcon = item.who == 'minister' ? Icon(Icons.person) : item.who == 'reader' ? Icon(Icons.local_library) : Icon(Icons.person);
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,11 +590,14 @@ Widget _leaderItem(item, language, prevItemWho){
 
           children: <Widget>[
             new CircleAvatar(
-                child: _pickedIcon
+              child: _pickedIcon,
+              backgroundColor: kPrimaryLight,
+              foregroundColor: kPrimaryDark,
+
             ),
             new Container(
               constraints: new BoxConstraints(maxWidth: 70.0),
-              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: avatarTextStyle,),
+              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: Theme.of(context).textTheme.caption,),
             ),
 
           ],
@@ -559,14 +606,14 @@ Widget _leaderItem(item, language, prevItemWho){
       new Flexible(
         child: new Padding(
           padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
-          child:  _isStanzas(item) ? stanzasColumn(item, style: generalTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style:  generalTextStyle),
+          child:  _isStanzas(item) ? stanzasColumn(item, context,style: Theme.of(context).textTheme.body1) : _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style:  Theme.of(context).textTheme.body1),
         )
       ),
     ],
   );
 }
 
-Widget _peopleItem(item, language, prevItemWho){
+Widget _peopleItem(item, language, prevItemWho, context){
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.end,
@@ -579,7 +626,7 @@ Widget _peopleItem(item, language, prevItemWho){
                 top:12.0
             ),
 
-            child: _isStanzas(item) ? stanzasColumn(item, style: peopleItemTextStyle) : _doesItemHasRef(item) ? _itemTextWithRef(item, style: peopleItemTextStyle, alignment:  TextAlign.right) : _itemText(item, style: peopleItemTextStyle, alignment:  TextAlign.right),
+            child: _isStanzas(item) ? stanzasColumn(item, context, style: Theme.of(context).textTheme.body2) : _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body2, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark), alignment:  TextAlign.right) : _itemText(item, style: Theme.of(context).textTheme.body2, alignment:  TextAlign.right),
 
           )
       ),
@@ -588,12 +635,14 @@ Widget _peopleItem(item, language, prevItemWho){
           child: new Column(
             children: <Widget>[
               new CircleAvatar(
-                  child: Icon(Icons.people)
+                  child: Icon(Icons.people),
+                  backgroundColor: kPrimaryLight,
+                  foregroundColor: kPrimaryDark,
               ),
 
               new Container(
                 constraints: new BoxConstraints(maxWidth: 70.0),
-                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: avatarTextStyle, textAlign: TextAlign.center,),
+                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: Theme.of(context).textTheme.caption, textAlign: TextAlign.center,),
               ),
             ],
           )
@@ -602,22 +651,21 @@ Widget _peopleItem(item, language, prevItemWho){
   );
 }
 
-Widget genericItem(item){
+Widget genericItem(item, context){
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       new Expanded(
         child: new Padding(
-          child: _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style: generalTextStyle),
+          child: _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
           padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
         ),
       )
-
     ],
   );
 }
 
-Widget _unknownItem(item){
+Widget _unknownItem(item, context){
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -627,11 +675,11 @@ Widget _unknownItem(item){
               child: Icon(Icons.error),
               backgroundColor: Colors.red,
           ),
-          new Text(item.who ?? '',style: avatarTextStyle,),
+          new Text(item.who ?? '',style: Theme.of(context).textTheme.caption,),
         ],
       ),
       new Expanded(
-        child: _doesItemHasRef(item) ? _itemTextWithRef(item,  style: generalTextStyle) : _itemText(item,  style: generalTextStyle),
+        child: _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
       ),
 //          new Column(
 //            children: <Widget>[
@@ -670,16 +718,18 @@ Text _itemText(item,{TextStyle style, TextAlign alignment = TextAlign.left}){
   }
 }
 
-RichText _itemTextWithRef(item, {TextStyle style, TextAlign alignment = TextAlign.left}){
+RichText _itemTextWithRef(item, TextStyle style, TextStyle refStyle, {TextAlign alignment = TextAlign.left}){
   return RichText(
 
       textAlign: alignment,
       text: new TextSpan(
           text: item.text,
-          style: new TextStyle(color: Colors.black),
+          style: style,
           children:[
             new TextSpan(text: '   '),
-            new TextSpan(text:item.ref, style: titleRefTextStyle),
+            new TextSpan(
+                text:item.ref,
+                style: refStyle),
 
           ]
       )
@@ -689,15 +739,15 @@ RichText _itemTextWithRef(item, {TextStyle style, TextAlign alignment = TextAlig
 //text style is passed on, return type can be either column or list.
 //column is used for general creation, but a list will be used in an expanded
 //indexed item.
-dynamic stanzasColumn(item, {TextStyle style, String returnType: 'column'}){
+dynamic stanzasColumn(item, context, {TextStyle style, String returnType: 'column', String exclude: 'none' }){
   List<Widget> stanzaList = new List();
 
-  if (item.title != null) {
-    stanzaList.add(_canticleTitle(item.title));
+  if (item.title != null && (exclude == 'none' || !exclude.contains('title'))) {
+    stanzaList.add(_canticleTitle(item.title, context));
   }
 
-  if (item.ref != null) {
-    stanzaList.add(_titleReference(item.ref));
+  if (item.ref != null && (exclude == 'none' || !exclude.contains('ref'))) {
+    stanzaList.add(_titleReference(item.ref, context));
   }
 
   var _itemType = item.type;
@@ -731,7 +781,8 @@ Widget _versedStanza(stanza, {TextStyle style}){
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       new Container(
-        child: new Text(stanza.verse ?? '',),
+
+        child: new Text(stanza.verse ?? '', style: TextStyle(color: kPrimaryDark,),),
         width: 18.0,
       ),
       new Expanded(
@@ -764,7 +815,7 @@ Widget _stanza(stanza, {TextStyle style}){
   );
 }
 
-Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
+Widget buildDailyPrayers(Collect collect, language, context, [buildType='full']){
 
   Map<String, List> buildTypes = {
     'full': ['title', 'subtitle', 'type', 'date', 'color', 'ref', 'collects', 'postCommunions' ],
@@ -776,38 +827,39 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   List<Widget> children = [];
 
   if(collect.title != null && sectionsToBuild.contains('title')){
-    children.add(collectTitle(collect.title));
+    children.add(collectTitle(collect.title, context));
   }
   if(collect.subtitle != null && sectionsToBuild.contains('subtitle')){
     children.add(collectSubtitle(collect.subtitle));
   }
+  TextStyle propertyStyle = Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark);
 
   if(collect.type != null && sectionsToBuild.contains('type')){
-    children.add(collectProperty(collect.type));
+    children.add(collectProperty(collect.type, propertyStyle),);
   }
 
   if (collect.date != null && sectionsToBuild.contains('date')){
-    children.add(collectProperty(collect.date));
+    children.add(collectProperty(collect.date, propertyStyle));
   }
 
   if (collect.color != null && sectionsToBuild.contains('color')){
-    children.add(collectProperty(collect.color));
+    children.add(collectProperty(collect.color, propertyStyle));
   }
 
   if (collect.ref != null && sectionsToBuild.contains('ref')){
-    children.add(collectProperty(collect.ref));
+    children.add(collectProperty(collect.ref, propertyStyle));
   }
 
   if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')){
     children.add(prayerHeader(globals.translate(language, "collect")));
   }
   if (collect.collectRubric != null  && sectionsToBuild.contains('collects')){
-    children.add(_rubric(collect.collectRubric));
+    children.add(_rubric(collect.collectRubric, context));
   }
 
   if (collect.collectPrayers != null  && sectionsToBuild.contains('collects')){
 
-    children.addAll(prayers(collect.collectPrayers, language));
+    children.addAll(prayers(collect.collectPrayers, language, context));
 
   }
 
@@ -816,7 +868,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   }
 
   if (collect.postCommunionRubric != null  && sectionsToBuild.contains('postCommunions')){
-    children.add(_rubric(collect.postCommunionRubric));
+    children.add(_rubric(collect.postCommunionRubric, context));
   }
 
   if (collect.postCommunionPrayers != null  && sectionsToBuild.contains('postCommunions')){
@@ -835,7 +887,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
 //      collectList.insert(1,_rubric('Or'));
 //    }
 //    children.addAll(collectList);
-    children.addAll(prayers(collect.postCommunionPrayers, language));
+    children.addAll(prayers(collect.postCommunionPrayers, language, context));
 
 
   }
@@ -845,12 +897,12 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   );
 }
 
-Widget collectTitle(title){
+Widget collectTitle(title, context){
   return Padding(
       padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         title,
-        style: canticleTitleTextStyle,
+        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
         textAlign: TextAlign.center,
       ),
 
@@ -879,43 +931,43 @@ Widget prayerHeader(header){
   );
 }
 
-List<Widget> prayers(listOfPrayers, language){
+List<Widget> prayers(listOfPrayers, language, context){
   List<Widget> collectList = [];
   for (var prayer in listOfPrayers){
 
     if (prayer.type == 'versedStanzas') {
-      collectList.add(stanzasColumn(prayer));
+      collectList.add(stanzasColumn(prayer, context));
     } else if (prayer.type == 'stanzas' ){
-      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer, style: generalTextStyle)));
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer, context, style: Theme.of(context).textTheme.body1)));
     } else {
-      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0, vertical:6.0),child: Text(prayer.text != null ? prayer.text : '', style: generalTextStyle,)));
+      collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0, vertical:6.0),child: Text(prayer.text != null ? prayer.text : '', style: Theme.of(context).textTheme.body1,)));
     }
   }
   if (collectList.length > 1){
-    collectList.insert(1,_rubric(globals.translate(language, 'or')));
+    collectList.insert(1,_rubric(globals.translate(language, 'or'), context));
   }
 
   return collectList;
 }
 
 
-Widget collectProperty(property){
+Widget collectProperty(property, TextStyle style){
   return Padding(
       padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         property,
         textAlign: TextAlign.center,
-        style: collectPropertyStyle,
+        style: style,
       ),
   );
 }
 
-Widget _canticleTitle(title){
+Widget _canticleTitle(title, context){
   return Padding(
       padding: new EdgeInsets.only(top:12.0, bottom: 8.0),
       child: new Text(
         title,
-        style: canticleTitleTextStyle,
+        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
         textAlign: TextAlign.center,
       )
   );
@@ -923,10 +975,10 @@ Widget _canticleTitle(title){
 
 
 
-Widget _titleReference(ref){
+Widget _titleReference(ref, context){
   return Text(
     ref,
-    style: titleRefTextStyle,
+    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark),
     textAlign: TextAlign.center,
   );
 }

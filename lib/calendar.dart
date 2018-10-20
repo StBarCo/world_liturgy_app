@@ -59,25 +59,25 @@ class _CalendarItemState extends State<CalendarItem> {
 
     if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, widget.buildType) ) {
       list.add(buildDailyPrayers(collectOfPrincipalFeast,
-          language,
+          language, context,
           widget.buildType));
     }
 
     if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfWeek,
-          language,
+          language,context,
           widget.buildType));
     }
 
     if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfHolyDay,
-          language,
+          language, context,
           widget.buildType));
     }
 
     if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
       list.add(buildDailyPrayers(collectOfWeek,
-          language,
+          language, context,
           widget.buildType));
     }
 

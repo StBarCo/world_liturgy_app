@@ -3,6 +3,7 @@ import 'package:world_liturgy_app/service.dart';
 import 'package:world_liturgy_app/calendar.dart';
 import 'package:world_liturgy_app/songs.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
+import 'package:world_liturgy_app/colors.dart';
 import 'dart:async';
 
 
@@ -15,20 +16,8 @@ class MyApp extends StatelessWidget {
 
     return new MaterialApp(
       title: 'World Liturgy App',
-      theme: new ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.green,
-        fontFamily: 'WorkSans',
-//        primaryColor: Colors.white,
-//
-      ),
+      theme: baseTheme,
+
 
 //      home:Calendar(),
       home: App(
@@ -197,6 +186,8 @@ class _HomePageState extends State<HomePage> {
     final languageState = LanguageState.of(context);
     final currentLanguage = languageState.currentLanguage;
     return BottomNavigationBar(
+        fixedColor: kSecondaryLight,
+
         currentIndex: currentTab,
         onTap: (int index) {
           setState(() {
@@ -204,6 +195,7 @@ class _HomePageState extends State<HomePage> {
             currentPage = pages[index];
           });
         },
+
 
         //        as of flutter 5.1 when navbar has >3 items type becomes shifting and text color is white
         //        type: BottomNavigationBarType.fixed,
