@@ -826,7 +826,7 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
     children.add(collectTitle(collect.title, context));
   }
   if(collect.subtitle != null && sectionsToBuild.contains('subtitle')){
-    children.add(collectSubtitle(collect.subtitle));
+    children.add(collectSubtitle(collect.subtitle, context));
   }
 
   if(collect.type != null && sectionsToBuild.contains('type')){
@@ -846,7 +846,7 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
   }
 
   if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')){
-    children.add(prayerHeader(globals.translate(language, "collect")));
+    children.add(prayerHeader(globals.translate(language, "collect"), context));
   }
   if (collect.collectRubric != null  && sectionsToBuild.contains('collects')){
     children.add(_rubric(collect.collectRubric, context));
@@ -857,7 +857,7 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
   }
 
   if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')) {
-    children.add(prayerHeader(globals.translate(language, 'postCommunionPrayer')));
+    children.add(prayerHeader(globals.translate(language, 'postCommunionPrayer'), context));
   }
 
   if (collect.postCommunionRubric != null  && sectionsToBuild.contains('postCommunions')){
@@ -883,23 +883,23 @@ Widget collectTitle(title, context){
   );
 }
 
-Widget collectSubtitle(title){
+Widget collectSubtitle(title, context){
   return Padding(
       padding: new EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
       child: new Text(
         title,
-        style: collectSubtitleStyle,
+        style: Theme.of(context).textTheme.body2.copyWith(color: Theme.of(context).primaryColorDark),
         textAlign: TextAlign.center,
       )
   );
 }
 
-Widget prayerHeader(header){
+Widget prayerHeader(header, context){
   return Padding(
-      padding: new EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
+      padding: new EdgeInsets.only(top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
       child: new Text(
         header,
-        style: collectPrayerHeaderStyle,
+        style: Theme.of(context).textTheme.body2.copyWith(color: Theme.of(context).primaryColorDark),
         textAlign: TextAlign.center,
       )
   );

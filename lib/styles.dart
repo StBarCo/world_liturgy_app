@@ -24,8 +24,8 @@ const double standardTextSize = 14.0;
 //TextStyle peopleItemTextStyle = new TextStyle(fontWeight: FontWeight.w600, fontSize: standardTextSize);
 
 
-TextStyle collectPrayerHeaderStyle = new TextStyle(fontWeight: FontWeight.bold);
-TextStyle collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic);
+//TextStyle collectPrayerHeaderStyle = new TextStyle(fontWeight: FontWeight.bold);
+//TextStyle collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontStyle.italic);
 //TextStyle collectPropertyStyle = new TextStyle(fontStyle: FontStyle.italic,  fontSize: smallTextSize);
 
 //caption
@@ -35,12 +35,12 @@ TextStyle collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontSt
 //TextStyle songIndexSubtitleTextStyle = new TextStyle(fontSize: 14.0, color: kPrimaryDark);
 //TextStyle songPageSubtitleTextStyle = new TextStyle(fontSize: 13.0, fontStyle: FontStyle.italic);
 
-TextStyle songVerseHeaderStyle = new TextStyle(fontSize: smallTextSize, color: kPrimaryDark);
-
-//body1
-TextStyle songVerseTextStyle = new TextStyle(fontSize: standardTextSize,);
-//body2
-TextStyle songChorusTextStyle = new TextStyle(fontSize: standardTextSize, fontWeight: FontWeight.bold);
+//TextStyle songVerseHeaderStyle = new TextStyle(fontSize: smallTextSize, color: kPrimaryDark);
+//
+////body1
+//TextStyle songVerseTextStyle = new TextStyle(fontSize: standardTextSize,);
+////body2
+//TextStyle songChorusTextStyle = new TextStyle(fontSize: standardTextSize, fontWeight: FontWeight.bold);
 
 
 
