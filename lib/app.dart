@@ -6,9 +6,6 @@ import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/colors.dart';
 import 'dart:async';
 
-
-
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -17,73 +14,57 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'World Liturgy App',
       theme: baseTheme,
-
-
 //      home:Calendar(),
-      home: App(
-//          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
-
-          ),
+      home: App(),
     );
   }
 }
 
+class App extends StatefulWidget {
+  @override
+  AppState createState() => AppState();
+}
 
-class _MyInherited extends InheritedWidget {
-  _MyInherited({
+class AppState extends State<App> {
+  String currentLanguage = globals.allPrayerBooks.prayerBooks[0].language;
+
+  void onTap(String newLanguage) {
+    setState(() {
+      currentLanguage = newLanguage;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LanguageState(
+      currentLanguage: currentLanguage,
+      onTap: onTap,
+      child: HomePage(),
+    );
+  }
+}
+
+class LanguageState extends InheritedWidget {
+  LanguageState({
     Key key,
-    @required Widget child,
-    @required this.data,
+    this.currentLanguage,
+    this.onTap,
+    Widget child,
   }) : super(key: key, child: child);
 
-  final MyInheritedWidgetState data;
+  final String currentLanguage;
+  final Function onTap;
 
   @override
-  bool updateShouldNotify(_MyInherited oldWidget) {
-    return true;
+  bool updateShouldNotify (LanguageState oldWidget) {
+    return currentLanguage != oldWidget.currentLanguage;
+  }
+
+  static LanguageState of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(LanguageState);
   }
 }
 
-class MyInheritedWidget extends StatefulWidget {
-  MyInheritedWidget({
-    Key key,
-    this.child,
-  }): super(key: key);
-
-  final Widget child;
-
-  @override
-  MyInheritedWidgetState createState() => new MyInheritedWidgetState();
-
-  static MyInheritedWidgetState of(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(_MyInherited) as _MyInherited).data;
-  }
-}
-
-class MyInheritedWidgetState extends State<MyInheritedWidget>{
-  /// List of Items
-  String currentLanguage = 'en_ke';
-
-  /// Getter (number of items)
-  String get getLanguage => currentLanguage;
-
-  /// Helper method to add an Item
-  void changeLanguage(String newLanguage){
-    if(currentLanguage != newLanguage) {
-      setState(() {
-        currentLanguage = newLanguage;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context){
-    return new _MyInherited(
-      data: this,
-      child: widget.child,
-    );
-  }
-}
 
 
 class HomePage extends StatefulWidget{
@@ -99,11 +80,12 @@ class _HomePageState extends State<HomePage> {
   final Key keySongs = PageStorageKey('pageKeySongs');
 
   int currentTab = 0;
-
+  double textScaleFactor = 1.0;
   ServicePage servicePage;
   SongsPage songPage;
   List<Widget> pages;
   Widget currentPage;
+
 
   @override
   void initState(){
@@ -173,9 +155,14 @@ class _HomePageState extends State<HomePage> {
     checkForCurrentDay();
     return new MyInheritedWidget(
       child: new WillPopScope(
-        child:  new Scaffold (
-          body: currentPage,
-          bottomNavigationBar: _buildBottomNavBar(),
+        child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaleFactor: textScaleFactor,
+            ),
+            child: new Scaffold (
+              body: currentPage,
+              bottomNavigationBar: _buildBottomNavBar(),
+            ),
         ),
         onWillPop: () => _showExit(context),
       ),
@@ -220,57 +207,65 @@ class _HomePageState extends State<HomePage> {
           //          ),
         ]
     );
-
   }
 }
 
 
 
-class App extends StatefulWidget {
+
+class _MyInherited extends InheritedWidget {
+  _MyInherited({
+    Key key,
+    @required Widget child,
+    @required this.data,
+  }) : super(key: key, child: child);
+
+  final MyInheritedWidgetState data;
+
   @override
-  AppState createState() => AppState();
+  bool updateShouldNotify(_MyInherited oldWidget) {
+    return true;
+  }
 }
 
-class AppState extends State<App> {
-  String currentLanguage = globals.allPrayerBooks.prayerBooks[0].language;
+class MyInheritedWidget extends StatefulWidget {
+  MyInheritedWidget({
+    Key key,
+    this.child,
+  }): super(key: key);
 
-  void onTap(String newLanguage) {
-    setState(() {
-      currentLanguage = newLanguage;
-    });
+  final Widget child;
+
+  @override
+  MyInheritedWidgetState createState() => new MyInheritedWidgetState();
+
+  static MyInheritedWidgetState of(BuildContext context){
+    return (context.inheritFromWidgetOfExactType(_MyInherited) as _MyInherited).data;
+  }
+}
+
+class MyInheritedWidgetState extends State<MyInheritedWidget>{
+  /// List of Items
+  String currentLanguage = 'en_ke';
+
+  /// Getter (number of items)
+  String get getLanguage => currentLanguage;
+
+  /// Helper method to add an Item
+  void changeLanguage(String newLanguage){
+    if(currentLanguage != newLanguage) {
+      setState(() {
+        currentLanguage = newLanguage;
+      });
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
-    return LanguageState(
-      currentLanguage: currentLanguage,
-      onTap: onTap,
-      child: HomePage(),
+  Widget build(BuildContext context){
+    return new _MyInherited(
+      data: this,
+      child: widget.child,
     );
   }
 }
-
-class LanguageState extends InheritedWidget {
-  LanguageState({
-    Key key,
-    this.currentLanguage,
-    this.onTap,
-    Widget child,
-  }) : super(key: key, child: child);
-
-  final String currentLanguage;
-  final Function onTap;
-
-  @override
-  bool updateShouldNotify(LanguageState oldWidget) {
-    return currentLanguage != oldWidget.currentLanguage;
-  }
-
-  static LanguageState of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(LanguageState);
-  }
-}
-
-
-
 

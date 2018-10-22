@@ -6,7 +6,8 @@ const kPrimaryLight = const Color(0xFFffffff);
 const kPrimaryDark = const Color(0xFF8d8d8d);
 
 //default secondary colors -currently green
-Color kSecondaryColor = Color(0xFF2f5d07);
+//Color kSecondaryColor = Color(0xFF2f5d07);
+Color kSecondaryColor = Color(0xFF00600f);
 Color kSecondaryLight = Color(0xFF7cae50);
 Color kSecondaryDark =  Color(0xFF244c00);
 
@@ -182,3 +183,7 @@ final baseTheme = ThemeData(
 //      pageTransitionsTheme
 
 );
+
+TextStyle referenceAndSubtitleStyle(context, {Color color}){
+  return Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: color ?? Theme.of(context).primaryColorDark);
+}

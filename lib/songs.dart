@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializeSongBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/styles.dart';
+import 'package:world_liturgy_app/colors.dart';
 //import 'package:material_search/material_search.dart';
 
 class SongsPage extends StatefulWidget{
@@ -22,7 +23,8 @@ class _SongsPageState extends State<SongsPage> {
   Widget build(BuildContext context) {
     return new Scaffold (
       appBar: new AppBar(
-        title: new Text('Song Books and Hymnals'),
+        textTheme: Theme.of(context).textTheme,
+        title: new Text('Song Books and Hymnals', style: TextStyle(fontFamily: 'Signika'),),
         actions: <Widget>[
           new IconButton(
             tooltip: 'Search',
@@ -33,7 +35,7 @@ class _SongsPageState extends State<SongsPage> {
                 delegate: _delegate,
               );
               if (selected != null ) {
-                setState;
+//                setState;
               }
             },
           ),
@@ -173,9 +175,13 @@ Widget buildSongIndex(BuildContext context, SongBook songBook, bool expanded, [L
     return new ListTile(title: new Text(songBook.title ?? 'No Title'));
   return new ExpansionTile(
     key: new PageStorageKey<SongBook>(songBook),
-    title: new Text(titleText ?? 'No title', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),),
+    title: new Text(
+      titleText ?? 'No title',
+      style: Theme.of(context).textTheme.subhead.copyWith(color: Theme.of(context).accentColor),
+    ),
     initiallyExpanded: expanded,
     children: _buildServicesTiles(context, songList),
+
 
   );
 }
@@ -186,14 +192,11 @@ List<Widget> _buildServicesTiles(context, songList) {
   for (var song in songList) {
     songsList.add(new Padding(
         padding: EdgeInsets.only(left:20.0),
-
         child: new ListTile(
           leading: Icon(Icons.music_note),
-          title: songTitle(song, style: songIndexTitleStyle),
-          subtitle: songSubtitle(song),
+          title: songTitle(song, style: Theme.of(context).textTheme.body1),
+          subtitle: Text(song.subtitle ?? '', style: referenceAndSubtitleStyle(context)),
           selected: false,
-
-          
           onTap: () {
             Navigator.push(context, new MaterialPageRoute(builder: (context) => SongPage(song: song)));
           },
@@ -202,7 +205,6 @@ List<Widget> _buildServicesTiles(context, songList) {
     ));
   }
   return songsList;
-
 }
 
 Text  songTitle (Song song, {style}) {
@@ -225,19 +227,6 @@ Text  songTitle (Song song, {style}) {
   }
 }
 
-Text songSubtitle (Song song, [style]) {
-  String text = song.subtitle != null ? song.subtitle : '';
-
-  if(style == null){
-    return new Text(text, style: songIndexSubtitleTextStyle,);
-  }else {
-    return new Text(text, style: style,);
-  }
-
-}
-
-
-
 class SongPage extends StatelessWidget {
 
   final Song song;
@@ -253,23 +242,27 @@ class SongPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             songTitle(song),
-            songSubtitle(song, songPageSubtitleTextStyle),
+            Text(
+              song.subtitle ?? '',
+              style: referenceAndSubtitleStyle(context),
+            )
+//            songSubtitle(song, songPageSubtitleTextStyle),
           ],
         )
       ),
       body: new ListView(
-        padding: EdgeInsets.symmetric(horizontal: 60.0, vertical: 15.0),
-        children: _songBody(song),
+        padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+        children: _songBody(song, context),
       ),
 
     );
   }
 }
 
-  List<Widget> _songBody (song){
+  List<Widget> _songBody (song, context){
     List<Widget> widgets = [];
 
-    int refrainLocation = null;
+    int refrainLocation;
 
     if (song.refrain != null){
       refrainLocation = song.refrain.afterVerse == null ? 1 : song.refrain.afterVerse;
@@ -277,24 +270,22 @@ class SongPage extends StatelessWidget {
 
     for (var i = 0; i < song.verses.length; i++) {
       if(refrainLocation == i){
-        widgets.add(_refrain(song.refrain));
+        widgets.add(_refrain(song.refrain, context));
       }
-
-      widgets.add( _verse(song.verses[i]));
+      widgets.add(_verseRow(song.verses[i], i,  context));
     }
 
     return widgets;
   }
 
-  Padding _refrain (refrain){
+  Padding _refrain (refrain, context){
     List<Widget> list = [];
 
-    list.add(new Text('Refrain' + ':', style: songVerseHeaderStyle,));
+    list.add(new Text('Refrain' + ':', style: referenceAndSubtitleStyle(context),));
 
   for (var stanza in refrain.stanzas) {
-    list.add(_chorusStanza(stanza));
+    list.add(Text(stanza.text, style: Theme.of(context).textTheme.body2));
   }
-
     return new Padding(
       padding: EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 15.0),
       child: Column(
@@ -304,35 +295,40 @@ class SongPage extends StatelessWidget {
     );
   }
 
-  Widget _verse (verse){
-    List<Widget> list = [];
-
-    for (var stanza in verse.stanzas) {
-      list.add(_stanza(stanza));
-    }
-
-//    return list;
-
-    return new Padding(
-      padding: EdgeInsets.symmetric(vertical: 7.0),
-      child: Column(
+  Widget _verseRow(verse, vNumber, context){
+    return Padding(
+      padding: EdgeInsets.only(top: 8.0),
+      child:Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-
-        children: list,
-      ),
+        children: <Widget>[
+          Container(
+            width: 20.0,
+            padding: EdgeInsets.only(right: 8.0),
+            child: Text(
+              (vNumber+1).toString() + '.',
+              style: referenceAndSubtitleStyle(context),
+              textAlign: TextAlign.right,
+            ),
+          ),
+          _verse(verse, context)
+        ],
+      )
     );
 
   }
 
+  Widget _verse (verse, context){
+    List<Widget> list = [];
 
-  Text _stanza (stanza){
-    return Text(stanza.text, style: songVerseTextStyle,);
+    for (var stanza in verse.stanzas) {
+      list.add(Text(stanza.text, style: Theme.of(context).textTheme.body1));
+    }
+
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: list,
+    );
   }
-
-  Text _chorusStanza (stanza){
-    return Text(stanza.text, style: songChorusTextStyle);
-  }
-
 
 
 

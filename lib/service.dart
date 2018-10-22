@@ -28,11 +28,13 @@ class _ServicePageState extends State<ServicePage> {
     super.initState();
     currentIndexes = widget.initialCurrentIndexes;
     currentService = _getServiceFromIndexes(currentIndexes);
+
   }
 
   Service _getServiceFromIndexes(indexes) {
     return globals.allPrayerBooks.getPrayerBook(indexes['prayerBook'])
         .getService(indexes['service']);
+
   }
 
   void _changeLanguage() {
@@ -315,17 +317,13 @@ class _ServicePageState extends State<ServicePage> {
                 padding: EdgeInsets.only(top:4.0),
                 child: new Text(
                   item.ref ?? '',
-                  style: Theme.of(context).textTheme.caption.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).accentColor
-                  ),
-                  textAlign: TextAlign.center,
+                  style: referenceAndSubtitleStyle(context, color: Theme.of(context).accentColor ),
+                    textAlign: TextAlign.center,
                 ),
-
               ),
               new Padding(
                 padding: EdgeInsets.only(top:4.0),
-                child: new Text(globals.translate(language,"tapToExpand"), style: Theme.of(context).textTheme.caption.copyWith(color: kSecondaryColor, fontSize: 12.0), textAlign: TextAlign.center),
+                child: new Text(globals.translate(language,"tapToExpand"), style: Theme.of(context).textTheme.caption.copyWith(color: kSecondaryColor), textAlign: TextAlign.center),
               ),
             ],
           )
@@ -579,7 +577,7 @@ Widget _buildItem(item, language, context, [prevItemWho]){
 }
 
 Widget _leaderItem(item, language, prevItemWho, context){
-  Icon _pickedIcon = item.who == 'minister' ? Icon(Icons.person) : item.who == 'reader' ? Icon(Icons.local_library) : Icon(Icons.person);
+  var _pickedIcon = item.who == 'minister' ? Icon(Icons.person) : item.who == 'reader' ? Icon(Icons.local_library) : Icon(Icons.person);
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.start,
@@ -587,26 +585,17 @@ Widget _leaderItem(item, language, prevItemWho, context){
       new Opacity(
         opacity: item.who == prevItemWho ? 0.0 : 1.0,
         child: new Column(
-
-          children: <Widget>[
-            new CircleAvatar(
-              child: _pickedIcon,
-              backgroundColor: kPrimaryLight,
-              foregroundColor: kPrimaryDark,
-
-            ),
-            new Container(
-              constraints: new BoxConstraints(maxWidth: 70.0),
-              child: new Text(item.who == 'leaderOther' ? item.other :globals.translate(language, item.who), style: Theme.of(context).textTheme.caption,),
-            ),
-
-          ],
+          children: _makeAvatar(
+            _pickedIcon,
+            item.who == 'leaderOther' ? item.other :globals.translate(language, item.who),
+            context,
+          )
         )
       ),
       new Flexible(
         child: new Padding(
           padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
-          child:  _isStanzas(item) ? stanzasColumn(item, context,style: Theme.of(context).textTheme.body1) : _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style:  Theme.of(context).textTheme.body1),
+          child:  _isStanzas(item) ? stanzasColumn(item, context,style: Theme.of(context).textTheme.body1) : _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, referenceAndSubtitleStyle(context)) : _itemText(item,  style:  Theme.of(context).textTheme.body1),
         )
       ),
     ],
@@ -625,26 +614,18 @@ Widget _peopleItem(item, language, prevItemWho, context){
                 right: 16.0,
                 top:12.0
             ),
-
-            child: _isStanzas(item) ? stanzasColumn(item, context, style: Theme.of(context).textTheme.body2) : _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body2, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark), alignment:  TextAlign.right) : _itemText(item, style: Theme.of(context).textTheme.body2, alignment:  TextAlign.right),
+            child: _isStanzas(item) ? stanzasColumn(item, context, style: Theme.of(context).textTheme.body2) : _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body2, referenceAndSubtitleStyle(context), alignment:  TextAlign.right) : _itemText(item, style: Theme.of(context).textTheme.body2, alignment:  TextAlign.right),
 
           )
       ),
       new Opacity(
           opacity: item.who == prevItemWho ? 0.0 : 1.0,
           child: new Column(
-            children: <Widget>[
-              new CircleAvatar(
-                  child: Icon(Icons.people),
-                  backgroundColor: kPrimaryLight,
-                  foregroundColor: kPrimaryDark,
-              ),
-
-              new Container(
-                constraints: new BoxConstraints(maxWidth: 70.0),
-                child: new Text(item.who == 'peopleOther' ? item.other : globals.translate(language, item.who), style: Theme.of(context).textTheme.caption, textAlign: TextAlign.center,),
-              ),
-            ],
+            children: _makeAvatar(
+                Icon(Icons.people),
+              item.who == 'peopleOther' ? item.other : globals.translate(language, item.who),
+                context,
+            )
           )
       ),
     ],
@@ -657,7 +638,7 @@ Widget genericItem(item, context){
     children: <Widget>[
       new Expanded(
         child: new Padding(
-          child: _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
+          child: _doesItemHasRef(item) ? _itemTextWithRef(item,  Theme.of(context).textTheme.body1, referenceAndSubtitleStyle(context)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
           padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
         ),
       )
@@ -670,16 +651,15 @@ Widget _unknownItem(item, context){
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       new Column(
-        children: <Widget>[
-          new CircleAvatar(
-              child: Icon(Icons.error),
-              backgroundColor: Colors.red,
-          ),
-          new Text(item.who ?? '',style: Theme.of(context).textTheme.caption,),
-        ],
+        children: _makeAvatar(
+            Icon(Icons.error),
+            item.who ?? '',
+            context,
+            color: Colors.red
+        )
       ),
       new Expanded(
-        child: _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body1, Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
+        child: _doesItemHasRef(item) ? _itemTextWithRef(item, Theme.of(context).textTheme.body1, referenceAndSubtitleStyle(context)) : _itemText(item,  style: Theme.of(context).textTheme.body1),
       ),
 //          new Column(
 //            children: <Widget>[
@@ -692,6 +672,22 @@ Widget _unknownItem(item, context){
 //          ),
     ],
   );
+}
+
+List<Widget> _makeAvatar(avatar, String label, context, {Color color}){
+  List<Widget> list = [
+    new CircleAvatar(
+      child: avatar,
+      backgroundColor: kPrimaryLight,
+      foregroundColor: color ?? kPrimaryDark,
+    ),
+
+    new Container(
+      constraints: new BoxConstraints(maxWidth: 70.0),
+      child: new Text(label, style: Theme.of(context).textTheme.caption, textAlign: TextAlign.center,),
+    ),
+  ];
+  return list;
 }
 
 bool _doesItemHasRef(item){
@@ -832,22 +828,21 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
   if(collect.subtitle != null && sectionsToBuild.contains('subtitle')){
     children.add(collectSubtitle(collect.subtitle));
   }
-  TextStyle propertyStyle = Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark);
 
   if(collect.type != null && sectionsToBuild.contains('type')){
-    children.add(collectProperty(collect.type, propertyStyle),);
+    children.add(collectProperty(collect.type, referenceAndSubtitleStyle(context)),);
   }
 
   if (collect.date != null && sectionsToBuild.contains('date')){
-    children.add(collectProperty(collect.date, propertyStyle));
+    children.add(collectProperty(collect.date, referenceAndSubtitleStyle(context)));
   }
 
   if (collect.color != null && sectionsToBuild.contains('color')){
-    children.add(collectProperty(collect.color, propertyStyle));
+    children.add(collectProperty(collect.color, referenceAndSubtitleStyle(context)));
   }
 
   if (collect.ref != null && sectionsToBuild.contains('ref')){
-    children.add(collectProperty(collect.ref, propertyStyle));
+    children.add(collectProperty(collect.ref, referenceAndSubtitleStyle(context)));
   }
 
   if ((collect.collectRubric  != null || collect.collectPrayers != null)  && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')){
@@ -858,9 +853,7 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
   }
 
   if (collect.collectPrayers != null  && sectionsToBuild.contains('collects')){
-
     children.addAll(prayers(collect.collectPrayers, language, context));
-
   }
 
   if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')) {
@@ -872,26 +865,8 @@ Widget buildDailyPrayers(Collect collect, language, context, [buildType='full'])
   }
 
   if (collect.postCommunionPrayers != null  && sectionsToBuild.contains('postCommunions')){
-//    List<Widget> collectList = [];
-//    for (var prayer in collect.postCommunionPrayers){
-//
-//      if (prayer.type == 'versedStanzas') {
-//        collectList.add(stanzasColumn(prayer));
-//      } else if (prayer.type == 'stanzas' ){
-//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
-//      } else {
-//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text)));
-//      }
-//    }
-//    if (collectList.length > 1){
-//      collectList.insert(1,_rubric('Or'));
-//    }
-//    children.addAll(collectList);
     children.addAll(prayers(collect.postCommunionPrayers, language, context));
-
-
   }
-
   return new Column(
     children: children,
   );
@@ -905,7 +880,6 @@ Widget collectTitle(title, context){
         style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
         textAlign: TextAlign.center,
       ),
-
   );
 }
 
@@ -946,10 +920,8 @@ List<Widget> prayers(listOfPrayers, language, context){
   if (collectList.length > 1){
     collectList.insert(1,_rubric(globals.translate(language, 'or'), context));
   }
-
   return collectList;
 }
-
 
 Widget collectProperty(property, TextStyle style){
   return Padding(
@@ -973,12 +945,10 @@ Widget _canticleTitle(title, context){
   );
 }
 
-
-
 Widget _titleReference(ref, context){
   return Text(
     ref,
-    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: Theme.of(context).primaryColorDark),
+    style: referenceAndSubtitleStyle(context),
     textAlign: TextAlign.center,
   );
 }

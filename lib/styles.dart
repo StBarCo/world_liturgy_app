@@ -31,9 +31,9 @@ TextStyle collectSubtitleStyle = new TextStyle(fontSize: 14.0, fontStyle: FontSt
 //caption
 //TextStyle avatarTextStyle = new TextStyle(fontSize: smallTextSize, color: kPrimaryDark);
 
-TextStyle songIndexTitleStyle = new TextStyle(fontSize: 16.0);
-TextStyle songIndexSubtitleTextStyle = new TextStyle(fontSize: 14.0, color: kPrimaryDark);
-TextStyle songPageSubtitleTextStyle = new TextStyle(fontSize: 13.0, fontStyle: FontStyle.italic);
+//TextStyle songIndexTitleStyle = new TextStyle(fontSize: 16.0);
+//TextStyle songIndexSubtitleTextStyle = new TextStyle(fontSize: 14.0, color: kPrimaryDark);
+//TextStyle songPageSubtitleTextStyle = new TextStyle(fontSize: 13.0, fontStyle: FontStyle.italic);
 
 TextStyle songVerseHeaderStyle = new TextStyle(fontSize: smallTextSize, color: kPrimaryDark);
 
