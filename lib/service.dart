@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/collects.dart';
 import 'package:world_liturgy_app/styles.dart';
 import 'package:world_liturgy_app/app.dart';
+import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/model/calendar.dart';
 
 class ServicePage extends StatefulWidget{
   final initialCurrentIndexes;
@@ -19,6 +21,7 @@ class _ServicePageState extends State<ServicePage> {
   Service currentService;
   ScrollController _serviceScrollController = new ScrollController();
   String currentLanguage;
+  Day currentDay;
 
   _ServicePageState();
 
@@ -44,7 +47,7 @@ class _ServicePageState extends State<ServicePage> {
           globals.allPrayerBooks.prayerBooks[newPbIndex].id;
 
       currentService = _getServiceFromIndexes(currentIndexes);
-      LanguageState.of(context).onTap(globals.allPrayerBooks.prayerBooks[newPbIndex].language);
+      RefreshState.of(context).onTap(newLanguage: globals.allPrayerBooks.prayerBooks[newPbIndex].language);
   }
 
   void _changeService(String prayerBook, String service, previousService) {
@@ -53,33 +56,28 @@ class _ServicePageState extends State<ServicePage> {
     currentIndexes['prayerBook'] = prayerBook;
     currentService = _getServiceFromIndexes(currentIndexes);
 
-
     if(service != previousService){
       _serviceScrollController.jumpTo(0.0);
     }
 
 //    if changing prayerBooks
     if(changingBook){
-      LanguageState.of(context).onTap(globals.allPrayerBooks.getPrayerBook(prayerBook).language);
+      RefreshState.of(context).onTap(newLanguage: globals.allPrayerBooks.getPrayerBook(prayerBook).language);
     }else{
       setState(() {
       });
     }
   }
-
-
-
   @override
   Widget build(BuildContext context) {
-    checkForCurrentDay();
-    final languageState = LanguageState.of(context);
-    currentLanguage = languageState.currentLanguage;
-
+    final refreshState = RefreshState.of(context);
+    currentLanguage = refreshState.currentLanguage;
+    currentDay = refreshState.currentDay;
 
     return new Scaffold (
       drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
       appBar: new AppBar(
-        title: new Text(currentService.title),
+        title: appBarTitle(currentService.title, context),
         actions: <Widget>[
           FlatButton(
             onPressed: (){
@@ -110,6 +108,8 @@ class _ServicePageState extends State<ServicePage> {
       body: _buildService(context, currentService),
     );
   }
+
+
 
 
   Drawer _buildDrawer(prayerBooks) {
@@ -167,36 +167,42 @@ class _ServicePageState extends State<ServicePage> {
       itemCount: service.sections.length,
       itemBuilder: (context, index) {
         var section = service.sections[index];
-        return _buildSection(context, currentIndexes, section, currentLanguage);
+        return _buildSection(context, currentIndexes, section, currentLanguage, currentDay);
       },
       controller: _serviceScrollController,
-
-
     );
   }
-
 }
 
 
 
-    Widget _buildSection(BuildContext context, currentIndexes, section, language){
+    Widget _buildSection(BuildContext context, currentIndexes, section, language, Day currentDay){
 //      final alreadySaved = _saved.contains(pair);
       return new Column(
-        children: _buildItemsList(context, currentIndexes, section, language),
+        children: _buildItemsList(context, currentIndexes, section, language, currentDay),
       );
     }
 
-    List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language){
+    List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language, Day currentDay){
       List<Widget> itemsList = new List<Widget>();
 
       if (section.type == 'collectOfTheDay'){
-        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "collect",) );
+//        TODO: move collect section title into same section.
+        itemsList.add(collectList(currentIndexes["prayerBook"], currentDay, language, context, buildType: "collect") );
       } else if (section.type == 'postCommunionOfTheDay') {
-        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "postCommunion",) );
+        itemsList.add(collectList(currentIndexes["prayerBook"], currentDay, language, context,
+          buildType: "postCommunion", ));
+      }   else   if(section.type == 'calendarDate'){
+        itemsList.add(dateAndLinkToCalendar(currentDay, language, context));
+//        TODO: make metheod the show current date with link to full calendar
+        //        method to show calendar
+      }else      if(section.type == 'lectionaryReading'){
+//        TODO: make methods to show header, fields, and reading(s).
 
-      } else if (section.type == 'scheduled' && section.schedule.contains(globals.currentDay.season)) {
+
+      } else if (section.type == 'scheduled' && section.schedule.contains(currentDay.season)) {
         itemsList.addAll(_buildNormalSection(section, language));
-      } else if (section.type == 'scheduledFeast' && (section.schedule == globals.currentDay.principalFeastID || section.schedule == globals.currentDay.holyDayID)){
+      } else if (section.type == 'scheduledFeast' && (section.schedule == currentDay.principalFeastID || section.schedule == currentDay.holyDayID)){
         itemsList.addAll(_buildNormalSection(section, language));
       } else {
         if (section.visibility == 'collapsed') {
@@ -806,9 +812,7 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   }
 
   if (collect.collectPrayers != null  && sectionsToBuild.contains('collects')){
-
     children.addAll(prayers(collect.collectPrayers, language));
-
   }
 
   if ((collect.postCommunionRubric  != null || collect.postCommunionPrayers != null) && sectionsToBuild.contains('postCommunions') && sectionsToBuild.contains('collects')) {
@@ -820,24 +824,8 @@ Widget buildDailyPrayers(Collect collect, language, [buildType='full']){
   }
 
   if (collect.postCommunionPrayers != null  && sectionsToBuild.contains('postCommunions')){
-//    List<Widget> collectList = [];
-//    for (var prayer in collect.postCommunionPrayers){
-//
-//      if (prayer.type == 'versedStanzas') {
-//        collectList.add(stanzasColumn(prayer));
-//      } else if (prayer.type == 'stanzas' ){
-//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child:stanzasColumn(prayer)));
-//      } else {
-//        collectList.add(Padding(padding: EdgeInsets.symmetric(horizontal: 18.0),child: Text(prayer.text)));
-//      }
-//    }
-//    if (collectList.length > 1){
-//      collectList.insert(1,_rubric('Or'));
-//    }
-//    children.addAll(collectList);
+
     children.addAll(prayers(collect.postCommunionPrayers, language));
-
-
   }
 
   return new Column(

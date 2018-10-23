@@ -3,13 +3,12 @@ import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/json/serializeCalendar.dart';
 import 'package:world_liturgy_app/json/serializeSongBook.dart';
 import 'package:world_liturgy_app/data/database.dart';
-import 'package:world_liturgy_app/model/calendar.dart';
 
 PrayerBooksContainer allPrayerBooks;
 CalendarScaffold calendarScaffold;
 SongBooksContainer allSongBooks;
 DatabaseClient db;
-Day currentDay;
+//Day currentDay;
 
 Map translationMap = {
   'en_ke':{
@@ -47,11 +46,35 @@ Map translationMap = {
 
 //    TRANSLATIONS FOR PEOPLE SIDE
     'people': 'People',
-    'all': 'All'
+    'all': 'All',
 
-
-
-
+//    TRANSLATIONS FOR DATES
+    'dates': {
+      'format': ['weekday', ', ', 'day', ' ', 'month', ', ', 'year'],
+      'month': {
+        1: 'January',
+        2: 'February',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December',
+      },
+      'weekday': {
+        1:'Monday',
+        2:'Tuesday',
+        3:'Wednesday',
+        4:'Thursday',
+        5:'Friday',
+        6:'Saturday',
+        7:'Sunday',
+      }
+    }
 
   },
 
@@ -90,7 +113,35 @@ Map translationMap = {
 
 //    TRANSLATIONS FOR PEOPLE SIDE
     'people': 'Watu',
-    'all': 'Wote'
+    'all': 'Wote',
+
+    //    TRANSLATIONS FOR DATES
+    'dates': {
+      'format': ['weekday', ', ', 'day', ' ', 'month', ', ', 'year'],
+      'month': {
+        1: 'January',
+        2: 'February',
+        3: 'March',
+        4: 'April',
+        5: 'May',
+        6: 'June',
+        7: 'July',
+        8: 'August',
+        9: 'September',
+        10: 'October',
+        11: 'November',
+        12: 'December',
+      },
+      'weekday': {
+        1:'Monday',
+        2:'Tuesday',
+        3:'Wednesday',
+        4:'Thursday',
+        5:'Friday',
+        6:'Saturday',
+        7:'Sunday',
+      }
+    }
   }
 };
 

@@ -33,7 +33,7 @@ class _SongsPageState extends State<SongsPage> {
                 delegate: _delegate,
               );
               if (selected != null ) {
-                setState;
+//                setState;
               }
             },
           ),
@@ -269,7 +269,7 @@ class SongPage extends StatelessWidget {
   List<Widget> _songBody (song){
     List<Widget> widgets = [];
 
-    int refrainLocation = null;
+    int refrainLocation;
 
     if (song.refrain != null){
       refrainLocation = song.refrain.afterVerse == null ? 1 : song.refrain.afterVerse;

@@ -30,14 +30,11 @@ class DatabaseClient {
     String dbPath = join(path.path, "database.db");
 
 
-    _db = await openDatabase(dbPath, version: 8,
+    _db = await openDatabase(dbPath, version: 100,
         onCreate: this._onCreate,
         onUpgrade: onDatabaseDowngradeDelete,
         onDowngrade: onDatabaseDowngradeDelete,
         );
-
-//    set current day into globals
-
   }
 
   Future _onCreate(Database _db, int version) async {
@@ -81,12 +78,6 @@ class DatabaseClient {
 
         days.forEach((day) => batch.insert('days', day));
 
-
-//
-//        List collects = calculateSeasonsAndFeastsIndexForDatabase();
-//
-//        collects.forEach((collect) => batch.insert('prayers', collect));
-
         await batch.commit(noResult: true);
 
 //      TODO: Iterate through collects and compare prayerbooks index numbers
@@ -99,77 +90,26 @@ class DatabaseClient {
     } catch (e, s) {
       print(s);
     }
-
-//    var count = Sqflite
-//        .firstIntValue(await _db.rawQuery("SELECT COUNT(*) FROM seasonsAndFeasts"));
-//    assert(count == 2);
-
-
   }
 
   Future insertDay(Day day) async {
     dynamic newDay =  await _db.insert("days", day.toMap());
-
     return newDay;
   }
 
   Future insertSeasonOrFeast(Prayer collect) async {
     dynamic newCollect =  await _db.insert("prayers", collect.toMap());
-
     return newCollect;
   }
 
-  Future fetchDay(int date) async {
+  Future<Day> fetchDay(int date) async {
     dynamic results = await _db.query("days", columns: Day.columns, where: "date = ?", whereArgs: [date]);
-//    List<Map> list = await _db.rawQuery('SELECT * FROM calendar');
-//    dynamic results = await _db.rawQuery(
-//      '''SELECT
-//            date,
-//            season,
-//            weekID,
-//            seasonColor,
-//            principalFeastID,
-//            principalColor,
-//            principalOptionalCelebrationSunday,
-//            holyDayID,
-//            holyDayColor,
-//            holyDayType,
-//            weekServiceIndex,
-//            weekSectionIndex,
-//            weekCollectIndex,
-//            principalFeastServiceIndex,
-//            principalFeastSectionIndex,
-//            principalFeastCollectIndex,
-//            holyDayServiceIndex,
-//            holyDaySectionIndex,
-//            holyDayCollectIndex
-//
-//        FROM days days
-//
-//        LEFT JOIN prayers weekIndex ON days.weekID=weekIndex.id
-//        LEFT JOIN prayers feastIndex ON feastIndex.id = days.holyDayID
-//        LEFT JOIN prayers holyDayIndex ON holyDayIndex.id = days.principalFeastID
-//
-//        WHERE date = ?
-//      ''', [date]);
-
 
     if (results.length == 0){
       return null;
     } else {
       Day activeDay = Day.fromMap(results[0]);
-
       return activeDay;
     }
   }
-
-  Future fetchSeasonOrFeast(String id, int prayerBookIndex) async {
-    dynamic results = await _db.query("prayers", columns: Prayer.columns, where: "id = ? AND prayerBookIndex = ?", whereArgs: [id, prayerBookIndex]);
-
-    Prayer seasonOrFeast = Prayer.fromMap(results[0]);
-
-    return seasonOrFeast;
-  }
-
-
 }

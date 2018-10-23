@@ -4,8 +4,8 @@ import 'package:world_liturgy_app/calendar.dart';
 import 'package:world_liturgy_app/songs.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'dart:async';
-
-
+import 'package:world_liturgy_app/model/calendar.dart';
+import 'package:marquee/marquee.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -16,24 +16,9 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       title: 'World Liturgy App',
       theme: new ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.green,
-        fontFamily: 'WorkSans',
-//        primaryColor: Colors.white,
-//
       ),
-
-//      home:Calendar(),
       home: App(
-//          currentService: globals.allPrayerBooks.prayerBooks[0].services[0],
-
           ),
     );
   }
@@ -73,19 +58,20 @@ class MyInheritedWidget extends StatefulWidget {
 
 class MyInheritedWidgetState extends State<MyInheritedWidget>{
   /// List of Items
+  /// Default language name
   String currentLanguage = 'en_ke';
 
   /// Getter (number of items)
   String get getLanguage => currentLanguage;
 
   /// Helper method to add an Item
-  void changeLanguage(String newLanguage){
-    if(currentLanguage != newLanguage) {
-      setState(() {
-        currentLanguage = newLanguage;
-      });
-    }
-  }
+//  void changeLanguage(String newLanguage){
+//    if(currentLanguage != newLanguage) {
+//      setState(() {
+//        currentLanguage = newLanguage;
+//      });
+//    }
+//  }
 
   @override
   Widget build(BuildContext context){
@@ -108,11 +94,15 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage> {
   final Key keyServices = PageStorageKey('pageKeyServices');
   final Key keySongs = PageStorageKey('pageKeySongs');
+  final Key keyCalendar = PageStorageKey('pageKeyCalendar');
+//  final Key keyBible = PageStorageKey('keyBible');
 
   int currentTab = 0;
 
   ServicePage servicePage;
   SongsPage songPage;
+  CalendarPage calendarPage;
+//  BiblePage biblePage;
   List<Widget> pages;
   Widget currentPage;
 
@@ -132,7 +122,15 @@ class _HomePageState extends State<HomePage> {
       key: keySongs,
     );
 
-    pages = [servicePage,songPage];
+    calendarPage = CalendarPage(
+      key: keyCalendar,
+    );
+
+//    biblePage = BiblePage(
+//      key: keyBible,
+//    );
+
+    pages = [servicePage,songPage, calendarPage];
     super.initState();
 
     currentPage = servicePage;
@@ -140,7 +138,7 @@ class _HomePageState extends State<HomePage> {
 
 
   Future<bool> _exitApp(BuildContext context) {
-    final languageState = LanguageState.of(context);
+    final languageState = RefreshState.of(context);
     final currentLanguage = languageState.currentLanguage;
 
     return showDialog(
@@ -168,7 +166,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  Future<bool> _showExit(BuildContext context) {
+  _showExit(BuildContext context) {
     if (currentTab != 0) {
       setState((){
         currentTab = 0;
@@ -181,7 +179,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    checkForCurrentDay();
+//    checkForCurrentDay();
     return new MyInheritedWidget(
       child: new WillPopScope(
         child:  new Scaffold (
@@ -194,7 +192,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   BottomNavigationBar  _buildBottomNavBar() {
-    final languageState = LanguageState.of(context);
+    final languageState = RefreshState.of(context);
     final currentLanguage = languageState.currentLanguage;
     return BottomNavigationBar(
         currentIndex: currentTab,
@@ -204,9 +202,8 @@ class _HomePageState extends State<HomePage> {
             currentPage = pages[index];
           });
         },
-
         //        as of flutter 5.1 when navbar has >3 items type becomes shifting and text color is white
-        //        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.fixed,
 
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -222,10 +219,10 @@ class _HomePageState extends State<HomePage> {
           //            icon: Icon(Icons.book),
           //            title: Text(globals.translate(globals.currentLanguage, 'bible')),
           //          ),
-          //          BottomNavigationBarItem(
-          //            icon: Icon(Icons.calendar_today),
-          //            title: Text(globals.translate(globals.currentLanguage, 'lectionary')),
-          //          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            title: Text(globals.translate(currentLanguage, 'lectionary')),
+          ),
         ]
     );
 
@@ -241,16 +238,34 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   String currentLanguage = globals.allPrayerBooks.prayerBooks[0].language;
+  Day currentDay;
 
-  void onTap(String newLanguage) {
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    setDay(DateTime.now()).then((day){
+      setState(() {
+        currentDay = day;
+      });
+    });
+
+  }
+
+  void onTap({String newLanguage, Day newDay}) {
     setState(() {
-      currentLanguage = newLanguage;
+      if(newLanguage != null) {
+        currentLanguage = newLanguage;
+      }
+      if (newDay != null){
+        currentDay = newDay;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return LanguageState(
+    return RefreshState(
+      currentDay: currentDay,
       currentLanguage: currentLanguage,
       onTap: onTap,
       child: HomePage(),
@@ -258,27 +273,45 @@ class AppState extends State<App> {
   }
 }
 
-class LanguageState extends InheritedWidget {
-  LanguageState({
+class RefreshState extends InheritedWidget {
+  RefreshState({
     Key key,
     this.currentLanguage,
+    this.currentDay,
     this.onTap,
     Widget child,
   }) : super(key: key, child: child);
 
   final String currentLanguage;
   final Function onTap;
+  final Day currentDay;
 
   @override
-  bool updateShouldNotify(LanguageState oldWidget) {
-    return currentLanguage != oldWidget.currentLanguage;
+  bool updateShouldNotify(RefreshState oldWidget) {
+    return currentLanguage != oldWidget.currentLanguage || currentDay != oldWidget.currentDay;
   }
 
-  static LanguageState of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(LanguageState);
+  static RefreshState of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(RefreshState);
   }
 }
 
+Widget appBarTitle(title, context){
+  Widget titleText = Text(
+      title,//    FORMATTING WILL GO HERE
+  );
 
+  if(title.length > 20){
+    return Marquee(
+      child: Center(
+        child: titleText,
+      ),
+      blankSpace: 20.0,
+      velocity: 5.0,
+    );
+  } else {
+    return titleText;
+  }
+}
 
 
