@@ -17,6 +17,9 @@ class MyApp extends StatelessWidget {
       title: 'World Liturgy App',
       theme: baseTheme,
       home: App(),
+      showPerformanceOverlay: false,
+      debugShowMaterialGrid: false,
+
     );
   }
 }
@@ -95,7 +98,6 @@ class _HomePageState extends State<HomePage> {
 //  final Key keyBible = PageStorageKey('keyBible');
 
   int currentTab = 0;
-  double textScaleFactor = 1.0;
   ServicePage servicePage;
   SongsPage songPage;
   CalendarPage calendarPage;
@@ -178,14 +180,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return new MyInheritedWidget(
       child: new WillPopScope(
-        child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaleFactor: textScaleFactor,
-            ),
-            child: new Scaffold (
-              body: currentPage,
-              bottomNavigationBar: _buildBottomNavBar(),
-            ),
+        child: new Scaffold (
+          body: currentPage,
+          bottomNavigationBar: _buildBottomNavBar(),
         ),
         onWillPop: () => _showExit(context),
       ),
@@ -242,6 +239,7 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   String currentLanguage = globals.allPrayerBooks.prayerBooks[0].language;
   Day currentDay;
+  double textScaleFactor;
 
   @override void initState() {    // TODO: implement initState
     super.initState();
@@ -252,7 +250,7 @@ class AppState extends State<App> {
     });
   }
 
-  void onTap({String newLanguage, Day newDay}) {
+  void onTap({String newLanguage, Day newDay, double newTextScale}) {
     setState(() {
       if(newLanguage != null) {
         currentLanguage = newLanguage;
@@ -260,16 +258,28 @@ class AppState extends State<App> {
       if (newDay != null){
         currentDay = newDay;
       }
+      if(newTextScale != null){
+        textScaleFactor = newTextScale;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    textScaleFactor = textScaleFactor ?? MediaQuery.of(context).textScaleFactor;
+
     return RefreshState(
       currentDay: currentDay,
       currentLanguage: currentLanguage,
+      textScaleFactor: textScaleFactor,
       onTap: onTap,
-      child: HomePage(),
+      child: MediaQuery(
+        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+        child: Theme(
+          data: updateTheme(Theme.of(context), 'green'),
+          child: HomePage(),
+        ),
+      )
     );
   }
 }
@@ -279,6 +289,7 @@ class RefreshState extends InheritedWidget {
     Key key,
     this.currentLanguage,
     this.currentDay,
+    this.textScaleFactor,
     this.onTap,
     Widget child,
   }) : super(key: key, child: child);
@@ -286,9 +297,10 @@ class RefreshState extends InheritedWidget {
   final String currentLanguage;
   final Function onTap;
   final Day currentDay;
+  final double textScaleFactor;
 
   @override
-  bool updateShouldNotify(RefreshState oldWidget) {
+  updateShouldNotify(RefreshState oldWidget) {
     return currentLanguage != oldWidget.currentLanguage || currentDay != oldWidget.currentDay;
   }
 
@@ -316,8 +328,10 @@ Widget appBarTitle(title, context){
   } else {
     return titleText;
   }
+}
 
-
+ThemeData updateTheme(baseTheme, newColor){
+  return baseTheme;
 }
 
 

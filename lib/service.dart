@@ -23,6 +23,7 @@ class _ServicePageState extends State<ServicePage> {
   ScrollController _serviceScrollController = new ScrollController();
   String currentLanguage;
   Day currentDay;
+  double textScaleFactor;
 
   _ServicePageState();
 
@@ -51,6 +52,14 @@ class _ServicePageState extends State<ServicePage> {
       RefreshState.of(context).onTap(newLanguage: globals.allPrayerBooks.prayerBooks[newPbIndex].language);
   }
 
+  void _updateTextScale(double newValue){
+    double transformed = newValue * 2.0 / 100.0;
+    setState(() {
+      RefreshState.of(context).onTap(newTextScale: transformed );
+    });
+
+  }
+
   void _changeService(String prayerBook, String service, previousService) {
     bool changingBook = currentIndexes['prayerBook'] == prayerBook ? false : true;
     currentIndexes['service'] = service;
@@ -74,11 +83,12 @@ class _ServicePageState extends State<ServicePage> {
     final refreshState = RefreshState.of(context);
     currentLanguage = refreshState.currentLanguage;
     currentDay = refreshState.currentDay;
+    textScaleFactor = refreshState.textScaleFactor;
 
     return new Theme(
         data: baseTheme,
         child: new Scaffold (
-        drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
+        drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
         appBar: new AppBar(
           elevation: 1.0,
           backgroundColor: kPrimaryLight,
@@ -112,18 +122,69 @@ class _ServicePageState extends State<ServicePage> {
           ],
         ),
         body: _buildService(context, currentService),
-
       )
-      );
+    );
+
   }
 
-  Drawer _buildDrawer(prayerBooks) {
+  Drawer _buildDrawer(prayerBooks, context) {
     return Drawer(
-      child: new ListView.builder(
-        itemBuilder: (BuildContext context, int index) =>
-            drawerPrayerBookEntry(context, prayerBooks[index]),
-        itemCount: prayerBooks.length,
-      ),
+      child: new Column(
+        children: <Widget>[
+//          new Text('LISTA', style: new TextStyle(
+//            fontSize: 15.2,
+//            fontWeight: FontWeight.bold,
+//          )),
+          Expanded(
+            child: Container(
+//              decoration: new BoxDecoration(color: Colors.blue),
+//              height: 200.0,
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int index) =>
+                    drawerPrayerBookEntry(context, prayerBooks[index]),
+                itemCount: prayerBooks.length,
+              ),
+            )
+          ),
+          ListTile(
+            title: Text('Zoom'),
+            leading: Icon(Icons.zoom_in),
+            onTap: () {
+              Navigator.pop(context);
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 100.0,
+                    color: Colors.black,
+                    padding: EdgeInsets.all(32.0),
+                    child: Slider(
+                      label: "Zoom!",
+                      min: 0.0,
+                      max: 100.0,
+                      value: textScaleFactor / 2.0 * 100,
+                      activeColor: Colors.green,
+                      inactiveColor: Colors.red,
+                      onChanged: (double value) {
+                        setState((){
+                          _updateTextScale(value);
+                        });
+                      },
+                    ),
+                  );
+                }
+              );
+            }
+          )
+        ]
+      )
+
+
+
+        // Add a ListView to the drawer. This ensures the user can scroll
+      // through the options in the Drawer if there isn't enough vertical
+      // space to fit everything.
+
     );
   }
 
