@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/collects.dart';
 import 'package:world_liturgy_app/styles.dart';
 import 'package:world_liturgy_app/app.dart';
+import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/colors.dart';
 
 class ServicePage extends StatefulWidget{
@@ -20,6 +22,7 @@ class _ServicePageState extends State<ServicePage> {
   Service currentService;
   ScrollController _serviceScrollController = new ScrollController();
   String currentLanguage;
+  Day currentDay;
 
   _ServicePageState();
 
@@ -28,13 +31,11 @@ class _ServicePageState extends State<ServicePage> {
     super.initState();
     currentIndexes = widget.initialCurrentIndexes;
     currentService = _getServiceFromIndexes(currentIndexes);
-
   }
 
   Service _getServiceFromIndexes(indexes) {
     return globals.allPrayerBooks.getPrayerBook(indexes['prayerBook'])
         .getService(indexes['service']);
-
   }
 
   void _changeLanguage() {
@@ -47,7 +48,7 @@ class _ServicePageState extends State<ServicePage> {
           globals.allPrayerBooks.prayerBooks[newPbIndex].id;
 
       currentService = _getServiceFromIndexes(currentIndexes);
-      LanguageState.of(context).onTap(globals.allPrayerBooks.prayerBooks[newPbIndex].language);
+      RefreshState.of(context).onTap(newLanguage: globals.allPrayerBooks.prayerBooks[newPbIndex].language);
   }
 
   void _changeService(String prayerBook, String service, previousService) {
@@ -56,43 +57,39 @@ class _ServicePageState extends State<ServicePage> {
     currentIndexes['prayerBook'] = prayerBook;
     currentService = _getServiceFromIndexes(currentIndexes);
 
-
     if(service != previousService){
       _serviceScrollController.jumpTo(0.0);
     }
 
 //    if changing prayerBooks
     if(changingBook){
-      LanguageState.of(context).onTap(globals.allPrayerBooks.getPrayerBook(prayerBook).language);
+      RefreshState.of(context).onTap(newLanguage: globals.allPrayerBooks.getPrayerBook(prayerBook).language);
     }else{
       setState(() {
       });
     }
   }
-
-
-
   @override
   Widget build(BuildContext context) {
-    checkForCurrentDay();
-    final languageState = LanguageState.of(context);
-    currentLanguage = languageState.currentLanguage;
+    final refreshState = RefreshState.of(context);
+    currentLanguage = refreshState.currentLanguage;
+    currentDay = refreshState.currentDay;
 
     return new Theme(
-      data: baseTheme,
-      child: new Scaffold (
+        data: baseTheme,
+        child: new Scaffold (
         drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks),
         appBar: new AppBar(
           elevation: 1.0,
           backgroundColor: kPrimaryLight,
           textTheme: Theme.of(context).textTheme,
-          title: Text(
-              currentService.title,
-              style: Theme.of(context).textTheme.title.copyWith(
-                fontFamily: 'Signika',
-              ),
+//          title: Text(
+//            currentService.title,
+//            style: Theme.of(context).textTheme.title.copyWith(
+//            fontFamily: 'Signika',
+//            ),
           ),
-
+          title: appBarTitle(currentService.title, context),
           actions: <Widget>[
             FlatButton(
               onPressed: (){
@@ -103,7 +100,7 @@ class _ServicePageState extends State<ServicePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    Icons.swap_horiz,
+                      Icons.swap_horiz,
                     color: Theme.of(context).primaryIconTheme.color,
                     size: 30.0,
 
@@ -123,18 +120,12 @@ class _ServicePageState extends State<ServicePage> {
         body: _buildService(context, currentService),
 
       )
-    );
+      );
   }
-
 
   Drawer _buildDrawer(prayerBooks) {
     return Drawer(
-
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the Drawer if there isn't enough vertical
-      // space to fit everything.
       child: new ListView.builder(
-
         itemBuilder: (BuildContext context, int index) =>
             drawerPrayerBookEntry(context, prayerBooks[index]),
         itemCount: prayerBooks.length,
@@ -184,19 +175,16 @@ class _ServicePageState extends State<ServicePage> {
       itemCount: service.sections.length,
       itemBuilder: (context, index) {
         var section = service.sections[index];
-        return _buildSection(context, currentIndexes, section, currentLanguage);
+        return _buildSection(context, currentIndexes, section, currentLanguage, currentDay);
       },
       controller: _serviceScrollController,
-
-
     );
   }
-
 }
 
 
 
-    Widget _buildSection(BuildContext context, currentIndexes, section, language){
+    Widget _buildSection(BuildContext context, currentIndexes, section, language, Day currentDay){
 //      final alreadySaved = _saved.contains(pair);
       return new Card(
 
@@ -206,25 +194,32 @@ class _ServicePageState extends State<ServicePage> {
         child: new Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
           child: new Column(
-            children: _buildItemsList(context, currentIndexes, section, language),
+            children: _buildItemsList(context, currentIndexes, section, language, currentDay),
           ),
         )
 
       );
-
     }
 
-    List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language){
+    List<Widget> _buildItemsList(BuildContext context, currentIndexes, section, language, Day currentDay){
       List<Widget> itemsList = new List<Widget>();
 
       if (section.type == 'collectOfTheDay'){
-        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "collect",) );
+//        TODO: move collect section title into same section.
+        itemsList.add(collectList(currentIndexes["prayerBook"], currentDay, language, context, buildType: "collect") );
       } else if (section.type == 'postCommunionOfTheDay') {
-        itemsList.add(CalendarItem(currentPrayerBookIndex: currentIndexes["prayerBook"], buildType: "postCommunion",) );
+        itemsList.add(collectList(currentIndexes["prayerBook"], currentDay, language, context,
+          buildType: "postCommunion", ));
+      }   else   if(section.type == 'calendarDate'){
+        itemsList.add(dateAndLinkToCalendar(currentDay, language, context));
+//        TODO: make metheod the show current date with link to full calendar
+        //        method to show calendar
+      }else      if(section.type == 'lectionaryReading'){
+//        TODO: make methods to show header, fields, and reading(s).
 
-      } else if (section.type == 'scheduled' && section.schedule.contains(globals.currentDay.season)) {
+      } else if (section.type == 'scheduled' && section.schedule.contains(currentDay.season)) {
         itemsList.addAll(_buildNormalSection(section, language, context));
-      } else if (section.type == 'scheduledFeast' && (section.schedule == globals.currentDay.principalFeastID || section.schedule == globals.currentDay.holyDayID)){
+      } else if (section.type == 'scheduledFeast' && (section.schedule == currentDay.principalFeastID || section.schedule == currentDay.holyDayID)){
         itemsList.addAll(_buildNormalSection(section, language, context));
       } else {
         if (section.visibility == 'collapsed') {
@@ -371,12 +366,8 @@ class ExpandedSection extends StatelessWidget {
               )
             ],
           )
-
       )
-
     );
-
-
   }
 
 

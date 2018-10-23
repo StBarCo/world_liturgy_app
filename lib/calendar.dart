@@ -1,145 +1,147 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/json/serializePrayerBook.dart';
-//import 'dart:async';
 import 'globals.dart' as globals;
 import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/service.dart';
 import 'package:world_liturgy_app/app.dart';
+import 'package:flutter_calendar/flutter_calendar.dart';
 
-class CalendarItem extends StatefulWidget {
-  const CalendarItem({
-    Key key,
-    this.buildType,
-    this.currentPrayerBookIndex,
-  }) : super(key: key);
-
-  final String buildType;
-  final String currentPrayerBookIndex;
-
+class CalendarPage extends StatefulWidget{
+  CalendarPage({Key key}) : super(key:key);
 
   @override
-  _CalendarItemState createState() => new _CalendarItemState();
+  _CalendarPageState createState() {
+    return new _CalendarPageState();
+  }
 }
 
-class _CalendarItemState extends State<CalendarItem> {
-  Collect collectOfWeek;
-  Collect collectOfPrincipalFeast;
-  Collect collectOfHolyDay;
-  Day day;
-  String language;
+class _CalendarPageState extends State<CalendarPage> {
+  String currentLanguage;
+  Day currentDay;
 
-  _CalendarItemState() {
-    checkForCurrentDay();
-    day = globals.currentDay;
+  _CalendarPageState();
+
+  void handleNewDate(date) {
+    setDay(date).then((day) {
+      RefreshState.of(context).onTap(
+          newDay: day
+      );
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
-    collectOfWeek = setCollectOfWeek(day, widget.currentPrayerBookIndex);
-    collectOfPrincipalFeast = setCollectOfPrincipalFeast(day, widget.currentPrayerBookIndex);
-    collectOfHolyDay = setCollectOfHolyDay(day, widget.currentPrayerBookIndex);
-    final languageState = LanguageState.of(context);
-
-    language = languageState.currentLanguage;
+    final refreshState = RefreshState.of(context);
+    currentLanguage = refreshState.currentLanguage;
+    currentDay = refreshState.currentDay;
 
 
-    if (collectOfWeek == null) {
-      return new Text('');
-    }
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Flutter Calendar'),
+      ),
+      body: new Container(
+        margin: new EdgeInsets.symmetric(
+          horizontal: 5.0,
+          vertical: 10.0,
+        ),
+        child: new ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            new Calendar(
+              initialCalendarDateOverride: currentDay.date,
+              onDateSelected: (date) => handleNewDate(date),
+              isExpandable: true,
+            ),
 
-    return new Column(
-        children: buildCalendarItemList(context),
+
+
+          ],
+        ),
+      ),
+
     );
-
-  }
-
-  List<Widget> buildCalendarItemList(context){
-    List<Widget> list = [];
-
-    if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, widget.buildType) ) {
-      list.add(buildDailyPrayers(collectOfPrincipalFeast,
-          language, context,
-          widget.buildType));
-    }
-
-    if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
-      list.add(buildDailyPrayers(collectOfWeek,
-          language,context,
-          widget.buildType));
-    }
-
-    if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, widget.buildType)) {
-      list.add(buildDailyPrayers(collectOfHolyDay,
-          language, context,
-          widget.buildType));
-    }
-
-    if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, widget.buildType)) {
-      list.add(buildDailyPrayers(collectOfWeek,
-          language, context,
-          widget.buildType));
-    }
-
-    return list;
-  }
-
-}
-
-setInitialDay() async{
-  var today = DateTime.now();
-  Day day = await globals.db.fetchDay(constructDaysSince(today));
-  globals.currentDay = day;
-}
-
-checkForCurrentDay() {
-  if (globals.currentDay == null){
-    setInitialDay();
   }
 }
 
-Collect setCollectOfWeek(day, prayerBookId){
-  if(day != null && day.weekID != null){
-    return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.weekServiceIndex].sections[day.weekSectionIndex].collects[day.weekCollectIndex];
-  } else {
-    return null;
-  }
+setDay(DateTime day) {
+  return globals.db.fetchDay(constructDaysSince(day));
 }
 
-Collect setCollectOfPrincipalFeast(day, prayerBookId){
-  if(day != null && day.principalFeastID != null){
-    return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.principalFeastServiceIndex].sections[day.principalFeastSectionIndex].collects[day.principalFeastCollectIndex];
-  } else {
-    return null;
-  }
-}
+dateToLongString(date, language){
+  Map map = globals.translationMap[language]['dates'];
+  List format = map['format'];
+  String longDate ='';
 
-Collect setCollectOfHolyDay(day, prayerBookId){
-  if(day != null && day.holyDayID != null){
-    return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.holyDayServiceIndex].sections[day.holyDaySectionIndex].collects[day.holyDayCollectIndex];
-  } else {
-    return null;
-  }
-}
+  format.forEach((e){
+    switch(e){
+      case 'weekday': {longDate += map[e][date.date.weekday].toString();}
+      break;
 
-bool hasContentToBuild(Collect collect, buildType){
-  switch (buildType){
-    case "full" :{
-      return true;
+      case 'day': {longDate += date.date.day.toString(); }
+      break;
+
+      case 'month': {longDate += map[e][date.date.month].toString();}
+      break;
+
+      case 'year': {longDate += date.date.year.toString(); }
+      break;
+
+      default: {longDate += e.toString();}
     }
-    break;
-
-    case 'collect': {
-      return collect.collectPrayers !=null;
-    }
-    break;
-
-    case 'postCommunion':{
-      return collect.postCommunionPrayers != null;
-    }
-    break;
-  }
-  return false;
-
-
+  });
+  return longDate;
 }
+
+dateAndLinkToCalendar(day, language, context){
+//  return FutureBuilder(
+//    future: day,
+//    builder: (context, snapshot){
+//      if(snapshot.hasData){
+//        return Text(dateToLongString(day, language));
+//      }else {
+//      return Text('Date Not Yet Loaded');
+//      }
+//
+//    },
+//  );
+      if (day != null){
+      return Text(dateToLongString(day, language));
+    } else {
+      return Text('Date Is Null');
+    }
+}
+
+//class DateAndLinkToCalendar() extends StatefulWidget {
+//  const DateAndLinkToCalendar({
+//    Key key,
+//    this.day,
+//  }) : super(key: key);
+//
+//  final String day;
+//
+//  @override
+//  _DateAndLinkToCalendarState createState() => new _DateAndLinkToCalendarState();
+//}
+//
+//class _DateAndLinkToCalendarState extends State<DateAndLinkToCalendar> {
+//  Day day;
+//  String language;
+//
+//  _DateAndLinkToCalendarState() {
+//    checkForCurrentDay();
+//    day = globals.currentDay;
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    final languageState = RefreshState.of(context);
+//    language = languageState.currentLanguage;
+//
+//    if (day != null){
+//      return Text(dateToLongString(day, language));
+//    } else {
+//      return Text('');
+//    }
+//
+//  }
+//
+//}
