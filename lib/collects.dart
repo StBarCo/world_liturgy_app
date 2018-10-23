@@ -22,25 +22,25 @@ Widget collectList(
   if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, buildType) ) {
     list.add(buildDailyPrayers(collectOfPrincipalFeast,
         language,
-        buildType));
+        buildType, context));
   }
 
   if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, buildType)) {
     list.add(buildDailyPrayers(collectOfWeek,
         language,
-        buildType));
+        buildType, context));
   }
 
   if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, buildType)) {
     list.add(buildDailyPrayers(collectOfHolyDay,
         language,
-        buildType));
+        buildType, context));
   }
 
   if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, buildType)) {
     list.add(buildDailyPrayers(collectOfWeek,
         language,
-        buildType));
+        buildType, context));
   }
 
   return Column(

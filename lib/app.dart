@@ -299,7 +299,10 @@ class RefreshState extends InheritedWidget {
 
 Widget appBarTitle(title, context){
   Widget titleText = Text(
-      title,//    FORMATTING WILL GO HERE
+      title,
+      style: Theme.of(context).textTheme.title.copyWith(
+      fontFamily: 'Signika',
+      ),
   );
 
   if(title.length > 20){
@@ -313,6 +316,8 @@ Widget appBarTitle(title, context){
   } else {
     return titleText;
   }
+
+
 }
 
 

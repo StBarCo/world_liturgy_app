@@ -83,12 +83,6 @@ class _ServicePageState extends State<ServicePage> {
           elevation: 1.0,
           backgroundColor: kPrimaryLight,
           textTheme: Theme.of(context).textTheme,
-//          title: Text(
-//            currentService.title,
-//            style: Theme.of(context).textTheme.title.copyWith(
-//            fontFamily: 'Signika',
-//            ),
-          ),
           title: appBarTitle(currentService.title, context),
           actions: <Widget>[
             FlatButton(
