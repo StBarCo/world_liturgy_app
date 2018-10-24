@@ -53,10 +53,10 @@ final baseTheme = ThemeData(
     splashColor: kSecondaryColor,
 //    indicatorColor: kSecondaryColor,
     sliderTheme: SliderThemeData.fromPrimaryColors(
-      primaryColor: kPrimaryColor,
-      primaryColorDark: kPrimaryDark,
-      primaryColorLight: kPrimaryLight,
-      valueIndicatorTextStyle: TextStyle(),
+      primaryColor: kSecondaryColor,
+      primaryColorDark: kSecondaryDark,
+      primaryColorLight: kSecondaryLight,
+      valueIndicatorTextStyle: TextStyle(color: Colors.black),
     ),
 
     textTheme: TextTheme(

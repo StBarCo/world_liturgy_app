@@ -53,9 +53,9 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   void _updateTextScale(double newValue){
-    double transformed = newValue * 2.0 / 100.0;
     setState(() {
-      RefreshState.of(context).onTap(newTextScale: transformed );
+//      textScaleFactor = transformed;
+      RefreshState.of(context).onTap(newTextScale: newValue );
     });
 
   }
@@ -154,38 +154,37 @@ class _ServicePageState extends State<ServicePage> {
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
-                    height: 100.0,
-                    color: Colors.black,
-                    padding: EdgeInsets.all(32.0),
-                    child: Slider(
-                      label: "Zoom!",
-                      min: 0.0,
-                      max: 100.0,
-                      value: textScaleFactor / 2.0 * 100,
-                      activeColor: Colors.green,
-                      inactiveColor: Colors.red,
-                      onChanged: (double value) {
-                        setState((){
+                  return StatefulBuilder(builder: (context,state)
+                  {
+                    return Container(
+                      height: 100.0,
+                      padding: EdgeInsets.all(32.0),
+                      child: Slider(
+                        label: "Zoom!",
+                        min: 0.5,
+                        max: 1.5,
+                        value: textScaleFactor,
+                        divisions: 10,
+                        onChanged: (double value) {
+                          updatedScale(state, value);
                           _updateTextScale(value);
-                        });
-                      },
-                    ),
-                  );
+                        },
+                      ),
+                    );
+                  });
                 }
               );
             }
           )
         ]
-      )
-
-
-
-        // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the Drawer if there isn't enough vertical
-      // space to fit everything.
-
+      ),
     );
+  }
+
+  Future<Null> updatedScale(StateSetter updateState, newFactor) async {
+    updateState(() {
+      textScaleFactor = newFactor;
+    });
   }
 
   Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook) {
