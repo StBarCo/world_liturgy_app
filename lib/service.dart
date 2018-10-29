@@ -160,7 +160,7 @@ class _ServicePageState extends State<ServicePage> {
                       height: 100.0,
                       padding: EdgeInsets.all(32.0),
                       child: Slider(
-                        label: "Zoom!",
+                        label: textScaleFactor.toString() + 'x',
                         min: 0.5,
                         max: 1.5,
                         value: textScaleFactor,
