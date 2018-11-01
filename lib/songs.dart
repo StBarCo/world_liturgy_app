@@ -180,8 +180,6 @@ Widget buildSongIndex(BuildContext context, SongBook songBook, bool expanded, [L
     ),
     initiallyExpanded: expanded,
     children: _buildServicesTiles(context, songList),
-
-
   );
 }
 
@@ -234,9 +232,9 @@ class SongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -245,15 +243,13 @@ class SongPage extends StatelessWidget {
               song.subtitle ?? '',
               style: referenceAndSubtitleStyle(context),
             )
-//            songSubtitle(song, songPageSubtitleTextStyle),
           ],
         )
       ),
-      body: new ListView(
+      body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
         children: _songBody(song, context),
       ),
-
     );
   }
 }
@@ -282,9 +278,10 @@ class SongPage extends StatelessWidget {
 
     list.add(new Text('Refrain' + ':', style: referenceAndSubtitleStyle(context),));
 
-  for (var stanza in refrain.stanzas) {
-    list.add(Text(stanza.text, style: Theme.of(context).textTheme.body2));
-  }
+    for (var stanza in refrain.stanzas) {
+      list.add(Text(stanza.text, style: Theme.of(context).textTheme.body2));
+    }
+
     return new Padding(
       padding: EdgeInsets.fromLTRB(30.0, 15.0, 0.0, 15.0),
       child: Column(
@@ -309,23 +306,22 @@ class SongPage extends StatelessWidget {
               textAlign: TextAlign.right,
             ),
           ),
-          _verse(verse, context)
+          Expanded(
+            child: _verse(verse, context),
+          ),
         ],
       )
     );
-
   }
 
   Widget _verse (verse, context){
     List<Widget> list = [];
-
     for (var stanza in verse.stanzas) {
-      list.add(Text(stanza.text, style: Theme.of(context).textTheme.body1));
+      list.add(Text(stanza.text, style: Theme.of(context).textTheme.body1, ),);
     }
-
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 

@@ -517,26 +517,6 @@ Widget _buildSectionHeader(section, context, {bool collapsed: false}) {
         child: _sectionTitle(section.title, collapsed, context)));
   }
 
-//  if (section.number !=null || section.title != null){
-//    List<Widget> row = [];
-//    if (section.number !=null){
-//      headerList.add(_sectionNumber(section.number));
-//    }
-//    if (section.title !=null){
-//      headerList.add(new Flexible(child:_sectionTitle(section.title)));
-//    }
-//
-//    headerList.add(new
-//      Padding(
-//        padding: new EdgeInsets.only(top:16.0, bottom: 0.0, left: 42.0, right: 42.0),
-//        child: Row(
-//          children: row,
-//          mainAxisAlignment: MainAxisAlignment.center,
-//          crossAxisAlignment: CrossAxisAlignment.center,
-//        )
-//    ));
-//  }
-
   if (section.rubric != null) {
     headerList.add(Center(
       child: new Padding(
