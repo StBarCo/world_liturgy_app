@@ -250,6 +250,13 @@ List createMapOfYear(CalendarScaffold calendar , int beginYear, collectIndexes) 
           indexID = weekID;
         }else {
           indexID = weekID.substring(0, weekID.length - 1);
+          if(collectIndexes[indexID] ==null){
+            List keys = collectIndexes.keys.toList();
+            if(keys.indexOf(indexID+1.toString()) != -1){
+              String prevCollectTitle = keys[keys.indexOf(indexID+1.toString())-1];
+              indexID = prevCollectTitle;
+            }
+          }
         }
         if (collectIndexes[indexID] != null){
           calendarMap[day].addAll({

@@ -6,6 +6,7 @@ import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/colors.dart';
 import 'dart:async';
 import 'package:world_liturgy_app/model/calendar.dart';
+import 'package:world_liturgy_app/bible.dart';
 import 'package:marquee/marquee.dart';
 
 class MyApp extends StatelessWidget {
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
 
     return new MaterialApp(
       title: 'World Liturgy App',
-      theme: baseTheme(),
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+        fontFamily: 'WorkSans',
+      ),
       home: App(),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
@@ -95,13 +99,13 @@ class HomePageState extends State<HomePage> {
   final Key keyServices = PageStorageKey('pageKeyServices');
   final Key keySongs = PageStorageKey('pageKeySongs');
   final Key keyCalendar = PageStorageKey('pageKeyCalendar');
-//  final Key keyBible = PageStorageKey('keyBible');
+  final Key keyBible = PageStorageKey('keyBible');
 
   int currentTab = 0;
   ServicePage servicePage;
   SongsPage songPage;
   CalendarPage calendarPage;
-//  BiblePage biblePage;
+  BiblePage biblePage;
   List<Widget> pages;
   Widget currentPage;
 
@@ -121,15 +125,15 @@ class HomePageState extends State<HomePage> {
       key: keySongs,
     );
 
+    biblePage = BiblePage(
+      key: keyBible,
+    );
     calendarPage = CalendarPage(
       key: keyCalendar,
     );
 
-//    biblePage = BiblePage(
-//      key: keyBible,
-//    );
 
-    pages = [servicePage,songPage, calendarPage];
+    pages = [servicePage,songPage, biblePage, calendarPage];
     super.initState();
 
     currentPage = servicePage;
@@ -202,8 +206,6 @@ class HomePageState extends State<HomePage> {
     final languageState = RefreshState.of(context);
     final currentLanguage = languageState.currentLanguage;
     return BottomNavigationBar(
-        fixedColor: kSecondaryLight,
-
         currentIndex: currentTab,
         onTap: (int index) {
           setState(() {
@@ -211,26 +213,27 @@ class HomePageState extends State<HomePage> {
             currentPage = pages[index];
           });
         },
-        //        as of flutter 5.1 when navbar has >3 items type becomes shifting and text color is white
-        type: BottomNavigationBarType.fixed,
-
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home,color: Colors.black38,),
+            activeIcon: Icon(Icons.home,color: Theme.of(context).primaryColor,),
             title: Text(
-                globals.translate(currentLanguage, 'prayerBook')),
+                globals.translate(currentLanguage, 'prayerBook'),style: TextStyle(color: Theme.of(context).primaryColor),),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.music_note),
-            title: Text(globals.translate(currentLanguage, 'songs')),
+            icon: Icon(Icons.music_note,color: Colors.black38,),
+            activeIcon: Icon(Icons.music_note,color: Theme.of(context).primaryColor,),
+            title: Text(globals.translate(currentLanguage, 'songs'),style: TextStyle(color: Theme.of(context).primaryColor),),
           ),
-          //          BottomNavigationBarItem(
-          //            icon: Icon(Icons.book),
-          //            title: Text(globals.translate(globals.currentLanguage, 'bible')),
-          //          ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            title: Text(globals.translate(currentLanguage, 'lectionary')),
+            icon: Icon(Icons.book,color: Colors.black38,),
+            activeIcon: Icon(Icons.book,color: Theme.of(context).primaryColor,),
+            title: Text(globals.translate(currentLanguage, 'bible'),style: TextStyle(color: Theme.of(context).primaryColor),),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today,color: Colors.black38,),
+            activeIcon: Icon(Icons.calendar_today,color: Theme.of(context).primaryColor,),
+            title: Text(globals.translate(currentLanguage, 'lectionary'),style: TextStyle(color: Theme.of(context).primaryColor),),
           ),
         ]
     );
@@ -285,7 +288,7 @@ class AppState extends State<App> {
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
         child: Theme(
-          data: updateTheme(currentDay),
+          data: updateTheme(Theme.of(context), currentDay),
           child: HomePage(),
         ),
       )
@@ -322,7 +325,8 @@ Widget appBarTitle(title, context){
   Widget titleText = Text(
       title,
       style: Theme.of(context).textTheme.title.copyWith(
-      fontFamily: 'Signika',
+        fontFamily: 'Signika',
+        color: Theme.of(context).primaryIconTheme.color,
       ),
   );
 
@@ -339,10 +343,11 @@ Widget appBarTitle(title, context){
   }
 }
 
-ThemeData updateTheme(day){
+ThemeData updateTheme(ThemeData theme, Day day){
   String color = day != null ? getColorDeJour(day)?.toLowerCase() : 'green';
 
-  return baseTheme(color);
+//  return baseTheme(theme, color);
+  return baseThemeSwatch(theme, color);
 }
 
 String getColorDeJour(Day day){

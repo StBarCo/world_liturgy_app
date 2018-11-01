@@ -29,59 +29,40 @@ class DatabaseClient {
     Directory path = await getApplicationDocumentsDirectory();
     String dbPath = join(path.path, "database.db");
 
-
 //    deploy at 101
-    _db = await openDatabase(dbPath, version: 99,
+    _db = await openDatabase(dbPath, version: 102,
         onCreate: this._onCreate,
-        onUpgrade: onDatabaseDowngradeDelete,
+        onUpgrade: this._onUpgrade,
         onDowngrade: onDatabaseDowngradeDelete,
         );
+  }
+
+  Future _onUpgrade(Database _db, int oldVersion, int newVersion) async {
+    try {
+      await _db.execute("DROP TABLE days");
+      await _db.transaction((txn) async {
+        await txn.execute(dayTable);
+        var batch = txn.batch();
+        List days = await calculateCalendarsForDatabase();
+        days.forEach((day) => batch.insert('days', day));
+
+        await batch.commit(noResult: true);
+      });
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   Future _onCreate(Database _db, int version) async {
     try {
       await _db.transaction((txn) async {
-        await txn.execute('''
-                CREATE TABLE days (
-                  date INTEGER PRIMARY KEY, 
-                  season TEXT NOT NULL,
-                  weekID TEXT NOT NULL,
-                  seasonColor TEXT NOT NULL,
-                  principalFeastID TEXT,
-                  principalColor TEXT,
-                  principalOptionalCelebrationSunday TEXT,
-                  holyDayID TEXT,
-                  holyDayColor TEXT,
-                  holyDayType TEXT,
-                  weekServiceIndex INTEGER,
-                  weekSectionIndex INTEGER,
-                  weekCollectIndex INTEGER,
-                  principalFeastServiceIndex INTEGER,
-                  principalFeastSectionIndex INTEGER,
-                  principalFeastCollectIndex INTEGER,
-                  holyDayServiceIndex INTEGER,
-                  holyDaySectionIndex INTEGER,
-                  holyDayCollectIndex INTEGER
-                )''');
-
-        await txn.execute('''
-                CREATE TABLE prayers (
-                  id TEXT NOT NULL,
-                  prayerBookIndex INTEGER NOT NULL,
-                  serviceIndex INTEGER NOT NULL,
-                  sectionIndex INTEGER NOT NULL,
-                  collectIndex INTEGER NOT NULL
-                )''');
-
+        await txn.execute(dayTable);        
         var batch = txn.batch();
-
         List days = await calculateCalendarsForDatabase();
-
         days.forEach((day) => batch.insert('days', day));
 
         await batch.commit(noResult: true);
 
-//      TODO: Iterate through collects and compare prayerbooks index numbers
 //      TODO: Iterate through list of days and check that all ids have matching collects -- print in console any differences
 //        TODO: on database create print calendar into the log.
 //      TODO: remove prayerbook index from seasons and feasts and make id primary key
@@ -113,4 +94,27 @@ class DatabaseClient {
       return activeDay;
     }
   }
+
+  String dayTable = """
+                CREATE TABLE days (
+                  date INTEGER PRIMARY KEY,
+                  season TEXT NOT NULL,
+                  weekID TEXT NOT NULL,
+                  seasonColor TEXT NOT NULL,
+                  principalFeastID TEXT,
+                  principalColor TEXT,
+                  principalOptionalCelebrationSunday TEXT,
+                  holyDayID TEXT,
+                  holyDayColor TEXT,
+                  holyDayType TEXT,
+                  weekServiceIndex INTEGER,
+                  weekSectionIndex INTEGER,
+                  weekCollectIndex INTEGER,
+                  principalFeastServiceIndex INTEGER,
+                  principalFeastSectionIndex INTEGER,
+                  principalFeastCollectIndex INTEGER,
+                  holyDayServiceIndex INTEGER,
+                  holyDaySectionIndex INTEGER,
+                  holyDayCollectIndex INTEGER
+                )""";
 }

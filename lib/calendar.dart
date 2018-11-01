@@ -34,10 +34,9 @@ class _CalendarPageState extends State<CalendarPage> {
     currentLanguage = refreshState.currentLanguage;
     currentDay = refreshState.currentDay;
 
-
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Flutter Calendar'),
+        title: new Text('Lectionary'),
       ),
       body: new Container(
         margin: new EdgeInsets.symmetric(
