@@ -5,7 +5,7 @@ import 'globals.dart' as globals;
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/service.dart';
 //import 'package:world_liturgy_app/app.dart';
-//import 'package:world_liturgy_app/calendar.dart';
+import 'package:world_liturgy_app/calendar.dart';
 
 Widget collectList(
   currentPrayerBookIndex,
@@ -19,29 +19,19 @@ Widget collectList(
   Collect collectOfPrincipalFeast = setCollectOfPrincipalFeast(day, currentPrayerBookIndex);
   Collect  collectOfHolyDay = setCollectOfHolyDay(day, currentPrayerBookIndex);
 
-  if(collectOfPrincipalFeast != null && hasContentToBuild(collectOfPrincipalFeast, buildType) ) {
-    list.add(buildDailyPrayers(collectOfPrincipalFeast,
-        language,
-        buildType, context));
-  }
+  celebrationPriority(day).forEach((type){
+    if(type == 'principalFeast' && hasContentToBuild(collectOfPrincipalFeast, buildType) ) {
+      list.add(buildDailyPrayers(collectOfPrincipalFeast, language, buildType, context));
+    }
 
-  if(collectOfWeek != null && day.date.weekday == 7 && hasContentToBuild(collectOfWeek, buildType)) {
-    list.add(buildDailyPrayers(collectOfWeek,
-        language,
-        buildType, context));
-  }
+    if(type == 'season' && hasContentToBuild(collectOfWeek, buildType)) {
+      list.add(buildDailyPrayers(collectOfWeek, language, buildType, context));
+    }
 
-  if(collectOfHolyDay != null && hasContentToBuild(collectOfHolyDay, buildType)) {
-    list.add(buildDailyPrayers(collectOfHolyDay,
-        language,
-        buildType, context));
-  }
-
-  if(collectOfWeek != null && day.date.weekday != 7 && hasContentToBuild(collectOfWeek, buildType)) {
-    list.add(buildDailyPrayers(collectOfWeek,
-        language,
-        buildType, context));
-  }
+    if(type == 'holyDay '&& hasContentToBuild(collectOfHolyDay, buildType)) {
+      list.add(buildDailyPrayers(collectOfHolyDay, language, buildType, context));
+    }
+  });
 
   return Column(
     children: list,
@@ -80,6 +70,11 @@ bool hasContentToBuild(Collect collect, buildType){
     }
     break;
 
+    case "titles" :{
+      return true;
+    }
+    break;
+
     case 'collect': {
       return collect.collectPrayers !=null;
     }
@@ -92,3 +87,4 @@ bool hasContentToBuild(Collect collect, buildType){
   }
   return false;
 }
+

@@ -3,6 +3,7 @@ import 'globals.dart' as globals;
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/app.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
+import 'package:world_liturgy_app/collects.dart';
 
 class CalendarPage extends StatefulWidget{
   CalendarPage({Key key}) : super(key:key);
@@ -91,57 +92,49 @@ dateToLongString(date, language){
   return longDate;
 }
 
-dateAndLinkToCalendar(day, language, context){
-//  return FutureBuilder(
-//    future: day,
-//    builder: (context, snapshot){
-//      if(snapshot.hasData){
-//        return Text(dateToLongString(day, language));
-//      }else {
-//      return Text('Date Not Yet Loaded');
-//      }
-//
-//    },
-//  );
-      if (day != null){
-      return Text(dateToLongString(day, language));
-    } else {
-      return Text('Date Is Null');
-    }
+dayAndLinkToCalendar(day, language, context){
+  if (day != null){
+    return GestureDetector(
+//      onPressed: null,
+      onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab(2),
+      child: Column(
+        children: dayTitles(day, language, context)
+      )
+    );
+
+//    return Text(dateToLongString(day, language));
+  } else {
+    return Text('Date Is Null');
+  }
 }
 
-//class DateAndLinkToCalendar() extends StatefulWidget {
-//  const DateAndLinkToCalendar({
-//    Key key,
-//    this.day,
-//  }) : super(key: key);
-//
-//  final String day;
-//
-//  @override
-//  _DateAndLinkToCalendarState createState() => new _DateAndLinkToCalendarState();
-//}
-//
-//class _DateAndLinkToCalendarState extends State<DateAndLinkToCalendar> {
-//  Day day;
-//  String language;
-//
-//  _DateAndLinkToCalendarState() {
-//    checkForCurrentDay();
-//    day = globals.currentDay;
-//  }
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    final languageState = RefreshState.of(context);
-//    language = languageState.currentLanguage;
-//
-//    if (day != null){
-//      return Text(dateToLongString(day, language));
-//    } else {
-//      return Text('');
-//    }
-//
-//  }
-//
-//}
+List<Widget> dayTitles(day, language, context){
+  List<Widget> list = [Text(dateToLongString(day, language))];
+
+  celebrationPriority(day).forEach((type){
+    list.add(Text(type.toString()));
+  });
+
+  list.add(collectList("englishPrayerBook",day,language, context, buildType: 'titles'));
+
+  return list;
+
+}
+
+List<String> celebrationPriority(Day day){
+  List<String> priority = ['season'];
+
+  if(day.holyDayID != null){
+    if(day.date.weekday == 7){
+      priority.add('holyDay');
+    } else {
+      priority.insert(0, 'holyDay');
+    }
+  }
+
+  if(day.principalFeastID != null){
+    priority.insert(0, 'principalFeast');
+  }
+
+  return priority;
+}

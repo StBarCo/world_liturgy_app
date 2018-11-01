@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
 
     return new MaterialApp(
       title: 'World Liturgy App',
-      theme: baseTheme,
+      theme: baseTheme(),
       home: App(),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
@@ -88,10 +88,10 @@ class HomePage extends StatefulWidget{
   HomePage({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => new _HomePageState();
+  HomePageState createState() => new HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   final Key keyServices = PageStorageKey('pageKeyServices');
   final Key keySongs = PageStorageKey('pageKeySongs');
   final Key keyCalendar = PageStorageKey('pageKeyCalendar');
@@ -174,6 +174,15 @@ class _HomePageState extends State<HomePage> {
 //      false;
     } else
       return _exitApp(context);
+  }
+
+  changeTab(newTab){
+    if(currentTab != newTab){
+      setState(() {
+        currentTab = newTab;
+        currentPage = pages[newTab];
+      });
+    }
   }
 
   @override
@@ -276,7 +285,7 @@ class AppState extends State<App> {
       child: MediaQuery(
         data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
         child: Theme(
-          data: updateTheme(Theme.of(context), 'green'),
+          data: updateTheme(currentDay),
           child: HomePage(),
         ),
       )
@@ -330,8 +339,29 @@ Widget appBarTitle(title, context){
   }
 }
 
-ThemeData updateTheme(baseTheme, newColor){
-  return baseTheme;
+ThemeData updateTheme(day){
+  String color = day != null ? getColorDeJour(day)?.toLowerCase() : 'green';
+
+  return baseTheme(color);
 }
 
+String getColorDeJour(Day day){
+  switch(celebrationPriority(day).first){
+    case 'holyDay':{
+      return day.holyDayColor;
+    }
+    break;
+
+    case 'principalFeast':{
+      return day.principalColor;
+    }
+    break;
+
+    case 'season':{
+      return day.seasonColor;
+    }
+    break;
+  }
+  return 'green';
+}
 

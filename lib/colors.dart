@@ -11,25 +11,45 @@ Color kSecondaryColor = Color(0xFF00600f);
 Color kSecondaryLight = Color(0xFF7cae50);
 Color kSecondaryDark =  Color(0xFF244c00);
 
+//primary swatch -- if using swatch
+Color kPrimarySwatch = Colors.green;
+
+
 setThemeColors(String color){
   if(color == 'green'){
     kSecondaryColor = Color(0xFF2f5d07);
     kSecondaryLight = Color(0xFF7cae50);
     kSecondaryDark =  Color(0xFF244c00);
+    kPrimarySwatch = Colors.green;
   } else if (color == 'red'){
     kSecondaryColor = Color(0xFF851b21);
     kSecondaryLight = Color(0xFFf08b90);
     kSecondaryDark = Color(0xFF4b0004);
-  } else if (color == 'purple'){
+    kPrimarySwatch = Colors.red;
+
+  } else if (color.contains('purple')){
     kSecondaryColor = Color(0xFF6b1648);
     kSecondaryLight = Color(0xFF9b4778);
     kSecondaryDark = Color(0xFF3d0024);
+    kPrimarySwatch = Colors.purple;
+
+  }else if (color == 'white' || color == 'gold' || color == 'gold or white'){
+    kSecondaryColor = Color(0xFF851b21);
+    kSecondaryLight = Color(0xFFf08b90);
+    kSecondaryDark = Color(0xFF4b0004);
+    kPrimarySwatch = Colors.grey;
+
   }
 }
 
 
-final baseTheme = ThemeData(
+ThemeData baseTheme([color = 'green']) {
+  setThemeColors(color);
+
+
+  return ThemeData(
 //    primarySwatch: Colors.green,
+
 
     primaryColor: kPrimaryColor,
     primaryColorDark: kPrimaryDark,
@@ -83,10 +103,10 @@ final baseTheme = ThemeData(
 
 
       headline: TextStyle(
-       color: Colors.black,
-       fontFamily: 'WorkSans',
-       fontWeight: FontWeight.w600,
-       fontSize: 20.0,
+        color: Colors.black,
+        fontFamily: 'WorkSans',
+        fontWeight: FontWeight.w600,
+        fontSize: 20.0,
       ),
 //        Used for large text in dialogs (e.g., the month and year in the dialog shown by showDatePicker).
 
@@ -116,23 +136,22 @@ final baseTheme = ThemeData(
 
 
       button: TextStyle(
-        color: Colors.black,
-        fontFamily: 'Merriweather'
+          color: Colors.black,
+          fontFamily: 'Merriweather'
       ),
 //        Used for text on RaisedButton and FlatButton.
 
 
       caption: TextStyle(
-          color: Colors.black,
-          fontFamily: 'WorkSans',
-          fontSize: 12.0,
-          fontWeight: FontWeight.w300,
+        color: Colors.black,
+        fontFamily: 'WorkSans',
+        fontSize: 12.0,
+        fontWeight: FontWeight.w300,
 
       ),
 //        Used for auxiliary text associated with images.
 
     ),
-
 
 
 //ALL POSSIBLE THEM VALUES
@@ -182,7 +201,8 @@ final baseTheme = ThemeData(
 //      materialTapTargetSize,
 //      pageTransitionsTheme
 
-);
+  );
+}
 
 TextStyle referenceAndSubtitleStyle(context, {Color color}){
   return Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w600, color: color ?? Theme.of(context).primaryColorDark);

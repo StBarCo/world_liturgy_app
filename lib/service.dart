@@ -86,7 +86,7 @@ class _ServicePageState extends State<ServicePage> {
     textScaleFactor = refreshState.textScaleFactor;
 
     return new Theme(
-        data: baseTheme,
+        data: baseTheme(),
         child: new Scaffold (
         drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
         appBar: new AppBar(
@@ -265,7 +265,7 @@ class _ServicePageState extends State<ServicePage> {
         itemsList.add(collectList(currentIndexes["prayerBook"], currentDay, language, context,
           buildType: "postCommunion", ));
       }   else   if(section.type == 'calendarDate'){
-        itemsList.add(dateAndLinkToCalendar(currentDay, language, context));
+        itemsList.add(dayAndLinkToCalendar(currentDay, language, context));
 //        TODO: make metheod the show current date with link to full calendar
         //        method to show calendar
       }else      if(section.type == 'lectionaryReading'){
@@ -310,7 +310,7 @@ class _ServicePageState extends State<ServicePage> {
       }
     } else if (section.collects != null){
       for (var collect in section.collects) {
-        Widget column = buildDailyPrayers(collect, language,context);
+        Widget column = buildDailyPrayers(collect, language, 'full', context);
         var padding = new Padding(
           padding: EdgeInsets.only(bottom: 30.0),
           child: column,
@@ -397,7 +397,7 @@ class ExpandedSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Theme(
-      data: baseTheme,
+      data: baseTheme(),
       child: new Scaffold(
           appBar: new AppBar(
             elevation: 1.0,
@@ -856,12 +856,13 @@ Widget _stanza(stanza, {TextStyle style}){
   );
 }
 
-Widget buildDailyPrayers(Collect collect, language, context, [buildType='full']){
+Widget buildDailyPrayers(Collect collect, language, buildType, context){
 
   Map<String, List> buildTypes = {
     'full': ['title', 'subtitle', 'type', 'date', 'color', 'ref', 'collects', 'postCommunions' ],
     'collect':['title', 'subtitle', 'type', 'date', 'collects'],
     'postCommunion':['title', 'subtitle', 'type', 'date', 'postCommunions'],
+    'titles':['title', 'type', 'date', 'color']
   };
 
   List sectionsToBuild = buildTypes[buildType];
