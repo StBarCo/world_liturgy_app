@@ -50,6 +50,7 @@ class _CalendarPageState extends State<CalendarPage> {
               initialCalendarDateOverride: currentDay.date,
               onDateSelected: (date) => handleNewDate(date),
               isExpandable: true,
+
             ),
 
 
@@ -91,49 +92,68 @@ dateToLongString(date, language){
   return longDate;
 }
 
-dayAndLinkToCalendar(day, language, context){
-  if (day != null){
+dayAndLinkToCalendar(currentIndexes, context){
+  if (getDay(context) != null){
     return GestureDetector(
 //      onPressed: null,
-      onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab(2),
+      onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab('calendar'),
       child: Column(
-        children: dayTitles(day, language, context)
+        children: dayTitles(currentIndexes, context)
       )
     );
 
 //    return Text(dateToLongString(day, language));
   } else {
-    return Text('Date Is Null');
+//    return Text('Date Is Null');
   }
 }
 
-List<Widget> dayTitles(day, language, context){
-  List<Widget> list = [Text(dateToLongString(day, language))];
+List<Widget> dayTitles(currentIndexes, context){
+  List<Widget> list = [Text(dateToLongString(getDay(context), getLanguage(context)), style: Theme.of(context).textTheme.headline.copyWith(color: Theme.of(context).primaryColorDark))];
 
-  celebrationPriority(day).forEach((type){
-    list.add(Text(type.toString()));
-  });
-
-  list.add(collectList("englishPrayerBook",day,language, context, buildType: 'titles'));
+  list.add(collectList(currentIndexes["prayerBook"], context, buildType: 'titles'));
 
   return list;
-
 }
 
-List<String> celebrationPriority(Day day){
-  List<String> priority = ['season'];
 
+
+List<String> celebrationPriority(Day day){
+  List<String> priority = [];
+  if(day.principalFeastID != null){
+    priority.add('principalFeast');
+  }
   if(day.holyDayID != null){
     if(day.date.weekday == 7){
       priority.add('holyDay');
     } else {
-      priority.insert(0, 'holyDay');
+      priority.add('holyDay');
     }
   }
+  priority.add('season');
 
-  if(day.principalFeastID != null){
-    priority.insert(0, 'principalFeast');
-  }
+
 
   return priority;
+}
+
+List<String> getDailyReadings(String lectionaryType, String readingType, context){
+  Day day = getDay(context);
+  List<String> readings = [];
+
+  if(readingType.toLowerCase() == 'ot'){
+    readings.add('Ez 15:1-8');
+  } else if(readingType.toLowerCase() == 'nt'){
+    readings.add('Eph 2:1-10');
+  }else if(readingType.toLowerCase() == 'psalm'){
+    readings.add('Ps 119:89-104');
+  }else if(readingType.toLowerCase() == 'gospel'){
+    readings.add('John 8:31-59');
+  }else if(readingType.toLowerCase() == 'otornt'){
+    readings.add('Ez 15:1-8');
+    readings.add('Eph 2:1-10');
+    readings.add('John 8:31-59');
+  }
+
+  return readings;
 }

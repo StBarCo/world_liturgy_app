@@ -8,7 +8,7 @@ setThemeColors(String color) {
   if (color == 'green') {
     kPrimarySwatch = Colors.green;
     kBrightness = Brightness.light;
-  } else if (color == 'red') {
+  } else if (color.contains('red')) {
     kBrightness = Brightness.light;
     kPrimarySwatch = Colors.red;
   } else if (color.contains('purple')) {
@@ -100,8 +100,8 @@ ThemeData baseThemeSwatch(
       ));
 }
 
-TextStyle referenceAndSubtitleStyle(context, {Color color}) {
-  return Theme.of(context).textTheme.caption.copyWith(
-      fontWeight: FontWeight.w600,
-      color: color ?? Colors.black38);
-}
+TextStyle referenceAndSubtitleStyle = TextStyle(
+  fontWeight: FontWeight.w600,
+    color: Colors.black38,
+);
+

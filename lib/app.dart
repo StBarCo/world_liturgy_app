@@ -106,8 +106,10 @@ class HomePageState extends State<HomePage> {
   SongsPage songPage;
   CalendarPage calendarPage;
   BiblePage biblePage;
-  List<Widget> pages;
+  List<Widget> pages = [];
+  List<String> pageOrder;
   Widget currentPage;
+  
 
   @override
   void initState(){
@@ -132,8 +134,32 @@ class HomePageState extends State<HomePage> {
       key: keyCalendar,
     );
 
+    pageOrder = ['services', 'songs', 'calendar'];
 
-    pages = [servicePage,songPage, biblePage, calendarPage];
+    pageOrder.forEach((page){
+      switch(page){
+        case 'services': {
+          pages.add(servicePage);
+        }
+        break;
+
+        case 'songs': {
+          pages.add(songPage);
+        }
+        break;
+
+        case 'calendar':{
+          pages.add(calendarPage);
+        }
+        break;
+
+        case 'biblePage':{
+          pages.add(biblePage);
+        }
+        break;
+      }
+    });
+
     super.initState();
 
     currentPage = servicePage;
@@ -180,9 +206,10 @@ class HomePageState extends State<HomePage> {
       return _exitApp(context);
   }
 
-  changeTab(newTab){
+  changeTab(newTabName){
+    int newTab = pageOrder.indexOf(newTabName);
     if(currentTab != newTab){
-      setState(() {
+      setState(() {        
         currentTab = newTab;
         currentPage = pages[newTab];
       });
@@ -213,32 +240,55 @@ class HomePageState extends State<HomePage> {
             currentPage = pages[index];
           });
         },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+        items: makeBottomNavItems(pageOrder, currentLanguage)
+    );
+  }
+
+  List<BottomNavigationBarItem> makeBottomNavItems(pageList, currentLanguage){
+    List<BottomNavigationBarItem> list = [];
+    pageList.forEach((page){
+      switch(page){
+        case 'services': {
+          list.add(BottomNavigationBarItem(
             icon: Icon(Icons.home,color: Colors.black38,),
             activeIcon: Icon(Icons.home,color: Theme.of(context).primaryColor,),
             title: Text(
-                globals.translate(currentLanguage, 'prayerBook'),style: TextStyle(color: Theme.of(context).primaryColor),),
-          ),
-          BottomNavigationBarItem(
+              globals.translate(currentLanguage, 'prayerBook'),style: TextStyle(color: Theme.of(context).primaryColor),),
+          ));
+        }
+        break;
+
+        case 'songs': {
+          list.add(BottomNavigationBarItem(
             icon: Icon(Icons.music_note,color: Colors.black38,),
             activeIcon: Icon(Icons.music_note,color: Theme.of(context).primaryColor,),
             title: Text(globals.translate(currentLanguage, 'songs'),style: TextStyle(color: Theme.of(context).primaryColor),),
-          ),
-          BottomNavigationBarItem(
+          ));
+        }
+        break;
+
+        case 'bible':{
+          list.add(BottomNavigationBarItem(
             icon: Icon(Icons.book,color: Colors.black38,),
             activeIcon: Icon(Icons.book,color: Theme.of(context).primaryColor,),
             title: Text(globals.translate(currentLanguage, 'bible'),style: TextStyle(color: Theme.of(context).primaryColor),),
-          ),
-          BottomNavigationBarItem(
+          ));
+        }
+        break;
+
+        case 'calendar':{
+          list.add(BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today,color: Colors.black38,),
             activeIcon: Icon(Icons.calendar_today,color: Theme.of(context).primaryColor,),
             title: Text(globals.translate(currentLanguage, 'lectionary'),style: TextStyle(color: Theme.of(context).primaryColor),),
-          ),
-        ]
-    );
-
+          ));
+        }
+        break;
+      }
+    });
+    return list;
   }
+
 }
 
 
@@ -323,20 +373,24 @@ class RefreshState extends InheritedWidget {
 
 Widget appBarTitle(title, context){
   Widget titleText = Text(
-      title,
-      style: Theme.of(context).textTheme.title.copyWith(
-        fontFamily: 'Signika',
-        color: Theme.of(context).primaryIconTheme.color,
-      ),
+    title,
+    style: Theme.of(context).textTheme.title.copyWith(
+      fontFamily: 'Signika',
+      color: Theme.of(context).primaryIconTheme.color,
+    ),
   );
 
-  if(title.length > 20){
-    return Marquee(
-      child: Center(
-        child: titleText,
-      ),
-      blankSpace: 20.0,
-      velocity: 5.0,
+  if(title.length > 2000){
+    return  Marquee(
+        text: title,
+        style: Theme.of(context).textTheme.title.copyWith(
+          fontFamily: 'Signika',
+          color: Theme.of(context).primaryIconTheme.color,
+
+        ),
+        blankSpace: 20.0,
+        velocity: 5.0,
+
     );
   } else {
     return titleText;
@@ -370,3 +424,10 @@ String getColorDeJour(Day day){
   return 'green';
 }
 
+Day getDay(context){
+  return RefreshState.of(context).currentDay;
+}
+
+String getLanguage(context){
+  return RefreshState.of(context).currentLanguage;
+}

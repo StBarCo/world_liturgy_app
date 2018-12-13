@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializeSongBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/colors.dart';
+import 'package:world_liturgy_app/app.dart';
 //import 'package:material_search/material_search.dart';
 
 class SongsPage extends StatefulWidget{
@@ -23,7 +24,7 @@ class _SongsPageState extends State<SongsPage> {
     return new Scaffold (
       appBar: new AppBar(
         textTheme: Theme.of(context).textTheme,
-        title: new Text('Song Books and Hymnals', style: TextStyle(fontFamily: 'Signika'),),
+        title: appBarTitle('Song Books and Hymnals', context),
         actions: <Widget>[
           new IconButton(
             tooltip: 'Search',
@@ -192,7 +193,7 @@ List<Widget> _buildServicesTiles(context, songList) {
         child: new ListTile(
           leading: Icon(Icons.music_note),
           title: songTitle(song, style: Theme.of(context).textTheme.body1),
-          subtitle: Text(song.subtitle ?? '', style: referenceAndSubtitleStyle(context)),
+          subtitle: Text(song.subtitle ?? '', style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle)),
           selected: false,
           onTap: () {
             Navigator.push(context, new MaterialPageRoute(builder: (context) => SongPage(song: song)));
@@ -241,7 +242,7 @@ class SongPage extends StatelessWidget {
             songTitle(song),
             Text(
               song.subtitle ?? '',
-              style: referenceAndSubtitleStyle(context),
+              style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
             )
           ],
         )
@@ -276,7 +277,7 @@ class SongPage extends StatelessWidget {
   Padding _refrain (refrain, context){
     List<Widget> list = [];
 
-    list.add(new Text('Refrain' + ':', style: referenceAndSubtitleStyle(context),));
+    list.add(new Text('Refrain' + ':', style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),));
 
     for (var stanza in refrain.stanzas) {
       list.add(Text(stanza.text, style: Theme.of(context).textTheme.body2));
@@ -302,7 +303,7 @@ class SongPage extends StatelessWidget {
             padding: EdgeInsets.only(right: 8.0),
             child: Text(
               (vNumber+1).toString() + '.',
-              style: referenceAndSubtitleStyle(context),
+              style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
               textAlign: TextAlign.right,
             ),
           ),

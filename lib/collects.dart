@@ -4,16 +4,15 @@ import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'globals.dart' as globals;
 import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:world_liturgy_app/service.dart';
-//import 'package:world_liturgy_app/app.dart';
+import 'package:world_liturgy_app/app.dart';
 import 'package:world_liturgy_app/calendar.dart';
 
 Widget collectList(
   currentPrayerBookIndex,
-  Day day,
-  String language,
   BuildContext context,
   {buildType = 'full'}
 ){
+  Day day = getDay(context);
   List<Widget> list = [];
   Collect collectOfWeek = setCollectOfWeek(day, currentPrayerBookIndex);
   Collect collectOfPrincipalFeast = setCollectOfPrincipalFeast(day, currentPrayerBookIndex);
@@ -21,15 +20,15 @@ Widget collectList(
 
   celebrationPriority(day).forEach((type){
     if(type == 'principalFeast' && hasContentToBuild(collectOfPrincipalFeast, buildType) ) {
-      list.add(buildDailyPrayers(collectOfPrincipalFeast, language, buildType, context));
+      list.add(buildDailyPrayers(collectOfPrincipalFeast, buildType, context));
     }
 
     if(type == 'season' && hasContentToBuild(collectOfWeek, buildType)) {
-      list.add(buildDailyPrayers(collectOfWeek, language, buildType, context));
+      list.add(buildDailyPrayers(collectOfWeek, buildType, context));
     }
 
-    if(type == 'holyDay '&& hasContentToBuild(collectOfHolyDay, buildType)) {
-      list.add(buildDailyPrayers(collectOfHolyDay, language, buildType, context));
+    if(type == 'holyDay' && hasContentToBuild(collectOfHolyDay, buildType)) {
+      list.add(buildDailyPrayers(collectOfHolyDay, buildType, context));
     }
   });
 
@@ -40,7 +39,7 @@ Widget collectList(
 
 
 Collect setCollectOfWeek(day, prayerBookId){
-  if(day != null && day.weekID != null){
+  if(day != null && day.weekID != null && day.weekCollectIndex != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.weekServiceIndex].sections[day.weekSectionIndex].collects[day.weekCollectIndex];
   } else {
     return null;
@@ -48,7 +47,7 @@ Collect setCollectOfWeek(day, prayerBookId){
 }
 
 Collect setCollectOfPrincipalFeast(day, prayerBookId){
-  if(day != null && day.principalFeastID != null){
+  if(day != null && day.principalFeastID != null && day.principalFeastCollectIndex != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.principalFeastServiceIndex].sections[day.principalFeastSectionIndex].collects[day.principalFeastCollectIndex];
   } else {
     return null;
@@ -56,7 +55,7 @@ Collect setCollectOfPrincipalFeast(day, prayerBookId){
 }
 
 Collect setCollectOfHolyDay(day, prayerBookId){
-  if(day != null && day.holyDayID != null){
+  if(day != null && day.holyDayID != null && day.holyDayCollectIndex != null){
     return globals.allPrayerBooks.getPrayerBook(prayerBookId).services[day.holyDayServiceIndex].sections[day.holyDaySectionIndex].collects[day.holyDayCollectIndex];
   } else {
     return null;
@@ -64,27 +63,34 @@ Collect setCollectOfHolyDay(day, prayerBookId){
 }
 
 bool hasContentToBuild(Collect collect, buildType){
-  switch (buildType){
-    case "full" :{
-      return true;
-    }
-    break;
+  if(collect != null) {
+    switch (buildType) {
+      case "full" :
+        {
+          return true;
+        }
+        break;
 
-    case "titles" :{
-      return true;
-    }
-    break;
+      case "titles" :
+        {
+          return true;
+        }
+        break;
 
-    case 'collect': {
-      return collect.collectPrayers !=null;
-    }
-    break;
+      case 'collect':
+        {
+          return collect.collectPrayers != null;
+        }
+        break;
 
-    case 'postCommunion':{
-      return collect.postCommunionPrayers != null;
+      case 'postCommunion':
+        {
+          return collect.postCommunionPrayers != null;
+        }
+        break;
     }
-    break;
+  } else {
+    return false;
   }
-  return false;
 }
 

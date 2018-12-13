@@ -1,5 +1,5 @@
 name: world_liturgy_app
-description: An app for the Anglican Church of Kenya
+description: The framework for all World Liturgy Apps
 
 dependencies:
   flutter:
@@ -27,7 +27,7 @@ dependencies:
   path_provider: ">=0.3.1"
 
 # scrolling marquee function (used on app bar)
-  marquee: ^0.1.0
+  marquee: ">=0.1.0"
 
 #  good looking calendar
   flutter_calendar: '>=0.0.8'

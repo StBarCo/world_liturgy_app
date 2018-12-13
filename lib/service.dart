@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:world_liturgy_app/json/serializePrayerBook.dart';
 import 'package:world_liturgy_app/globals.dart' as globals;
 import 'package:world_liturgy_app/collects.dart';
-import 'package:world_liturgy_app/styles.dart';
+import 'package:world_liturgy_app/bible.dart';
 import 'package:world_liturgy_app/app.dart';
 import 'package:world_liturgy_app/calendar.dart';
 import 'package:world_liturgy_app/model/calendar.dart';
@@ -91,7 +91,6 @@ class _ServicePageState extends State<ServicePage> {
     textScaleFactor = refreshState.textScaleFactor;
 
     return new Theme(
-//        data: updateTheme(Theme.of(context), currentDay ),
         data: Theme.of(context),
         child: Scaffold(
           drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
@@ -129,21 +128,23 @@ class _ServicePageState extends State<ServicePage> {
 
   Drawer _buildDrawer(prayerBooks, context) {
     return Drawer(
-      child: new Column(children: <Widget>[
-//          new Text('LISTA', style: new TextStyle(
-//            fontSize: 15.2,
-//            fontWeight: FontWeight.bold,
-//          )),
-        Expanded(
-            child: Container(
-//              decoration: new BoxDecoration(color: Colors.blue),
-//              height: 200.0,
-          child: ListView.builder(
-            itemBuilder: (BuildContext context, int index) =>
-                drawerPrayerBookEntry(context, prayerBooks[index]),
-            itemCount: prayerBooks.length,
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(top: 25.0),
+            height: 50.0,
+            child: Text('THIS WILL BE HEADER', style: Theme.of(context).textTheme.title,),
+
           ),
-        )),
+        Expanded(
+          child: Container(
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) =>
+                  drawerPrayerBookEntry(context, prayerBooks[index]),
+              itemCount: prayerBooks.length,
+            ),
+          ),
+        ),
         ListTile(
             title: Text('Zoom'),
             leading: Icon(Icons.zoom_in),
@@ -227,7 +228,7 @@ class _ServicePageState extends State<ServicePage> {
       itemBuilder: (context, index) {
         var section = service.sections[index];
         return _buildSection(
-            context, currentIndexes, section, currentLanguage, currentDay);
+            context, currentIndexes, section);
       },
       controller: _serviceScrollController,
     );
@@ -235,10 +236,10 @@ class _ServicePageState extends State<ServicePage> {
 }
 
 Widget _buildSection(
-    BuildContext context, currentIndexes, section, language, Day currentDay) {
+    BuildContext context, currentIndexes, section,) {
 //      final alreadySaved = _saved.contains(pair);
   List list =
-      _buildItemsList(context, currentIndexes, section, language, currentDay);
+      _buildItemsList(context, currentIndexes, section);
   if (list.length != 0) {
     return new Card(
         margin: EdgeInsets.only(bottom: 8.0),
@@ -256,53 +257,52 @@ Widget _buildSection(
 }
 
 List<Widget> _buildItemsList(
-    BuildContext context, currentIndexes, section, language, Day currentDay) {
+    BuildContext context, currentIndexes, section) {
   List<Widget> itemsList = new List<Widget>();
+  Day currentDay = getDay(context);
 
   if (section.type == 'collectOfTheDay') {
 //        TODO: move collect section title into same section.
     itemsList.add(collectList(
-        currentIndexes["prayerBook"], currentDay, language, context,
+        currentIndexes["prayerBook"], context,
         buildType: "collect"));
   } else if (section.type == 'postCommunionOfTheDay') {
     itemsList.add(collectList(
-      currentIndexes["prayerBook"],
-      currentDay,
-      language,
+      currentIndexes["prayerBook"],            
       context,
       buildType: "postCommunion",
     ));
   } else if (section.type == 'calendarDate') {
-    itemsList.add(dayAndLinkToCalendar(currentDay, language, context));
+    var widget = dayAndLinkToCalendar(currentIndexes, context);
+    if(widget != null ) {
+      itemsList.add(widget);
+    }
 //        TODO: make metheod the show current date with link to full calendar
     //        method to show calendar
-  } else if (section.type == 'lectionaryReading') {
-//        TODO: make methods to show header, fields, and reading(s).
-
   } else if (section.type == 'scheduled' &&
       section.schedule.contains(currentDay.season)) {
-    itemsList.addAll(_buildNormalSection(section, language, context));
+    itemsList.addAll(_buildNormalSection(section, context));
   } else if (section.type == 'scheduledFeast' &&
       (section.schedule == currentDay.principalFeastID ||
           section.schedule == currentDay.holyDayID)) {
-    itemsList.addAll(_buildNormalSection(section, language, context));
+    itemsList.addAll(_buildNormalSection(section, context));
   } else {
     if (section.visibility == 'collapsed') {
       itemsList.add(
-          _buildHeaderForCollapsed(context, currentIndexes, section, language));
+          _buildHeaderForCollapsed(context, currentIndexes, section,));
     } else if (section.visibility == 'indexed') {
       itemsList.add(_buildSectionHeader(section, context));
-      itemsList.add(_buildLinksForIndexed(context, section, language));
+      itemsList.add(_buildLinksForIndexed(context, section,));
     } else if (section.visibility == 'hidden') {
 //          itemsList.add(new Row());
     } else {
-      itemsList.addAll(_buildNormalSection(section, language, context));
+      itemsList.addAll(_buildNormalSection(section, context));
     }
   }
   return itemsList;
 }
 
-List<Widget> _buildNormalSection(section, language, context) {
+List<Widget> _buildNormalSection(section, context) {
   List<Widget> itemsList = [];
 
   if (_sectionHasHeader(section)) {
@@ -312,8 +312,7 @@ List<Widget> _buildNormalSection(section, language, context) {
     var prevItemWho;
     for (var item in section.items) {
       Widget row = _buildItem(
-        item,
-        language,
+        item,        
         context,
         prevItemWho,
       );
@@ -326,7 +325,7 @@ List<Widget> _buildNormalSection(section, language, context) {
     }
   } else if (section.collects != null) {
     for (var collect in section.collects) {
-      Widget column = buildDailyPrayers(collect, language, 'full', context);
+      Widget column = buildDailyPrayers(collect, 'full', context);
       var padding = new Padding(
         padding: EdgeInsets.only(bottom: 30.0),
         child: column,
@@ -337,14 +336,30 @@ List<Widget> _buildNormalSection(section, language, context) {
   return itemsList;
 }
 
-_buildHeaderForCollapsed(context, currentIndexes, section, language) {
+_buildHeaderForCollapsed(context, currentIndexes, section) {
+  String language = getLanguage(context);
   return GestureDetector(
       onTap: () {
         var route = new MaterialPageRoute(
-            builder: (BuildContext context) => new ExpandedSection(
-                section: section,
-                currentIndexes: currentIndexes,
-                language: language));
+            builder: (BuildContext itemContext) => new RefreshState(
+              currentDay: RefreshState.of(context).currentDay,
+              currentLanguage: language,
+              textScaleFactor: RefreshState.of(context).textScaleFactor,
+//              onTap: onTap,
+              child: MediaQuery(
+                data: MediaQuery.of(itemContext).copyWith(textScaleFactor: RefreshState.of(context).textScaleFactor),
+                child: Theme(
+                  data: updateTheme(Theme.of(context), RefreshState.of(context).currentDay),
+                    child: ExpandedSection(
+                      section: section,
+                      currentIndexes: currentIndexes,
+                      currentLanguage: language,
+                      theme: Theme.of(context),
+                    ),
+                ),
+              )
+            ),
+          );
         Navigator.push(context, route);
       },
       child: new Column(
@@ -355,22 +370,35 @@ _buildHeaderForCollapsed(context, currentIndexes, section, language) {
             style: Theme.of(context)
                 .textTheme
                 .caption
-                .copyWith(color: Theme.of(context).accentColor),
+                .copyWith(color: Theme.of(context).primaryColorDark),
           )
         ],
       ));
 }
 
-_buildLinksForIndexed(context, section, language) {
+_buildLinksForIndexed(context, section) {
   List<Widget> headers = [];
 
   for (var item in section.items) {
     headers.add(new GestureDetector(
         onTap: () {
           var route = new MaterialPageRoute(
-              builder: (BuildContext context) => new ExpandedIndexedItem(
-                    item: item,
-                  ));
+            builder: (BuildContext itemContext) => new RefreshState(
+                currentDay: RefreshState.of(context).currentDay,
+                currentLanguage: RefreshState.of(context).currentLanguage,
+                textScaleFactor: RefreshState.of(context).textScaleFactor,
+//              onTap: onTap,
+                child: MediaQuery(
+                  data: MediaQuery.of(itemContext).copyWith(textScaleFactor: RefreshState.of(context).textScaleFactor),
+                  child: Theme(
+                    data: updateTheme(Theme.of(context), RefreshState.of(context).currentDay),
+                    child: ExpandedIndexedItem(
+                      item: item,
+                    ),
+                  ),
+                )
+            ),
+          );
           Navigator.push(context, route);
         },
         child: new Column(
@@ -380,7 +408,7 @@ _buildLinksForIndexed(context, section, language) {
               child: new Text(item.title,
                   style: Theme.of(context).textTheme.subhead.copyWith(
                         fontSize: 16.0,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).primaryColorDark,
                       ),
                   textAlign: TextAlign.center),
             ),
@@ -388,18 +416,18 @@ _buildLinksForIndexed(context, section, language) {
               padding: EdgeInsets.only(top: 4.0),
               child: new Text(
                 item.ref ?? '',
-                style: referenceAndSubtitleStyle(context,
-                    color: Theme.of(context).accentColor),
+                style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle).copyWith(
+                    color: Theme.of(context).primaryColorDark),
                 textAlign: TextAlign.center,
               ),
             ),
             new Padding(
               padding: EdgeInsets.only(top: 4.0),
-              child: new Text(globals.translate(language, "tapToExpand"),
+              child: new Text(globals.translate(getLanguage(context), "tapToExpand"),
                   style: Theme.of(context)
                       .textTheme
                       .caption
-                      .copyWith(color: Theme.of(context).accentColor),
+                      .copyWith(color: Theme.of(context).primaryColorDark),
                   textAlign: TextAlign.center),
             ),
           ],
@@ -414,35 +442,39 @@ _buildLinksForIndexed(context, section, language) {
 class ExpandedSection extends StatelessWidget {
   final Section section;
   final currentIndexes;
-  final String language;
+  final String currentLanguage;
+  final ThemeData theme;
 
-  ExpandedSection({Key key, this.section, this.currentIndexes, this.language})
+  ExpandedSection({Key key, this.section, this.currentIndexes, this.currentLanguage, this.theme})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return new Theme(
-        data: Theme.of(context),
-        child: new Scaffold(
-            appBar: new AppBar(
-              elevation: 1.0,
+        return Scaffold(
+          primary: true,
+            appBar: AppBar(
+              elevation: 5.0,
               textTheme: Theme.of(context).textTheme,
               title: appBarTitle(section.indexName, context),
             ),
-            body: new ListView(
-              children: <Widget>[
-                new Card(
-                    margin: EdgeInsets.only(bottom: 8.0),
-                    elevation: 0.0,
-                    child: new Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 24.0),
-                        child: new Column(
-                          children: _buildExpandedSectionItems(
-                              section, language, context),
-                        )))
-              ],
-            )));
+            body: Text('Test'),
+//            body: ListView(
+//              children: <Widget>[
+//                new Card(
+//                    margin: EdgeInsets.only(bottom: 8.0),
+//                    elevation: 0.0,
+//                    child: new Padding(
+//                        padding: EdgeInsets.symmetric(
+//                            horizontal: 16.0, vertical: 24.0),
+//                        child: new Column(
+//                          children: _buildExpandedSectionItems(
+//                              section, currentLanguage, context),
+//                        )
+//                    )
+//                )
+//              ],
+//            )
+        );
   }
 
   List<Widget> _buildExpandedSectionItems(section, language, context) {
@@ -456,7 +488,7 @@ class ExpandedSection extends StatelessWidget {
     if (section.items != null) {
       var prevItemWho;
       for (var item in section.items) {
-        Widget row = _buildItem(item, language, context, prevItemWho);
+        Widget row = _buildItem(item, context, prevItemWho);
         var padding = new Padding(
           padding: EdgeInsets.only(top: 8.0),
           child: row,
@@ -477,11 +509,12 @@ class ExpandedIndexedItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
+    return Scaffold(
+        appBar: AppBar(
           elevation: 5.0,
           textTheme: Theme.of(context).textTheme,
           title: appBarTitle(item.title, context),
+
         ),
         body: new ListView(
           padding: const EdgeInsets.all(16.0),
@@ -539,7 +572,7 @@ Widget _buildSectionHeader(section, context, {bool collapsed: false}) {
 Widget _rubric(rubric, context) {
   return Text(
     rubric.toString(),
-    style: Theme.of(context).textTheme.caption,
+    style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
     textAlign: TextAlign.center,
   );
 }
@@ -569,7 +602,7 @@ Widget _sectionTitle(title, collapsed, context) {
       style: Theme.of(context)
           .textTheme
           .subhead
-          .copyWith(color: Theme.of(context).accentColor),
+          .copyWith(color: Theme.of(context).primaryColorDark),
       textAlign: TextAlign.center,
     );
   } else {
@@ -591,7 +624,7 @@ Widget _majorHeader(header, context) {
       ));
 }
 
-Widget _buildItem(item, language, context, [prevItemWho]) {
+Widget _buildItem(item, context, [prevItemWho]) {
   if (item.type == 'title' && item.text != null) {
     return Padding(
       child: _sectionTitle(item.text, false, context),
@@ -602,17 +635,22 @@ Widget _buildItem(item, language, context, [prevItemWho]) {
       child: _rubric(item.text, context),
       padding: EdgeInsets.only(top: 18.0, bottom: 5.0),
     );
+  } else if (item.type == 'reading') {
+
+//    return lectionaryReading(item, context);
+//        TODO: make methods to show header, fields, and reading(s).
+
   } else if (item.who == 'leader' ||
       item.who == 'minister' ||
       item.who == 'reader' ||
       item.who == 'leaderOther' ||
       item.who == 'bishop' ||
       item.who == "archBishop") {
-    return _leaderItem(item, language, prevItemWho, context);
+    return _leaderItem(item, prevItemWho, context);
   } else if (item.who == 'people' ||
       item.who == 'all' ||
       item.who == 'peopleOther') {
-    return _peopleItem(item, language, prevItemWho, context);
+    return _peopleItem(item, prevItemWho, context);
   } else if (item.who == 'none') {
     return null;
   } else if (item.type == 'versedStanzas') {
@@ -628,7 +666,7 @@ Widget _buildItem(item, language, context, [prevItemWho]) {
   }
 }
 
-Widget _leaderItem(item, language, prevItemWho, context) {
+Widget _leaderItem(item, prevItemWho, context) {
   var _pickedIcon = item.who == 'minister'
       ? Icon(Icons.person)
       : item.who == 'reader' ? Icon(Icons.local_library) : Icon(Icons.person);
@@ -643,7 +681,7 @@ Widget _leaderItem(item, language, prevItemWho, context) {
             _pickedIcon,
             item.who == 'leaderOther'
                 ? item.other
-                : globals.translate(language, item.who),
+                : globals.translate(getLanguage(context), item.who),
             context,
           ))),
       new Flexible(
@@ -654,14 +692,14 @@ Widget _leaderItem(item, language, prevItemWho, context) {
                 style: Theme.of(context).textTheme.body1)
             : _doesItemHasRef(item)
                 ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-                    referenceAndSubtitleStyle(context))
+            Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
                 : _itemText(item, style: Theme.of(context).textTheme.body1),
       )),
     ],
   );
 }
 
-Widget _peopleItem(item, language, prevItemWho, context) {
+Widget _peopleItem(item, prevItemWho, context) {
   return new Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.end,
@@ -675,7 +713,7 @@ Widget _peopleItem(item, language, prevItemWho, context) {
                 style: Theme.of(context).textTheme.body2)
             : _doesItemHasRef(item)
                 ? _itemTextWithRef(item, Theme.of(context).textTheme.body2,
-                    referenceAndSubtitleStyle(context),
+                    Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
                     alignment: TextAlign.right)
                 : _itemText(item,
                     style: Theme.of(context).textTheme.body2,
@@ -688,7 +726,7 @@ Widget _peopleItem(item, language, prevItemWho, context) {
             Icon(Icons.people),
             item.who == 'peopleOther'
                 ? item.other
-                : globals.translate(language, item.who),
+                : globals.translate(getLanguage(context), item.who),
             context,
           ))),
     ],
@@ -703,7 +741,7 @@ Widget genericItem(item, context) {
         child: new Padding(
           child: _doesItemHasRef(item)
               ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-                  referenceAndSubtitleStyle(context))
+                  Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
               : _itemText(item, style: Theme.of(context).textTheme.body1),
           padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
         ),
@@ -722,7 +760,7 @@ Widget _unknownItem(item, context) {
       new Expanded(
         child: _doesItemHasRef(item)
             ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-                referenceAndSubtitleStyle(context))
+            Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
             : _itemText(item, style: Theme.of(context).textTheme.body1),
       ),
 //          new Column(
@@ -877,7 +915,7 @@ Widget _stanza(stanza, {TextStyle style}) {
       ]);
 }
 
-Widget buildDailyPrayers(Collect collect, language, buildType, context) {
+Widget buildDailyPrayers(Collect collect, buildType, context) {
   Map<String, List> buildTypes = {
     'full': [
       'title',
@@ -891,11 +929,12 @@ Widget buildDailyPrayers(Collect collect, language, buildType, context) {
     ],
     'collect': ['title', 'subtitle', 'type', 'date', 'collects'],
     'postCommunion': ['title', 'subtitle', 'type', 'date', 'postCommunions'],
-    'titles': ['title', 'type', 'date', 'color']
+    'titles': ['title']
   };
 
   List sectionsToBuild = buildTypes[buildType];
   List<Widget> children = [];
+  String language = getLanguage(context);
 
   if (collect.title != null && sectionsToBuild.contains('title')) {
     children.add(collectTitle(collect.title, context));
@@ -906,23 +945,23 @@ Widget buildDailyPrayers(Collect collect, language, buildType, context) {
 
   if (collect.type != null && sectionsToBuild.contains('type')) {
     children.add(
-      collectProperty(collect.type, referenceAndSubtitleStyle(context)),
+      collectProperty(collect.type, Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle)),
     );
   }
 
   if (collect.date != null && sectionsToBuild.contains('date')) {
     children
-        .add(collectProperty(collect.date, referenceAndSubtitleStyle(context)));
+        .add(collectProperty(collect.date, Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle)));
   }
 
   if (collect.color != null && sectionsToBuild.contains('color')) {
     children.add(
-        collectProperty(collect.color, referenceAndSubtitleStyle(context)));
+        collectProperty(collect.color, Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle)));
   }
 
   if (collect.ref != null && sectionsToBuild.contains('ref')) {
     children
-        .add(collectProperty(collect.ref, referenceAndSubtitleStyle(context)));
+        .add(collectProperty(collect.ref, Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle)));
   }
 
   if ((collect.collectRubric != null || collect.collectPrayers != null) &&
@@ -1044,7 +1083,7 @@ Widget _canticleTitle(title, context) {
 Widget _titleReference(ref, context) {
   return Text(
     ref,
-    style: referenceAndSubtitleStyle(context),
+    style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
     textAlign: TextAlign.center,
   );
 }
