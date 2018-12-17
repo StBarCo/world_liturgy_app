@@ -3,7 +3,7 @@ import 'package:marquee/marquee.dart';
 
 import 'service.dart';
 import 'calendar.dart';
-import 'songs.dart';
+import 'pages/songs.dart';
 import 'globals.dart' as globals;
 import 'theme.dart';
 import 'dart:async';
