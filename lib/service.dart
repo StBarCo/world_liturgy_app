@@ -123,7 +123,7 @@ class _ServicePageState extends State<ServicePage> {
               ),
             ],
           ),
-          body: _buildService(context, currentService),
+          body: _buildService(currentService),
         ));
   }
 
@@ -222,7 +222,7 @@ class _ServicePageState extends State<ServicePage> {
 
   //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
-  Widget _buildService(BuildContext context, Service service) {
+  Widget _buildService(Service service) {
     return new ListView.builder(
       padding: const EdgeInsets.all(0.0),
       itemCount: service.sections.length,
@@ -253,7 +253,7 @@ Widget _buildSection(
           ),
         ));
   } else {
-    return Container(height: 0.0, width: 0.0,);
+    return Container();
   }
 }
 

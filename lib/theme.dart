@@ -5,7 +5,7 @@ Color kPrimarySwatch = Colors.green;
 Brightness kBrightness = Brightness.light;
 
 setThemeColors(String color) {
-  if (color == 'green') {
+  if (color == null || color == 'green') {
     kPrimarySwatch = Colors.green;
     kBrightness = Brightness.light;
   } else if (color.contains('red')) {

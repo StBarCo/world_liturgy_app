@@ -4,26 +4,36 @@ part 'serializePrayerBook.g.dart';
 
 @JsonSerializable()
 class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerMixin {
-  @JsonKey(fromJson: _decodePrayerBookorService, name:'prayer_book')
+  @JsonKey(fromJson: _decodePrayerBookorService, name: 'prayer_book')
   final List<PrayerBook> prayerBooks;
 
-  PrayerBooksContainer(
-      this.prayerBooks,
-      );
+  PrayerBooksContainer(this.prayerBooks,);
 
-  factory PrayerBooksContainer.fromJson(Map<String, dynamic> json) => _$PrayerBooksContainerFromJson(json);
+  factory PrayerBooksContainer.fromJson(Map<String, dynamic> json) =>
+      _$PrayerBooksContainerFromJson(json);
 
-  getPrayerBookIndexById(String id){
+  getPrayerBookIndexById(String id) {
     List list = [];
-    this.prayerBooks.forEach((prayerBook){
+    this.prayerBooks.forEach((prayerBook) {
       list.add(prayerBook.id);
     });
 
     return list.indexOf(id);
   }
 
-  PrayerBook getPrayerBook(String id){
-    return this.prayerBooks.where((prayerBook) => prayerBook.id == id).toList().first;
+  PrayerBook getPrayerBook(String id) {
+    return this.prayerBooks
+        .where((prayerBook) => prayerBook.id == id)
+        .toList()
+        .first;
+  }
+
+  String getPrayerBookIdFromLanguage(String language) {
+    return this.prayerBooks
+        .where((prayerBook) => prayerBook.language == language)
+        .toList()
+        .first
+        .id;
   }
 }
 

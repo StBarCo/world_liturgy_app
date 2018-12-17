@@ -5,6 +5,7 @@ import 'globals.dart' as globals;
 import 'model/calendar.dart';
 import 'app.dart';
 import 'collects.dart';
+import 'json/serializePrayerBook.dart';
 
 class CalendarPage extends StatefulWidget{
   CalendarPage({Key key}) : super(key:key);
@@ -53,7 +54,9 @@ class _CalendarPageState extends State<CalendarPage> {
               isExpandable: true,
 
             ),
-
+            Column(
+              children: dayTitles(globals.allPrayerBooks.getPrayerBookIdFromLanguage(currentLanguage), context),
+            ),
 
 
           ],
@@ -99,7 +102,7 @@ dayAndLinkToCalendar(currentIndexes, context){
 //      onPressed: null,
       onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab('calendar'),
       child: Column(
-        children: dayTitles(currentIndexes, context)
+        children: dayTitles(currentIndexes["prayerBook"], context)
       )
     );
 
@@ -109,10 +112,10 @@ dayAndLinkToCalendar(currentIndexes, context){
   }
 }
 
-List<Widget> dayTitles(currentIndexes, context){
+List<Widget> dayTitles(prayerBookId, context){
   List<Widget> list = [Text(dateToLongString(getDay(context), getLanguage(context)), style: Theme.of(context).textTheme.headline.copyWith(color: Theme.of(context).primaryColorDark))];
 
-  list.add(collectList(currentIndexes["prayerBook"], context, buildType: 'titles'));
+  list.add(collectList(prayerBookId, context, buildType: 'titles'));
 
   return list;
 }
