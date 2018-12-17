@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/json/serializePrayerBook.dart';
-//import 'dart:async';
+
+import 'json/serializePrayerBook.dart';
 import 'globals.dart' as globals;
-import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/service.dart';
-import 'package:world_liturgy_app/app.dart';
-import 'package:world_liturgy_app/calendar.dart';
+import 'model/calendar.dart';
+import 'service.dart';
+import 'app.dart';
+import 'calendar.dart';
 
 Widget collectList(
   currentPrayerBookIndex,

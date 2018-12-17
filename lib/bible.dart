@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'globals.dart' as globals;
-import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/app.dart';
-import 'package:flutter_calendar/flutter_calendar.dart';
-import 'package:world_liturgy_app/calendar.dart';
+
+import 'model/calendar.dart';
+import 'app.dart';
+import 'calendar.dart';
 
 
 class BiblePage extends StatefulWidget{

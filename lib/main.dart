@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/json/xml_parser.dart';
-import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/data/database.dart';
-import 'package:world_liturgy_app/app.dart';
+
+import 'json/xml_parser.dart';
+import 'globals.dart' as globals;
+import 'data/database.dart';
+import 'app.dart';
 
 
 void main() async{

@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:world_liturgy_app/model/calendar.dart';
 import 'package:synchronized/synchronized.dart';
+
+import '../model/calendar.dart';
+
 
 class DatabaseClient {
   Database _db;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/json/serializeSongBook.dart';
-import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/colors.dart';
-import 'package:world_liturgy_app/app.dart';
+
+import 'json/serializeSongBook.dart';
+import 'globals.dart' as globals;
+import 'theme.dart';
+import 'app.dart';
 //import 'package:material_search/material_search.dart';
 
 class SongsPage extends StatefulWidget{

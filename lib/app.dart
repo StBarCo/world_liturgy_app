@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/service.dart';
-import 'package:world_liturgy_app/calendar.dart';
-import 'package:world_liturgy_app/songs.dart';
-import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/colors.dart';
-import 'dart:async';
-import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/bible.dart';
 import 'package:marquee/marquee.dart';
+
+import 'service.dart';
+import 'calendar.dart';
+import 'songs.dart';
+import 'globals.dart' as globals;
+import 'theme.dart';
+import 'dart:async';
+import 'model/calendar.dart';
+import 'bible.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

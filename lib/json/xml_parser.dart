@@ -2,12 +2,11 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:xml2json/xml2json.dart';
 import 'dart:convert';
-import 'package:world_liturgy_app/json/serializePrayerBook.dart';
-import 'package:world_liturgy_app/json/serializeCalendar.dart';
-import 'package:world_liturgy_app/json/serializeSongBook.dart';
-
 import 'dart:async';
-//import 'dart:io';
+
+import 'serializePrayerBook.dart';
+import 'serializeCalendar.dart';
+import 'serializeSongBook.dart';
 
 Future<String> _loadXmlAsset(fileName) async {
 //  if no prayerbook file, load sample file

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/json/serializePrayerBook.dart';
-import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/collects.dart';
-import 'package:world_liturgy_app/bible.dart';
-import 'package:world_liturgy_app/app.dart';
-import 'package:world_liturgy_app/calendar.dart';
-import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/colors.dart';
+
+import 'json/serializePrayerBook.dart';
+import 'globals.dart' as globals;
+import 'collects.dart';
+import 'bible.dart';
+import 'app.dart';
+import 'calendar.dart';
+import 'model/calendar.dart';
+import 'theme.dart';
 
 class ServicePage extends StatefulWidget {
   final initialCurrentIndexes;
@@ -457,23 +458,22 @@ class ExpandedSection extends StatelessWidget {
               textTheme: Theme.of(context).textTheme,
               title: appBarTitle(section.indexName, context),
             ),
-            body: Text('Test'),
-//            body: ListView(
-//              children: <Widget>[
-//                new Card(
-//                    margin: EdgeInsets.only(bottom: 8.0),
-//                    elevation: 0.0,
-//                    child: new Padding(
-//                        padding: EdgeInsets.symmetric(
-//                            horizontal: 16.0, vertical: 24.0),
-//                        child: new Column(
-//                          children: _buildExpandedSectionItems(
-//                              section, currentLanguage, context),
-//                        )
-//                    )
-//                )
-//              ],
-//            )
+            body: ListView(
+              children: <Widget>[
+                new Card(
+                    margin: EdgeInsets.only(bottom: 8.0),
+                    elevation: 0.0,
+                    child: new Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 24.0),
+                        child: new Column(
+                          children: _buildExpandedSectionItems(
+                              section, currentLanguage, context),
+                        )
+                    )
+                )
+              ],
+            )
         );
   }
 

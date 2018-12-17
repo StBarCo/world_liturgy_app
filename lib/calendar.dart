@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'globals.dart' as globals;
-import 'package:world_liturgy_app/model/calendar.dart';
-import 'package:world_liturgy_app/app.dart';
 import 'package:flutter_calendar/flutter_calendar.dart';
-import 'package:world_liturgy_app/collects.dart';
+
+import 'globals.dart' as globals;
+import 'model/calendar.dart';
+import 'app.dart';
+import 'collects.dart';
 
 class CalendarPage extends StatefulWidget{
   CalendarPage({Key key}) : super(key:key);

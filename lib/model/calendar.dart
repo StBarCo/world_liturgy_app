@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:world_liturgy_app/globals.dart' as globals;
-import 'package:world_liturgy_app/json/xml_parser.dart';
-import 'package:world_liturgy_app/json/serializeCalendar.dart';
+
+import '../globals.dart' as globals;
+import '../json/xml_parser.dart';
+import '../json/serializeCalendar.dart';
 
 class Day {
   Day();
