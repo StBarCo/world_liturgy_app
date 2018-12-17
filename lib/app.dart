@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
 
-import 'service.dart';
+import 'pages/service.dart';
 import 'calendar.dart';
 import 'pages/songs.dart';
 import 'globals.dart' as globals;

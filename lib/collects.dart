@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'json/serializePrayerBook.dart';
 import 'globals.dart' as globals;
 import 'model/calendar.dart';
-import 'service.dart';
+import 'pages/service.dart';
 import 'app.dart';
 import 'calendar.dart';
 
