@@ -281,7 +281,7 @@ class HomePageState extends State<HomePage> {
           list.add(BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today,color: Colors.black38,),
             activeIcon: Icon(Icons.calendar_today,color: Theme.of(context).primaryColor,),
-            title: Text(globals.translate(currentLanguage, 'lectionary'),style: TextStyle(color: Theme.of(context).primaryColor),),
+            title: Text(globals.translate(currentLanguage, 'calendar'),style: TextStyle(color: Theme.of(context).primaryColor),),
           ));
         }
         break;

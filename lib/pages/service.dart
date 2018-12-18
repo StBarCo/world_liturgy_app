@@ -129,13 +129,16 @@ class _ServicePageState extends State<ServicePage> {
   Drawer _buildDrawer(prayerBooks, context) {
     return Drawer(
       child: Column(children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 25.0),
-          height: 50.0,
-          child: Text(
-            'THIS WILL BE HEADER',
-            style: Theme.of(context).textTheme.title,
-          ),
+//        Container(
+//          margin: EdgeInsets.only(top: 25.0),
+//          height: 50.0,
+//          child: Text(
+//            'THIS WILL BE HEADER',
+//            style: Theme.of(context).textTheme.title,
+//          ),
+//        ),
+        AppBar(
+          automaticallyImplyLeading: false,
         ),
         Expanded(
           child: Container(
@@ -245,12 +248,8 @@ class _ServicePageState extends State<ServicePage> {
     } else if (section.type == 'postCommunionOfTheDay') {
       return CollectContent(currentIndexes["prayerBook"], "postCommunion");
     } else if (section.type == 'calendarDate') {
-      var widget = dayAndLinkToCalendar(currentIndexes, context);
-      if (widget != null) {
-        return widget;
-      }
-//              TODO: make metheod the show current date with link to full calendar
-//              method to show calendar
+      return dayAndLinkToCalendar(currentIndexes, context);
+
     } else if (section.type == 'scheduled' &&
         section.schedule.contains(currentDay.season)) {
       return SectionContent(section);
@@ -264,12 +263,10 @@ class _ServicePageState extends State<ServicePage> {
       } else if (section.visibility == 'indexed') {
         return IndexedSectionCard(section);
       } else if (section.visibility == 'hidden') {
-        //          itemsList.add(new Row());
       } else if (section.collects != null) {
         return CollectSectionContent(section);
       } else {
         return SectionContent(section);
-//        itemsList.addAll(_buildNormalSection(section, context));
       }
     }
     return Container();

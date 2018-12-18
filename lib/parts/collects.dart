@@ -8,18 +8,18 @@ import '../app.dart';
 import '../pages/calendar.dart';
 
 class CollectContent extends GeneralContent {
-  final int currentPrayerBookIndex;
+  final String currentPrayerBookId;
   final String buildType;
 
-  CollectContent(this.currentPrayerBookIndex, [this.buildType = 'full']);
+  CollectContent(this.currentPrayerBookId, [this.buildType = 'full']);
 
   Widget build(BuildContext context){
     Day day = getDay(context);
     List<Widget> list = [];
-    Collect collectOfWeek = setCollectOfWeek(day, currentPrayerBookIndex);
+    Collect collectOfWeek = setCollectOfWeek(day, currentPrayerBookId);
     Collect collectOfPrincipalFeast = setCollectOfPrincipalFeast(
-        day, currentPrayerBookIndex);
-    Collect collectOfHolyDay = setCollectOfHolyDay(day, currentPrayerBookIndex);
+        day, currentPrayerBookId);
+    Collect collectOfHolyDay = setCollectOfHolyDay(day, currentPrayerBookId);
 
     celebrationPriority(day).forEach((type) {
       if (type == 'principalFeast' &&

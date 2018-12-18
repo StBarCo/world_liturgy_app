@@ -5,9 +5,7 @@ import '../globals.dart' as globals;
 import '../app.dart';
 import '../theme.dart';
 
-
-class GeneralContent extends StatelessWidget{
-
+class GeneralContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -17,7 +15,8 @@ class GeneralContent extends StatelessWidget{
   Widget _rubric(String rubric, BuildContext context) {
     return Text(
       rubric.toString(),
-      style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
+      style:
+          Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
       textAlign: TextAlign.center,
     );
   }
@@ -80,7 +79,7 @@ class GeneralContent extends StatelessWidget{
         child: _rubric(item.text, context),
         padding: EdgeInsets.only(top: 18.0, bottom: 5.0),
       );
-//    } else if (item.type == 'reading') {
+    } else if (item.type == 'reading') {
 //    return lectionaryReading(item, context);
 //        TODO: make methods to show header, fields, and reading(s).
 
@@ -122,23 +121,28 @@ class GeneralContent extends StatelessWidget{
             opacity: item.who == prevItemWho ? 0.0 : 1.0,
             child: Column(
                 children: _makeAvatar(
-                  _pickedIcon,
-                  item.who == 'leaderOther'
-                      ? item.other
-                      : globals.translate(getLanguage(context), item.who),
-                  context,
-                ))),
+              _pickedIcon,
+              item.who == 'leaderOther'
+                  ? item.other
+                  : globals.translate(getLanguage(context), item.who),
+              context,
+            ))),
         Flexible(
             child: Padding(
-              padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
-              child: _isStanzas(item)
-                  ? stanzasColumn(item, context,
+          padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
+          child: _isStanzas(item)
+              ? stanzasColumn(item, context,
                   style: Theme.of(context).textTheme.body1)
-                  : _doesItemHasRef(item)
-                  ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-                  Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
+              : _doesItemHasRef(item)
+                  ? _itemTextWithRef(
+                      item,
+                      Theme.of(context).textTheme.body1,
+                      Theme.of(context)
+                          .textTheme
+                          .caption
+                          .merge(referenceAndSubtitleStyle))
                   : _itemText(item, style: Theme.of(context).textTheme.body1),
-            )),
+        )),
       ],
     );
   }
@@ -150,29 +154,34 @@ class GeneralContent extends StatelessWidget{
       children: <Widget>[
         Flexible(
             child: Padding(
-              padding: EdgeInsets.only(
-                  left: item.who == 'all' ? 16.0 : 42.0, right: 16.0, top: 12.0),
-              child: _isStanzas(item)
-                  ? stanzasColumn(item, context,
+          padding: EdgeInsets.only(
+              left: item.who == 'all' ? 16.0 : 42.0, right: 16.0, top: 12.0),
+          child: _isStanzas(item)
+              ? stanzasColumn(item, context,
                   style: Theme.of(context).textTheme.body2)
-                  : _doesItemHasRef(item)
-                  ? _itemTextWithRef(item, Theme.of(context).textTheme.body2,
-                  Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
-                  alignment: TextAlign.right)
+              : _doesItemHasRef(item)
+                  ? _itemTextWithRef(
+                      item,
+                      Theme.of(context).textTheme.body2,
+                      Theme.of(context)
+                          .textTheme
+                          .caption
+                          .merge(referenceAndSubtitleStyle),
+                      alignment: TextAlign.right)
                   : _itemText(item,
-                  style: Theme.of(context).textTheme.body2,
-                  alignment: TextAlign.right),
-            )),
+                      style: Theme.of(context).textTheme.body2,
+                      alignment: TextAlign.right),
+        )),
         Opacity(
             opacity: item.who == prevItemWho ? 0.0 : 1.0,
             child: Column(
                 children: _makeAvatar(
-                  Icon(Icons.people),
-                  item.who == 'peopleOther'
-                      ? item.other
-                      : globals.translate(getLanguage(context), item.who),
-                  context,
-                ))),
+              Icon(Icons.people),
+              item.who == 'peopleOther'
+                  ? item.other
+                  : globals.translate(getLanguage(context), item.who),
+              context,
+            ))),
       ],
     );
   }
@@ -184,8 +193,13 @@ class GeneralContent extends StatelessWidget{
         Expanded(
           child: Padding(
             child: _doesItemHasRef(item)
-                ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-                Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
+                ? _itemTextWithRef(
+                    item,
+                    Theme.of(context).textTheme.body1,
+                    Theme.of(context)
+                        .textTheme
+                        .caption
+                        .merge(referenceAndSubtitleStyle))
                 : _itemText(item, style: Theme.of(context).textTheme.body1),
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
           ),
@@ -203,8 +217,13 @@ class GeneralContent extends StatelessWidget{
                 color: Colors.red)),
         Expanded(
           child: _doesItemHasRef(item)
-              ? _itemTextWithRef(item, Theme.of(context).textTheme.body1,
-              Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle))
+              ? _itemTextWithRef(
+                  item,
+                  Theme.of(context).textTheme.body1,
+                  Theme.of(context)
+                      .textTheme
+                      .caption
+                      .merge(referenceAndSubtitleStyle))
               : _itemText(item, style: Theme.of(context).textTheme.body1),
         ),
 //          Column(
@@ -247,7 +266,8 @@ class GeneralContent extends StatelessWidget{
     }
   }
 
-  Text _itemText(dynamic item, {TextStyle style, TextAlign alignment = TextAlign.left}) {
+  Text _itemText(dynamic item,
+      {TextStyle style, TextAlign alignment = TextAlign.left}) {
     if (style != null) {
       return Text(
         item.text,
@@ -273,7 +293,8 @@ class GeneralContent extends StatelessWidget{
       {TextStyle style, String returnType: 'column', String exclude: 'none'}) {
     List<Widget> stanzaList = List();
 
-    if (item.title != null && (exclude == 'none' || !exclude.contains('title'))) {
+    if (item.title != null &&
+        (exclude == 'none' || !exclude.contains('title'))) {
       stanzaList.add(_canticleTitle(item.title, context));
     }
 
@@ -359,7 +380,8 @@ class GeneralContent extends StatelessWidget{
   Widget _titleReference(ref, context) {
     return Text(
       ref,
-      style: Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
+      style:
+          Theme.of(context).textTheme.caption.merge(referenceAndSubtitleStyle),
       textAlign: TextAlign.center,
     );
   }
@@ -373,7 +395,6 @@ class GeneralContent extends StatelessWidget{
           textAlign: TextAlign.center,
         ));
   }
-
 }
 
 class SectionContent extends GeneralContent {
@@ -381,30 +402,26 @@ class SectionContent extends GeneralContent {
   final Section section;
 
   SectionContent(
-//      this.currentIndexes,
-      this.section,
-      );
+    //      this.currentIndexes,
+    this.section,
+  );
 
   @override
   Widget build(BuildContext context) {
-    List list = _sectionItems(section, context);
-    if (list.length != 0) {
+    Widget items = _sectionItems(section, context);
+    if (items != null) {
       return Card(
           margin: EdgeInsets.only(bottom: 8.0),
           elevation: 0.0,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-            child: Column(
-              children: list,
-            ),
-          ));
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+              child: items));
     } else {
       return Container();
     }
   }
 
-
-  List<Widget> _sectionItems(section, context) {
+  Widget _sectionItems(section, context) {
     List<Widget> itemsList = [];
 
     if (_sectionHasHeader(section)) {
@@ -426,7 +443,10 @@ class SectionContent extends GeneralContent {
         prevItemWho = item.who;
       }
     }
-    return itemsList;
+    if (itemsList != null) {
+      return Column(children: itemsList);
+    }
+    return null;
   }
 
   bool _sectionHasHeader(Section section) {
@@ -436,15 +456,15 @@ class SectionContent extends GeneralContent {
         section.majorHeader != null;
   }
 
-  Widget _buildSectionHeader(Section section, BuildContext context, {bool collapsed: false}) {
+  Widget _buildSectionHeader(Section section, BuildContext context,
+      {bool collapsed: false}) {
     List<Widget> headerList = [];
     if (section.majorHeader != null) {
       headerList.add(_majorHeader(section.majorHeader, context));
     }
 
     if (section.number != null) {
-      headerList
-          .add(Center(child: _sectionNumber(section.number, context)));
+      headerList.add(Center(child: _sectionNumber(section.number, context)));
     }
     if (section.title != null) {
       headerList.add(Padding(
@@ -470,32 +490,12 @@ class SectionContent extends GeneralContent {
       padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
     );
   }
-
 }
 
-class CollectSectionContent extends SectionContent{
+class CollectSectionContent extends SectionContent {
   CollectSectionContent(section) : super(section);
 
-//  @override
-//  Widget build(BuildContext context) {
-//    List list = _sectionItems(section, context);
-//    if (list.length != 0) {
-//      return Card(
-//          margin: EdgeInsets.only(bottom: 8.0),
-//          elevation: 0.0,
-//          child: Padding(
-//            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-//            child: Column(
-//              children: list,
-//            ),
-//          ));
-//    } else {
-//      return Container();
-//    }
-//  }
-
-
-  List<Widget> _sectionItems(section, context) {
+  Widget _sectionItems(section, context) {
     List<Widget> itemsList = [];
 
     if (_sectionHasHeader(section)) {
@@ -511,115 +511,82 @@ class CollectSectionContent extends SectionContent{
       if (column != null) itemsList.add(padding);
     }
 
-    return itemsList;
+    return Column(children: itemsList);
   }
-
 }
 
 class CollapsedSectionCard extends SectionContent {
+  CollapsedSectionCard(section) : super(section);
 
-  CollapsedSectionCard(section) : super (section);
-
-  build(BuildContext context) {
+  Widget _sectionItems(section, context) {
     String language = getLanguage(context);
-    return Card(
-      margin: EdgeInsets.only(bottom: 8.0),
-      elevation: 0.0,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: GestureDetector(
-            onTap: () {
-              var route = MaterialPageRoute(
-                builder: (BuildContext itemContext) =>
-                    RefreshState(
-                        currentDay: RefreshState
-                            .of(context)
-                            .currentDay,
-                        currentLanguage: language,
-                        textScaleFactor: RefreshState
-                            .of(context)
-                            .textScaleFactor,
-//              onTap: onTap,
-                        child: MediaQuery(
-                          data: MediaQuery.of(itemContext).copyWith(
-                              textScaleFactor: RefreshState
-                                  .of(context)
-                                  .textScaleFactor),
-                          child: Theme(
-                            data: updateTheme(Theme.of(context), RefreshState
-                                .of(context)
-                                .currentDay),
-                            child: ExpandedSection(
-                              section,
-                              language,
-                              Theme.of(context),
-                            ),
-                          ),
-                        )
-                    ),
-              );
-              Navigator.push(context, route);
-            },
-            child: Column(
-              children: <Widget>[
-                _buildSectionHeader(section, context, collapsed: true),
-                Text(
-                  globals.translate(language, "tapToExpand"),
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(color: Theme
-                      .of(context)
-                      .primaryColorDark),
+    return GestureDetector(
+      onTap: () {
+        var route = MaterialPageRoute(
+          builder: (BuildContext itemContext) => RefreshState(
+              currentDay: RefreshState.of(context).currentDay,
+              currentLanguage: language,
+              textScaleFactor: RefreshState.of(context).textScaleFactor,
+              child: MediaQuery(
+                data: MediaQuery.of(itemContext).copyWith(
+                    textScaleFactor: RefreshState.of(context).textScaleFactor),
+                child: Theme(
+                  data: updateTheme(
+                      Theme.of(context), RefreshState.of(context).currentDay),
+                  child: ExpandedSection(
+                    section,
+                    language,
+                    Theme.of(context),
+                  ),
                 ),
-              ],
-            ),
-        ),
+              )),
+        );
+        Navigator.push(context, route);
+      },
+      child: Column(
+        children: <Widget>[
+          _buildSectionHeader(section, context, collapsed: true),
+          Text(
+            globals.translate(language, "tapToExpand"),
+            style: Theme.of(context)
+                .textTheme
+                .caption
+                .copyWith(color: Theme.of(context).primaryColorDark),
+          ),
+        ],
       ),
     );
   }
 }
 
-class IndexedSectionCard extends SectionContent{
+class IndexedSectionCard extends SectionContent {
+  IndexedSectionCard(section) : super(section);
 
-  IndexedSectionCard(section) :super(section);
-
-  build(BuildContext context) {
+  Widget _sectionItems(section, context) {
     List<Widget> headers = [];
 
     for (var item in section.items) {
       headers.add(GestureDetector(
           onTap: () {
             var route = MaterialPageRoute(
-              builder: (BuildContext itemContext) =>
-                  RefreshState(
-                      currentDay: RefreshState
-                          .of(context)
-                          .currentDay,
-                      currentLanguage: RefreshState
-                          .of(context)
-                          .currentLanguage,
-                      textScaleFactor: RefreshState
-                          .of(context)
-                          .textScaleFactor,
+              builder: (BuildContext itemContext) => RefreshState(
+                  currentDay: RefreshState.of(context).currentDay,
+                  currentLanguage: RefreshState.of(context).currentLanguage,
+                  textScaleFactor: RefreshState.of(context).textScaleFactor,
 //              onTap: onTap,
-                      child: MediaQuery(
-                        data: MediaQuery.of(itemContext).copyWith(
-                            textScaleFactor: RefreshState
-                                .of(context)
-                                .textScaleFactor),
-                        child: Theme(
-                          data: updateTheme(Theme.of(context), RefreshState
-                              .of(context)
-                              .currentDay),
-                          child: ExpandedIndexedContent(
-                            section,
-                            item,
-                          ),
-                        ),
-                      )
-                  ),
+                  child: MediaQuery(
+                    data: MediaQuery.of(itemContext).copyWith(
+                        textScaleFactor:
+                            RefreshState.of(context).textScaleFactor),
+                    child: Theme(
+                      data: updateTheme(Theme.of(context),
+                          RefreshState.of(context).currentDay),
+                      child: ExpandedIndexedContent(
+                        section,
+                        item,
+                      ),
+                    ),
+                  )),
             );
             Navigator.push(context, route);
           },
@@ -628,31 +595,21 @@ class IndexedSectionCard extends SectionContent{
               Padding(
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(item.title,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .subhead
-                        .copyWith(
-                      fontSize: 16.0,
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark,
-                    ),
+                    style: Theme.of(context).textTheme.subhead.copyWith(
+                          fontSize: 16.0,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
                     textAlign: TextAlign.center),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 4.0),
                 child: Text(
                   item.ref ?? '',
-                  style: Theme
-                      .of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .caption
                       .merge(referenceAndSubtitleStyle)
-                      .copyWith(
-                      color: Theme
-                          .of(context)
-                          .primaryColorDark),
+                      .copyWith(color: Theme.of(context).primaryColorDark),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -660,13 +617,10 @@ class IndexedSectionCard extends SectionContent{
                 padding: EdgeInsets.only(top: 4.0),
                 child: Text(
                     globals.translate(getLanguage(context), "tapToExpand"),
-                    style: Theme
-                        .of(context)
+                    style: Theme.of(context)
                         .textTheme
                         .caption
-                        .copyWith(color: Theme
-                        .of(context)
-                        .primaryColorDark),
+                        .copyWith(color: Theme.of(context).primaryColorDark),
                     textAlign: TextAlign.center),
               ),
             ],
@@ -680,7 +634,6 @@ class IndexedSectionCard extends SectionContent{
 }
 
 class ExpandedSection extends SectionContent {
-
   final String currentLanguage;
   final ThemeData theme;
 
@@ -688,30 +641,27 @@ class ExpandedSection extends SectionContent {
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
-          primary: true,
-            appBar: AppBar(
-              elevation: 5.0,
-              textTheme: Theme.of(context).textTheme,
-              title: appBarTitle(section.indexName, context),
-            ),
-            body: ListView(
-              children: <Widget>[
-                Card(
-                    margin: EdgeInsets.only(bottom: 8.0),
-                    elevation: 0.0,
-                    child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 24.0),
-                        child: Column(
-                          children: _buildExpandedSectionItems(
-                              section, currentLanguage, context),
-                        )
-                    )
-                )
-              ],
-            )
-        );
+    return Scaffold(
+        primary: true,
+        appBar: AppBar(
+          elevation: 5.0,
+          textTheme: Theme.of(context).textTheme,
+          title: appBarTitle(section.indexName, context),
+        ),
+        body: ListView(
+          children: <Widget>[
+            Card(
+                margin: EdgeInsets.only(bottom: 8.0),
+                elevation: 0.0,
+                child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+                    child: Column(
+                      children: _buildExpandedSectionItems(
+                          section, currentLanguage, context),
+                    )))
+          ],
+        ));
   }
 
   List<Widget> _buildExpandedSectionItems(section, language, context) {
@@ -751,7 +701,6 @@ class ExpandedIndexedContent extends SectionContent {
           elevation: 5.0,
           textTheme: Theme.of(context).textTheme,
           title: appBarTitle(item.title, context),
-
         ),
         body: ListView(
           padding: const EdgeInsets.all(16.0),
@@ -764,7 +713,6 @@ class ExpandedIndexedContent extends SectionContent {
   }
 }
 
-
 //text style is passed on, return type can be either column or list.
 //column is used for general creation, but a list will be used in an expanded
 //indexed item.
@@ -774,7 +722,6 @@ class DailyPrayersContent extends GeneralContent {
   final String buildType;
 
   DailyPrayersContent(this.collect, [this.buildType = 'full']);
-
 
   build(BuildContext context) {
     Map<String, List> buildTypes = {
@@ -806,46 +753,47 @@ class DailyPrayersContent extends GeneralContent {
 
     if (collect.type != null && sectionsToBuild.contains('type')) {
       children.add(
-        collectProperty(collect.type, Theme
-            .of(context)
-            .textTheme
-            .caption
-            .merge(referenceAndSubtitleStyle)),
+        collectProperty(
+            collect.type,
+            Theme.of(context)
+                .textTheme
+                .caption
+                .merge(referenceAndSubtitleStyle)),
       );
     }
 
     if (collect.date != null && sectionsToBuild.contains('date')) {
-      children
-          .add(collectProperty(collect.date, Theme
-          .of(context)
-          .textTheme
-          .caption
-          .merge(referenceAndSubtitleStyle)));
+      children.add(collectProperty(
+          collect.date,
+          Theme.of(context)
+              .textTheme
+              .caption
+              .merge(referenceAndSubtitleStyle)));
     }
 
     if (collect.color != null && sectionsToBuild.contains('color')) {
-      children.add(
-          collectProperty(collect.color, Theme
-              .of(context)
+      children.add(collectProperty(
+          collect.color,
+          Theme.of(context)
               .textTheme
               .caption
               .merge(referenceAndSubtitleStyle)));
     }
 
     if (collect.ref != null && sectionsToBuild.contains('ref')) {
-      children
-          .add(collectProperty(collect.ref, Theme
-          .of(context)
-          .textTheme
-          .caption
-          .merge(referenceAndSubtitleStyle)));
+      children.add(collectProperty(
+          collect.ref,
+          Theme.of(context)
+              .textTheme
+              .caption
+              .merge(referenceAndSubtitleStyle)));
     }
 
     if ((collect.collectRubric != null || collect.collectPrayers != null) &&
         sectionsToBuild.contains('postCommunions') &&
         sectionsToBuild.contains('collects')) {
-      children.add(
-          prayerHeader(globals.translate(language, "collect"), context));
+      children
+          .add(prayerHeader(globals.translate(language, "collect"), context));
     }
     if (collect.collectRubric != null && sectionsToBuild.contains('collects')) {
       children.add(_rubric(collect.collectRubric, context));
@@ -857,7 +805,7 @@ class DailyPrayersContent extends GeneralContent {
     }
 
     if ((collect.postCommunionRubric != null ||
-        collect.postCommunionPrayers != null) &&
+            collect.postCommunionPrayers != null) &&
         sectionsToBuild.contains('postCommunions') &&
         sectionsToBuild.contains('collects')) {
       children.add(prayerHeader(
@@ -878,18 +826,12 @@ class DailyPrayersContent extends GeneralContent {
     );
   }
 
-
   Widget collectTitle(title, context) {
     return Padding(
-      padding:
-      EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
       child: Text(
         title,
-        style: Theme
-            .of(context)
-            .textTheme
-            .subhead
-            .copyWith(fontSize: 16.0),
+        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
         textAlign: TextAlign.center,
       ),
     );
@@ -901,11 +843,7 @@ class DailyPrayersContent extends GeneralContent {
         child: Text(
           title,
           style:
-          Theme
-              .of(context)
-              .textTheme
-              .body2
-              .copyWith(color: Colors.black38),
+              Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
           textAlign: TextAlign.center,
         ));
   }
@@ -913,15 +851,11 @@ class DailyPrayersContent extends GeneralContent {
   Widget prayerHeader(header, context) {
     return Padding(
         padding:
-        EdgeInsets.only(top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
+            EdgeInsets.only(top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
         child: Text(
           header,
           style:
-          Theme
-              .of(context)
-              .textTheme
-              .body2
-              .copyWith(color: Colors.black38),
+              Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
           textAlign: TextAlign.center,
         ));
   }
@@ -935,19 +869,13 @@ class DailyPrayersContent extends GeneralContent {
         collectList.add(Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0),
             child: stanzasColumn(prayer, context,
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .body1)));
+                style: Theme.of(context).textTheme.body1)));
       } else {
         collectList.add(Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 6.0),
             child: Text(
               prayer.text != null ? prayer.text : '',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .body1,
+              style: Theme.of(context).textTheme.body1,
             )));
       }
     }
@@ -968,10 +896,6 @@ class DailyPrayersContent extends GeneralContent {
       ),
     );
   }
-
 }
 
-
-
 //String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
-

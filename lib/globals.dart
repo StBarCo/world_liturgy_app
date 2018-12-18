@@ -26,6 +26,7 @@ Map translationMap = {
     'prayerBook': 'Prayer Book',
     'lectionary': 'Lectionary',
     'bible': 'Bible',
+    'calendar': 'Calendar',
 
 
 //    TRANSLATIONS FOR INSTRUCTIONS
@@ -91,8 +92,9 @@ Map translationMap = {
 //    Tab names
     'songs': 'Nyimbo',
     'prayerBook': 'Maombe',
-    'lectionary': 'Taratibu ya Masomo',
+    'lectionary': 'Masomo',
     'bible': 'Biblia',
+    'calendar': 'Calendar',
 
 
 //    TRANSLATIONS FOR INSTRUCTIONS

@@ -97,13 +97,18 @@ dateToLongString(date, language){
 
 dayAndLinkToCalendar(currentIndexes, context){
   if (getDay(context) != null){
-    return GestureDetector(
-//      onPressed: null,
-      onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab('calendar'),
-      child: Column(
-        children: dayTitles(currentIndexes["prayerBook"], context)
-      )
-    );
+    return Card(
+        margin: EdgeInsets.only(bottom: 8.0),
+        elevation: 0.0,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: GestureDetector(
+              onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab('calendar'),
+              child: Column(
+                  children: dayTitles(currentIndexes["prayerBook"], context)
+              )
+          ),
+        ));
 
 //    return Text(dateToLongString(day, language));
   } else {
