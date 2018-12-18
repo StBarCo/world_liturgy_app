@@ -5,7 +5,6 @@ import 'globals.dart' as globals;
 import 'model/calendar.dart';
 import 'app.dart';
 import 'collects.dart';
-import 'json/serializePrayerBook.dart';
 
 class CalendarPage extends StatefulWidget{
   CalendarPage({Key key}) : super(key:key);
@@ -115,7 +114,7 @@ dayAndLinkToCalendar(currentIndexes, context){
 List<Widget> dayTitles(prayerBookId, context){
   List<Widget> list = [Text(dateToLongString(getDay(context), getLanguage(context)), style: Theme.of(context).textTheme.headline.copyWith(color: Theme.of(context).primaryColorDark))];
 
-  list.add(collectList(prayerBookId, context, buildType: 'titles'));
+  list.add(CollectContent(prayerBookId, 'titles'));
 
   return list;
 }
