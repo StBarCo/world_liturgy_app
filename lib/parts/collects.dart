@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'json/serializePrayerBook.dart';
-import 'globals.dart' as globals;
-import 'model/calendar.dart';
-import 'pages/section.dart';
-import 'app.dart';
-import 'calendar.dart';
+import '../json/serializePrayerBook.dart';
+import '../globals.dart' as globals;
+import '../model/calendar.dart';
+import 'section.dart';
+import '../app.dart';
+import '../pages/calendar.dart';
 
 class CollectContent extends GeneralContent {
   final int currentPrayerBookIndex;

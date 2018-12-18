@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../json/serializePrayerBook.dart';
 import '../globals.dart' as globals;
-import '../collects.dart';
+import '../parts/collects.dart';
 import '../app.dart';
-import '../calendar.dart';
+import 'calendar.dart';
 import '../model/calendar.dart';
-import 'section.dart';
+import '../parts/section.dart';
 
 class ServicePage extends StatefulWidget {
   final initialCurrentIndexes;
