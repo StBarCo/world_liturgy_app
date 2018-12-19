@@ -11,6 +11,9 @@ SongBooksContainer allSongBooks;
 DatabaseClient db;
 //Day currentDay;
 
+final String appTitle = 'World Liturgy App';
+//final String appTitle = 'ACK Kitabu Kipya Cha Ibada';
+
 Map translationMap = {
   'en_ke':{
 //    GENERAL TRANSLATIONS
@@ -75,6 +78,16 @@ Map translationMap = {
         5:'Friday',
         6:'Saturday',
         7:'Sunday',
+      },
+      'seasons': {
+        'advent': 'Advent',
+        'christmas': 'Christmas',
+        'epiphany': 'Epiphany',
+        'preLent': false,
+        'lent': 'Lent',
+        'easter': 'Easter',
+        'lastSundayAfterTrinity': false,
+        'preAdvent': false,
       }
     }
 
@@ -143,7 +156,18 @@ Map translationMap = {
         5:'Ijumaa',
         6:'Jumamosi',
         7:'Jumapili',
+      },
+      'seasons': {
+        'advent': 'Wakati wa Majilio',
+        'christmas': 'Krismasi',
+        'epiphany': 'Udhihirisho',
+        'preLent': false,
+        'lent': 'Wakati wa Saumu',
+        'easter': 'Pasaka',
+        'lastSundayAfterTrinity': false,
+        'preAdvent': false,
       }
+
     }
   }
 };
@@ -160,16 +184,3 @@ String translate(language, key){
   }
 }
 
-//String setAndGetCurrentLanguage({String language, PrayerBook prayerBook, int indexNumber, String indexString}){
-//  if(language != null){
-//    currentLanguage = language;
-//  } else if (prayerBook != null){
-//    currentLanguage = prayerBook.language;
-//  } else if (indexNumber != null){
-//    currentLanguage = allPrayerBooks.prayerBooks[indexNumber].language;
-//  } else if (indexString != null){
-//    currentLanguage = allPrayerBooks.getPrayerBook(indexString).language;
-//  }
-//
-//  return currentLanguage;
-//}
