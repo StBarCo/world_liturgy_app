@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
 
-import '../json/serializePrayerBook.dart';
-import '../globals.dart' as globals;
 import '../app.dart';
+import '../globals.dart' as globals;
 import '../theme.dart';
+import '../json/serializePrayerBook.dart';
+
+import '../model/calendar.dart';
+import '../pages/calendar.dart';
+
+part 'collects.dart';
 
 class GeneralContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return null;
+    return _sectionCard(null);
+  }
+
+  Widget _sectionCard(child) {
+    return Card(
+        margin: EdgeInsets.only(bottom: 8.0),
+        elevation: 0.0,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+            child: child));
   }
 
   Widget _rubric(String rubric, BuildContext context) {
@@ -80,6 +94,7 @@ class GeneralContent extends StatelessWidget {
         padding: EdgeInsets.only(top: 18.0, bottom: 5.0),
       );
     } else if (item.type == 'reading') {
+      return Container();
 //    return lectionaryReading(item, context);
 //        TODO: make methods to show header, fields, and reading(s).
 
@@ -395,6 +410,81 @@ class GeneralContent extends StatelessWidget {
           textAlign: TextAlign.center,
         ));
   }
+
+
+  Widget _collectTitle(title, context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _collectSubtitle(title, context) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+        child: Text(
+          title,
+          style:
+          Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
+          textAlign: TextAlign.center,
+        ));
+  }
+
+  Widget _prayerHeader(header, context) {
+    return Padding(
+        padding:
+        EdgeInsets.only(top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
+        child: Text(
+          header,
+          style:
+          Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
+          textAlign: TextAlign.center,
+        ));
+  }
+
+  Widget _prayers(listOfPrayers, language, context) {
+    List<Widget> collectList = [];
+    for (var prayer in listOfPrayers) {
+      if (prayer.type == 'versedStanzas') {
+        collectList.add(stanzasColumn(prayer, context));
+      } else if (prayer.type == 'stanzas') {
+        collectList.add(Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.0),
+            child: stanzasColumn(prayer, context,
+                style: Theme.of(context).textTheme.body1)));
+      } else {
+        collectList.add(Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 6.0),
+            child: Text(
+              prayer.text != null ? prayer.text : '',
+              style: Theme.of(context).textTheme.body1,
+            )));
+      }
+    }
+    if (collectList.length > 1) {
+      collectList.insert(
+          1, _rubric(globals.translate(language, 'or'), context));
+    }
+    return Padding(
+      child: Column(children: collectList),
+      padding: EdgeInsets.only(bottom: 0.0),
+    );
+  }
+
+  Widget _collectProperty(property, TextStyle style) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
+      child: Text(
+        property,
+        textAlign: TextAlign.center,
+        style: style,
+      ),
+    );
+  }
 }
 
 class SectionContent extends GeneralContent {
@@ -410,12 +500,7 @@ class SectionContent extends GeneralContent {
   Widget build(BuildContext context) {
     Widget items = _sectionItems(section, context);
     if (items != null) {
-      return Card(
-          margin: EdgeInsets.only(bottom: 8.0),
-          elevation: 0.0,
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-              child: items));
+      return _sectionCard(items);
     } else {
       return Container();
     }
@@ -492,6 +577,10 @@ class SectionContent extends GeneralContent {
   }
 }
 
+/// CollectSectionContent is to render the section of the PrayerBook that
+/// holds the Collects for various seasons. The method used to render the
+/// individual collects as needed for a various day is CollectContent
+/// in collects.dart.
 class CollectSectionContent extends SectionContent {
   CollectSectionContent(section) : super(section);
 
@@ -745,15 +834,15 @@ class DailyPrayersContent extends GeneralContent {
     String language = getLanguage(context);
 
     if (collect.title != null && sectionsToBuild.contains('title')) {
-      children.add(collectTitle(collect.title, context));
+      children.add(_collectTitle(collect.title, context));
     }
     if (collect.subtitle != null && sectionsToBuild.contains('subtitle')) {
-      children.add(collectSubtitle(collect.subtitle, context));
+      children.add(_collectSubtitle(collect.subtitle, context));
     }
 
     if (collect.type != null && sectionsToBuild.contains('type')) {
       children.add(
-        collectProperty(
+        _collectProperty(
             collect.type,
             Theme.of(context)
                 .textTheme
@@ -763,7 +852,7 @@ class DailyPrayersContent extends GeneralContent {
     }
 
     if (collect.date != null && sectionsToBuild.contains('date')) {
-      children.add(collectProperty(
+      children.add(_collectProperty(
           collect.date,
           Theme.of(context)
               .textTheme
@@ -772,7 +861,7 @@ class DailyPrayersContent extends GeneralContent {
     }
 
     if (collect.color != null && sectionsToBuild.contains('color')) {
-      children.add(collectProperty(
+      children.add(_collectProperty(
           collect.color,
           Theme.of(context)
               .textTheme
@@ -781,7 +870,7 @@ class DailyPrayersContent extends GeneralContent {
     }
 
     if (collect.ref != null && sectionsToBuild.contains('ref')) {
-      children.add(collectProperty(
+      children.add(_collectProperty(
           collect.ref,
           Theme.of(context)
               .textTheme
@@ -793,7 +882,7 @@ class DailyPrayersContent extends GeneralContent {
         sectionsToBuild.contains('postCommunions') &&
         sectionsToBuild.contains('collects')) {
       children
-          .add(prayerHeader(globals.translate(language, "collect"), context));
+          .add(_prayerHeader(globals.translate(language, "collect"), context));
     }
     if (collect.collectRubric != null && sectionsToBuild.contains('collects')) {
       children.add(_rubric(collect.collectRubric, context));
@@ -801,14 +890,14 @@ class DailyPrayersContent extends GeneralContent {
 
     if (collect.collectPrayers != null &&
         sectionsToBuild.contains('collects')) {
-      children.addAll(prayers(collect.collectPrayers, language, context));
+      children.add(_prayers(collect.collectPrayers, language, context));
     }
 
     if ((collect.postCommunionRubric != null ||
             collect.postCommunionPrayers != null) &&
         sectionsToBuild.contains('postCommunions') &&
         sectionsToBuild.contains('collects')) {
-      children.add(prayerHeader(
+      children.add(_prayerHeader(
           globals.translate(language, 'postCommunionPrayer'), context));
     }
 
@@ -819,83 +908,14 @@ class DailyPrayersContent extends GeneralContent {
 
     if (collect.postCommunionPrayers != null &&
         sectionsToBuild.contains('postCommunions')) {
-      children.addAll(prayers(collect.postCommunionPrayers, language, context));
+      children.add(_prayers(collect.postCommunionPrayers, language, context));
     }
     return Column(
       children: children,
     );
   }
 
-  Widget collectTitle(title, context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10.0, bottom: 4.0, left: 20.0, right: 20.0),
-      child: Text(
-        title,
-        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
 
-  Widget collectSubtitle(title, context) {
-    return Padding(
-        padding: EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
-        child: Text(
-          title,
-          style:
-              Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
-          textAlign: TextAlign.center,
-        ));
-  }
-
-  Widget prayerHeader(header, context) {
-    return Padding(
-        padding:
-            EdgeInsets.only(top: 10.0, bottom: 0.0, left: 20.0, right: 20.0),
-        child: Text(
-          header,
-          style:
-              Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
-          textAlign: TextAlign.center,
-        ));
-  }
-
-  List<Widget> prayers(listOfPrayers, language, context) {
-    List<Widget> collectList = [];
-    for (var prayer in listOfPrayers) {
-      if (prayer.type == 'versedStanzas') {
-        collectList.add(stanzasColumn(prayer, context));
-      } else if (prayer.type == 'stanzas') {
-        collectList.add(Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.0),
-            child: stanzasColumn(prayer, context,
-                style: Theme.of(context).textTheme.body1)));
-      } else {
-        collectList.add(Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 6.0),
-            child: Text(
-              prayer.text != null ? prayer.text : '',
-              style: Theme.of(context).textTheme.body1,
-            )));
-      }
-    }
-    if (collectList.length > 1) {
-      collectList.insert(
-          1, _rubric(globals.translate(language, 'or'), context));
-    }
-    return collectList;
-  }
-
-  Widget collectProperty(property, TextStyle style) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 4.0, left: 20.0, right: 20.0),
-      child: Text(
-        property,
-        textAlign: TextAlign.center,
-        style: style,
-      ),
-    );
-  }
 }
 
 //String capitalize(String s) => s[0].toUpperCase() + s.substring(1);

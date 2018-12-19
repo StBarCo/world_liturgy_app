@@ -24,7 +24,7 @@ class _SongsPageState extends State<SongsPage> {
     return new Scaffold(
       appBar: new AppBar(
         textTheme: Theme.of(context).textTheme,
-        title: appBarTitle('Song Books and Hymnals', context),
+        title: appBarTitle(globals.translate(getLanguage(context), 'songs'), context),
         actions: <Widget>[
           new IconButton(
             tooltip: 'Search',

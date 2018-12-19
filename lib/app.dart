@@ -372,8 +372,20 @@ class RefreshState extends InheritedWidget {
   }
 }
 
-Widget appBarTitle(title, context){
-  Widget titleText = Text(
+Widget appBarTitle(String title, context, [String shortTitle]){
+  double maxLength = 25/MediaQuery.of(context).textScaleFactor;
+
+  if(shortTitle != null && title.length >= (maxLength.floor() -1)){
+    return Text(
+      shortTitle,
+      style: Theme.of(context).textTheme.title.copyWith(
+        fontFamily: 'Signika',
+        color: Theme.of(context).primaryIconTheme.color,
+      ),
+    );
+  }
+
+  return Text(
     title,
     style: Theme.of(context).textTheme.title.copyWith(
       fontFamily: 'Signika',
@@ -381,21 +393,6 @@ Widget appBarTitle(title, context){
     ),
   );
 
-  if(title.length > 2000){
-    return  Marquee(
-        text: title,
-        style: Theme.of(context).textTheme.title.copyWith(
-          fontFamily: 'Signika',
-          color: Theme.of(context).primaryIconTheme.color,
-
-        ),
-        blankSpace: 20.0,
-        velocity: 5.0,
-
-    );
-  } else {
-    return titleText;
-  }
 }
 
 ThemeData updateTheme(ThemeData theme, Day day){

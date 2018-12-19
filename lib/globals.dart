@@ -15,9 +15,9 @@ final String appTitle = 'World Liturgy App';
 //final String appTitle = 'ACK Kitabu Kipya Cha Ibada';
 
 Map translationMap = {
-  'en_ke':{
+  'en_ke': {
 //    GENERAL TRANSLATIONS
-    'languageName':'English',
+    'languageName': 'English',
 
 //  Prompts
     'yes': 'Yes',
@@ -31,7 +31,6 @@ Map translationMap = {
     'bible': 'Bible',
     'calendar': 'Calendar',
 
-
 //    TRANSLATIONS FOR INSTRUCTIONS
     'or': 'or',
     'tapToExpand': 'Tap to Expand',
@@ -39,7 +38,6 @@ Map translationMap = {
 //    TRANSLATIONS FOR TERMS
     'collect': 'Collect',
     'postCommunionPrayer': 'Post-Communion Prayer',
-
 
 //    TRANSLATIONS FOR LEADERS
     'leader': 'Leader',
@@ -53,7 +51,7 @@ Map translationMap = {
     'people': 'People',
     'all': 'All',
 
-//    TRANSLATIONS FOR DATES
+//    TRANSLATIONS FOR DATES AND SEASONS
     'dates': {
       'format': ['weekday', ', ', 'day', ' ', 'month', ', ', 'year'],
       'month': {
@@ -71,31 +69,35 @@ Map translationMap = {
         12: 'December',
       },
       'weekday': {
-        1:'Monday',
-        2:'Tuesday',
-        3:'Wednesday',
-        4:'Thursday',
-        5:'Friday',
-        6:'Saturday',
-        7:'Sunday',
+        1: 'Monday',
+        2: 'Tuesday',
+        3: 'Wednesday',
+        4: 'Thursday',
+        5: 'Friday',
+        6: 'Saturday',
+        7: 'Sunday',
       },
       'seasons': {
         'advent': 'Advent',
         'christmas': 'Christmas',
         'epiphany': 'Epiphany',
-        'preLent': false,
+//        'preLent': '',
         'lent': 'Lent',
         'easter': 'Easter',
-        'lastSundayAfterTrinity': false,
-        'preAdvent': false,
+        'lastSundayAfterTrinity': '',
+        'preAdvent': '',
+      },
+      'types': {
+        'holyDay': 'Holy Day',
+        'principalFeast': 'Principal Feast',
+        'season': 'Season',
+        'prayerOfTheWeek': 'Prayer of the Week',
       }
     }
-
   },
-
-  'sw_ke':{
+  'sw_ke': {
     //    GENERAL TRANSLATIONS
-    'languageName':'Kiswahili',
+    'languageName': 'Kiswahili',
 
 //  Prompts
     'yes': 'Ndiyo',
@@ -107,8 +109,7 @@ Map translationMap = {
     'prayerBook': 'Maombe',
     'lectionary': 'Masomo',
     'bible': 'Biblia',
-    'calendar': 'Calendar',
-
+    'calendar': 'Kalenda',
 
 //    TRANSLATIONS FOR INSTRUCTIONS
     'or': 'au',
@@ -117,8 +118,6 @@ Map translationMap = {
     //    TRANSLATIONS FOR TERMS
     'collect': 'Sala',
     'postCommunionPrayer': 'Baada ya Ushirika',
-
-
 
 //    TRANSLATIONS FOR LEADERS
     'leader': 'Kiongozi',
@@ -149,38 +148,40 @@ Map translationMap = {
         12: 'Desemba',
       },
       'weekday': {
-        1:'Jumatatu',
-        2:'Jumanne',
-        3:'Jumatano',
-        4:'Alhamisi',
-        5:'Ijumaa',
-        6:'Jumamosi',
-        7:'Jumapili',
+        1: 'Jumatatu',
+        2: 'Jumanne',
+        3: 'Jumatano',
+        4: 'Alhamisi',
+        5: 'Ijumaa',
+        6: 'Jumamosi',
+        7: 'Jumapili',
       },
       'seasons': {
         'advent': 'Wakati wa Majilio',
         'christmas': 'Krismasi',
         'epiphany': 'Udhihirisho',
-        'preLent': false,
+        'preLent': '',
         'lent': 'Wakati wa Saumu',
         'easter': 'Pasaka',
-        'lastSundayAfterTrinity': false,
-        'preAdvent': false,
-      }
-
+        'lastSundayAfterTrinity': '',
+        'preAdvent': '',
+      },
+      'types': {
+        'holyDay': 'Siku Takatifu',
+        'principalFeast': 'Siku Kuu Takatifu',
+        'season': 'Msimu',
+        'prayerOfTheWeek': 'Sala ya Wiki',
+      },
     }
   }
 };
 
-
-String translate(language, key){
+String translate(language, key) {
   try {
     return translationMap[language][key];
-
-  } catch(e){
+  } catch (e) {
     print('Translation Error: ' + language.toString() + 'AND' + key.toString());
     print(e.toString());
     return '';
   }
 }
-

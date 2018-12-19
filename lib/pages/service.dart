@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../json/serializePrayerBook.dart';
 import '../globals.dart' as globals;
-import '../parts/collects.dart';
+//import '../parts/collects.dart';
 import '../app.dart';
 import 'calendar.dart';
 import '../model/calendar.dart';
@@ -98,7 +98,7 @@ class _ServicePageState extends State<ServicePage> {
             elevation: 1.0,
 //          backgroundColor: kPrimaryLight,
             textTheme: Theme.of(context).textTheme,
-            title: appBarTitle(currentService.title, context),
+            title: appBarTitle(currentService.title, context, currentService.titleShort),
             actions: <Widget>[
               FlatButton(
                 onPressed: () {
@@ -139,6 +139,8 @@ class _ServicePageState extends State<ServicePage> {
 //        ),
         AppBar(
           automaticallyImplyLeading: false,
+          title: appBarTitle(globals.appTitle, context),
+          textTheme: Theme.of(context).textTheme,
         ),
         Expanded(
           child: Container(

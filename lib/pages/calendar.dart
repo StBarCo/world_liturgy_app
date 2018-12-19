@@ -4,14 +4,15 @@ import 'package:flutter_calendar/flutter_calendar.dart';
 import '../globals.dart' as globals;
 import '../model/calendar.dart';
 import '../app.dart';
-import '../parts/collects.dart';
+import '../parts/section.dart';
+//import '../parts/collects.dart';
 
-class CalendarPage extends StatefulWidget{
-  CalendarPage({Key key}) : super(key:key);
+class CalendarPage extends StatefulWidget {
+  CalendarPage({Key key}) : super(key: key);
 
   @override
   _CalendarPageState createState() {
-    return new _CalendarPageState();
+    return _CalendarPageState();
   }
 }
 
@@ -23,9 +24,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void handleNewDate(date) {
     setDay(date).then((day) {
-      RefreshState.of(context).onTap(
-          newDay: day
-      );
+      RefreshState.of(context).onTap(newDay: day);
     });
   }
 
@@ -35,33 +34,37 @@ class _CalendarPageState extends State<CalendarPage> {
     currentLanguage = refreshState.currentLanguage;
     currentDay = refreshState.currentDay;
 
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('Lectionary'),
+    return Scaffold(
+      appBar: AppBar(
+        textTheme: Theme.of(context).textTheme,
+        title: appBarTitle(globals.translate(getLanguage(context), 'calendar'), context),
       ),
-      body: new Container(
-        margin: new EdgeInsets.symmetric(
+      body: Container(
+        margin: EdgeInsets.symmetric(
           horizontal: 5.0,
           vertical: 10.0,
         ),
-        child: new ListView(
+        child: ListView(
           shrinkWrap: true,
           children: <Widget>[
-            new Calendar(
+            Calendar(
               initialCalendarDateOverride: currentDay.date,
               onDateSelected: (date) => handleNewDate(date),
-              isExpandable: true,
-
+//              isExpandable: true,
             ),
-            Column(
-              children: dayTitles(globals.allPrayerBooks.getPrayerBookIdFromLanguage(currentLanguage), context),
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Column(
+                children: dayTitles(
+                    globals.allPrayerBooks
+                        .getPrayerBookIdFromLanguage(currentLanguage),
+                    context),
+              ),
             ),
-
 
           ],
         ),
       ),
-
     );
   }
 }
@@ -70,44 +73,59 @@ setDay(DateTime day) {
   return globals.db.fetchDay(constructDaysSince(day));
 }
 
-dateToLongString(date, language){
+dateToLongString(date, language) {
   Map map = globals.translationMap[language]['dates'];
   List format = map['format'];
-  String longDate ='';
+  String longDate = '';
 
-  format.forEach((e){
-    switch(e){
-      case 'weekday': {longDate += map[e][date.date.weekday].toString();}
-      break;
+  format.forEach((e) {
+    switch (e) {
+      case 'weekday':
+        {
+          longDate += map[e][date.date.weekday].toString();
+        }
+        break;
 
-      case 'day': {longDate += date.date.day.toString(); }
-      break;
+      case 'day':
+        {
+          longDate += date.date.day.toString();
+        }
+        break;
 
-      case 'month': {longDate += map[e][date.date.month].toString();}
-      break;
+      case 'month':
+        {
+          longDate += map[e][date.date.month].toString();
+        }
+        break;
 
-      case 'year': {longDate += date.date.year.toString(); }
-      break;
+      case 'year':
+        {
+          longDate += date.date.year.toString();
+        }
+        break;
 
-      default: {longDate += e.toString();}
+      default:
+        {
+          longDate += e.toString();
+        }
     }
   });
   return longDate;
 }
 
-dayAndLinkToCalendar(currentIndexes, context){
-  if (getDay(context) != null){
+dayAndLinkToCalendar(currentIndexes, context) {
+  if (getDay(context) != null) {
     return Card(
         margin: EdgeInsets.only(bottom: 8.0),
         elevation: 0.0,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
           child: GestureDetector(
-              onTap: () => context.ancestorStateOfType(const TypeMatcher<HomePageState>()).changeTab('calendar'),
+              onTap: () => context
+                  .ancestorStateOfType(const TypeMatcher<HomePageState>())
+                  .changeTab('calendar'),
               child: Column(
-                  children: dayTitles(currentIndexes["prayerBook"], context)
-              )
-          ),
+                  children: dayTitles(currentIndexes["prayerBook"], context))),
         ));
 
 //    return Text(dateToLongString(day, language));
@@ -116,23 +134,27 @@ dayAndLinkToCalendar(currentIndexes, context){
   }
 }
 
-List<Widget> dayTitles(prayerBookId, context){
-  List<Widget> list = [Text(dateToLongString(getDay(context), getLanguage(context)), style: Theme.of(context).textTheme.headline.copyWith(color: Theme.of(context).primaryColorDark))];
-
-  list.add(CollectContent(prayerBookId, 'titles'));
-
-  return list;
+List<Widget> dayTitles(prayerBookId, context) {
+  return [
+    Padding(
+      padding: const EdgeInsets.only(bottom: 10.0),
+      child: Text(dateToLongString(getDay(context), getLanguage(context)),
+          style: Theme.of(context)
+              .textTheme
+              .headline
+              .copyWith(color: Theme.of(context).primaryColorDark), textAlign: TextAlign.center,),
+    ),
+    CollectContent(prayerBookId, 'titles')
+  ];
 }
 
-
-
-List<String> celebrationPriority(Day day){
+List<String> celebrationPriority(Day day) {
   List<String> priority = [];
-  if(day.principalFeastID != null){
+  if (day.principalFeastID != null) {
     priority.add('principalFeast');
   }
-  if(day.holyDayID != null){
-    if(day.date.weekday == 7){
+  if (day.holyDayID != null) {
+    if (day.date.weekday == 7) {
       priority.add('holyDay');
     } else {
       priority.add('holyDay');
@@ -140,24 +162,23 @@ List<String> celebrationPriority(Day day){
   }
   priority.add('season');
 
-
-
   return priority;
 }
 
-List<String> getDailyReadings(String lectionaryType, String readingType, context){
+List<String> getDailyReadings(
+    String lectionaryType, String readingType, context) {
   Day day = getDay(context);
   List<String> readings = [];
 
-  if(readingType.toLowerCase() == 'ot'){
+  if (readingType.toLowerCase() == 'ot') {
     readings.add('Ez 15:1-8');
-  } else if(readingType.toLowerCase() == 'nt'){
+  } else if (readingType.toLowerCase() == 'nt') {
     readings.add('Eph 2:1-10');
-  }else if(readingType.toLowerCase() == 'psalm'){
+  } else if (readingType.toLowerCase() == 'psalm') {
     readings.add('Ps 119:89-104');
-  }else if(readingType.toLowerCase() == 'gospel'){
+  } else if (readingType.toLowerCase() == 'gospel') {
     readings.add('John 8:31-59');
-  }else if(readingType.toLowerCase() == 'otornt'){
+  } else if (readingType.toLowerCase() == 'otornt') {
     readings.add('Ez 15:1-8');
     readings.add('Eph 2:1-10');
     readings.add('John 8:31-59');
