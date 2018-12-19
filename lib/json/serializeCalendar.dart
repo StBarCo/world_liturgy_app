@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'serializeCalendar.g.dart';
 
 @JsonSerializable()
-class CalendarScaffold extends Object with _$CalendarScaffoldSerializerMixin {
+class CalendarScaffold extends Object {
   @JsonKey(fromJson: _asAttribute)
   final String type;
   @JsonKey( fromJson: _decodeSeason)
@@ -34,7 +34,7 @@ class CalendarScaffold extends Object with _$CalendarScaffoldSerializerMixin {
 //}
 
 @JsonSerializable()
-class HolyDays extends Object with _$HolyDaysSerializerMixin {
+class HolyDays extends Object {
   @JsonKey(name:'holy_day')
   final List<HolyDay> holyDay;
 
@@ -44,7 +44,7 @@ class HolyDays extends Object with _$HolyDaysSerializerMixin {
 }
 
 @JsonSerializable()
-class Season extends Object with _$SeasonSerializerMixin {
+class Season extends Object {
 
   @JsonKey(fromJson: _asAttribute)
   final String id ;
@@ -98,7 +98,7 @@ class Season extends Object with _$SeasonSerializerMixin {
 }
 
 @JsonSerializable()
-class HolyDay extends Object with _$HolyDaySerializerMixin {
+class HolyDay extends Object {
 
   @JsonKey(fromJson: _asAttribute)
   final String id ;
@@ -133,7 +133,7 @@ class HolyDay extends Object with _$HolyDaySerializerMixin {
 }
 
 @JsonSerializable()
-class Date extends Object with _$DateSerializerMixin {
+class Date extends Object  {
   @JsonKey(fromJson: _asIntAttribute)
   final int month;
   @JsonKey(fromJson: _asIntAttribute)

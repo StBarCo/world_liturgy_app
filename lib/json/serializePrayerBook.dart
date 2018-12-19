@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'serializePrayerBook.g.dart';
 
 @JsonSerializable()
-class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerMixin {
+class PrayerBooksContainer extends Object {
   @JsonKey(fromJson: _decodePrayerBookorService, name: 'prayer_book')
   final List<PrayerBook> prayerBooks;
 
@@ -38,7 +38,7 @@ class PrayerBooksContainer extends Object with _$PrayerBooksContainerSerializerM
 }
 
 @JsonSerializable()
-class PrayerBook extends Object with _$PrayerBookSerializerMixin {
+class PrayerBook extends Object {
   final String language;
   final String id;
 
@@ -71,7 +71,7 @@ class PrayerBook extends Object with _$PrayerBookSerializerMixin {
 }
 
 @JsonSerializable()
-class Service extends Object with _$ServiceSerializerMixin {
+class Service extends Object {
 
   final String id;
 
@@ -81,9 +81,13 @@ class Service extends Object with _$ServiceSerializerMixin {
   @JsonKey(name: "section", fromJson: _decodeSection)
   final List<Section> sections;
 
+  @JsonKey(nullable: true, fromJson: _asAttribute)
+  final String titleShort;
+
   Service(
       this.id,
       this.title,
+      this.titleShort,
       this.sections,
       );
 
@@ -104,7 +108,7 @@ class Service extends Object with _$ServiceSerializerMixin {
 }
 
 @JsonSerializable()
-class Section extends Object with _$SectionSerializerMixin {
+class Section extends Object {
   @JsonKey(nullable: true,)
   final String type;
 
@@ -203,7 +207,7 @@ class Section extends Object with _$SectionSerializerMixin {
 //}
 
 @JsonSerializable()
-class Item extends Object with _$ItemSerializerMixin{
+class Item extends Object {
   final String $t;
   String get text => clean(this.$t);
 
@@ -243,7 +247,7 @@ class Item extends Object with _$ItemSerializerMixin{
 }
 
 @JsonSerializable()
-class Collect extends Object with _$CollectSerializerMixin{
+class Collect extends Object {
 
   @JsonKey(nullable: true,)
   final String id;
@@ -297,7 +301,7 @@ class Collect extends Object with _$CollectSerializerMixin{
 }
 
 @JsonSerializable()
-class CollectPrayer extends Object with _$CollectPrayerSerializerMixin{
+class CollectPrayer extends Object {
   final String $t;
   String get text => clean(this.$t);
 
@@ -319,7 +323,7 @@ class CollectPrayer extends Object with _$CollectPrayerSerializerMixin{
 }
 
 @JsonSerializable()
-class PostCommunionPrayer extends Object with _$PostCommunionPrayerSerializerMixin{
+class PostCommunionPrayer extends Object {
   final String $t;
   String get text => clean(this.$t);
 
@@ -342,7 +346,7 @@ class PostCommunionPrayer extends Object with _$PostCommunionPrayerSerializerMix
 }
 
 @JsonSerializable()
-class Stanza extends Object with _$StanzaSerializerMixin {
+class Stanza extends Object {
   @JsonKey(nullable: true)
   final String $t;
   String get text => clean(this.$t);

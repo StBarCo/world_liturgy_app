@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'serializeSongBook.g.dart';
 
 @JsonSerializable()
-class SongBooksContainer extends Object with _$SongBooksContainerSerializerMixin {
+class SongBooksContainer extends Object {
   @JsonKey(fromJson: _decodeSongBook, name:'book')
   final List<SongBook> books;
 
@@ -15,7 +15,7 @@ class SongBooksContainer extends Object with _$SongBooksContainerSerializerMixin
 }
 
 @JsonSerializable()
-class SongBook extends Object with _$SongBookSerializerMixin {
+class SongBook extends Object {
   final String language;
   final String id;
 
@@ -35,7 +35,7 @@ class SongBook extends Object with _$SongBookSerializerMixin {
 }
 
 @JsonSerializable()
-class Song extends Object with _$SongSerializerMixin {
+class Song extends Object {
 
   @JsonKey(nullable: true, fromJson: _asAttribute)
   final String number;
@@ -65,7 +65,7 @@ class Song extends Object with _$SongSerializerMixin {
 }
 
 @JsonSerializable()
-class Verse extends Object with _$VerseSerializerMixin {
+class Verse extends Object {
 
   @JsonKey(name: "stanza", nullable: true, fromJson: _decodeStanza)
   final List<Stanza> stanzas;
@@ -79,7 +79,7 @@ class Verse extends Object with _$VerseSerializerMixin {
 }
 
 @JsonSerializable()
-class Refrain extends Object with _$RefrainSerializerMixin {
+class Refrain extends Object {
   @JsonKey(nullable:true, fromJson: _asInt)
   final int afterVerse;
 
@@ -97,7 +97,7 @@ class Refrain extends Object with _$RefrainSerializerMixin {
 
 
 @JsonSerializable()
-class Stanza extends Object with _$StanzaSerializerMixin {
+class Stanza extends Object {
   final String $t;
   String get text => clean(this.$t);
 

@@ -7,37 +7,31 @@ part of 'serializeCalendar.dart';
 // **************************************************************************
 
 CalendarScaffold _$CalendarScaffoldFromJson(Map<String, dynamic> json) {
-  return new CalendarScaffold(
+  return CalendarScaffold(
       json['type'] == null ? null : _asAttribute(json['type']),
       json['structure'] == null ? null : _decodeSeason(json['structure']),
       json['holy_days'] == null ? null : _decodeHolyDays(json['holy_days']));
 }
 
-abstract class _$CalendarScaffoldSerializerMixin {
-  String get type;
-  List<Season> get structure;
-  List<HolyDay> get holyDays;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'type': type,
-        'structure': structure,
-        'holy_days': holyDays
-      };
-}
+Map<String, dynamic> _$CalendarScaffoldToJson(CalendarScaffold instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'structure': instance.structure,
+      'holy_days': instance.holyDays
+    };
 
 HolyDays _$HolyDaysFromJson(Map<String, dynamic> json) {
-  return new HolyDays((json['holy_day'] as List)
-      ?.map((e) =>
-          e == null ? null : new HolyDay.fromJson(e as Map<String, dynamic>))
+  return HolyDays((json['holy_day'] as List)
+      ?.map(
+          (e) => e == null ? null : HolyDay.fromJson(e as Map<String, dynamic>))
       ?.toList());
 }
 
-abstract class _$HolyDaysSerializerMixin {
-  List<HolyDay> get holyDay;
-  Map<String, dynamic> toJson() => <String, dynamic>{'holy_day': holyDay};
-}
+Map<String, dynamic> _$HolyDaysToJson(HolyDays instance) =>
+    <String, dynamic>{'holy_day': instance.holyDay};
 
 Season _$SeasonFromJson(Map<String, dynamic> json) {
-  return new Season(
+  return Season(
       json['id'] == null ? null : _asAttribute(json['id']),
       json['type'] == null ? null : _asAttribute(json['type']),
       json['color'] == null ? null : _asAttribute(json['color']),
@@ -48,10 +42,10 @@ Season _$SeasonFromJson(Map<String, dynamic> json) {
       json['length_unit'] == null ? null : _asAttribute(json['length_unit']),
       json['start_date'] == null
           ? null
-          : new Date.fromJson(json['start_date'] as Map<String, dynamic>),
+          : Date.fromJson(json['start_date'] as Map<String, dynamic>),
       json['end_date'] == null
           ? null
-          : new Date.fromJson(json['end_date'] as Map<String, dynamic>),
+          : Date.fromJson(json['end_date'] as Map<String, dynamic>),
       json['weeks_disappear_at'] == null
           ? null
           : _asAttribute(json['weeks_disappear_at']),
@@ -60,43 +54,29 @@ Season _$SeasonFromJson(Map<String, dynamic> json) {
           : _asIntAttribute(json['number_weeks_stuck_to_end']));
 }
 
-abstract class _$SeasonSerializerMixin {
-  String get id;
-  String get type;
-  String get color;
-  String get weekOrder;
-  int get startWeek;
-  int get endWeek;
-  int get length;
-  String get lengthUnit;
-  Date get startDate;
-  Date get endDate;
-  String get weeksDisappearAt;
-  int get numberWeeksStucktoEnd;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'type': type,
-        'color': color,
-        'week_order': weekOrder,
-        'start_week': startWeek,
-        'end_week': endWeek,
-        'length': length,
-        'length_unit': lengthUnit,
-        'start_date': startDate,
-        'end_date': endDate,
-        'weeks_disappear_at': weeksDisappearAt,
-        'number_weeks_stuck_to_end': numberWeeksStucktoEnd
-      };
-}
+Map<String, dynamic> _$SeasonToJson(Season instance) => <String, dynamic>{
+      'id': instance.id,
+      'type': instance.type,
+      'color': instance.color,
+      'week_order': instance.weekOrder,
+      'start_week': instance.startWeek,
+      'end_week': instance.endWeek,
+      'length': instance.length,
+      'length_unit': instance.lengthUnit,
+      'start_date': instance.startDate,
+      'end_date': instance.endDate,
+      'weeks_disappear_at': instance.weeksDisappearAt,
+      'number_weeks_stuck_to_end': instance.numberWeeksStucktoEnd
+    };
 
 HolyDay _$HolyDayFromJson(Map<String, dynamic> json) {
-  return new HolyDay(
+  return HolyDay(
       json['id'] == null ? null : _asAttribute(json['id']),
       json['type'] == null ? null : _asAttribute(json['type']),
       json['color'] == null ? null : _asAttribute(json['color']),
       json['date'] == null
           ? null
-          : new Date.fromJson(json['date'] as Map<String, dynamic>),
+          : Date.fromJson(json['date'] as Map<String, dynamic>),
       json['length'] == null ? null : _asIntAttribute(json['length']),
       json['length_unit'] == null ? null : _asAttribute(json['length_unit']),
       json['optional_celebration_sunday'] == null
@@ -104,27 +84,18 @@ HolyDay _$HolyDayFromJson(Map<String, dynamic> json) {
           : _asAttribute(json['optional_celebration_sunday']));
 }
 
-abstract class _$HolyDaySerializerMixin {
-  String get id;
-  String get type;
-  String get color;
-  int get length;
-  String get lengthUnit;
-  Date get date;
-  String get optionalCelebrationSunday;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'id': id,
-        'type': type,
-        'color': color,
-        'length': length,
-        'length_unit': lengthUnit,
-        'date': date,
-        'optional_celebration_sunday': optionalCelebrationSunday
-      };
-}
+Map<String, dynamic> _$HolyDayToJson(HolyDay instance) => <String, dynamic>{
+      'id': instance.id,
+      'type': instance.type,
+      'color': instance.color,
+      'length': instance.length,
+      'length_unit': instance.lengthUnit,
+      'date': instance.date,
+      'optional_celebration_sunday': instance.optionalCelebrationSunday
+    };
 
 Date _$DateFromJson(Map<String, dynamic> json) {
-  return new Date(
+  return Date(
       json['day'] == null ? null : _asIntAttribute(json['day']),
       json['month'] == null ? null : _asIntAttribute(json['month']),
       json['days_after'] == null ? null : _asIntAttribute(json['days_after']),
@@ -133,19 +104,11 @@ Date _$DateFromJson(Map<String, dynamic> json) {
       json['type'] == null ? null : _asAttribute(json['type']));
 }
 
-abstract class _$DateSerializerMixin {
-  int get month;
-  int get day;
-  int get daysBefore;
-  int get daysAfter;
-  String get special;
-  String get type;
-  Map<String, dynamic> toJson() => <String, dynamic>{
-        'month': month,
-        'day': day,
-        'days_before': daysBefore,
-        'days_after': daysAfter,
-        'special': special,
-        'type': type
-      };
-}
+Map<String, dynamic> _$DateToJson(Date instance) => <String, dynamic>{
+      'month': instance.month,
+      'day': instance.day,
+      'days_before': instance.daysBefore,
+      'days_after': instance.daysAfter,
+      'special': instance.special,
+      'type': instance.type
+    };
