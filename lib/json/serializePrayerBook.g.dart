@@ -12,10 +12,6 @@ PrayerBooksContainer _$PrayerBooksContainerFromJson(Map<String, dynamic> json) {
       : _decodePrayerBookorService(json['prayer_book']));
 }
 
-Map<String, dynamic> _$PrayerBooksContainerToJson(
-        PrayerBooksContainer instance) =>
-    <String, dynamic>{'prayer_book': instance.prayerBooks};
-
 PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) {
   return PrayerBook(
       json['language'] as String,
@@ -26,14 +22,6 @@ PrayerBook _$PrayerBookFromJson(Map<String, dynamic> json) {
           : _decodePrayerBookorService(json['service']));
 }
 
-Map<String, dynamic> _$PrayerBookToJson(PrayerBook instance) =>
-    <String, dynamic>{
-      'language': instance.language,
-      'id': instance.id,
-      'title': instance.title,
-      'service': instance.services
-    };
-
 Service _$ServiceFromJson(Map<String, dynamic> json) {
   return Service(
       json['id'] as String,
@@ -41,13 +29,6 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
       json['titleShort'] == null ? null : _asAttribute(json['titleShort']),
       json['section'] == null ? null : _decodeSection(json['section']));
 }
-
-Map<String, dynamic> _$ServiceToJson(Service instance) => <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'section': instance.sections,
-      'titleShort': instance.titleShort
-    };
 
 Section _$SectionFromJson(Map<String, dynamic> json) {
   return Section(
@@ -63,19 +44,6 @@ Section _$SectionFromJson(Map<String, dynamic> json) {
       json['schedule'] as String);
 }
 
-Map<String, dynamic> _$SectionToJson(Section instance) => <String, dynamic>{
-      'type': instance.type,
-      'visibility': instance.visibility,
-      'schedule': instance.schedule,
-      'fetchItemsFrom': instance.fetchItemsFrom,
-      'major_header': instance.majorHeader,
-      'title': instance.title,
-      'number': instance.number,
-      'rubric': instance.rubric,
-      'item': instance.items,
-      'collect': instance.collects
-    };
-
 Item _$ItemFromJson(Map<String, dynamic> json) {
   return Item(
       json[r'$t'] as String,
@@ -87,17 +55,6 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
       json['ref'] == null ? null : _asAttribute(json['ref']),
       json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 }
-
-Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
-      r'$t': instance.$t,
-      'who': instance.who,
-      'type': instance.type,
-      'includeGloria': instance.includeGloria,
-      'title': instance.title,
-      'ref': instance.ref,
-      'other': instance.other,
-      'stanza': instance.stanzas
-    };
 
 Collect _$CollectFromJson(Map<String, dynamic> json) {
   return Collect(
@@ -120,53 +77,17 @@ Collect _$CollectFromJson(Map<String, dynamic> json) {
           : _decodePostCommunionPrayers(json['post_communion_prayer']));
 }
 
-Map<String, dynamic> _$CollectToJson(Collect instance) => <String, dynamic>{
-      'id': instance.id,
-      'title': instance.title,
-      'subtitle': instance.subtitle,
-      'ref': instance.ref,
-      'color': instance.color,
-      'date': instance.date,
-      'type': instance.type,
-      'collect_rubric': instance.collectRubric,
-      'post_communion_rubric': instance.postCommunionRubric,
-      'collect': instance.collectPrayers,
-      'post_communion_prayer': instance.postCommunionPrayers
-    };
-
 CollectPrayer _$CollectPrayerFromJson(Map<String, dynamic> json) {
   return CollectPrayer(json[r'$t'] as String, json['type'] as String,
       json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 }
-
-Map<String, dynamic> _$CollectPrayerToJson(CollectPrayer instance) =>
-    <String, dynamic>{
-      r'$t': instance.$t,
-      'type': instance.type,
-      'stanza': instance.stanzas
-    };
 
 PostCommunionPrayer _$PostCommunionPrayerFromJson(Map<String, dynamic> json) {
   return PostCommunionPrayer(json[r'$t'] as String, json['type'] as String,
       json['stanza'] == null ? null : _decodeStanza(json['stanza']));
 }
 
-Map<String, dynamic> _$PostCommunionPrayerToJson(
-        PostCommunionPrayer instance) =>
-    <String, dynamic>{
-      r'$t': instance.$t,
-      'type': instance.type,
-      'stanza': instance.stanzas
-    };
-
 Stanza _$StanzaFromJson(Map<String, dynamic> json) {
   return Stanza(json['verse'] as String, json['indent'] as String,
       json[r'$t'] as String, json['type'] as String);
 }
-
-Map<String, dynamic> _$StanzaToJson(Stanza instance) => <String, dynamic>{
-      r'$t': instance.$t,
-      'verse': instance.verse,
-      'indent': instance.indent,
-      'type': instance.type
-    };

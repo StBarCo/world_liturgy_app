@@ -51,9 +51,9 @@ ThemeData baseThemeSwatch(
         title: TextStyle(
 //          color: Colors.black,
           fontFamily: 'Signika',
-          fontSize: 24.0,
+          fontSize: 22.0,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.5,
+          letterSpacing: -0.0,
         ),
 //        Used for the primary text in app bars and dialogs (e.g., AppBar.title and AlertDialog.title).
 
