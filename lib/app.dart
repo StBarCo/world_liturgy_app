@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 
 import 'pages/service.dart';
 import 'pages/calendar.dart';

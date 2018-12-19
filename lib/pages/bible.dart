@@ -105,6 +105,7 @@ String getDummyPassage(ref) {
       }
       break;
   }
+  return john8;
 }
 
 String ez15 =
