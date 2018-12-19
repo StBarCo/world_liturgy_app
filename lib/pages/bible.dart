@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'model/calendar.dart';
-import 'app.dart';
-import 'pages/calendar.dart';
+import '../model/calendar.dart';
+import '../app.dart';
+import '../pages/calendar.dart';
 
 
 class BiblePage extends StatefulWidget{

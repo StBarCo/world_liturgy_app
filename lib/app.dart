@@ -8,7 +8,7 @@ import 'globals.dart' as globals;
 import 'theme.dart';
 import 'dart:async';
 import 'model/calendar.dart';
-import 'bible.dart';
+import 'pages/bible.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return new MaterialApp(
-      title: 'World Liturgy App',
+      title: globals.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.grey,
         fontFamily: 'WorkSans',
