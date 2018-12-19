@@ -8,6 +8,7 @@ import 'theme.dart';
 import 'dart:async';
 import 'model/calendar.dart';
 import 'pages/bible.dart';
+import 'json/serializePrayerBook.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -113,8 +114,8 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState(){
-    var  initialPB = globals.allPrayerBooks.prayerBooks[0];
-    var initialService = initialPB.services[0];
+    PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks);
+    Service initialService = _setInitialService(initialPB);
 
     servicePage = ServicePage(
         initialCurrentIndexes: {
@@ -214,6 +215,26 @@ class HomePageState extends State<HomePage> {
         currentPage = pages[newTab];
       });
     }
+  }
+
+  PrayerBook _setInitialPrayerBook(PrayerBooksContainer allPrayerBooks){
+//    TODO: if there are default settings, use those.
+    return allPrayerBooks.prayerBooks[0];
+
+  }
+  Service _setInitialService(PrayerBook initialPB){
+    String serviceId ='eveningWorship';
+    int returnedIndex;
+    if(DateTime.now().hour < 12){
+      serviceId = 'morningWorship';
+    }
+    returnedIndex = initialPB.getServiceIndexById(serviceId);
+
+    if (returnedIndex != -1){
+      return initialPB.services[returnedIndex];
+    }
+
+    return initialPB.services.first;
   }
 
   @override

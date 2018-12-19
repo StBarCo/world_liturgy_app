@@ -62,9 +62,11 @@ class PrayerBook extends Object {
 
   getServiceIndexById(String id){
     List list = [];
-    this.services.forEach((service){
+    for(Service service in this.services){
       list.add(service.id);
-    });
+
+      if (service.id == id) {break;}
+    }
 
     return list.indexOf(id);
   }

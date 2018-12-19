@@ -654,6 +654,8 @@ class IndexedSectionCard extends SectionContent {
   Widget _sectionItems(section, context) {
     List<Widget> headers = [];
 
+    headers.add(_buildSectionHeader(section, context));
+
     for (var item in section.items) {
       headers.add(GestureDetector(
           onTap: () {
