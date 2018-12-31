@@ -34,6 +34,7 @@ Map translationMap = {
 //    TRANSLATIONS FOR INSTRUCTIONS
     'or': 'or',
     'tapToExpand': 'Tap to Expand',
+    'search': 'Search',
 
 //    TRANSLATIONS FOR TERMS
     'collect': 'Collect',
@@ -114,6 +115,7 @@ Map translationMap = {
 //    TRANSLATIONS FOR INSTRUCTIONS
     'or': 'au',
     'tapToExpand': 'Bomba ili Kupanua',
+    'search': 'Tafuta',
 
     //    TRANSLATIONS FOR TERMS
     'collect': 'Sala',
@@ -178,7 +180,8 @@ Map translationMap = {
 
 String translate(language, key) {
   try {
-    return translationMap[language][key];
+    String translation = translationMap[language][key];
+    return translation != null ? translation : '';
   } catch (e) {
     print('Translation Error: ' + language.toString() + 'AND' + key.toString());
     print(e.toString());

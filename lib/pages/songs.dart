@@ -16,101 +16,87 @@ class SongsPage extends StatefulWidget {
 }
 
 class _SongsPageState extends State<SongsPage> {
-  final SongBooksContainer allSongBooks = globals.allSongBooks;
-  final _SongsSearchDelegate _delegate = new _SongsSearchDelegate();
+  final TextEditingController _filter = new TextEditingController();
+  String _searchText = "";
+  final List<SongBook> songBooks = List.from(globals.allSongBooks.books);
+  List<SongBook> filteredSongBooks = List.from(globals.allSongBooks.books);
+  Icon _searchIcon = new Icon(Icons.search);
+
+  _SongsPageState() {
+    _filter.addListener(() {
+      if (_filter.text.isEmpty) {
+        setState(() {
+          _searchText = "";
+          filteredSongBooks = List.from(songBooks);
+        });
+      } else {
+        setState(() {
+          _searchText = _filter.text;
+        });
+      }
+    });
+  }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        textTheme: Theme.of(context).textTheme,
-        title: appBarTitle(globals.translate(getLanguage(context), 'songs'), context),
-        actions: <Widget>[
-          new IconButton(
-            tooltip: 'Search',
-            icon: const Icon(Icons.search),
-            onPressed: () async {
-              final int selected = await showSearch<int>(
-                context: context,
-                delegate: _delegate,
-              );
-              if (selected != null) {
-//                setState;
-              }
-            },
-          ),
-        ],
+    return Scaffold(
+      appBar: _buildBar(context),
+      body: Container(
+        child: _buildList(),
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) => buildSongIndex(
-            context, allSongBooks.books[index], allSongBooks.books.length == 1),
-        itemCount: allSongBooks.books.length,
-      ),
-    );
-  }
-}
-
-class _SongsSearchDelegate extends SearchDelegate<int> {
-  final SongBooksContainer allSongBooks = globals.allSongBooks;
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return new IconButton(
-      tooltip: 'Back',
-      icon: new AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
-        progress: transitionAnimation,
-      ),
-      onPressed: () {
-        close(context, null);
-      },
+      resizeToAvoidBottomPadding: false,
     );
   }
 
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final List suggestions = query.isEmpty ? [] : _getSongSuggestions(query);
-
-    return new _SuggestionList(
-      query: query,
-      suggestions: suggestions,
+  Widget _buildBar(BuildContext context) {
+    return new AppBar(
+//      centerTitle: true,
+      textTheme: Theme
+          .of(context)
+          .textTheme,
+      title: _appBarTitle(),
+      leading: new IconButton(
+        icon: _searchIcon,
+        onPressed: _searchPressed,
+      ),
     );
   }
 
-  @override
-  Widget buildResults(BuildContext context) {
-    return null;
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    if (query.isEmpty) {
-      return <Widget>[];
+  Widget _buildList() {
+    if (!(_searchText.isEmpty)) {
+      filteredSongBooks = _getSongSuggestions(songBooks, _searchText);
     } else {
-      return <Widget>[
-        new IconButton(
-          tooltip: 'Clear',
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            query = '';
-            showSuggestions(context);
-          },
-        )
-      ];
+      filteredSongBooks = List.from(songBooks);
     }
+
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) =>
+          buildSongIndex(
+              filteredSongBooks[index], filteredSongBooks.length == 1),
+      itemCount: filteredSongBooks.length,
+    );
   }
 
-  List _getSongSuggestions(String query) {
-    List list = [];
+  List<SongBook> _getSongSuggestions(List<SongBook> songBooks, String query) {
+    List<SongBook> filteredList = [];
     List queryList = query.toLowerCase().split(" ");
-    globals.allSongBooks.books.asMap().forEach((index, songBook) {
-      List<Song> filtered = songBook.songs
+    songBooks.asMap().forEach((index, songBook) {
+      List<Song> filteredSongs = songBook.songs
           .where((Song song) => _songFilter(song, queryList))
           .toList();
-      list.add([index, filtered]);
+      filteredList.add(SongBook(
+        songBooks[index].language,
+        songBooks[index].id,
+        songBooks[index].title,
+        filteredSongs,
+      ));
     });
 
-    return list;
+    return filteredList;
   }
 
   bool _songFilter(Song song, queryList) {
@@ -137,123 +123,141 @@ class _SongsSearchDelegate extends SearchDelegate<int> {
     }
     return match;
   }
-}
 
-class _SuggestionList extends StatelessWidget {
-  const _SuggestionList({this.suggestions, this.query});
+  Widget _appBarTitle() {
+    if (_searchIcon.icon != Icons.search) {
+      return TextField(
+        controller: _filter,
+        decoration: new InputDecoration(
+            prefixIcon: new Icon(Icons.search),
+            hintText: globals.translate(getLanguage(context), 'search') + '...',
+        )
+      );
+    }
 
-  final List suggestions;
-  final String query;
+    return appBarTitle(
+        globals.translate(getLanguage(context), 'songs'), context);
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    int suggestionsCount = 0;
-    suggestions.forEach((s) => suggestionsCount += s[1].length);
+  void _searchPressed() {
+    setState(() {
+      if (this._searchIcon.icon == Icons.search) {
+        this._searchIcon = new Icon(Icons.close);
+      } else {
+        this._searchIcon = new Icon(Icons.search);
+        filteredSongBooks = songBooks;
+        _filter.clear();
+      }
+    });
+  }
 
-    bool expanded =
-        suggestions.length == 1 || suggestionsCount < 8 ? true : false;
 
-    return new ListView.builder(
-      itemBuilder: (BuildContext context, int index) => buildSongIndex(
-          context,
-          globals.allSongBooks.books[suggestions[index][0]],
-          expanded,
-          suggestions[index][1]),
-      itemCount: suggestions.length,
+  Widget buildSongIndex(SongBook songBook, bool expanded,
+      [List<Song> songList]) {
+    bool showCount = false;
+    if (songList == null) {
+      songList = songBook.songs;
+    } else {
+      showCount = true;
+    }
+
+    String titleText = showCount
+        ? songBook.title + " (" + songList.length.toString() + ")"
+        : songBook.title;
+
+    if (songBook.songs.isEmpty)
+      return new ListTile(title: new Text(songBook.title ?? 'No Title'));
+    return new ExpansionTile(
+      key: new PageStorageKey<SongBook>(songBook),
+      title: new Text(
+        titleText ?? 'No title',
+        style: Theme
+            .of(context)
+            .textTheme
+            .subhead
+            .copyWith(color: Theme
+            .of(context)
+            .accentColor),
+      ),
+      initiallyExpanded: expanded,
+      children: _buildServicesTiles(songList),
     );
   }
-}
 
-Widget buildSongIndex(BuildContext context, SongBook songBook, bool expanded,
-    [List<Song> songList]) {
-  bool showCount = false;
-  if (songList == null) {
-    songList = songBook.songs;
-  } else {
-    showCount = true;
-  }
-
-  String titleText = showCount
-      ? songBook.title + " (" + songList.length.toString() + ")"
-      : songBook.title;
-
-  if (songBook.songs.isEmpty)
-    return new ListTile(title: new Text(songBook.title ?? 'No Title'));
-  return new ExpansionTile(
-    key: new PageStorageKey<SongBook>(songBook),
-    title: new Text(
-      titleText ?? 'No title',
-      style: Theme.of(context)
-          .textTheme
-          .subhead
-          .copyWith(color: Theme.of(context).accentColor),
-    ),
-    initiallyExpanded: expanded,
-    children: _buildServicesTiles(context, songList),
-  );
-}
-
-List<Widget> _buildServicesTiles(context, songList) {
-  List<Widget> songsList = [];
+  List<Widget> _buildServicesTiles(songList) {
+    List<Widget> songsList = [];
+    dynamic currentDay = RefreshState
+        .of(context)
+        .currentDay;
+    dynamic currentLanguage = RefreshState
+        .of(context)
+        .currentLanguage;
+    dynamic textScaleFactor = RefreshState
+        .of(context)
+        .textScaleFactor;
 //    Service serviceName;
-  for (var song in songList) {
-    songsList.add(new Padding(
-        padding: EdgeInsets.only(left: 20.0),
-        child: new ListTile(
-          leading: Icon(Icons.music_note),
-          title: songTitle(song, style: Theme.of(context).textTheme.body1),
-          subtitle: Text(song.subtitle ?? '',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .merge(referenceAndSubtitleStyle)),
-          selected: false,
-          onTap: () {
-            var route = new MaterialPageRoute(
-              builder: (BuildContext itemContext) => new RefreshState(
-                  currentDay: RefreshState.of(context).currentDay,
-                  currentLanguage: RefreshState.of(context).currentLanguage,
-                  textScaleFactor: RefreshState.of(context).textScaleFactor,
+    for (var song in songList) {
+      songsList.add(new Padding(
+          padding: EdgeInsets.only(left: 20.0),
+          child: new ListTile(
+            leading: Icon(Icons.music_note),
+            title: songTitle(song, style: Theme
+                .of(context)
+                .textTheme
+                .body1),
+            subtitle: Text(song.subtitle ?? '',
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .caption
+                    .merge(referenceAndSubtitleStyle)),
+            selected: false,
+            onTap: () {
+              var route = new MaterialPageRoute(
+                builder: (BuildContext itemContext) =>
+                new RefreshState(
+                    currentDay: currentDay,
+                    currentLanguage: currentLanguage,
+                    textScaleFactor: textScaleFactor,
 //              onTap: onTap,
-                  child: MediaQuery(
-                    data: MediaQuery.of(itemContext).copyWith(textScaleFactor: RefreshState.of(context).textScaleFactor),
-                    child: Theme(
-                      data: updateTheme(Theme.of(context), RefreshState.of(context).currentDay),
-                      child: SongPage(song: song),
-                    ),
-                  )
-              ),
-            );
-            Navigator.push(
-                context,
-                route
-            );
-          },
-          dense: true,
-        )));
-  }
-  return songsList;
-}
-
-Text songTitle(Song song, {style}) {
-  String text = '';
-
-  if (song.number != null) {
-    text += song.number.toString() + '. ';
-  }
-  if (song.title != null) {
-    text += song.title;
-  }
-  if (text == '') {
-    text = 'No Title';
-  }
-
-  if (style == null) {
-    return new Text(text);
-  } else {
-    return new Text(
-      text,
-      style: style,
-    );
+                    child: MediaQuery(
+                      data: MediaQuery.of(itemContext)
+                          .copyWith(textScaleFactor: textScaleFactor),
+                      child: Theme(
+                        data: updateTheme(Theme.of(context), currentDay),
+                        child: SongPage(song: song),
+                      ),
+                    )),
+              );
+              Navigator.push(context, route);
+            },
+            dense: true,
+          )));
+    }
+    return songsList;
   }
 }
+
+  Text songTitle(Song song, {style}) {
+    String text = '';
+
+    if (song.number != null) {
+      text += song.number.toString() + '. ';
+    }
+    if (song.title != null) {
+      text += song.title;
+    }
+    if (text == '') {
+      text = 'No Title';
+    }
+
+    if (style == null) {
+      return new Text(text);
+    } else {
+      return new Text(
+        text,
+        style: style,
+      );
+    }
+  }
+

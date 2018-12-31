@@ -392,7 +392,7 @@ class RefreshState extends InheritedWidget {
   }
 }
 
-Widget appBarTitle(String title, context, [String shortTitle]){
+Text appBarTitle(String title, context, [String shortTitle]){
   double maxLength = 25/MediaQuery.of(context).textScaleFactor;
 
   if(shortTitle != null && title.length >= (maxLength.floor() -1)){

@@ -10,6 +10,7 @@ import '../pages/calendar.dart';
 
 part 'collects.dart';
 
+/// The generic WLP class with shared build content methods that is extended by other classes.
 class GeneralContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
