@@ -21,19 +21,22 @@ class PrayerBooksContainer extends Object {
     return list.indexOf(id);
   }
 
-  PrayerBook getPrayerBook(String id) {
-    return this.prayerBooks
-        .where((prayerBook) => prayerBook.id == id)
-        .toList()
-        .first;
+  PrayerBook getPrayerBook(String id, {String language}) {
+    List<PrayerBook> tempList;
+
+    if(id == null && language != null){
+      tempList = this.prayerBooks
+          .where((prayerBook) => prayerBook.language == language).toList();
+    } else {
+      tempList = this.prayerBooks
+          .where((prayerBook) => prayerBook.id == id).toList();
+    }
+    return tempList != null && tempList.length > 0 ? tempList.first : this.prayerBooks.first;
   }
 
   String getPrayerBookIdFromLanguage(String language) {
     return this.prayerBooks
-        .where((prayerBook) => prayerBook.language == language)
-        .toList()
-        .first
-        .id;
+        .where((prayerBook) => prayerBook.language == language).toList().first.id;
   }
 }
 

@@ -51,14 +51,14 @@ class _ServicePageState extends State<ServicePage> {
         globals.allPrayerBooks.prayerBooks[newPbIndex].id;
 
     currentService = _getServiceFromIndexes(currentIndexes);
-    RefreshState.of(context).onTap(
+    RefreshState.of(context).updateValue(
         newLanguage: globals.allPrayerBooks.prayerBooks[newPbIndex].language);
   }
 
   void _updateTextScale(double newValue) {
     setState(() {
 //      textScaleFactor = transformed;
-      RefreshState.of(context).onTap(newTextScale: newValue);
+      RefreshState.of(context).updateValue(newTextScale: newValue);
     });
   }
 
@@ -75,7 +75,7 @@ class _ServicePageState extends State<ServicePage> {
 
 //    if changing prayerBooks
     if (changingBook) {
-      RefreshState.of(context).onTap(
+      RefreshState.of(context).updateValue(
           newLanguage:
               globals.allPrayerBooks.getPrayerBook(prayerBook).language);
     } else {

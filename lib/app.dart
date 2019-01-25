@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'shared_preferences.dart';
 import 'pages/service.dart';
 import 'pages/calendar.dart';
 import 'pages/songs.dart';
 import 'globals.dart' as globals;
 import 'theme.dart';
-import 'dart:async';
 import 'model/calendar.dart';
 import 'pages/bible.dart';
 import 'json/serializePrayerBook.dart';
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final String _initialLanguage;
+  final double _initialTextScaleFactor;
+
+  MyApp(this._initialLanguage, this._initialTextScaleFactor);
+
   @override
   Widget build(BuildContext context) {
 
@@ -21,76 +26,124 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: 'WorkSans',
       ),
-      home: App(),
+      home: App(_initialLanguage, _initialTextScaleFactor),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
-
     );
   }
 }
 
+class App extends StatefulWidget {
+  final String initialLanguage;
+  final double initialTextScaleFactor;
 
-class _MyInherited extends InheritedWidget {
-  _MyInherited({
+  App(this.initialLanguage, this.initialTextScaleFactor);
+
+  @override
+  AppState createState() => AppState();
+}
+
+class AppState extends State<App> {
+  Day currentDay;
+  String currentLanguage;
+  double textScaleFactor;
+
+  @override void initState() {
+    super.initState();
+    initializeCurrentLanguage();
+    textScaleFactor = widget.initialTextScaleFactor;
+    setDay(DateTime.now()).then((day){
+      setState(() {
+        currentDay = day;
+      });
+    });
+  }
+
+  /// If textScaleFactor is null, then sets it based on device default.
+  initializeTextScaleFactor() {
+    if(textScaleFactor == null){
+      double _initValue = MediaQuery.of(context).textScaleFactor;
+      textScaleFactor = _initValue;
+      SharedPreferencesHelper.setTextScaleFactor(_initValue);
+    }
+  }
+
+  initializeCurrentLanguage() {
+    if(widget.initialLanguage == null){
+      String _initValue = globals.allPrayerBooks.prayerBooks.first.language;
+      currentLanguage = _initValue;
+      SharedPreferencesHelper.setCurrentLanguage(_initValue);
+    } else {
+      currentLanguage = widget.initialLanguage;
+    }
+  }
+
+  void updateValue({String newLanguage, Day newDay, double newTextScale}) {
+    setState(() {
+      if(newLanguage != null) {
+        currentLanguage = newLanguage;
+        SharedPreferencesHelper.setCurrentLanguage(newLanguage);
+      }
+      if (newDay != null){
+        currentDay = newDay;
+      }
+      if(newTextScale != null){
+        textScaleFactor = newTextScale;
+        SharedPreferencesHelper.setTextScaleFactor(newTextScale);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    initializeTextScaleFactor();
+
+    return RefreshState(
+        currentDay: currentDay,
+        currentLanguage: currentLanguage,
+        textScaleFactor: textScaleFactor,
+        updateValue: updateValue,
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
+          child: Theme(
+            data: updateTheme(Theme.of(context), currentDay),
+            child: HomePage(currentLanguage),
+          ),
+        )
+    );
+  }
+}
+
+class RefreshState extends InheritedWidget {
+  RefreshState({
     Key key,
-    @required Widget child,
-    @required this.data,
+    this.currentLanguage,
+    this.currentDay,
+    this.textScaleFactor,
+    this.updateValue,
+    Widget child,
   }) : super(key: key, child: child);
 
-  final MyInheritedWidgetState data;
+  final String currentLanguage;
+  final Function updateValue;
+  final Day currentDay;
+  final double textScaleFactor;
 
   @override
-  bool updateShouldNotify(_MyInherited oldWidget) {
-    return true;
+  updateShouldNotify(RefreshState oldWidget) {
+    return currentLanguage != oldWidget.currentLanguage || currentDay != oldWidget.currentDay;
+  }
+
+  static RefreshState of(BuildContext context) {
+    return context.inheritFromWidgetOfExactType(RefreshState);
   }
 }
-
-class MyInheritedWidget extends StatefulWidget {
-  MyInheritedWidget({
-    Key key,
-    this.child,
-  }): super(key: key);
-
-  final Widget child;
-
-  @override
-  MyInheritedWidgetState createState() => new MyInheritedWidgetState();
-
-  static MyInheritedWidgetState of(BuildContext context){
-    return (context.inheritFromWidgetOfExactType(_MyInherited) as _MyInherited).data;
-  }
-}
-
-class MyInheritedWidgetState extends State<MyInheritedWidget>{
-  /// List of Items
-  /// Default language name
-  String currentLanguage = 'en_ke';
-
-  /// Getter (number of items)
-  String get getLanguage => currentLanguage;
-
-  /// Helper method to add an Item
-//  void changeLanguage(String newLanguage){
-//    if(currentLanguage != newLanguage) {
-//      setState(() {
-//        currentLanguage = newLanguage;
-//      });
-//    }
-//  }
-
-  @override
-  Widget build(BuildContext context){
-    return new _MyInherited(
-      data: this,
-      child: widget.child,
-    );
-  }
-}
-
 
 class HomePage extends StatefulWidget{
+  final String initialLanguage;
 
-  HomePage({Key key}) : super(key: key);
+
+  HomePage(this.initialLanguage, {Key key}) : super(key: key);
 
   @override
   HomePageState createState() => new HomePageState();
@@ -110,19 +163,19 @@ class HomePageState extends State<HomePage> {
   List<Widget> pages = [];
   List<String> pageOrder;
   Widget currentPage;
-  
+
 
   @override
   void initState(){
-    PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks);
+    PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks, widget.initialLanguage);
     Service initialService = _setInitialService(initialPB);
 
     servicePage = ServicePage(
-        initialCurrentIndexes: {
-          "prayerBook": initialPB.id,
-          "service": initialService.id
-        },
-        key: keyServices,
+      initialCurrentIndexes: {
+        "prayerBook": initialPB.id,
+        "service": initialService.id
+      },
+      key: keyServices,
     );
     songPage = SongsPage(
       key: keySongs,
@@ -168,8 +221,7 @@ class HomePageState extends State<HomePage> {
 
 
   Future<bool> _exitApp(BuildContext context) {
-    final languageState = RefreshState.of(context);
-    final currentLanguage = languageState.currentLanguage;
+    final currentLanguage = getLanguage(context);
 
     return showDialog(
       context: context,
@@ -210,17 +262,19 @@ class HomePageState extends State<HomePage> {
   changeTab(newTabName){
     int newTab = pageOrder.indexOf(newTabName);
     if(currentTab != newTab){
-      setState(() {        
+      setState(() {
         currentTab = newTab;
         currentPage = pages[newTab];
       });
     }
   }
 
-  PrayerBook _setInitialPrayerBook(PrayerBooksContainer allPrayerBooks){
-//    TODO: if there are default settings, use those.
-    return allPrayerBooks.prayerBooks[0];
-
+  PrayerBook _setInitialPrayerBook(PrayerBooksContainer allPrayerBooks, [String language]){
+    if(language != null) {
+      return allPrayerBooks.getPrayerBook(null, language: language);
+    } else {
+      return allPrayerBooks.prayerBooks.first;
+    }
   }
   Service _setInitialService(PrayerBook initialPB){
     String serviceId ='eveningWorship';
@@ -239,14 +293,12 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new MyInheritedWidget(
-      child: new WillPopScope(
-        child: new Scaffold (
-          body: currentPage,
-          bottomNavigationBar: _buildBottomNavBar(),
-        ),
-        onWillPop: () => _showExit(context),
+    return WillPopScope(
+      child: new Scaffold (
+        body: currentPage,
+        bottomNavigationBar: _buildBottomNavBar(),
       ),
+      onWillPop: () => _showExit(context),
     );
   }
 
@@ -312,85 +364,6 @@ class HomePageState extends State<HomePage> {
 
 }
 
-
-
-class App extends StatefulWidget {
-  @override
-  AppState createState() => AppState();
-}
-
-class AppState extends State<App> {
-  String currentLanguage = globals.allPrayerBooks.prayerBooks[0].language;
-  Day currentDay;
-  double textScaleFactor;
-
-  @override void initState() {    // TODO: implement initState
-    super.initState();
-    setDay(DateTime.now()).then((day){
-      setState(() {
-        currentDay = day;
-      });
-    });
-  }
-
-  void onTap({String newLanguage, Day newDay, double newTextScale}) {
-    setState(() {
-      if(newLanguage != null) {
-        currentLanguage = newLanguage;
-      }
-      if (newDay != null){
-        currentDay = newDay;
-      }
-      if(newTextScale != null){
-        textScaleFactor = newTextScale;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    textScaleFactor = textScaleFactor ?? MediaQuery.of(context).textScaleFactor;
-
-    return RefreshState(
-      currentDay: currentDay,
-      currentLanguage: currentLanguage,
-      textScaleFactor: textScaleFactor,
-      onTap: onTap,
-      child: MediaQuery(
-        data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
-        child: Theme(
-          data: updateTheme(Theme.of(context), currentDay),
-          child: HomePage(),
-        ),
-      )
-    );
-  }
-}
-
-class RefreshState extends InheritedWidget {
-  RefreshState({
-    Key key,
-    this.currentLanguage,
-    this.currentDay,
-    this.textScaleFactor,
-    this.onTap,
-    Widget child,
-  }) : super(key: key, child: child);
-
-  final String currentLanguage;
-  final Function onTap;
-  final Day currentDay;
-  final double textScaleFactor;
-
-  @override
-  updateShouldNotify(RefreshState oldWidget) {
-    return currentLanguage != oldWidget.currentLanguage || currentDay != oldWidget.currentDay;
-  }
-
-  static RefreshState of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(RefreshState);
-  }
-}
 
 Text appBarTitle(String title, context, [String shortTitle]){
   double maxLength = 25/MediaQuery.of(context).textScaleFactor;

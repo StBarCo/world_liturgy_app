@@ -24,7 +24,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   void handleNewDate(date) {
     setDay(date).then((day) {
-      RefreshState.of(context).onTap(newDay: day);
+      RefreshState.of(context).updateValue(newDay: day);
     });
   }
 
