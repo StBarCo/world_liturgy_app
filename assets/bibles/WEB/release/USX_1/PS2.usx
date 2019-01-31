@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<usx version="2.6">
+  <book code="PS2" style="id" />
+  <para style="h">Psalm 151</para>
+  <para style="toc1">Psalm 151</para>
+  <para style="toc2">Psalm 151</para>
+  <para style="toc3">Ps151</para>
+  <para style="mt1">PSALM 151</para>
+  <para style="ip">
+    <char style="bk">Psalm 151</char> is recognised as Deuterocanonical Scripture by the Greek Orthodox and Russian Orthodox Churches.</para>
+  <chapter number="1" style="c" pubnumber="151" />
+  <para style="d">This Psalm is a genuine one of David, though extra,<note caller="+" style="f"><char style="fr" closed="false">1:0 </char><char style="ft" closed="false">or, supernumerary</char></note> composed when he fought in single combat with Goliath.</para>
+  <para style="q1">
+    <verse number="1" style="v" />I was small amongst my brothers,</para>
+  <para style="q2">and youngest in my father’s house.</para>
+  <para style="q2">I tended my father’s sheep.</para>
+  <para style="q1">
+    <verse number="2" style="v" />My hands formed a musical instrument,</para>
+  <para style="q2">and my fingers tuned a lute.</para>
+  <para style="q1">
+    <verse number="3" style="v" />Who shall tell my Lord?</para>
+  <para style="q2">The Lord himself, he himself hears.</para>
+  <para style="q1">
+    <verse number="4" style="v" />He sent forth his angel and took me from my father’s sheep,</para>
+  <para style="q2">and he anointed me with his anointing oil.</para>
+  <para style="q1">
+    <verse number="5" style="v" />My brothers were handsome and tall;</para>
+  <para style="q2">but the Lord didn’t take pleasure in them.</para>
+  <para style="q1">
+    <verse number="6" style="v" />I went out to meet the Philistine,</para>
+  <para style="q2">and he cursed me by his idols.</para>
+  <para style="q1">
+    <verse number="7" style="v" />But I drew his own sword and beheaded him,</para>
+  <para style="q2">and removed reproach from the children of Israel.</para>
+</usx>

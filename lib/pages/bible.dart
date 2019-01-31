@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../model/calendar.dart';
 import '../app.dart';
 import '../pages/calendar.dart';
+import '../model/bible.dart';
+import '../globals.dart' as globals;
 
 
 class BiblePage extends StatefulWidget{
@@ -15,38 +17,49 @@ class BiblePage extends StatefulWidget{
 }
 
 class _BiblePageState extends State<BiblePage> {
-  String currentLanguage;
-  Day currentDay;
+  Bible currentBible;
+  String currentBook;
+  int currentChapter;
 
   _BiblePageState();
 
   @override
+  void initState(){
+    super.initState();
+    currentBible = initialBible();
+    currentBook = 'PSA';
+    currentBible.bibleFormat.openBook(currentBook).then((var a){
+        setState((){
+        });
+    });
+    currentChapter = 9;
+  }
+
+  Bible initialBible(){
+    return globals.bibles.first;
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    final refreshState = RefreshState.of(context);
-    currentLanguage = refreshState.currentLanguage;
-    currentDay = refreshState.currentDay;
-
-
-    return new Scaffold(
+    return Scaffold(
       appBar: new AppBar(
         title: new Text('Bible'),
+        textTheme: Theme
+            .of(context)
+            .textTheme,
       ),
       body: new Container(
         margin: new EdgeInsets.symmetric(
-          horizontal: 5.0,
-          vertical: 10.0,
+          horizontal: 20.0,
+          vertical: 00.0,
         ),
         child: new ListView(
-          shrinkWrap: true,
-          children: <Widget>[
-            Text("The Bible Will Go Here Boys and Girls"),
-
-
-
-          ],
+//          shrinkWrap: true,
+          children: currentBible.bibleFormat.renderChapter(currentBook, currentChapter),
         ),
       ),
-
     );
   }
 }

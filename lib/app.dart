@@ -188,7 +188,7 @@ class HomePageState extends State<HomePage> {
       key: keyCalendar,
     );
 
-    pageOrder = ['services', 'songs', 'calendar'];
+    pageOrder = ['services', 'songs', 'bible', 'calendar',];
 
     pageOrder.forEach((page){
       switch(page){
@@ -207,7 +207,7 @@ class HomePageState extends State<HomePage> {
         }
         break;
 
-        case 'biblePage':{
+        case 'bible':{
           pages.add(biblePage);
         }
         break;

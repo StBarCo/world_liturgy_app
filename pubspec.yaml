@@ -65,6 +65,10 @@ flutter:
     - assets/data/docs/songBooks.xml
     - assets/data/docs/songBooksSample.xml
 
+    - assets/bibles/WEB/metadata.xml
+    - assets/bibles/WEB/release/versification.vrs
+    - assets/bibles/WEB/release/USX_4/
+
 
   fonts:
     - family: WorkSans

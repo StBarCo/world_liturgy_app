@@ -6,12 +6,15 @@ import 'json/serializeSongBook.dart';
 import 'data/database.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'model/bible.dart';
 
 PrayerBooksContainer allPrayerBooks;
 CalendarScaffold calendarScaffold;
 SongBooksContainer allSongBooks;
 DatabaseClient db;
 SharedPreferences preferences;
+List<Bible> bibles;
+
 
 //Day currentDay;
 

@@ -1,0 +1,159 @@
+import '../bible_format.dart';
+import 'package:flutter/material.dart';
+import 'package:xml/xml.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:core';
+import 'package:xml2json/xml2json.dart';
+import 'dart:convert';
+import '../parts.dart';
+
+class USXBible extends BibleFormat {
+  final String publicationID;
+  XmlDocument currentXMLBook;
+  Map jsonMetadata;
+
+  USXBible({
+    path,
+    this.publicationID,
+  }) : super(path: path) {
+    initializeMetadata();
+  }
+
+  @override
+  List<Widget> getPassage(reference) {
+    print('getPassage()');
+    return null;
+  }
+
+  @override
+  List<Widget> renderChapter(String bookAbbr, int chapterNumber) {
+    List<Widget> chapter = [];
+
+    if (currentXMLBook != null) {
+      var xmlChapter = currentXMLBook
+          .findElements('usx')
+          .first
+          .findElements('chapter').firstWhere((ch) => ch is XmlElement && ch.getAttribute('number') == chapterNumber.toString())
+          .following;
+
+
+
+      for (var node in xmlChapter) {
+        if (node is XmlElement) {
+          String type = node.name.qualified;
+//          print('Type: ' + type);
+          String elementStyle = node.getAttribute('style');
+          if (type == 'chapter') {
+            break;
+          } else if (type == 'para' && !isIgnoredParagraphStyle(elementStyle)) {
+
+            if (isIgnoredParagraphStyle(elementStyle)) break;
+            print('paraStyle: ' + elementStyle);
+            List paragraphParts = [];
+//            List<TextSpan> elements = [];
+            for (var child in node.children) {
+              if (child is XmlElement) {
+                if (child.name.qualified == 'verse') {
+                  paragraphParts.add({'vNumber': child.getAttribute('number')});
+//                  elements.add(TextSpan(text: child.getAttribute('number') + '\u{2074}',));
+                }
+              } else {
+                paragraphParts.add(child.text);
+//                elements.add(TextSpan(text:child.text,));
+              }
+            }
+            chapter.add(selectParagraphBuilder(elementStyle, paragraphParts));
+          }
+        }
+      }
+    }
+
+    return chapter;
+  }
+
+  @override
+  int getChaptersInBook(book) {
+    print('getChaptersInBook()');
+
+    return null;
+  }
+
+  @override
+  int getVersesInChapter(chapter) {
+    print('getVersesInChapter()');
+    return null;
+  }
+
+  initializeMetadata() async {
+    Map data = await _loadJson(path + '/metadata.xml');
+    jsonMetadata = data;
+  }
+
+  @override
+  openBook(String book) {
+    String bookLocation = jsonMetadata['DBLMetadata']['publications']
+            ['publication']
+        .firstWhere((e) => e['id'] == publicationID)['structure']['content']
+        .firstWhere((e) => e['role'] == book)['src'];
+
+    return waitForBook(bookLocation);
+  }
+
+  waitForBook(String bookLocation) async {
+    currentXMLBook = await _loadXML(path + '/' + bookLocation);
+
+    return currentXMLBook;
+  }
+
+  selectParagraphBuilder(String style, List parts) {
+    if (['p,m'].contains(style)) {
+      return BibleParagraphBasic(parts);
+    } else if (['pm,pmo, pmc, mi'].contains(style)) {
+      return BibleParagraphIndented(parts);
+    } else if (style == 'pmr') {
+      return BibleParagraphIndented(parts, TextAlign.right);
+    } else if (style == 'nb') {
+      return BibleParagraphNoBreak(parts);
+    }else if (style == 'b') {
+      return PoetryBlankLine();
+    }else {
+      return BibleParagraphBasic(parts);
+    }
+//    d, b, sp, li1, nb,
+  }
+
+  bool isIgnoredParagraphStyle(style) {
+    List<String> ignoredStyles = [
+      'ms1',
+      'ide',
+      'toc1',
+      'toc2',
+      'toc3',
+      'mt1',
+      'ms1',
+    ];
+
+    return ignoredStyles.contains(style);
+  }
+}
+
+Future _loadXML(fileName) async {
+  String xmlAsString = await _getXmlData(fileName);
+  xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
+  return parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+}
+
+/// Assumes the given path is a text-file-asset.
+Future<String> _getXmlData(String path) async {
+  return await rootBundle.loadString(path);
+}
+
+Future<Map> _loadJson(fileName) async {
+  String xmlAsString = await _getXmlData(fileName);
+  xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
+
+  final Xml2Json myTransformer = new Xml2Json();
+  myTransformer.parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+
+  return json.decode(myTransformer.toGData());
+}
