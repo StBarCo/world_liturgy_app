@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'styles.dart';
 
 /// Returns a basic paragraph formatted as Biblical Text.
 /// Accepts a dynamic list which contain either strings or a Map.
@@ -7,34 +8,37 @@ import 'package:flutter/material.dart';
 ///
 /// This basic class is used as the base for all paragraph classes.
 /// Standard paragraphs are not displayed with any indentation.
-class BibleParagraphBasic extends StatelessWidget{
+class BibleParagraphBasic extends StatelessWidget {
   final List elements;
   final TextAlign alignment;
 
-  BibleParagraphBasic(this.elements,[this.alignment = TextAlign.left]);
-  
+  BibleParagraphBasic(this.elements, [this.alignment = TextAlign.left]);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 20.0),
       child: Text.rich(
-        TextSpan(children: buildParagraph(elements),),
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
         textAlign: alignment,
-        style: TextStyle(color: Colors.black),
-
+        style: generalTextStyle(),
       ),
     );
   }
 
-  buildParagraph(List elements){
+  buildParagraph(List elements) {
     List<TextSpan> contents = [];
 
-    elements.forEach((element){
-      if(element is String){
-        contents.add(TextSpan(text:element,));
+    elements.forEach((element) {
+      if (element is String) {
+        contents.add(TextSpan(
+          text: element,
+        ));
       }
-      if(element is Map){
-        if(element.containsKey('vNumber')) {
+      if (element is Map) {
+        if (element.containsKey('vNumber')) {
           contents.add(verseNumber(element['vNumber']));
         }
       }
@@ -42,11 +46,14 @@ class BibleParagraphBasic extends StatelessWidget{
     return contents;
   }
 
-  TextSpan verseNumber(verse){
-    return TextSpan(text: getUnicodeSuperscript(verse) + ' ',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black38));
+  TextSpan verseNumber(verse) {
+    return TextSpan(
+      text: getUnicodeSuperscript(verse) + ' ',
+      style: verseNumberStyle(),
+    );
   }
 
-  String getUnicodeSuperscript(number){
+  String getUnicodeSuperscript(number) {
     String superscriptNumbers = '';
     Map<String, String> unicodeNumbers = {
       '2': '\u00B2',
@@ -61,26 +68,27 @@ class BibleParagraphBasic extends StatelessWidget{
       '0': '\u2070',
     };
 
-    for( String digit in number.toString().split('')){
+    for (String digit in number.toString().split('')) {
       superscriptNumbers += unicodeNumbers[digit];
     }
     return superscriptNumbers;
   }
-
 }
 
 /// Used for block quotes additional horizontal margin on both sides.
-class BibleParagraphIndented extends BibleParagraphBasic{
-
+class BibleParagraphIndented extends BibleParagraphBasic {
   BibleParagraphIndented(elements, [alignment]) : super(elements, alignment);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 80.0, right: 80.0, top:20.0),
+      padding: const EdgeInsets.only(left: 80.0, right: 80.0, top: 20.0),
       child: Text.rich(
-        TextSpan(children: buildParagraph(elements),),
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
         textAlign: alignment,
+        style: generalTextStyle(),
       ),
     );
   }
@@ -93,42 +101,135 @@ class BibleParagraphNoBreak extends BibleParagraphBasic {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top:0.0),
+      padding: const EdgeInsets.only(top: 0.0),
       child: Text.rich(
-        TextSpan(children: buildParagraph(elements),),
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
         textAlign: alignment,
+        style: generalTextStyle(),
       ),
     );
   }
 }
-class PoetryBlankLine extends StatelessWidget{
+
+/// Small heading -- esp. for Psalms (e.g. 'of David')
+/// or to identify speaker.
+class BiblePassageHeading extends BibleParagraphBasic {
+  BiblePassageHeading(elements, [alignment]) : super(elements, alignment);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Text.rich(
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
+        textAlign: alignment,
+        style: passageHeadingStyle(),
+      ),
+    );
+  }
+}
+
+/// Major section header (e.g. 'Book 1' of the Psalms)
+class BibleMajorSection extends BibleParagraphBasic {
+  BibleMajorSection(elements, [alignment]) : super(elements, alignment);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Text.rich(
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
+        textAlign: TextAlign.center,
+        style: sectionHeaderStyle(),
+      ),
+    );
+  }
+}
+
+class BiblePoetryStanza extends BibleParagraphBasic {
+  final int indentLevel;
+
+  BiblePoetryStanza(elements, [this.indentLevel = 0, alignment])
+      : super(elements, alignment);
+
+  @override
+  Widget build(BuildContext context) {
+    String verse = checkForVerseNumber(elements.first);
+
+    return Padding(
+      padding: EdgeInsets.only(
+          top: verse == null ? 0.0 : 3.0,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            child: Text(
+              verse != null ? getUnicodeSuperscript(verse) : '',
+              style: verseNumberStyle(),
+            ),
+            width: 30.0,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: (indentLevel -1)* 30.0,
+              ),
+              child: Text.rich(
+                TextSpan(children: buildParagraph(elements)),
+                textAlign: alignment,
+                style: generalTextStyle(),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  @override
+  buildParagraph(List elements) {
+    List<TextSpan> contents = [];
+
+    elements.forEach((element) {
+      if (element is String) {
+        contents.add(TextSpan(
+          text: element,
+        ));
+      }
+    });
+    return contents;
+  }
+
+  String checkForVerseNumber(element) {
+    if (element is Map && element.containsKey('vNumber')) {
+      return element['vNumber'].toString();
+    }
+    return null;
+  }
+}
+
+class PoetryBlankLine extends StatelessWidget {
   PoetryBlankLine();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Text('');
+    return Text(
+      '',
+      style: generalTextStyle(),
+    );
   }
 }
 
 // OTHER POSSIBLE STYLES Listed in USX Style Sheet:
-
-//<style id="sp" publishable="true" versetext="false">
-//<name>sp - Heading - Speaker</name>
-//<description>A heading, to identify the speaker (e.g. Job)</description>
-//<property name="font-style">italic</property>
-//<property name="text-align">left</property>
-//<property name="margin-bottom" unit="pt">4</property>
-//<property name="margin-top" unit="pt">8</property>
-//</style>
-//<style id="d" publishable="true" versetext="true">
-//<name>d - Heading - Descriptive Title - Hebrew Subtitle</name>
-//<description>A Hebrew text heading, to provide description (e.g. Psalms)</description>
-//<property name="font-style">italic</property>
-//<property name="text-align">center</property>
-//<property name="margin-bottom" unit="pt">4</property>
-//<property name="margin-top" unit="pt">4</property>
-//</style>
 
 //  <style id="q" publishable="true" versetext="true">
 //  <name>q - Poetry - Indent Level 1 - Single Level Only</name>
@@ -221,13 +322,11 @@ class PoetryBlankLine extends StatelessWidget{
 //  <property name="text-align">center</property>
 //  </style>
 
-
 //  <style id="cls" publishable="true" versetext="true">
 //  <name>cls - Paragraph - Closure of an Epistle</name>
 //  <description>Letter Closing</description>
 //  <property name="text-align">right</property>
 //  </style>
-
 
 //  <style id="qa" publishable="true" versetext="false">
 //  <name>qa - Poetry - Acrostic Heading/Marker</name>
@@ -269,4 +368,3 @@ class PoetryBlankLine extends StatelessWidget{
 //  <property name="text-align">left</property>
 //  <property name="margin-left" unit="in">1.000</property>
 //  </style>
-

@@ -41,6 +41,14 @@ class BibleFormat extends Object {
     return null;
   }
 
+  Map getBookTitle(){
+    return {
+      'full': 'Full Title',
+      'short': 'Short Title',
+      'abbr': 'Abbreviation',
+    };
+  }
+
 
   final String _overridePrompt = 'Override this method in your extended format class: ';
 

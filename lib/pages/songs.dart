@@ -55,15 +55,14 @@ class _SongsPageState extends State<SongsPage> {
   Widget _buildBar(BuildContext context) {
     return new AppBar(
 //      centerTitle: true,
-      textTheme: Theme
-          .of(context)
-          .textTheme,
-      title: _appBarTitle(),
-      leading: new IconButton(
-        icon: _searchIcon,
-        onPressed: _searchPressed,
-      ),
-    );
+        textTheme: Theme.of(context).textTheme,
+        title: _appBarTitle(),
+        actions: [
+          new IconButton(
+            icon: _searchIcon,
+            onPressed: _searchPressed,
+          ),
+        ]);
   }
 
   Widget _buildList() {
@@ -74,9 +73,8 @@ class _SongsPageState extends State<SongsPage> {
     }
 
     return ListView.builder(
-      itemBuilder: (BuildContext context, int index) =>
-          buildSongIndex(
-              filteredSongBooks[index], filteredSongBooks.length == 1),
+      itemBuilder: (BuildContext context, int index) => buildSongIndex(
+          filteredSongBooks[index], filteredSongBooks.length == 1),
       itemCount: filteredSongBooks.length,
     );
   }
@@ -127,12 +125,11 @@ class _SongsPageState extends State<SongsPage> {
   Widget _appBarTitle() {
     if (_searchIcon.icon != Icons.search) {
       return TextField(
-        controller: _filter,
-        decoration: new InputDecoration(
+          controller: _filter,
+          decoration: new InputDecoration(
             prefixIcon: new Icon(Icons.search),
             hintText: globals.translate(getLanguage(context), 'search') + '...',
-        )
-      );
+          ));
     }
 
     return appBarTitle(
@@ -150,7 +147,6 @@ class _SongsPageState extends State<SongsPage> {
       }
     });
   }
-
 
   Widget buildSongIndex(SongBook songBook, bool expanded,
       [List<Song> songList]) {
@@ -171,13 +167,10 @@ class _SongsPageState extends State<SongsPage> {
       key: new PageStorageKey<SongBook>(songBook),
       title: new Text(
         titleText ?? 'No title',
-        style: Theme
-            .of(context)
+        style: Theme.of(context)
             .textTheme
             .subhead
-            .copyWith(color: Theme
-            .of(context)
-            .accentColor),
+            .copyWith(color: Theme.of(context).accentColor),
       ),
       initiallyExpanded: expanded,
       children: _buildServicesTiles(songList),
@@ -186,36 +179,25 @@ class _SongsPageState extends State<SongsPage> {
 
   List<Widget> _buildServicesTiles(songList) {
     List<Widget> songsList = [];
-    dynamic currentDay = RefreshState
-        .of(context)
-        .currentDay;
-    dynamic currentLanguage = RefreshState
-        .of(context)
-        .currentLanguage;
-    dynamic textScaleFactor = RefreshState
-        .of(context)
-        .textScaleFactor;
+    dynamic currentDay = RefreshState.of(context).currentDay;
+    dynamic currentLanguage = RefreshState.of(context).currentLanguage;
+    dynamic textScaleFactor = RefreshState.of(context).textScaleFactor;
 //    Service serviceName;
     for (var song in songList) {
       songsList.add(new Padding(
           padding: EdgeInsets.only(left: 20.0),
           child: new ListTile(
             leading: Icon(Icons.music_note),
-            title: songTitle(song, style: Theme
-                .of(context)
-                .textTheme
-                .body1),
+            title: songTitle(song, style: Theme.of(context).textTheme.body1),
             subtitle: Text(song.subtitle ?? '',
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .caption
                     .merge(referenceAndSubtitleStyle)),
             selected: false,
             onTap: () {
               var route = new MaterialPageRoute(
-                builder: (BuildContext itemContext) =>
-                new RefreshState(
+                builder: (BuildContext itemContext) => new RefreshState(
                     currentDay: currentDay,
                     currentLanguage: currentLanguage,
                     textScaleFactor: textScaleFactor,
@@ -238,26 +220,25 @@ class _SongsPageState extends State<SongsPage> {
   }
 }
 
-  Text songTitle(Song song, {style}) {
-    String text = '';
+Text songTitle(Song song, {style}) {
+  String text = '';
 
-    if (song.number != null) {
-      text += song.number.toString() + '. ';
-    }
-    if (song.title != null) {
-      text += song.title;
-    }
-    if (text == '') {
-      text = 'No Title';
-    }
-
-    if (style == null) {
-      return new Text(text);
-    } else {
-      return new Text(
-        text,
-        style: style,
-      );
-    }
+  if (song.number != null) {
+    text += song.number.toString() + '. ';
+  }
+  if (song.title != null) {
+    text += song.title;
+  }
+  if (text == '') {
+    text = 'No Title';
   }
 
+  if (style == null) {
+    return new Text(text);
+  } else {
+    return new Text(
+      text,
+      style: style,
+    );
+  }
+}
