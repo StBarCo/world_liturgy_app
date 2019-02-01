@@ -12,7 +12,7 @@ class USXBible extends BibleFormat {
   XmlDocument currentXMLBook;
   Map jsonMetadata;
   Map<String, String> currentBookTitles;
-  Map<String, dynamic> bookChapters;
+  Map<String, Map<String, dynamic>> bookTitlesAndChapters;
 
   USXBible({
     path,
@@ -28,6 +28,11 @@ class USXBible extends BibleFormat {
   }
 
   @override
+  Map getBookTitlesAndChapters(){
+    return bookTitlesAndChapters;
+  }
+
+  @override
   List<Widget> renderChapter(String bookAbbr, int chapterNumber) {
     List<Widget> chapter = [];
 
@@ -35,7 +40,10 @@ class USXBible extends BibleFormat {
       var xmlChapter = currentXMLBook
           .findElements('usx')
           .first
-          .findElements('chapter').firstWhere((ch) => ch is XmlElement && ch.getAttribute('number') == chapterNumber.toString())
+          .findElements('chapter')
+          .firstWhere((ch) =>
+              ch is XmlElement &&
+              ch.getAttribute('number') == chapterNumber.toString())
           .following;
 
       for (var node in xmlChapter) {
@@ -45,7 +53,6 @@ class USXBible extends BibleFormat {
           if (type == 'chapter') {
             break;
           } else if (type == 'para' && !isIgnoredParagraphStyle(elementStyle)) {
-
             if (isIgnoredParagraphStyle(elementStyle)) break;
             List paragraphParts = [];
 //            List<TextSpan> elements = [];
@@ -60,12 +67,12 @@ class USXBible extends BibleFormat {
 //                elements.add(TextSpan(text:child.text,));
               }
             }
-            chapter.add(selectParagraphBuilder(elementStyle.trim(), paragraphParts));
+            chapter.add(
+                selectParagraphBuilder(elementStyle.trim(), paragraphParts));
           }
         }
       }
     }
-
     return chapter;
   }
 
@@ -85,60 +92,52 @@ class USXBible extends BibleFormat {
   initializeMetadata() async {
     Map data = await _loadJson(path + '/metadata.xml');
     jsonMetadata = data;
-    String versification = await _getStringFromFile(path + '/release/versification.vrs');
+    String versification =
+        await _getStringFromFile(path + '/release/versification.vrs');
     setBooksAndChapters(versification);
   }
 
   @override
   openBook(String book) {
-    Map bookReference = jsonMetadata['DBLMetadata']['publications']
-            ['publication']
-        .firstWhere((e) => e['id'] == publicationID)['structure']['content']
-        .firstWhere((e) => e['role'] == book);
-
     currentXMLBook = null;
     currentBookTitles = null;
-    setBookTitle('name');
-    return waitForBook(bookReference['src']);
+    return waitForBook(bookTitlesAndChapters[book]['src']);
   }
 
-  @override
-  Map getBookTitle(){
-    if(currentXMLBook == null){
-      return {
-        'full':null,
-        'short':null,
-        'abbr':null,
+  setBooksAndChapters(String versificationData) {
+    Map<String, Map<String, dynamic>> masterMap = {};
+
+    List bookList = jsonMetadata['DBLMetadata']['publications']['publication']
+        .firstWhere((e) => e['id'] == publicationID)['structure']['content'];
+
+    List bookTitlesList = jsonMetadata['DBLMetadata']['names']['name'];
+
+    bookList.forEach((element) {
+      Map bookTitles = bookTitlesList.firstWhere((e) => e['id'] == element['name']);
+
+      masterMap[element['role']] = {
+        'src': element['src'],
+        'abbr': bookTitles['abbr']['\$t'],
+        'short': bookTitles['short']['\$t'],
+        'long': bookTitles['long']['\$t'],
       };
-    }else {
-      return {
-        'full': '',
-        'short': 'Short Title',
-        'abbr': 'Abbreviation',
-      };
-    }
-  }
+    });
 
-  setBookTitle(String bookName){
-    Map bookJson = jsonMetadata['DBLMetadata']['names']['name'].firstWhere((e) => e['id'] == 'book-gen');
+    List<String> chapterCounts = versificationData
+        .split('#')
+        .firstWhere((String s) => s.startsWith(" Verse number is the maximum "))
+        .split('\n');
 
-    currentBookTitles = {
-      'abbr': bookJson['abbr']['\$t'],
-      'short': bookJson['short']['\$t'],
-      'long': bookJson['long']['\$t'],
-    };
-  }
+    chapterCounts.forEach((String data) {
+      List asList = data.split(' ');
 
-  setBooksAndChapters(String rawData){
-    String chapterSection = rawData.split('#').firstWhere((String s) => s.startsWith(" Verse number is the maximum "));
+      if (masterMap.containsKey(asList.first)) {
+        masterMap[asList.first]['chapters'] =
+            asList.last.split(':').first.toString();
+      }
+    });
 
-    Map<String, dynamic> chaptersMap = Map.fromIterable(
-        chapterSection.split('\n'),
-      key: (item) => item.split(' ').first,
-      value: (item) => item.split(' ').last.split(':').first,
-    );
-
-    bookChapters = chaptersMap;
+    bookTitlesAndChapters = masterMap;
   }
 
   waitForBook(String bookLocation) async {
@@ -156,18 +155,17 @@ class USXBible extends BibleFormat {
       return BibleParagraphIndented(parts, TextAlign.right);
     } else if (style == 'nb') {
       return BibleParagraphNoBreak(parts);
-    }else if (style == 'b') {
+    } else if (style == 'b') {
       return PoetryBlankLine();
-    } else if (['sp', 'd'].contains(style)){
+    } else if (['sp', 'd'].contains(style)) {
       return BiblePassageHeading(parts);
-    } else if(['ms1'].contains(style)){
+    } else if (['ms1'].contains(style)) {
       return BibleMajorSection(parts);
-    } else if(['q','q1','q2', 'q3', 'q4','qc', 'qr', 'qs'].contains(style)){
+    } else if (['q', 'q1', 'q2', 'q3', 'q4', 'qc', 'qr', 'qs']
+        .contains(style)) {
       int indent = int.tryParse(style.split('').last) ?? 0;
       return BiblePoetryStanza(parts, indent);
-    }
-
-    else {
+    } else {
       return BibleParagraphBasic(parts);
     }
 //    d, b, sp, li1, nb,
@@ -181,7 +179,6 @@ class USXBible extends BibleFormat {
       'toc2',
       'toc3',
       'mt1',
-
     ];
 
     return ignoredStyles.contains(style);

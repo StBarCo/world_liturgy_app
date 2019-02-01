@@ -41,11 +41,18 @@ class BibleFormat extends Object {
     return null;
   }
 
-  Map getBookTitle(){
+  Map getBookTitlesAndChapters(){
     return {
-      'full': 'Full Title',
+      'GEN' : {
+      'long': 'Full Title',
       'short': 'Short Title',
       'abbr': 'Abbreviation',
+      },
+      'EXO' : {
+        'long': 'Full Title',
+        'short': 'Short Title',
+        'abbr': 'Abbreviation',
+      },
     };
   }
 

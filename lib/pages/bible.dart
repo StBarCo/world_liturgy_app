@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../model/calendar.dart';
 import '../app.dart';
 import '../pages/calendar.dart';
 import '../model/bible.dart';
@@ -16,6 +15,7 @@ class BiblePage extends StatefulWidget {
 }
 
 class _BiblePageState extends State<BiblePage> {
+  ScrollController _controller;
   Bible currentBible;
   String currentBook;
   int currentChapter;
@@ -25,16 +25,33 @@ class _BiblePageState extends State<BiblePage> {
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
     currentBible = initialBible();
-    currentBook = 'PSA';
+    currentBook = 'GEN';
+    currentChapter = 1;
     currentBible.bibleFormat.openBook(currentBook).then((var a) {
       setState(() {});
     });
-    currentChapter = 119;
   }
 
   Bible initialBible() {
     return globals.bibles.first;
+  }
+
+  changeBookOrChapter(bookCode, chapter) {
+    if (currentBook != bookCode) {
+      currentBible.bibleFormat.openBook(bookCode).then((var a) {
+        setState(() {
+          currentChapter = chapter;
+        });
+      });
+      currentBook = bookCode;
+    } else {
+      setState(() {
+        currentChapter = chapter;
+      });
+    }
+    _controller.jumpTo(0.0);
   }
 
   @override
@@ -43,18 +60,34 @@ class _BiblePageState extends State<BiblePage> {
       appBar: new AppBar(
         title: FlatButton(
           padding: EdgeInsets.only(left: 0.0),
-          onPressed: null,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+//                  title: new Text('Do you like Flutter?'),
+                  child: ListView(
+                    children: booksMenu(),
+                  ),
+                );
+              },
+              barrierDismissible: true,
+            );
+          },
           child: Row(
             children: <Widget>[
-              Text(currentBook + ' ' + currentChapter.toString(),
-                style: Theme.of(context).textTheme.headline,),
+              Text(
+                currentBible.bibleFormat.getBookTitlesAndChapters()[currentBook]
+                        ['short'] +
+                    ' ' +
+                    currentChapter.toString(),
+                style: Theme.of(context).textTheme.headline,
+              ),
               Icon(Icons.arrow_drop_down),
             ],
           ),
         ),
-        textTheme: Theme
-            .of(context)
-            .textTheme,
+        textTheme: Theme.of(context).textTheme,
         actions: [
           FlatButton(
             onPressed: () {},
@@ -62,19 +95,92 @@ class _BiblePageState extends State<BiblePage> {
           ),
         ],
       ),
-      body: new Container(
-        margin: new EdgeInsets.symmetric(
-          horizontal: 20.0,
-          vertical: 00.0,
-        ),
-        child: new ListView(
-//          shrinkWrap: true,
-          children: currentBible.bibleFormat
-              .renderChapter(currentBook, currentChapter),
+      body: Dismissible(
+        key: Key(currentChapter.toString()),
+        onDismissed: (direction) {
+          int newChapter = currentChapter;
+          if (direction == DismissDirection.startToEnd) {
+            newChapter -= 1;
+          } else if (direction == DismissDirection.endToStart) {
+            newChapter += 1;
+          }
+          changeBookOrChapter(currentBook, newChapter);
+        },
+        direction: validDismissDirections(),
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 00.0,
+          ),
+          child: ListView(
+            controller: _controller,
+            children: currentBible.bibleFormat
+                .renderChapter(currentBook, currentChapter),
+          ),
         ),
       ),
     );
   }
+
+  DismissDirection validDismissDirections() {
+    if (currentChapter == 1) {
+      return DismissDirection.endToStart;
+    } else if (currentChapter ==
+        int.parse(currentBible.bibleFormat
+            .getBookTitlesAndChapters()[currentBook]['chapters'])) {
+      return DismissDirection.startToEnd;
+    }
+    return DismissDirection.horizontal;
+  }
+
+  List<Widget> booksMenu() {
+    List<Widget> books = [];
+
+    currentBible.bibleFormat
+        .getBookTitlesAndChapters()
+        .forEach((abbr, bookMap) {
+      books.add(ExpansionTile(
+        title: Text(
+          bookMap['short'],
+//            style: Theme.of(context).textTheme.headline,
+        ),
+        initiallyExpanded: abbr == currentBook,
+        children: [
+          GridView.count(
+            physics: ScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 15.0),
+            childAspectRatio: 1.8,
+            crossAxisCount: 5,
+            shrinkWrap: true,
+            children: List.generate(
+              int.parse(bookMap['chapters'].toString()),
+              (index) {
+                return GestureDetector(
+                  onTap: () {
+                    changeBookOrChapter(abbr, index + 1);
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(5.0),
+                    child: Center(
+                      child: Text(
+                        (index + 1).toString(),
+                        textAlign: TextAlign.center,
+//                      style: Theme.of(context).textTheme.headline,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ));
+    });
+
+    return books;
+  }
+
 }
 
 Widget lectionaryReading(item, context) {
@@ -84,7 +190,7 @@ Widget lectionaryReading(item, context) {
 
 //  RefreshState.of(context).currentDay
   List<String> readings =
-  getDailyReadings(lectionaryType, readingType, context);
+      getDailyReadings(lectionaryType, readingType, context);
 
   readings.forEach((ref) {
     list.addAll(getPassage(ref, context));
@@ -134,15 +240,15 @@ String getDummyPassage(ref) {
 }
 
 String ez15 =
-'''15 The word of the Lord came to me: 2 “Son of man, how is the wood of a vine different from that of a branch from any of the trees in the forest? 3 Is wood ever taken from it to make anything useful? Do they make pegs from it to hang things on? 4 And after it is thrown on the fire as fuel and the fire burns both ends and chars the middle, is it then useful for anything? 5 If it was not useful for anything when it was whole, how much less can it be made into something useful when the fire has burned it and it is charred?
+    '''15 The word of the Lord came to me: 2 “Son of man, how is the wood of a vine different from that of a branch from any of the trees in the forest? 3 Is wood ever taken from it to make anything useful? Do they make pegs from it to hang things on? 4 And after it is thrown on the fire as fuel and the fire burns both ends and chars the middle, is it then useful for anything? 5 If it was not useful for anything when it was whole, how much less can it be made into something useful when the fire has burned it and it is charred?
       
       6 “Therefore this is what the Sovereign Lord says: As I have given the wood of the vine among the trees of the forest as fuel for the fire, so will I treat the people living in Jerusalem. 7 I will set my face against them. Although they have come out of the fire, the fire will yet consume them. And when I set my face against them, you will know that I am the Lord. 8 I will make the land desolate because they have been unfaithful, declares the Sovereign Lord.” ''';
 
 String eph2 =
-'''2 As for you, you were dead in your transgressions and sins, 2 in which you used to live when you followed the ways of this world and of the ruler of the kingdom of the air, the spirit who is now at work in those who are disobedient. 3 All of us also lived among them at one time, gratifying the cravings of our flesh[a] and following its desires and thoughts. Like the rest, we were by nature deserving of wrath. 4 But because of his great love for us, God, who is rich in mercy, 5 made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved. 6 And God raised us up with Christ and seated us with him in the heavenly realms in Christ Jesus, 7 in order that in the coming ages he might show the incomparable riches of his grace, expressed in his kindness to us in Christ Jesus. 8 For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— 9 not by works, so that no one can boast. 10 For we are God’s handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.''';
+    '''2 As for you, you were dead in your transgressions and sins, 2 in which you used to live when you followed the ways of this world and of the ruler of the kingdom of the air, the spirit who is now at work in those who are disobedient. 3 All of us also lived among them at one time, gratifying the cravings of our flesh[a] and following its desires and thoughts. Like the rest, we were by nature deserving of wrath. 4 But because of his great love for us, God, who is rich in mercy, 5 made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved. 6 And God raised us up with Christ and seated us with him in the heavenly realms in Christ Jesus, 7 in order that in the coming ages he might show the incomparable riches of his grace, expressed in his kindness to us in Christ Jesus. 8 For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— 9 not by works, so that no one can boast. 10 For we are God’s handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.''';
 
 String john8 =
-'''31 To the Jews who believed in him Jesus said: If you make my word your home you will indeed be my disciples;
+    '''31 To the Jews who believed in him Jesus said: If you make my word your home you will indeed be my disciples;
 
 32 you will come to know the truth, and the truth will set you free.
 
