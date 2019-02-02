@@ -61,6 +61,8 @@ class USXBible extends BibleFormat {
                 if (child.name.qualified == 'verse') {
                   paragraphParts.add({'vNumber': child.getAttribute('number')});
 //                  elements.add(TextSpan(text: child.getAttribute('number') + '\u{2074}',));
+                } else if (child.name.qualified == 'char' && child.getAttribute('style') == 'wj'){
+                  paragraphParts.add(child.text);
                 }
               } else {
                 paragraphParts.add(child.text);
@@ -73,6 +75,9 @@ class USXBible extends BibleFormat {
         }
       }
     }
+    //          add blank space at bottom of chapter
+
+    chapter.add(Container(height: 100.0,));
     return chapter;
   }
 
