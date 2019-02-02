@@ -184,20 +184,6 @@ class _BiblePageState extends State<BiblePage> {
 
     return books;
   }
-
-  _booksMenuPosition() async {
-//    var a = 1;
-//
-//    _menuScrollController.jumpTo(2000);
-
-    if (_menuScrollController.hasClients) {
-      await _menuScrollController.animateTo(
-        700.0,
-        curve: Curves.easeOut,
-        duration: const Duration(milliseconds: 300),
-      );
-    }
-  }
 }
 
 Widget lectionaryReading(item, context) {
