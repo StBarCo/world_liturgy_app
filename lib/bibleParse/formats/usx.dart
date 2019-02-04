@@ -9,9 +9,8 @@ import '../parts.dart';
 
 class USXBible extends BibleFormat {
   final String publicationID;
-  XmlDocument currentXMLBook;
-  Map jsonMetadata;
-  Map<String, String> currentBookTitles;
+  Map<String, XmlDocument> booksData = {};
+  Map bibleMetadata;
   Map<String, Map<String, dynamic>> bookTitlesAndChapters;
 
   USXBible({
@@ -22,56 +21,64 @@ class USXBible extends BibleFormat {
   }
 
   @override
-  Map getBookTitlesAndChapters(){
+  Map getBookTitlesAndChapters() {
     return bookTitlesAndChapters;
   }
 
   @override
-  List<Widget> renderPassage(BibleRef ref) {
+  Future<List<Widget>> renderPassage(BibleRef ref) async {
+    XmlDocument bookXml;
+    if(booksData.containsKey(ref.bookAbbr)){
+      bookXml = booksData[ref.bookAbbr];
+    } else {
+      bookXml= await getFutureBook(ref.bookAbbr);
+      booksData[ref.bookAbbr] = bookXml;
+    }
     List<Widget> chapter = [];
 
-    if (currentXMLBook != null) {
-      var xmlChapter = currentXMLBook
-          .findElements('usx')
-          .first
-          .findElements('chapter')
-          .firstWhere((ch) =>
-              ch is XmlElement &&
-              ch.getAttribute('number') == ref.chapter.toString())
-          .following;
+    var xmlStart = bookXml
+        .findElements('usx')
+        .first
+        .findElements('chapter')
+        .firstWhere((ch) =>
+            ch is XmlElement &&
+            ch.getAttribute('number') == ref.chapter.toString())
+        .following;
 
-      for (var node in xmlChapter) {
-        if (node is XmlElement) {
-          String type = node.name.qualified;
-          String elementStyle = node.getAttribute('style');
-          if (type == 'chapter') {
-            break;
-          } else if (type == 'para' && !isIgnoredParagraphStyle(elementStyle)) {
-            if (isIgnoredParagraphStyle(elementStyle)) break;
-            List paragraphParts = [];
+    for (var node in xmlStart) {
+      if (node is XmlElement) {
+        String type = node.name.qualified;
+        String elementStyle = node.getAttribute('style');
+        if (type == 'chapter') {
+          break;
+        } else if (type == 'para' && !isIgnoredParagraphStyle(elementStyle)) {
+          if (isIgnoredParagraphStyle(elementStyle)) break;
+          List paragraphParts = [];
 //            List<TextSpan> elements = [];
-            for (var child in node.children) {
-              if (child is XmlElement) {
-                if (child.name.qualified == 'verse') {
-                  paragraphParts.add({'vNumber': child.getAttribute('number')});
+          for (var child in node.children) {
+            if (child is XmlElement) {
+              if (child.name.qualified == 'verse') {
+                paragraphParts.add({'vNumber': child.getAttribute('number')});
 //                  elements.add(TextSpan(text: child.getAttribute('number') + '\u{2074}',));
-                } else if (child.name.qualified == 'char' && child.getAttribute('style') == 'wj'){
-                  paragraphParts.add(child.text);
-                }
-              } else {
+              } else if (child.name.qualified == 'char' &&
+                  child.getAttribute('style') == 'wj') {
                 paragraphParts.add(child.text);
-//                elements.add(TextSpan(text:child.text,));
               }
+            } else {
+              paragraphParts.add(child.text);
+//                elements.add(TextSpan(text:child.text,));
             }
-            chapter.add(
-                selectParagraphBuilder(elementStyle.trim(), paragraphParts));
           }
+          chapter
+              .add(selectParagraphBuilder(elementStyle.trim(), paragraphParts));
         }
       }
     }
-    //          add blank space at bottom of chapter
 
-    chapter.add(Container(height: 100.0,));
+    //          add blank space at bottom of chapter
+    chapter.add(Container(
+      height: 100.0,
+    ));
     return chapter;
   }
 
@@ -90,29 +97,32 @@ class USXBible extends BibleFormat {
 
   initializeMetadata() async {
     Map data = await _loadJson(path + '/metadata.xml');
-    jsonMetadata = data;
+    bibleMetadata = data;
     String versification =
         await _getStringFromFile(path + '/release/versification.vrs');
     setBooksAndChapters(versification);
   }
 
-  @override
-  openBook(String book) {
-    currentXMLBook = null;
-    currentBookTitles = null;
-    return waitForBook(bookTitlesAndChapters[book]['src']);
+//  openBook(String book) {
+//    waitForBook(book, bookTitlesAndChapters[book]['src']);
+////    return true;
+//  }
+
+  Future<XmlDocument> getFutureBook(bookAbbrev) async {
+    return _loadXML(path + '/' + bookTitlesAndChapters[bookAbbrev]['src']);
   }
 
   setBooksAndChapters(String versificationData) {
     Map<String, Map<String, dynamic>> masterMap = {};
 
-    List bookList = jsonMetadata['DBLMetadata']['publications']['publication']
+    List bookList = bibleMetadata['DBLMetadata']['publications']['publication']
         .firstWhere((e) => e['id'] == publicationID)['structure']['content'];
 
-    List bookTitlesList = jsonMetadata['DBLMetadata']['names']['name'];
+    List bookTitlesList = bibleMetadata['DBLMetadata']['names']['name'];
 
     bookList.forEach((element) {
-      Map bookTitles = bookTitlesList.firstWhere((e) => e['id'] == element['name']);
+      Map bookTitles =
+          bookTitlesList.firstWhere((e) => e['id'] == element['name']);
 
       masterMap[element['role']] = {
         'src': element['src'],
@@ -139,10 +149,10 @@ class USXBible extends BibleFormat {
     bookTitlesAndChapters = masterMap;
   }
 
-  waitForBook(String bookLocation) async {
-    currentXMLBook = await _loadXML(path + '/' + bookLocation);
+  waitForBook(String abbr, String bookLocation) async {
+    booksData[abbr] = await _loadXML(path + '/' + bookLocation);
 
-    return currentXMLBook;
+//    return currentXMLBook;
   }
 
   selectParagraphBuilder(String style, List parts) {
@@ -184,15 +194,15 @@ class USXBible extends BibleFormat {
   }
 }
 
-Future _loadXML(fileName) async {
+Future<XmlDocument> _loadXML(fileName) async {
   String xmlAsString = await _getStringFromFile(fileName);
   xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
   return parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
 }
 
 /// Assumes the given path is a text-file-asset.
-Future<String> _getStringFromFile(String path) async {
-  return await rootBundle.loadString(path);
+Future<String> _getStringFromFile(String path) {
+  return rootBundle.loadString(path);
 }
 
 Future<Map> _loadJson(fileName) async {

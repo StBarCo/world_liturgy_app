@@ -13,11 +13,13 @@ class BibleFormat extends Object {
 
   final String path;
 
-  BibleFormat({@required this.path,});
+  BibleFormat({
+    @required this.path,
+  });
 
-  List<Widget> renderPassage(BibleRef reference) {
+  Future<List<Widget>> renderPassage(BibleRef reference) {
     print(_overridePrompt + 'getChapter()');
-    return [Text(_overridePrompt + 'getChapter()')];
+//    return [Text(_overridePrompt + 'getChapter()')];
   }
 
   int getChaptersInBook(book) {
@@ -31,18 +33,18 @@ class BibleFormat extends Object {
     return null;
   }
 
-  openBook(String bookAbbr){
+  openBook(String bookAbbr) {
     return null;
   }
 
-  Map getBookTitlesAndChapters(){
+  Map getBookTitlesAndChapters() {
     return {
-      'GEN' : {
-      'long': 'Full Title',
-      'short': 'Short Title',
-      'abbr': 'Abbreviation',
+      'GEN': {
+        'long': 'Full Title',
+        'short': 'Short Title',
+        'abbr': 'Abbreviation',
       },
-      'EXO' : {
+      'EXO': {
         'long': 'Full Title',
         'short': 'Short Title',
         'abbr': 'Abbreviation',
@@ -50,8 +52,8 @@ class BibleFormat extends Object {
     };
   }
 
-
-  final String _overridePrompt = 'Override this method in your extended format class: ';
+  final String _overridePrompt =
+      'Override this method in your extended format class: ';
 
   Map<String, String> standardAbbreviations() {
     return {
@@ -140,18 +142,112 @@ class BibleFormat extends Object {
   }
 }
 
+/// A generous reference system:
+/// bookAbbr => whole book,
+/// bookAbbr & chapter => individual chapter,
+/// bookAbbr & chapter & verse => individual verse
+///
+/// endingChapter & endingVerse are inclusive
+/// (e.g. endingChapter ==5  should return all of chapter 5 and then stop)
+///
+/// verse or endingVerse should not be used without chapter,
+/// because different bible formats may have different logic
+///
 class BibleRef extends Object {
   String bookAbbr;
-  int chapter;
-  int verse;
 
-  int endingChapter;
-  int endingVerse;
+  int _chapter;
+  int _verse;
+  int _endingChapter;
+  int _endingVerse;
 
-  BibleRef({
-    @required this.chapter,
-    @required this.bookAbbr,
-    this.endingChapter,
-    this.endingVerse
-  });
+  BibleRef(this.bookAbbr,
+      [this._chapter, this._verse, this._endingChapter, this._endingVerse]);
+
+  set chapter(int i) {
+    _chapter = i;
+  }
+
+  set verse(int i) {
+    _verse = i;
+  }
+
+  set endingChapter(int i) {
+    _endingChapter = i;
+  }
+
+  set endingVerse(int i) {
+    _endingVerse = i;
+  }
+
+  int get chapter {
+    if (_chapter == null) {
+      return 1;
+    } else {
+      return _chapter;
+    }
+  }
+
+  int get verse {
+    if (_verse == null) {
+      return 1;
+    } else {
+      return _verse;
+    }
+  }
+
+  int get endingChapter {
+    if (_endingChapter != null) {
+      return _endingChapter;
+    } else {
+      return _chapter;
+    }
+  }
+
+  int get endingVerse {
+    if (_endingVerse != null) {
+      return _endingVerse;
+    } else if (_chapter != null && _verse != null && _endingChapter == null) {
+      return _verse;
+    } else {
+      return null;
+    }
+  }
+
+  String get print {
+    String type = this.refType;
+    if (type == 'Book') {
+      return bookAbbr;
+    } else if (type == 'Chapter'){
+      return bookAbbr + _chapter.toString();
+    } else if (type == "Verse"){
+      return bookAbbr + _chapter.toString() + ':' + _verse.toString();
+    } else if (type == "Passage"){
+      String endingRef = endingChapter.toString();
+      if(endingVerse != null) {
+        endingRef += ':' + endingVerse.toString();
+      }
+      return bookAbbr + _chapter.toString() + ':' + _verse.toString() + '-' + endingRef;
+    } else if (type == 'Passage - Single Chapter'){
+      return bookAbbr + _chapter.toString() + ':' + _verse.toString() + _endingVerse.toString();
+    }
+    return 'Unknown Passage Type';
+
+  }
+
+  String get refType {
+    if (_chapter == null && _endingChapter == null) {
+      return 'Book';
+    } else if (_endingChapter == null && _endingVerse == null) {
+      if (verse == null) {
+        return 'Chapter';
+      } else {
+        return 'Verse';
+      }
+    } else if (_endingChapter != null) {
+      return 'Passage - Single Chapter';
+    } else {
+      return 'Passage';
+    }
+  }
 }

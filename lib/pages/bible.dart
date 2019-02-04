@@ -36,9 +36,6 @@ class _BiblePageState extends State<BiblePage> {
     currentRef = widget.ref;
     currentBookInfo = currentBible.bibleFormat
         .getBookTitlesAndChapters()[currentRef.bookAbbr];
-    currentBible.bibleFormat.openBook(currentRef.bookAbbr).then((var a) {
-      setState(() {});
-    });
   }
 
   Bible initialBible() {
@@ -48,18 +45,12 @@ class _BiblePageState extends State<BiblePage> {
   changeBook(BibleRef newRef) {
     if (currentRef.bookAbbr != newRef.bookAbbr) {
       currentBookInfo =
-      currentBible.bibleFormat.getBookTitlesAndChapters()[newRef.bookAbbr];
-      currentBible.bibleFormat.openBook(newRef.bookAbbr).then((var a) {
-        setState(() {
-          currentRef = newRef;
-        });
-      });
-
-    } else {
-      setState(() {
-        currentRef = newRef;
-      });
+          currentBible.bibleFormat.getBookTitlesAndChapters()[newRef.bookAbbr];
     }
+    setState(() {
+      currentRef = newRef;
+    });
+
     _pageController.animateToPage(newRef.chapter - 1,
         duration: Duration(milliseconds: 400), curve: Curves.ease);
 //    _pageController.jumpTo(0.0);
@@ -76,74 +67,84 @@ class _BiblePageState extends State<BiblePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: new AppBar(
-          title: FlatButton(
-            padding: EdgeInsets.only(left: 0.0),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return Dialog(
-                    insetAnimationCurve: Curves.ease,
-                    child: ListView(
-                      key: Key('menu'),
-                      controller: _menuScrollController,
-                      children: booksMenu(),
-                    ),
-                  );
-                },
-                barrierDismissible: true,
-              );
-              List bookList = currentBible.bibleFormat
-                  .getBookTitlesAndChapters()
-                  .keys
-                  .toList();
+      appBar: new AppBar(
+        title: FlatButton(
+          padding: EdgeInsets.only(left: 0.0),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  insetAnimationCurve: Curves.ease,
+                  child: ListView(
+                    key: Key('menu'),
+                    controller: _menuScrollController,
+                    children: booksMenu(),
+                  ),
+                );
+              },
+              barrierDismissible: true,
+            );
+            List bookList = currentBible.bibleFormat
+                .getBookTitlesAndChapters()
+                .keys
+                .toList();
 
-              Future.delayed(Duration(milliseconds: 50), () {
-                _menuScrollController.jumpTo(
-                  bookList.indexOf(currentRef.chapter) * 58.0,
+            Future.delayed(Duration(milliseconds: 50), () {
+              _menuScrollController.jumpTo(
+                bookList.indexOf(currentRef.chapter) * 58.0,
 //                    duration: const Duration(milliseconds: 300),
 //                    curve: Curves.ease,
-                );
-              });
-            },
-            child: Row(
-              children: <Widget>[
-                Text(
-                  currentBookInfo['short'] + ' ' + currentRef.chapter.toString(),
-                  style: Theme.of(context).textTheme.headline,
-                ),
-                Icon(Icons.arrow_drop_down),
-              ],
-            ),
-          ),
-          textTheme: Theme.of(context).textTheme,
-          actions: [
-            FlatButton(
-              onPressed: () {},
-              child: Text(currentBible.abbreviation),
-            ),
-          ],
-        ),
-        body: PageView.builder(
-          itemBuilder: (context, chapter) {
-            return Padding(
-              padding: EdgeInsets.only(right: 20.0, left: 20.0),
-              child: ListView(
-                key: PageStorageKey(chapter.toString()),
-                children: currentBible.bibleFormat.renderPassage(
-                  BibleRef(chapter: currentRef.chapter +1, bookAbbr: currentRef.bookAbbr)
-                )
-//                    .renderPassage(currentBookAbbr, chapter + 1),
+              );
+            });
+          },
+          child: Row(
+            children: <Widget>[
+              Text(
+                currentBookInfo['short'] + ' ' + currentRef.chapter.toString(),
+                style: Theme.of(context).textTheme.headline,
               ),
-            );
-          },
-          itemCount: int.parse(currentBookInfo['chapters']),
-          controller: _pageController,
-          onPageChanged: (newChapter) {
-            changeChapter(newChapter +1);
-          },
-        ));
+              Icon(Icons.arrow_drop_down),
+            ],
+          ),
+        ),
+        textTheme: Theme.of(context).textTheme,
+        actions: [
+          FlatButton(
+            onPressed: () {},
+            child: Text(currentBible.abbreviation),
+          ),
+        ],
+      ),
+      body: PageView.builder(
+        itemBuilder: (context, chapter) {
+          return Padding(
+            padding: EdgeInsets.only(right: 20.0, left: 20.0),
+            child: FutureBuilder<List>(
+                future: currentBible.bibleFormat.renderPassage(
+                    BibleRef(currentRef.bookAbbr, currentRef.chapter + 1)),
+                builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Container();
+                    case ConnectionState.waiting:
+                      return Container();
+                    default:
+                      return ListView(
+                        key: PageStorageKey(chapter.toString()),
+                        children: snapshot.data,
+                      );
+                  }
+                }),
+          );
+        },
+        itemCount: int.parse(currentBookInfo['chapters']),
+        controller: _pageController,
+        onPageChanged: (newChapter) {
+          changeChapter(newChapter + 1);
+        },
+      ),
+    );
   }
 
   List<Widget> booksMenu() {
@@ -170,7 +171,7 @@ class _BiblePageState extends State<BiblePage> {
               (index) {
                 return GestureDetector(
                   onTap: () {
-                    changeBook(BibleRef(bookAbbr: abbr, chapter: index +1));
+                    changeBook(BibleRef(abbr, index + 1));
                     Navigator.of(context).pop();
                   },
                   child: Container(

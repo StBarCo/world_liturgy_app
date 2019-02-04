@@ -314,7 +314,7 @@ class HomePageState extends State<HomePage> {
   }
 
   BibleRef _setInitialBibleReference(){
-    return BibleRef(chapter: 1, bookAbbr: 'GEN');
+    return BibleRef('GEN', 1);
   }
 
   @override
