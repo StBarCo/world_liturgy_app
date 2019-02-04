@@ -15,3 +15,4 @@ class Bible extends Object {
     @required this.abbreviation,
   });
 }
+

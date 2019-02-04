@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 /// methods in /parts.
 
 class BibleFormat extends Object {
-  ///  The base clsss of a format. This class should never be implemented on its own,
+  ///  The base class of a format. This class should never be implemented on its own,
   ///  but will be extended and customized for each format. There are basic methods
   ///  which should always be overriden in extended classes.
 
@@ -15,13 +15,7 @@ class BibleFormat extends Object {
 
   BibleFormat({@required this.path,});
 
-
-  List<Widget> getPassage(reference) {
-    print(_overridePrompt + 'getPassage()');
-    return [Text(_overridePrompt + 'getPassage()')];
-  }
-
-  List<Widget> renderChapter(String book, int chapter) {
+  List<Widget> renderPassage(BibleRef reference) {
     print(_overridePrompt + 'getChapter()');
     return [Text(_overridePrompt + 'getChapter()')];
   }
@@ -144,4 +138,20 @@ class BibleFormat extends Object {
       "dag": "The Book of Daniel with Greek Portions",
     };
   }
+}
+
+class BibleRef extends Object {
+  String bookAbbr;
+  int chapter;
+  int verse;
+
+  int endingChapter;
+  int endingVerse;
+
+  BibleRef({
+    @required this.chapter,
+    @required this.bookAbbr,
+    this.endingChapter,
+    this.endingVerse
+  });
 }

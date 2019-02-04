@@ -18,4 +18,13 @@ class SharedPreferencesHelper {
   static Future<bool> setCurrentLanguage(String value) async {
     return globals.preferences.setString('currentLanguage', value);
   }
+
+  static Future<bool> setCurrentBible(String value) async {
+    return globals.preferences.setString('currentBible', value);
+  }
+
+  static Future<String> getCurrentBible() async {
+    return globals.preferences.getString('currentBible');
+  }
+
 }

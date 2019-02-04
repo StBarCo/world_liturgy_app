@@ -22,18 +22,12 @@ class USXBible extends BibleFormat {
   }
 
   @override
-  List<Widget> getPassage(reference) {
-    print('getPassage()');
-    return null;
-  }
-
-  @override
   Map getBookTitlesAndChapters(){
     return bookTitlesAndChapters;
   }
 
   @override
-  List<Widget> renderChapter(String bookAbbr, int chapterNumber) {
+  List<Widget> renderPassage(BibleRef ref) {
     List<Widget> chapter = [];
 
     if (currentXMLBook != null) {
@@ -43,7 +37,7 @@ class USXBible extends BibleFormat {
           .findElements('chapter')
           .firstWhere((ch) =>
               ch is XmlElement &&
-              ch.getAttribute('number') == chapterNumber.toString())
+              ch.getAttribute('number') == ref.chapter.toString())
           .following;
 
       for (var node in xmlChapter) {

@@ -10,12 +10,16 @@ import 'theme.dart';
 import 'model/calendar.dart';
 import 'pages/bible.dart';
 import 'json/serializePrayerBook.dart';
+import 'model/bible.dart';
+import 'bibleParse/bible_format.dart';
 
 class MyApp extends StatelessWidget {
   final String _initialLanguage;
   final double _initialTextScaleFactor;
+  final String _initialBible;
 
-  MyApp(this._initialLanguage, this._initialTextScaleFactor);
+
+  MyApp(this._initialLanguage, this._initialTextScaleFactor, this._initialBible);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: 'WorkSans',
       ),
-      home: App(_initialLanguage, _initialTextScaleFactor),
+      home: App(_initialLanguage, _initialTextScaleFactor, _initialBible),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
     );
@@ -36,8 +40,9 @@ class MyApp extends StatelessWidget {
 class App extends StatefulWidget {
   final String initialLanguage;
   final double initialTextScaleFactor;
+  final String initialBible;
 
-  App(this.initialLanguage, this.initialTextScaleFactor);
+  App(this.initialLanguage, this.initialTextScaleFactor, this.initialBible);
 
   @override
   AppState createState() => AppState();
@@ -47,6 +52,7 @@ class AppState extends State<App> {
   Day currentDay;
   String currentLanguage;
   double textScaleFactor;
+  String initialBibleAbbr;
 
   @override void initState() {
     super.initState();
@@ -78,6 +84,8 @@ class AppState extends State<App> {
     }
   }
 
+
+
   void updateValue({String newLanguage, Day newDay, double newTextScale}) {
     setState(() {
       if(newLanguage != null) {
@@ -107,7 +115,7 @@ class AppState extends State<App> {
           data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
           child: Theme(
             data: updateTheme(Theme.of(context), currentDay),
-            child: HomePage(currentLanguage),
+            child: HomePage(currentLanguage, initialBibleAbbr: initialBibleAbbr),
           ),
         )
     );
@@ -141,9 +149,10 @@ class RefreshState extends InheritedWidget {
 
 class HomePage extends StatefulWidget{
   final String initialLanguage;
+  final String initialBibleAbbr;
 
 
-  HomePage(this.initialLanguage, {Key key}) : super(key: key);
+  HomePage(this.initialLanguage, {this.initialBibleAbbr, Key key}) : super(key: key);
 
   @override
   HomePageState createState() => new HomePageState();
@@ -153,7 +162,7 @@ class HomePageState extends State<HomePage> {
   final Key keyServices = PageStorageKey('pageKeyServices');
   final Key keySongs = PageStorageKey('pageKeySongs');
   final Key keyCalendar = PageStorageKey('pageKeyCalendar');
-  final Key keyBible = PageStorageKey('keyBible');
+  final Key keyBible = PageStorageKey('pageKeyBible');
 
   int currentTab = 0;
   ServicePage servicePage;
@@ -169,6 +178,8 @@ class HomePageState extends State<HomePage> {
   void initState(){
     PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks, widget.initialLanguage);
     Service initialService = _setInitialService(initialPB);
+    Bible initialBible = initializeCurrentBible();
+    BibleRef initialBibleReference = _setInitialBibleReference();
 
     servicePage = ServicePage(
       initialCurrentIndexes: {
@@ -182,6 +193,8 @@ class HomePageState extends State<HomePage> {
     );
 
     biblePage = BiblePage(
+      bible: initialBible,
+      ref: initialBibleReference,
       key: keyBible,
     );
     calendarPage = CalendarPage(
@@ -289,6 +302,19 @@ class HomePageState extends State<HomePage> {
     }
 
     return initialPB.services.first;
+  }
+
+  Bible initializeCurrentBible(){
+    if(widget.initialBibleAbbr == null){
+      SharedPreferencesHelper.setCurrentBible(globals.bibles.first.abbreviation);
+      return globals.bibles.first;
+    } else {
+      return globals.bibles.firstWhere((Bible bible) => bible.abbreviation == widget.initialBibleAbbr);
+    }
+  }
+
+  BibleRef _setInitialBibleReference(){
+    return BibleRef(chapter: 1, bookAbbr: 'GEN');
   }
 
   @override

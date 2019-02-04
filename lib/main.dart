@@ -20,7 +20,8 @@ void main() async{
   await globals.db.create();
   String _initialLanguage = await SharedPreferencesHelper.getCurrentLanguage();
   double _initialTextScaleFactor = await SharedPreferencesHelper.getTextScaleFactor();
-  runApp(new MyApp(_initialLanguage, _initialTextScaleFactor));
+  String _initialBible = await SharedPreferencesHelper.getCurrentBible();
+  runApp(new MyApp(_initialLanguage, _initialTextScaleFactor, _initialBible));
 }
 
 List<Bible> _initializeBibles(){
