@@ -4,7 +4,7 @@ import '../app.dart';
 import '../pages/calendar.dart';
 import '../model/bible.dart';
 import '../globals.dart' as globals;
-import '../bibleParse/bible_format.dart';
+import '../shared_preferences.dart';
 import '../bibleParse/bible_reference.dart';
 
 class BiblePage extends StatefulWidget {
@@ -64,6 +64,17 @@ class _BiblePageState extends State<BiblePage> {
     _pageController.animateToPage(currentRef.chapter - 1,
         duration: Duration(milliseconds: 400), curve: Curves.ease);
   }
+  
+  changeBible(String abbr){
+
+    setState(() {
+      currentRef = currentRef;
+      currentBible = globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
+      SharedPreferencesHelper.setCurrentBible(abbr);
+    });
+//    currentBookInfo =
+//    currentBible.bibleFormat.getBookTitlesAndChapters()[abbr];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +131,7 @@ class _BiblePageState extends State<BiblePage> {
               child: Row(
                 children: <Widget>[
                   Text(
-                    'WEB',
+                    currentBible.abbreviation,
                     style: TextStyle(
                         color: Theme.of(context).primaryIconTheme.color),
                   ),
@@ -129,25 +140,21 @@ class _BiblePageState extends State<BiblePage> {
                 ],
               ),
             ),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                  PopupMenuItem(
-                    value: 2,
-                    child: ListTile(
-                      title: Text("WEB"),
-                      subtitle: Text('World English Bible'),
-                      selected: true,
-                    ),
+            itemBuilder: (BuildContext context) {
+              return globals.bibles.map((Bible bible){
+                return PopupMenuItem(
+                  value: bible.abbreviation,
+                  child: ListTile(
+                    title: Text(bible.abbreviation),
+                    subtitle: Text(bible.title),
+                    selected: currentBible == bible,
                   ),
-                  PopupMenuItem(
-                    value: 3,
-                    child: ListTile(
-                      title: Text("NIV"),
-                      subtitle: Text('New International Version'),
-                      dense: true,
-
-                    ),
-                  ),
-                ],
+                );
+              }).toList();
+            },
+            onSelected: (value){
+              changeBible(value);
+            },
           ),
         ],
       ),
@@ -189,7 +196,7 @@ class _BiblePageState extends State<BiblePage> {
         .forEach((abbr, bookMap) {
       books.add(ExpansionTile(
         title: Text(
-          bookMap['short'],
+          bookMap['title'],
 //            style: Theme.of(context).textTheme.headline,
         ),
         initiallyExpanded: abbr == currentRef.bookAbbr,

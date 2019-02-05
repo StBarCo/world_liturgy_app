@@ -110,6 +110,7 @@ class AppState extends State<App> {
         currentDay: currentDay,
         currentLanguage: currentLanguage,
         textScaleFactor: textScaleFactor,
+
         updateValue: updateValue,
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
@@ -314,7 +315,7 @@ class HomePageState extends State<HomePage> {
   }
 
   BibleRef _setInitialBibleReference(){
-    return BibleRef("MAT", 2, 12, null , 22);
+    return BibleRef("MAT", 1);
   }
 
   @override

@@ -113,6 +113,25 @@ class BibleParagraphNoBreak extends BibleParagraphBasic {
   }
 }
 
+/// Used for basic non-paragrophed verese.
+class BibleBasicText extends BibleParagraphBasic {
+  BibleBasicText(elements, [alignment]) : super(elements, alignment);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 5.0),
+      child: Text.rich(
+        TextSpan(
+          children: buildParagraph(elements),
+        ),
+        textAlign: alignment,
+        style: generalTextStyle(),
+      ),
+    );
+  }
+}
+
 /// Small heading -- esp. for Psalms (e.g. 'of David')
 /// or to identify speaker.
 class BiblePassageHeading extends BibleParagraphBasic {

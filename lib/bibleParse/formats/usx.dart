@@ -9,7 +9,7 @@ class USXBible extends BibleFormat {
   final String publicationID;
   Map<String, XmlDocument> booksData = {};
   Map bibleMetadata;
-  Map<String, Map<String, dynamic>> bookTitlesAndChapters;
+  Map<String, Map<String, String>> bookTitlesAndChapters;
 
   USXBible({
     path,
@@ -182,7 +182,7 @@ class USXBible extends BibleFormat {
   }
 
   setBooksAndChapters(String versificationData) {
-    Map<String, Map<String, dynamic>> masterMap = {};
+    Map<String, Map<String, String>> masterMap = {};
 
     List bookList = bibleMetadata['DBLMetadata']['publications']['publication']
         .firstWhere((e) => e['id'] == publicationID)['structure']['content'];

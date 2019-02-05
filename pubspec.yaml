@@ -69,8 +69,8 @@ flutter:
     - assets/bibles/WEB/release/versification.vrs
     - assets/bibles/WEB/release/USX_4/
 
-    -assets/bibles/SUV.xml
-    -assets/bibles/SWA.xml
+    - assets/bibles/SUV.xml
+    - assets/bibles/SWA.xml
 
 
   fonts:
