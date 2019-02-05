@@ -72,8 +72,8 @@ class _BiblePageState extends State<BiblePage> {
       currentBible = globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
       SharedPreferencesHelper.setCurrentBible(abbr);
     });
-//    currentBookInfo =
-//    currentBible.bibleFormat.getBookTitlesAndChapters()[abbr];
+    currentBookInfo =
+    currentBible.bibleFormat.getBookTitlesAndChapters()[abbr];
   }
 
   @override
@@ -102,9 +102,10 @@ class _BiblePageState extends State<BiblePage> {
                 .keys
                 .toList();
 
-            Future.delayed(Duration(milliseconds: 50), () {
+            Future.delayed(Duration(milliseconds: 1000), () {
               _menuScrollController.jumpTo(
                 bookList.indexOf(currentRef.chapter) * 58.0,
+//                    58.0,
 //                    duration: const Duration(milliseconds: 300),
 //                    curve: Curves.ease,
               );
@@ -113,7 +114,8 @@ class _BiblePageState extends State<BiblePage> {
           child: Row(
             children: <Widget>[
               appBarTitle(
-                currentBookInfo['title'] + ' ' + currentRef.printRef['content'],
+                currentBible.bibleFormat
+                    .getBookTitlesAndChapters()[currentRef.bookAbbr]['title'] + ' ' + currentRef.printRef['content'],
                 context,
               ),
               Icon(
@@ -179,7 +181,8 @@ class _BiblePageState extends State<BiblePage> {
                 }),
           );
         },
-        itemCount: int.parse(currentBookInfo['chapters']),
+        itemCount: int.parse(currentBible.bibleFormat
+            .getBookTitlesAndChapters()[currentRef.bookAbbr]['chapters']),
         controller: _pageController,
         onPageChanged: (newChapter) {
           changeChapter(newChapter + 1);
