@@ -50,6 +50,7 @@ class _BiblePageState extends State<BiblePage> {
     }
     setState(() {
       currentRef = newRef;
+
     });
 
     _pageController.animateToPage(newRef.chapter - 1,
@@ -61,19 +62,22 @@ class _BiblePageState extends State<BiblePage> {
     setState(() {
       currentRef.chapter = newChapter;
     });
-    _pageController.animateToPage(currentRef.chapter - 1,
-        duration: Duration(milliseconds: 400), curve: Curves.ease);
+    Future.delayed(Duration(milliseconds: 500), ()
+    {
+      _pageController.animateToPage(currentRef.chapter - 1,
+          duration: Duration(milliseconds: 400), curve: Curves.ease);
+    });
   }
-  
-  changeBible(String abbr){
 
+  changeBible(String abbr){
+    currentBible = globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
+    currentBookInfo =
+    currentBible.bibleFormat.getBookTitlesAndChapters()[currentRef.bookAbbr];
     setState(() {
-      currentRef = currentRef;
-      currentBible = globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
+//      currentRef = currentRef;
       SharedPreferencesHelper.setCurrentBible(abbr);
     });
-    currentBookInfo =
-    currentBible.bibleFormat.getBookTitlesAndChapters()[abbr];
+
   }
 
   @override
@@ -102,12 +106,9 @@ class _BiblePageState extends State<BiblePage> {
                 .keys
                 .toList();
 
-            Future.delayed(Duration(milliseconds: 1000), () {
+            Future.delayed(Duration(milliseconds: 50), () {
               _menuScrollController.jumpTo(
-                bookList.indexOf(currentRef.chapter) * 58.0,
-//                    58.0,
-//                    duration: const Duration(milliseconds: 300),
-//                    curve: Curves.ease,
+                bookList.indexOf(currentRef.bookAbbr) * 58.0,
               );
             });
           },
@@ -178,15 +179,16 @@ class _BiblePageState extends State<BiblePage> {
                         children: snapshot.data,
                       );
                   }
-                }),
+                },
+            ),
           );
         },
-        itemCount: int.parse(currentBible.bibleFormat
-            .getBookTitlesAndChapters()[currentRef.bookAbbr]['chapters']),
+        itemCount: int.parse(currentBookInfo['chapters']),
         controller: _pageController,
         onPageChanged: (newChapter) {
           changeChapter(newChapter + 1);
         },
+
       ),
     );
   }
@@ -211,22 +213,18 @@ class _BiblePageState extends State<BiblePage> {
             crossAxisCount: 5,
             shrinkWrap: true,
             children: List.generate(
-              int.parse(bookMap['chapters'].toString()),
+              int.parse(bookMap['chapters']),
               (index) {
-                return GestureDetector(
-                  onTap: () {
+                return FlatButton(
+                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  onPressed: () {
                     changeBook(BibleRef(abbr, index + 1));
                     Navigator.of(context).pop();
                   },
-                  child: Container(
-                    padding: EdgeInsets.all(5.0),
-                    child: Center(
-                      child: Text(
-                        (index + 1).toString(),
-                        textAlign: TextAlign.center,
-//                      style: Theme.of(context).textTheme.headline,
-                      ),
-                    ),
+                  child: Text(
+                    (index + 1).toString(),
+                    textAlign: TextAlign.center,
+// style: Theme.of(context).textTheme.headline,
                   ),
                 );
               },
