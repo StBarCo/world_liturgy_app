@@ -216,8 +216,8 @@ class BiblePoetryStanza extends BibleParagraphBasic {
   }
 }
 
-class PoetryBlankLine extends StatelessWidget {
-  PoetryBlankLine();
+class BiblePoetryBlankLine extends StatelessWidget {
+  BiblePoetryBlankLine();
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +227,25 @@ class PoetryBlankLine extends StatelessWidget {
       style: generalTextStyle(),
     );
   }
+}
+
+class BibleChapterHeader extends StatelessWidget{
+  final String chapterNumber;
+
+  BibleChapterHeader(this.chapterNumber);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 40.0),
+      child: Text(
+        chapterNumber,
+        textAlign: TextAlign.center,
+        style: chapterHeaderStyle(),
+      ),
+    );
+  }
+
 }
 
 // OTHER POSSIBLE STYLES Listed in USX Style Sheet:

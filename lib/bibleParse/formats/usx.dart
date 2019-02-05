@@ -1,11 +1,9 @@
 import '../bible_format.dart';
 import 'package:flutter/material.dart';
 import 'package:xml/xml.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'dart:core';
-import 'package:xml2json/xml2json.dart';
-import 'dart:convert';
 import '../parts.dart';
+import '../bible_reference.dart';
 
 class USXBible extends BibleFormat {
   final String publicationID;
@@ -28,58 +26,129 @@ class USXBible extends BibleFormat {
   @override
   Future<List<Widget>> renderPassage(BibleRef ref) async {
     XmlDocument bookXml;
-    if(booksData.containsKey(ref.bookAbbr)){
+    if (booksData.containsKey(ref.bookAbbr)) {
       bookXml = booksData[ref.bookAbbr];
     } else {
-      bookXml= await getFutureBook(ref.bookAbbr);
+      bookXml = await getFutureBook(ref.bookAbbr);
       booksData[ref.bookAbbr] = bookXml;
     }
-    List<Widget> chapter = [];
+    List<Widget> passage = [];
 
-    var xmlStart = bookXml
-        .findElements('usx')
-        .first
-        .findElements('chapter')
-        .firstWhere((ch) =>
-            ch is XmlElement &&
-            ch.getAttribute('number') == ref.chapter.toString())
-        .following;
+    Iterable<XmlNode> xmlStart;
+
+    if (ref.refType == 'Book') {
+      xmlStart = bookXml
+          .findElements('usx')
+          .first
+          .children;
+    } else {
+      xmlStart = bookXml
+          .findElements('usx')
+          .first
+          .findElements('chapter')
+          .firstWhere((ch) =>
+      ch is XmlElement &&
+          ch.getAttribute('number') == ref.chapter.toString())
+          .following;
+    }
+
+    int currentChapter = ref.chapter;
+    int currentVerse = 0;
+
 
     for (var node in xmlStart) {
+
+
+
       if (node is XmlElement) {
         String type = node.name.qualified;
         String elementStyle = node.getAttribute('style');
         if (type == 'chapter') {
-          break;
+          currentChapter = int.parse(node.getAttribute("number"));
+
+          currentVerse = 0;
+          if(!inPassage(currentChapter, currentVerse, ref)) {
+            break;
+          }
+
+          if (ref.refType != 'Chatper' && ref.refType != "Passage - Single Chapter"){
+            passage.add(BibleChapterHeader(currentChapter.toString()));
+          }
         } else if (type == 'para' && !isIgnoredParagraphStyle(elementStyle)) {
           if (isIgnoredParagraphStyle(elementStyle)) break;
           List paragraphParts = [];
-//            List<TextSpan> elements = [];
           for (var child in node.children) {
+            var content;
+
             if (child is XmlElement) {
+//              if verse check for break conditions
               if (child.name.qualified == 'verse') {
-                paragraphParts.add({'vNumber': child.getAttribute('number')});
-//                  elements.add(TextSpan(text: child.getAttribute('number') + '\u{2074}',));
+                currentVerse = int.parse(child.getAttribute('number'));
+                content = {'vNumber': currentVerse.toString()};
+//                'wj' style is words of Jesus -- render as normal text
               } else if (child.name.qualified == 'char' &&
                   child.getAttribute('style') == 'wj') {
-                paragraphParts.add(child.text);
+                content = child.text;
               }
             } else {
-              paragraphParts.add(child.text);
-//                elements.add(TextSpan(text:child.text,));
+              content = child.text;
             }
+
+            if (inPassage(currentChapter, currentVerse, ref) ){
+              paragraphParts.add(content);
+            }
+
           }
-          chapter
-              .add(selectParagraphBuilder(elementStyle.trim(), paragraphParts));
+          if(paragraphParts.isNotEmpty){
+            passage
+                .add(selectParagraphBuilder(elementStyle.trim(), paragraphParts));
+          }
+          if (afterPassage(currentChapter, currentVerse, ref) ){
+            break;
+          }
+
         }
       }
     }
 
     //          add blank space at bottom of chapter
-    chapter.add(Container(
+    passage.add(Container(
       height: 100.0,
     ));
-    return chapter;
+
+    return passage;
+  }
+
+  bool inPassage(int chapter, int verse, BibleRef ref){
+    if(chapter > ref.endingChapter || chapter < ref.chapter) {
+      return false;
+    } else if(chapter >= ref.endingChapter &&
+        verse > ref.endingVerse) {
+      return false;
+    } else if(chapter == ref.chapter && verse < ref.verse) {
+      return false;
+    }
+    return true;
+  }
+
+  bool beforePassage(int chapter, int verse, BibleRef ref){
+    if(chapter < ref.chapter) {
+      return true;
+    } else if(chapter == ref.chapter && verse < ref.verse) {
+      return true;
+    }
+    return false;
+  }
+
+  bool afterPassage(int chapter, int verse, BibleRef ref){
+    if(chapter > ref.endingChapter) {
+      return true;
+    } else if(chapter == ref.endingChapter &&
+        verse > ref.endingVerse) {
+      return true;
+    }
+    return false;
+
   }
 
   @override
@@ -96,10 +165,10 @@ class USXBible extends BibleFormat {
   }
 
   initializeMetadata() async {
-    Map data = await _loadJson(path + '/metadata.xml');
+    Map data = await loadJson(path + '/metadata.xml');
     bibleMetadata = data;
     String versification =
-        await _getStringFromFile(path + '/release/versification.vrs');
+    await getStringFromFile(path + '/release/versification.vrs');
     setBooksAndChapters(versification);
   }
 
@@ -109,7 +178,7 @@ class USXBible extends BibleFormat {
 //  }
 
   Future<XmlDocument> getFutureBook(bookAbbrev) async {
-    return _loadXML(path + '/' + bookTitlesAndChapters[bookAbbrev]['src']);
+    return loadXML(path + '/' + bookTitlesAndChapters[bookAbbrev]['src']);
   }
 
   setBooksAndChapters(String versificationData) {
@@ -122,12 +191,12 @@ class USXBible extends BibleFormat {
 
     bookList.forEach((element) {
       Map bookTitles =
-          bookTitlesList.firstWhere((e) => e['id'] == element['name']);
+      bookTitlesList.firstWhere((e) => e['id'] == element['name']);
 
       masterMap[element['role']] = {
         'src': element['src'],
         'abbr': bookTitles['abbr']['\$t'],
-        'short': bookTitles['short']['\$t'],
+        'title': bookTitles['short']['\$t'],
         'long': bookTitles['long']['\$t'],
       };
     });
@@ -142,7 +211,10 @@ class USXBible extends BibleFormat {
 
       if (masterMap.containsKey(asList.first)) {
         masterMap[asList.first]['chapters'] =
-            asList.last.split(':').first.toString();
+            asList.last
+                .split(':')
+                .first
+                .toString();
       }
     });
 
@@ -150,7 +222,7 @@ class USXBible extends BibleFormat {
   }
 
   waitForBook(String abbr, String bookLocation) async {
-    booksData[abbr] = await _loadXML(path + '/' + bookLocation);
+    booksData[abbr] = await loadXML(path + '/' + bookLocation);
 
 //    return currentXMLBook;
   }
@@ -165,14 +237,16 @@ class USXBible extends BibleFormat {
     } else if (style == 'nb') {
       return BibleParagraphNoBreak(parts);
     } else if (style == 'b') {
-      return PoetryBlankLine();
+      return BiblePoetryBlankLine();
     } else if (['sp', 'd'].contains(style)) {
       return BiblePassageHeading(parts);
     } else if (['ms1'].contains(style)) {
       return BibleMajorSection(parts);
     } else if (['q', 'q1', 'q2', 'q3', 'q4', 'qc', 'qr', 'qs']
         .contains(style)) {
-      int indent = int.tryParse(style.split('').last) ?? 0;
+      int indent = int.tryParse(style
+          .split('')
+          .last) ?? 0;
       return BiblePoetryStanza(parts, indent);
     } else {
       return BibleParagraphBasic(parts);
@@ -194,23 +268,3 @@ class USXBible extends BibleFormat {
   }
 }
 
-Future<XmlDocument> _loadXML(fileName) async {
-  String xmlAsString = await _getStringFromFile(fileName);
-  xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
-  return parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
-}
-
-/// Assumes the given path is a text-file-asset.
-Future<String> _getStringFromFile(String path) {
-  return rootBundle.loadString(path);
-}
-
-Future<Map> _loadJson(fileName) async {
-  String xmlAsString = await _getStringFromFile(fileName);
-  xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
-
-  final Xml2Json myTransformer = new Xml2Json();
-  myTransformer.parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
-
-  return json.decode(myTransformer.toGData());
-}

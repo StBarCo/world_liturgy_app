@@ -5,6 +5,7 @@ import '../pages/calendar.dart';
 import '../model/bible.dart';
 import '../globals.dart' as globals;
 import '../bibleParse/bible_format.dart';
+import '../bibleParse/bible_reference.dart';
 
 class BiblePage extends StatefulWidget {
   final Bible bible;
@@ -100,19 +101,53 @@ class _BiblePageState extends State<BiblePage> {
           },
           child: Row(
             children: <Widget>[
-              Text(
-                currentBookInfo['short'] + ' ' + currentRef.chapter.toString(),
-                style: Theme.of(context).textTheme.headline,
+              appBarTitle(
+                currentBookInfo['title'] + ' ' + currentRef.printRef['content'],
+                context,
               ),
-              Icon(Icons.arrow_drop_down),
+              Icon(
+                Icons.arrow_drop_down,
+                color: Theme.of(context).primaryIconTheme.color,
+              ),
             ],
           ),
         ),
         textTheme: Theme.of(context).textTheme,
         actions: [
-          FlatButton(
-            onPressed: () {},
-            child: Text(currentBible.abbreviation),
+          PopupMenuButton(
+            child: FlatButton(
+              onPressed: null,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'WEB',
+                    style: TextStyle(
+                        color: Theme.of(context).primaryIconTheme.color),
+                  ),
+                  Icon(Icons.arrow_drop_down,
+                      color: Theme.of(context).primaryIconTheme.color)
+                ],
+              ),
+            ),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    value: 2,
+                    child: ListTile(
+                      title: Text("WEB"),
+                      subtitle: Text('World English Bible'),
+                      selected: true,
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: 3,
+                    child: ListTile(
+                      title: Text("NIV"),
+                      subtitle: Text('New International Version'),
+                      dense: true,
+
+                    ),
+                  ),
+                ],
           ),
         ],
       ),
@@ -121,8 +156,7 @@ class _BiblePageState extends State<BiblePage> {
           return Padding(
             padding: EdgeInsets.only(right: 20.0, left: 20.0),
             child: FutureBuilder<List>(
-                future: currentBible.bibleFormat.renderPassage(
-                    BibleRef(currentRef.bookAbbr, currentRef.chapter + 1)),
+                future: currentBible.bibleFormat.renderPassage(currentRef),
                 builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:

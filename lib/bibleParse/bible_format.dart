@@ -1,5 +1,11 @@
 //import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'bible_reference.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:xml2json/xml2json.dart';
+import 'dart:convert';
+import 'package:xml/xml.dart';
+
 
 ///The BibleParser will be a master package designed to read various formats of the Bible
 ///and output them in a flutter readable format. /parts contains generic methods/classes to render a passage.
@@ -57,197 +63,157 @@ class BibleFormat extends Object {
 
   Map<String, String> standardAbbreviations() {
     return {
-      "gen": "Genesis",
-      "exo": "Exodus",
-      "lev": "Leviticus",
-      "num": "Numbers",
-      "deu": "Deuteronomy",
-      "jos": "Joshua",
-      "jdg": "Judges",
-      "rut": "Ruth",
-      "1sa": "1 Samuel",
-      "2sa": "2 Samuel",
-      "1ki": "1 Kings",
-      "2ki": "2 Kings",
-      "1ch": "1 Chronicles",
-      "2ch": "2 Chronicles",
-      "ezr": "Ezra",
-      "neh": "Nehemiah",
-      "est": "Esther",
-      "job": "Job",
-      "psa": "Psalm",
-      "pro": "Proverbs",
-      "ecc": "Ecclesiastes",
-      "sng": "Song of Solomon",
-      "isa": "Isaiah",
-      "jer": "Jeremiah",
-      "lam": "Lamentations",
-      "ezk": "Ezekiel",
-      "dan": "Daniel",
-      "hos": "Hosea",
-      "jol": "Joel",
-      "amo": "Amos",
-      "oba": "Obadiah",
-      "jon": "Jonah",
-      "mic": "Micah",
-      "nam": "Nahum",
-      "hab": "Habakkuk",
-      "zep": "Zephaniah",
-      "hag": "Haggai",
-      "zec": "Zechariah",
-      "mal": "Malachi",
-      "mat": "Matthew",
-      "mrk": "Mark",
-      "luk": "Luke",
-      "jhn": "John",
-      "act": "Acts",
-      "rom": "Romans",
-      "1co": "1 Corinthians",
-      "2co": "2 Corinthians",
-      "gal": "Galatians",
-      "eph": "Ephesians",
-      "php": "Philippians",
-      "col": "Colossians",
-      "1th": "1 Thessalonians",
-      "2th": "2 Thessalonians",
-      "1ti": "1 Timothy",
-      "2ti": "2 Timothy",
-      "tit": "Titus",
-      "phm": "Philemon",
-      "heb": "Hebrews",
-      "jas": "James",
-      "1pe": "1 Peter",
-      "2pe": "2 Peter",
-      "1jn": "1 John",
-      "2jn": "2 John",
-      "3jn": "3 John",
-      "jud": "Jude",
-      "rev": "Revelation",
-      "tob": "Tobit",
-      "jdt": "Judith",
-      "esg": "ESG",
-      "wis": "Wisdom",
-      "sir": "Sirach",
-      "bar": "Baruch",
-      "1ma": "1 Maccabees",
-      "2ma": "2 Maccabees",
-      "3ma": "3 Maccabees",
-      "4ma": "4 Maccabees",
-      "1es": "1 Esdras",
-      "2es": "2 Esdras",
-      "man": "Prayer of Manasses",
-      "ps2": "Psalm 151",
-      "dag": "The Book of Daniel with Greek Portions",
+      "GEN": "Genesis",
+      "EXO": "Exodus",
+      "LEV": "Leviticus",
+      "NUM": "Numbers",
+      "DEU": "Deuteronomy",
+      "JOS": "Joshua",
+      "JDG": "Judges",
+      "RUT": "Ruth",
+      "1SA": "1 Samuel",
+      "2SA": "2 Samuel",
+      "1KI": "1 Kings",
+      "2KI": "2 Kings",
+      "1CH": "1 Chronicles",
+      "2CH": "2 Chronicles",
+      "EZR": "Ezra",
+      "NEH": "Nehemiah",
+      "ETH": "Esther",
+      "JOB": "Job",
+      "PSA": "Psalm",
+      "PRO": "Proverbs",
+      "ECC": "Ecclesiastes",
+      "SNG": "Song of Solomon",
+      "ISA": "Isaiah",
+      "JER": "Jeremiah",
+      "LAM": "Lamentations",
+      "EZK": "Ezekiel",
+      "DAN": "Daniel",
+      "HOS": "Hosea",
+      "JOL": "Joel",
+      "AMO": "Amos",
+      "OBA": "Obadiah",
+      "JON": "Jonah",
+      "MIC": "Micah",
+      "NAH": "Nahum",
+      "HAB": "Habakkuk",
+      "ZEP": "Zephaniah",
+      "HAG": "Haggai",
+      "ZEC": "Zechariah",
+      "MAL": "Malachi",
+      "MAT": "Matthew",
+      "MRK": "Mark",
+      "LUK": "Luke",
+      "JHN": "John",
+      "ACT": "Acts",
+      "ROM": "Romans",
+      "1CO": "1 Corinthians",
+      "2CO": "2 Corinthians",
+      "GAL": "Galatians",
+      "EPH": "Ephesians",
+      "PHP": "Philippians",
+      "COL": "Colossians",
+      "1TH": "1 Thessalonians",
+      "2TH": "2 Thessalonians",
+      "1TI": "1 Timothy",
+      "2TI": "2 Timothy",
+      "TIT": "Titus",
+      "PHM": "Philemon",
+      "HEB": "Hebrews",
+      "JAS": "James",
+      "1PE": "1 Peter",
+      "2PE": "2 Peter",
+      "1JN": "1 John",
+      "2KN": "2 John",
+      "3KN": "3 John",
+      "JUD": "Jude",
+      "REV": "Revelation",
+      "TOB": "Tobit",
+      "JDT": "Judith",
+      "ESG": "ESG",
+      "WIS": "Wisdom",
+      "SIR": "Sirach",
+      "BAR": "Baruch",
+      "1MA": "1 Maccabees",
+      "2MA": "2 Maccabees",
+      "3MA": "3 Maccabees",
+      "4MA": "4 Maccabees",
+      "1ES": "1 Esdras",
+      "2ES": "2 Esdras",
+      "MAN": "Prayer of Manasses",
+      "PS2": "Psalm 151",
+      "DAG": "The Book of Daniel with Greek Portions",
     };
   }
+
+  String availableBibleFormatsInfo(){
+    String output = 'Current BibleFormats: \n';
+
+//    USX
+    output +=
+    '''USXBIBLE: the USX format is defined by the Digital Library and is the format 
+    for their online versions. There are many version open to the public domain
+    and many others that can be used with permission from the publisher.
+    
+    USX bibles have a metadata.xml that defines book location and book order
+    as well as the ability to have multiple canons (Catholic, Othodox, Protestant,
+    etc.).
+    
+    Each book is its own .usx file, which is essentially an XML file. The xml
+    is generally flat with chapters and paragraphs being siblings. Then verse
+    numbers and text are inside of paragraphs.
+    
+    For more information see: https://app.thedigitalbiblelibrary.org/static/docs/usx/index.html
+     ''';
+
+//    zenfenia
+    output +=
+    '''Zenfania: is an single file xml Bible format. It is heirarchical:
+    <XMLBIBLE>
+      <BIBLEBOOK bnumber="1" bname="Genesis">
+        <CHAPTER cnumber="1">
+          <VERS vnumer="1">In the beginning...</VERS>
+        </CHAPTER>
+      </BIBLEBOOK>
+    </XMLBIBLE>
+    
+    Zenfania does not have a standardized book name. So BibleParse assumes
+    uses book number and assumes that books are listed in the traditional 
+    Protestant order.
+    
+    
+    For more information see: https://groups.google.com/forum/#!forum/zefania_xml 
+    & http://www.bgfdb.de/zefaniaxml/bml/
+    
+    
+    ''';
+
+    print(output);
+
+    return output;
+  }
+
+  Future<XmlDocument> loadXML(fileName) async {
+    String xmlAsString = await getStringFromFile(fileName);
+    xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
+    return parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+  }
+
+  /// Assumes the given path is a text-file-asset.
+  Future<String> getStringFromFile(String path) {
+    return rootBundle.loadString(path);
+  }
+
+  Future<Map> loadJson(fileName) async {
+    String xmlAsString = await getStringFromFile(fileName);
+    xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
+
+    final Xml2Json myTransformer = new Xml2Json();
+    myTransformer.parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+
+    return json.decode(myTransformer.toGData());
+  }
+
 }
 
-/// A generous reference system:
-/// bookAbbr => whole book,
-/// bookAbbr & chapter => individual chapter,
-/// bookAbbr & chapter & verse => individual verse
-///
-/// endingChapter & endingVerse are inclusive
-/// (e.g. endingChapter ==5  should return all of chapter 5 and then stop)
-///
-/// verse or endingVerse should not be used without chapter,
-/// because different bible formats may have different logic
-///
-class BibleRef extends Object {
-  String bookAbbr;
-
-  int _chapter;
-  int _verse;
-  int _endingChapter;
-  int _endingVerse;
-
-  BibleRef(this.bookAbbr,
-      [this._chapter, this._verse, this._endingChapter, this._endingVerse]);
-
-  set chapter(int i) {
-    _chapter = i;
-  }
-
-  set verse(int i) {
-    _verse = i;
-  }
-
-  set endingChapter(int i) {
-    _endingChapter = i;
-  }
-
-  set endingVerse(int i) {
-    _endingVerse = i;
-  }
-
-  int get chapter {
-    if (_chapter == null) {
-      return 1;
-    } else {
-      return _chapter;
-    }
-  }
-
-  int get verse {
-    if (_verse == null) {
-      return 1;
-    } else {
-      return _verse;
-    }
-  }
-
-  int get endingChapter {
-    if (_endingChapter != null) {
-      return _endingChapter;
-    } else {
-      return _chapter;
-    }
-  }
-
-  int get endingVerse {
-    if (_endingVerse != null) {
-      return _endingVerse;
-    } else if (_chapter != null && _verse != null && _endingChapter == null) {
-      return _verse;
-    } else {
-      return null;
-    }
-  }
-
-  String get print {
-    String type = this.refType;
-    if (type == 'Book') {
-      return bookAbbr;
-    } else if (type == 'Chapter'){
-      return bookAbbr + _chapter.toString();
-    } else if (type == "Verse"){
-      return bookAbbr + _chapter.toString() + ':' + _verse.toString();
-    } else if (type == "Passage"){
-      String endingRef = endingChapter.toString();
-      if(endingVerse != null) {
-        endingRef += ':' + endingVerse.toString();
-      }
-      return bookAbbr + _chapter.toString() + ':' + _verse.toString() + '-' + endingRef;
-    } else if (type == 'Passage - Single Chapter'){
-      return bookAbbr + _chapter.toString() + ':' + _verse.toString() + _endingVerse.toString();
-    }
-    return 'Unknown Passage Type';
-
-  }
-
-  String get refType {
-    if (_chapter == null && _endingChapter == null) {
-      return 'Book';
-    } else if (_endingChapter == null && _endingVerse == null) {
-      if (verse == null) {
-        return 'Chapter';
-      } else {
-        return 'Verse';
-      }
-    } else if (_endingChapter != null) {
-      return 'Passage - Single Chapter';
-    } else {
-      return 'Passage';
-    }
-  }
-}

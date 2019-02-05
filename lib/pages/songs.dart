@@ -55,14 +55,13 @@ class _SongsPageState extends State<SongsPage> {
   Widget _buildBar(BuildContext context) {
     return new AppBar(
 //      centerTitle: true,
-        textTheme: Theme.of(context).textTheme,
-        title: _appBarTitle(),
-        actions: [
-          new IconButton(
-            icon: _searchIcon,
-            onPressed: _searchPressed,
-          ),
-        ]);
+      textTheme: Theme.of(context).textTheme,
+      title: _appBarTitle(),
+      leading: new IconButton(
+        icon: _searchIcon,
+        onPressed: _searchPressed,
+      ),
+    );
   }
 
   Widget _buildList() {
@@ -127,8 +126,12 @@ class _SongsPageState extends State<SongsPage> {
       return TextField(
           controller: _filter,
           decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.search),
+            prefixIcon: Icon(
+              Icons.search,
+            ),
             hintText: globals.translate(getLanguage(context), 'search') + '...',
+
+
           ));
     }
 

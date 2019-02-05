@@ -11,7 +11,7 @@ import 'model/calendar.dart';
 import 'pages/bible.dart';
 import 'json/serializePrayerBook.dart';
 import 'model/bible.dart';
-import 'bibleParse/bible_format.dart';
+import 'bibleParse/bible_reference.dart';
 
 class MyApp extends StatelessWidget {
   final String _initialLanguage;
@@ -314,7 +314,7 @@ class HomePageState extends State<HomePage> {
   }
 
   BibleRef _setInitialBibleReference(){
-    return BibleRef('GEN', 1);
+    return BibleRef("MAT", 2, 12, null , 22);
   }
 
   @override

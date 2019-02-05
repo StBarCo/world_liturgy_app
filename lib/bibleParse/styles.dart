@@ -30,3 +30,13 @@ TextStyle passageHeadingStyle() {
     fontSize: 12.0,
   );
 }
+
+TextStyle chapterHeaderStyle() {
+  return TextStyle(
+      fontSize: 16,
+//    fontStyle: FontStyle.italic,
+      color: Colors.black38,
+      fontWeight: FontWeight.w600
+
+  );
+}
