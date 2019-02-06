@@ -46,11 +46,10 @@ class _BiblePageState extends State<BiblePage> {
   changeBook(BibleRef newRef) {
     if (currentRef.bookAbbr != newRef.bookAbbr) {
       currentBookInfo =
-          currentBible.bibleFormat.getBookTitlesAndChapters()[newRef.bookAbbr];
+      currentBible.bibleFormat.getBookTitlesAndChapters()[newRef.bookAbbr];
     }
     setState(() {
       currentRef = newRef;
-
     });
 
     _pageController.animateToPage(newRef.chapter - 1,
@@ -62,22 +61,21 @@ class _BiblePageState extends State<BiblePage> {
     setState(() {
       currentRef.chapter = newChapter;
     });
-    Future.delayed(Duration(milliseconds: 500), ()
-    {
-      _pageController.animateToPage(currentRef.chapter - 1,
-          duration: Duration(milliseconds: 400), curve: Curves.ease);
-    });
+//    Future.delayed(Duration(milliseconds: 500), () {
+//      _pageController.animateToPage(currentRef.chapter - 1,
+//          duration: Duration(milliseconds: 400), curve: Curves.ease);
+//    });
   }
 
-  changeBible(String abbr){
-    currentBible = globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
+  changeBible(String abbr) {
+    currentBible =
+        globals.bibles.firstWhere((bible) => bible.abbreviation == abbr);
     currentBookInfo =
     currentBible.bibleFormat.getBookTitlesAndChapters()[currentRef.bookAbbr];
     setState(() {
 //      currentRef = currentRef;
       SharedPreferencesHelper.setCurrentBible(abbr);
     });
-
   }
 
   @override
@@ -108,7 +106,7 @@ class _BiblePageState extends State<BiblePage> {
 
             Future.delayed(Duration(milliseconds: 50), () {
               _menuScrollController.jumpTo(
-                bookList.indexOf(currentRef.bookAbbr) * 58.0,
+                (bookList.indexOf(currentRef.bookAbbr) * 58.0),
               );
             });
           },
@@ -116,17 +114,23 @@ class _BiblePageState extends State<BiblePage> {
             children: <Widget>[
               appBarTitle(
                 currentBible.bibleFormat
-                    .getBookTitlesAndChapters()[currentRef.bookAbbr]['title'] + ' ' + currentRef.printRef['content'],
+                    .getBookTitlesAndChapters()[currentRef.bookAbbr]['title'] +
+                    ' ' + currentRef.printRef['content'],
                 context,
               ),
               Icon(
                 Icons.arrow_drop_down,
-                color: Theme.of(context).primaryIconTheme.color,
+                color: Theme
+                    .of(context)
+                    .primaryIconTheme
+                    .color,
               ),
             ],
           ),
         ),
-        textTheme: Theme.of(context).textTheme,
+        textTheme: Theme
+            .of(context)
+            .textTheme,
         actions: [
           PopupMenuButton(
             child: FlatButton(
@@ -136,15 +140,21 @@ class _BiblePageState extends State<BiblePage> {
                   Text(
                     currentBible.abbreviation,
                     style: TextStyle(
-                        color: Theme.of(context).primaryIconTheme.color),
+                        color: Theme
+                            .of(context)
+                            .primaryIconTheme
+                            .color),
                   ),
                   Icon(Icons.arrow_drop_down,
-                      color: Theme.of(context).primaryIconTheme.color)
+                      color: Theme
+                          .of(context)
+                          .primaryIconTheme
+                          .color)
                 ],
               ),
             ),
             itemBuilder: (BuildContext context) {
-              return globals.bibles.map((Bible bible){
+              return globals.bibles.map((Bible bible) {
                 return PopupMenuItem(
                   value: bible.abbreviation,
                   child: ListTile(
@@ -155,12 +165,13 @@ class _BiblePageState extends State<BiblePage> {
                 );
               }).toList();
             },
-            onSelected: (value){
+            onSelected: (value) {
               changeBible(value);
             },
           ),
         ],
       ),
+
       body: PageView.builder(
         itemBuilder: (context, chapter) {
           return Padding(
@@ -172,7 +183,7 @@ class _BiblePageState extends State<BiblePage> {
                     case ConnectionState.none:
                       return Container();
                     case ConnectionState.waiting:
-                      return Container();
+                      return Center(child: CircularProgressIndicator());
                     default:
                       return ListView(
                         key: PageStorageKey(chapter.toString()),
@@ -188,7 +199,6 @@ class _BiblePageState extends State<BiblePage> {
         onPageChanged: (newChapter) {
           changeChapter(newChapter + 1);
         },
-
       ),
     );
   }
@@ -214,7 +224,7 @@ class _BiblePageState extends State<BiblePage> {
             shrinkWrap: true,
             children: List.generate(
               int.parse(bookMap['chapters']),
-              (index) {
+                  (index) {
                 return FlatButton(
                   padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                   onPressed: () {
@@ -245,7 +255,7 @@ Widget lectionaryReading(item, context) {
 
 //  RefreshState.of(context).currentDay
   List<String> readings =
-      getDailyReadings(lectionaryType, readingType, context);
+  getDailyReadings(lectionaryType, readingType, context);
 
   readings.forEach((ref) {
     list.addAll(getPassage(ref, context));
@@ -295,15 +305,15 @@ String getDummyPassage(ref) {
 }
 
 String ez15 =
-    '''15 The word of the Lord came to me: 2 “Son of man, how is the wood of a vine different from that of a branch from any of the trees in the forest? 3 Is wood ever taken from it to make anything useful? Do they make pegs from it to hang things on? 4 And after it is thrown on the fire as fuel and the fire burns both ends and chars the middle, is it then useful for anything? 5 If it was not useful for anything when it was whole, how much less can it be made into something useful when the fire has burned it and it is charred?
+'''15 The word of the Lord came to me: 2 “Son of man, how is the wood of a vine different from that of a branch from any of the trees in the forest? 3 Is wood ever taken from it to make anything useful? Do they make pegs from it to hang things on? 4 And after it is thrown on the fire as fuel and the fire burns both ends and chars the middle, is it then useful for anything? 5 If it was not useful for anything when it was whole, how much less can it be made into something useful when the fire has burned it and it is charred?
       
       6 “Therefore this is what the Sovereign Lord says: As I have given the wood of the vine among the trees of the forest as fuel for the fire, so will I treat the people living in Jerusalem. 7 I will set my face against them. Although they have come out of the fire, the fire will yet consume them. And when I set my face against them, you will know that I am the Lord. 8 I will make the land desolate because they have been unfaithful, declares the Sovereign Lord.” ''';
 
 String eph2 =
-    '''2 As for you, you were dead in your transgressions and sins, 2 in which you used to live when you followed the ways of this world and of the ruler of the kingdom of the air, the spirit who is now at work in those who are disobedient. 3 All of us also lived among them at one time, gratifying the cravings of our flesh[a] and following its desires and thoughts. Like the rest, we were by nature deserving of wrath. 4 But because of his great love for us, God, who is rich in mercy, 5 made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved. 6 And God raised us up with Christ and seated us with him in the heavenly realms in Christ Jesus, 7 in order that in the coming ages he might show the incomparable riches of his grace, expressed in his kindness to us in Christ Jesus. 8 For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— 9 not by works, so that no one can boast. 10 For we are God’s handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.''';
+'''2 As for you, you were dead in your transgressions and sins, 2 in which you used to live when you followed the ways of this world and of the ruler of the kingdom of the air, the spirit who is now at work in those who are disobedient. 3 All of us also lived among them at one time, gratifying the cravings of our flesh[a] and following its desires and thoughts. Like the rest, we were by nature deserving of wrath. 4 But because of his great love for us, God, who is rich in mercy, 5 made us alive with Christ even when we were dead in transgressions—it is by grace you have been saved. 6 And God raised us up with Christ and seated us with him in the heavenly realms in Christ Jesus, 7 in order that in the coming ages he might show the incomparable riches of his grace, expressed in his kindness to us in Christ Jesus. 8 For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God— 9 not by works, so that no one can boast. 10 For we are God’s handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.''';
 
 String john8 =
-    '''31 To the Jews who believed in him Jesus said: If you make my word your home you will indeed be my disciples;
+'''31 To the Jews who believed in him Jesus said: If you make my word your home you will indeed be my disciples;
 
 32 you will come to know the truth, and the truth will set you free.
 

@@ -72,6 +72,8 @@ flutter:
     - assets/bibles/SUV.xml
     - assets/bibles/SWA.xml
 
+    - assets/songs/english_songs
+
 
   fonts:
     - family: WorkSans

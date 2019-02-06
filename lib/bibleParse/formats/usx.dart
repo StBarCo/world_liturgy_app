@@ -25,14 +25,13 @@ class USXBible extends BibleFormat {
 
   @override
   Future<List<Widget>> renderPassage(BibleRef ref) async {
-    XmlDocument bookXml;
-    if (booksData.containsKey(ref.bookAbbr)) {
-      bookXml = booksData[ref.bookAbbr];
-    } else {
-      bookXml = await getFutureBook(ref.bookAbbr);
-      booksData[ref.bookAbbr] = bookXml;
-    }
+
     List<Widget> passage = [];
+    XmlDocument bookXml = booksData[ref.bookAbbr];
+
+    bookXml ??= await getFutureBook(ref.bookAbbr);
+
+    booksData[ref.bookAbbr] ??= bookXml;
 
     Iterable<XmlNode> xmlStart;
 
@@ -171,11 +170,6 @@ class USXBible extends BibleFormat {
     await getStringFromFile(path + '/release/versification.vrs');
     setBooksAndChapters(versification);
   }
-
-//  openBook(String book) {
-//    waitForBook(book, bookTitlesAndChapters[book]['src']);
-////    return true;
-//  }
 
   Future<XmlDocument> getFutureBook(bookAbbrev) async {
     return loadXML(path + '/' + bookTitlesAndChapters[bookAbbrev]['src']);
