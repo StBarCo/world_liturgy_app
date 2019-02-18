@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../json/serializeSongBook.dart';
+//import '../json/serializeSongBook.dart';
 import '../globals.dart' as globals;
 import '../theme.dart';
 import '../app.dart';
 import 'song.dart';
+import '../model/songBook.dart';
+import '../songParse/song_format.dart';
 
 class SongsPage extends StatefulWidget {
   SongsPage({Key key}) : super(key: key);
@@ -18,8 +20,8 @@ class SongsPage extends StatefulWidget {
 class _SongsPageState extends State<SongsPage> {
   final TextEditingController _filter = new TextEditingController();
   String _searchText = "";
-  final List<SongBook> songBooks = List.from(globals.allSongBooks.books);
-  List<SongBook> filteredSongBooks = List.from(globals.allSongBooks.books);
+  final List<SongBook> songBooks = globals.allSongBooks;
+  List<List<SongEntry>> songList;
   Icon _searchIcon = new Icon(Icons.search);
 
   _SongsPageState() {
@@ -27,7 +29,7 @@ class _SongsPageState extends State<SongsPage> {
       if (_filter.text.isEmpty) {
         setState(() {
           _searchText = "";
-          filteredSongBooks = List.from(songBooks);
+          songList = null;
         });
       } else {
         setState(() {
@@ -65,38 +67,33 @@ class _SongsPageState extends State<SongsPage> {
   }
 
   Widget _buildList() {
-    if (!(_searchText.isEmpty)) {
-      filteredSongBooks = _getSongSuggestions(songBooks, _searchText);
+    if (_searchText.isEmpty) {
+      songList = null;
     } else {
-      filteredSongBooks = List.from(songBooks);
+      songList = _getSongSuggestions(songBooks, _searchText);
     }
 
     return ListView.builder(
       itemBuilder: (BuildContext context, int index) => buildSongIndex(
-          filteredSongBooks[index], filteredSongBooks.length == 1),
-      itemCount: filteredSongBooks.length,
+          songBooks[index], songBooks.length == 1, songList == null ? null : songList[index]),
+      itemCount: songBooks.length,
     );
   }
 
-  List<SongBook> _getSongSuggestions(List<SongBook> songBooks, String query) {
-    List<SongBook> filteredList = [];
+  List<List<SongEntry>> _getSongSuggestions(List<SongBook> songBooks, String query) {
+    List<List<SongEntry>> filteredList = [];
     List queryList = query.toLowerCase().split(" ");
     songBooks.asMap().forEach((index, songBook) {
-      List<Song> filteredSongs = songBook.songs
-          .where((Song song) => _songFilter(song, queryList))
-          .toList();
-      filteredList.add(SongBook(
-        songBooks[index].language,
-        songBooks[index].id,
-        songBooks[index].title,
-        filteredSongs,
-      ));
+      List<SongEntry> filteredSongs = songBook.songFormat.songList
+          .where((SongEntry song) => _songFilter(song, queryList)).toList();
+      int a = 1;
+      filteredList.add(filteredSongs);
     });
 
     return filteredList;
   }
 
-  bool _songFilter(Song song, queryList) {
+  bool _songFilter(SongEntry song, queryList) {
     String string = '';
     if (song.number != null) {
       string += song.number.toString() + ' ';
@@ -145,17 +142,17 @@ class _SongsPageState extends State<SongsPage> {
         this._searchIcon = new Icon(Icons.close);
       } else {
         this._searchIcon = new Icon(Icons.search);
-        filteredSongBooks = songBooks;
+//        filteredSongBooks = songBooks;
         _filter.clear();
       }
     });
   }
 
   Widget buildSongIndex(SongBook songBook, bool expanded,
-      [List<Song> songList]) {
+      [List<SongEntry> songList]) {
     bool showCount = false;
     if (songList == null) {
-      songList = songBook.songs;
+      songList = songBook.songFormat.songList;
     } else {
       showCount = true;
     }
@@ -164,23 +161,28 @@ class _SongsPageState extends State<SongsPage> {
         ? songBook.title + " (" + songList.length.toString() + ")"
         : songBook.title;
 
-    if (songBook.songs.isEmpty)
+    if (songList == null) {
       return new ListTile(title: new Text(songBook.title ?? 'No Title'));
-    return new ExpansionTile(
-      key: new PageStorageKey<SongBook>(songBook),
-      title: new Text(
-        titleText ?? 'No title',
-        style: Theme.of(context)
-            .textTheme
-            .subhead
-            .copyWith(color: Theme.of(context).accentColor),
-      ),
-      initiallyExpanded: expanded,
-      children: _buildServicesTiles(songList),
-    );
+    } else {
+      return new ExpansionTile(
+        key: new PageStorageKey<SongBook>(songBook),
+        title: new Text(
+          titleText ?? 'No title',
+          style: Theme
+              .of(context)
+              .textTheme
+              .subhead
+              .copyWith(color: Theme
+              .of(context)
+              .accentColor),
+        ),
+        initiallyExpanded: expanded,
+        children: _buildServicesTiles(songBook, songList),
+      );
+    }
   }
 
-  List<Widget> _buildServicesTiles(songList) {
+  List<Widget> _buildServicesTiles(SongBook book, List<SongEntry> songList) {
     List<Widget> songsList = [];
     dynamic currentDay = RefreshState.of(context).currentDay;
     dynamic currentLanguage = RefreshState.of(context).currentLanguage;
@@ -210,7 +212,10 @@ class _SongsPageState extends State<SongsPage> {
                           .copyWith(textScaleFactor: textScaleFactor),
                       child: Theme(
                         data: updateTheme(Theme.of(context), currentDay),
-                        child: SongPage(song: song),
+                        child: SongPage(
+                          book: book,
+                            song: song,
+                        ),
                       ),
                     )),
               );
@@ -221,9 +226,20 @@ class _SongsPageState extends State<SongsPage> {
     }
     return songsList;
   }
+
+  List<List<SongEntry>> getFullTOC(List<SongBook> songBooks){
+    List<List<SongEntry>> list = [];
+
+    songBooks.forEach((SongBook book){
+      list.add(book.songFormat.songList);
+    });
+
+    return list;
+  }
+
 }
 
-Text songTitle(Song song, {style}) {
+Text songTitle(SongEntry song, {style}) {
   String text = '';
 
   if (song.number != null) {

@@ -252,7 +252,7 @@ List<Bible> initializeBibles() {
               'bnumber': '59',
               'title': 'Yokobo',
             },
-            "PE": {
+            "1PE": {
               'bnumber': '60',
               'title': 'Petro',
             },
@@ -260,15 +260,15 @@ List<Bible> initializeBibles() {
               'bnumber': '61',
               'title': '2 Petro',
             },
-            "JN": {
+            "1JN": {
               'bnumber': '62',
               'title': 'Yohanna',
             },
-            "2KN": {
+            "2JN": {
               'bnumber': '63',
               'title': '2 Yohanna',
             },
-            "3KN": {
+            "3JN": {
               'bnumber': '64',
               'title': '3 Yohanna',
             },

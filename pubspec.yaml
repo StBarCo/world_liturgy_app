@@ -58,12 +58,13 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/data/docs/prayerBooks.xml
-    - assets/data/docs/prayerBooksSample.xml
-    - assets/data/docs/calendar.xml
-    - assets/data/docs/calendarSample.xml
-    - assets/data/docs/songBooks.xml
-    - assets/data/docs/songBooksSample.xml
+    - assets/wlp_format/docs/prayerBooks.xml
+    - assets/wlp_format/docs/prayerBooksSample.xml
+    - assets/wlp_format/docs/calendar.xml
+    - assets/wlp_format/docs/calendarSample.xml
+    - assets/wlp_format/docs/songBooks.xml
+    - assets/wlp_format/docs/songBooksSample.xml
+    - assets/wlp_format/docs/tenziZaRohoni.xml
 
     - assets/bibles/WEB/metadata.xml
     - assets/bibles/WEB/release/versification.vrs
@@ -72,7 +73,8 @@ flutter:
     - assets/bibles/SUV.xml
     - assets/bibles/SWA.xml
 
-    - assets/songs/english_songs
+#    - assets/songBooks/english_songs/index.json
+    - assets/songBooks/english_songs/songs/
 
 
   fonts:

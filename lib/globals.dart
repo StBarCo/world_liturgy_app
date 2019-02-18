@@ -2,15 +2,15 @@ library world_liturgy_app.globals;
 
 import 'json/serializePrayerBook.dart';
 import 'json/serializeCalendar.dart';
-import 'json/serializeSongBook.dart';
 import 'data/database.dart';
+import 'model/songBook.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'model/bible.dart';
 
 PrayerBooksContainer allPrayerBooks;
 CalendarScaffold calendarScaffold;
-SongBooksContainer allSongBooks;
+List<SongBook> allSongBooks;
 DatabaseClient db;
 SharedPreferences preferences;
 List<Bible> bibles;

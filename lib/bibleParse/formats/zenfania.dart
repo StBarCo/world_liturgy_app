@@ -1,6 +1,5 @@
 import '../bible_format.dart';
 import 'package:flutter/material.dart';
-import 'package:xml/xml.dart';
 import 'dart:core';
 import '../parts.dart';
 import '../bible_reference.dart';

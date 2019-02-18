@@ -10,7 +10,7 @@ import 'serializeSongBook.dart';
 
 Future<String> _loadXmlAsset(fileName) async {
 //  if no prayerbook file, load sample file
-  final basePath = 'assets/data/docs/';
+  final basePath = 'assets/wlp_format/docs/';
   final extension = '.xml';
   final sample = 'Sample';
 

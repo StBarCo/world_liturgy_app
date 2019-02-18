@@ -7,13 +7,16 @@ import 'data/database.dart';
 import 'app.dart';
 import 'shared_preferences.dart';
 import 'data/bible_settings.dart';
+import 'model/songBook.dart';
+import 'data/song_settings.dart';
 
 
 
 void main() async{
   globals.preferences = await SharedPreferences.getInstance();
   globals.allPrayerBooks = await loadPrayerBooks();
-  globals.allSongBooks = await loadSongBooks();
+//  globals.allSongBooks = await loadSongBooks();
+  globals.allSongBooks = initializeSongBooks();
   globals.bibles = initializeBibles();
   globals.db = new DatabaseClient();
   await globals.db.create();
