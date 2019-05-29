@@ -19,6 +19,17 @@ class USXBible extends BibleFormat {
   }
 
   @override
+  prefetchBook(String bookAbbr) async {
+    // TODO: implement prefetchBook
+    XmlDocument bookXml = booksData[bookAbbr];
+
+    bookXml ??= await getFutureBook(bookAbbr);
+
+    booksData[bookAbbr] ??= bookXml;
+
+  }
+
+  @override
   Map getBookTitlesAndChapters() {
     return bookTitlesAndChapters;
   }
@@ -45,9 +56,11 @@ class USXBible extends BibleFormat {
           .findElements('usx')
           .first
           .findElements('chapter')
-          .firstWhere((ch) =>
-      ch is XmlElement &&
-          ch.getAttribute('number') == ref.chapter.toString())
+          .elementAt(ref.chapter -1)
+
+//          .firstWhere((ch) =>
+//      ch is XmlElement &&
+//          ch.getAttribute('number') == ref.chapter.toString())
           .following;
     }
 
@@ -194,7 +207,7 @@ class USXBible extends BibleFormat {
         'long': bookTitles['long']['\$t'],
       };
     });
-
+currentRef.bookAbbr
     List<String> chapterCounts = versificationData
         .split('#')
         .firstWhere((String s) => s.startsWith(" Verse number is the maximum "))

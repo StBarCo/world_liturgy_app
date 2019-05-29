@@ -215,6 +215,9 @@ class _BiblePageState extends State<BiblePage> {
 //            style: Theme.of(context).textTheme.headline,
         ),
         initiallyExpanded: abbr == currentRef.bookAbbr,
+        onExpansionChanged: (bool) {
+          if (bool) {currentBible.bibleFormat.prefetchBook(abbr);}
+        },
         children: [
           GridView.count(
             physics: ScrollPhysics(),

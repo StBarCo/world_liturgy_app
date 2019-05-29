@@ -62,7 +62,6 @@ flutter:
     - assets/wlp_format/docs/prayerBooksSample.xml
     - assets/wlp_format/docs/calendar.xml
     - assets/wlp_format/docs/calendarSample.xml
-    - assets/wlp_format/docs/songBooks.xml
     - assets/wlp_format/docs/songBooksSample.xml
     - assets/wlp_format/docs/tenziZaRohoni.xml
 

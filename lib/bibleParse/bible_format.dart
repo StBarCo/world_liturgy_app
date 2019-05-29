@@ -43,6 +43,10 @@ class BibleFormat extends Object {
     return null;
   }
 
+  prefetchBook(String bookAbbr){
+    return null;
+  }
+
   Map getBookTitlesAndChapters() {
     return {
       'GEN': {
@@ -196,8 +200,8 @@ class BibleFormat extends Object {
 
   Future<XmlDocument> loadXML(fileName) async {
     String xmlAsString = await getStringFromFile(fileName);
-    xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
-    return parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+//    xmlAsString.replaceAll(new RegExp(r">( +)?\r?\n( +)?<"), '><');
+    return parse(xmlAsString.replaceAll(new RegExp(r">( +)?\r?\n( +)?<"), '><'));
   }
 
   /// Assumes the given path is a text-file-asset.
@@ -207,10 +211,10 @@ class BibleFormat extends Object {
 
   Future<Map> loadJson(fileName) async {
     String xmlAsString = await getStringFromFile(fileName);
-    xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><');
+    xmlAsString.replaceAll(new RegExp(r"( +)?>\r\n( +)?<"), '><');
 
     final Xml2Json myTransformer = new Xml2Json();
-    myTransformer.parse(xmlAsString.replaceAll(new RegExp(r">\r\n( +)?<"), '><'));
+    myTransformer.parse(xmlAsString.replaceAll(new RegExp(r"( +)?>\r\n( +)?<"), '><'));
 
     return json.decode(myTransformer.toGData());
   }

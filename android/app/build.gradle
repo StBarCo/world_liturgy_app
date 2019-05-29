@@ -11,6 +11,16 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -22,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     lintOptions {
         disable 'InvalidPackage'
@@ -32,9 +42,11 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "org.worldliturgy.worldliturgyapp"
         minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 170
-        versionName "Added basic bible functionality."
+        targetSdkVersion 28
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+//        versionCode 170
+//        versionName "Added basic bible functionality."
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
