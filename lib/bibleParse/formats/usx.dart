@@ -207,7 +207,7 @@ class USXBible extends BibleFormat {
         'long': bookTitles['long']['\$t'],
       };
     });
-currentRef.bookAbbr
+
     List<String> chapterCounts = versificationData
         .split('#')
         .firstWhere((String s) => s.startsWith(" Verse number is the maximum "))
