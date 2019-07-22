@@ -216,7 +216,7 @@ List createMapOfYear(CalendarScaffold calendar , int beginYear, collectIndexes) 
           new Duration(days: nextChristmas.weekday + 22)),
       'easter': easter,
       'ashWednesday': easter.subtract(new Duration(days: 46)),
-      'pentecost' : easter.add(new Duration(days: 49)),
+      'pentecost' : easter.add(new Duration(days: 50)),
     };
 
     Duration oneDay = new Duration(days: 1);

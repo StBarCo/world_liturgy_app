@@ -7,7 +7,6 @@ import 'data/database.dart';
 import 'app.dart';
 import 'shared_preferences.dart';
 import 'data/bible_settings.dart';
-import 'model/songBook.dart';
 import 'data/song_settings.dart';
 
 

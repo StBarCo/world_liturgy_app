@@ -273,7 +273,7 @@ List<Widget> getPassage(ref, context) {
   List<Widget> list = [];
   String language = getLanguage(context);
   String passage = getDummyPassage(ref);
-
+  list.add(Text(language));
   list.add(Text(ref));
   list.add(Text(passage ?? ''));
 

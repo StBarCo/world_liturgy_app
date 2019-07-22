@@ -26,6 +26,7 @@ class BibleFormat extends Object {
   Future<List<Widget>> renderPassage(BibleRef reference) {
     print(_overridePrompt + 'getChapter()');
 //    return [Text(_overridePrompt + 'getChapter()')];
+  return null;
   }
 
   int getChaptersInBook(book) {
