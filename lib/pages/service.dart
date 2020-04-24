@@ -146,6 +146,7 @@ class _ServicePageState extends State<ServicePage> {
         Expanded(
           child: Container(
             child: ListView.builder(
+              key: PageStorageKey('drawer_list_key'),
               itemBuilder: (BuildContext context, int index) {
                 if(index < prayerBooks.length ){
                   return drawerPrayerBookEntry(context, prayerBooks[index], true);
@@ -154,6 +155,7 @@ class _ServicePageState extends State<ServicePage> {
                 }
               },
               itemCount: prayerBooks.length*2,
+
             ),
           ),
         ),
@@ -197,13 +199,6 @@ class _ServicePageState extends State<ServicePage> {
   Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook, [bool onlyFavorites = false]) {
     // Build the favorites tiles
     if(onlyFavorites){
-//      return new ExpansionTile(
-//        key: new PageStorageKey<PrayerBook>(prayerBook),
-//        title: Text("Favorites"),
-//
-//        children: _buildServicesTiles(context, prayerBook, true),
-//        initiallyExpanded: true,
-//      );
       return Column(
         children: _buildServicesTiles(context, prayerBook, true),
       );
