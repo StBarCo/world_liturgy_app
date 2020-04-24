@@ -122,7 +122,7 @@ dayAndLinkToCalendar(currentIndexes, context) {
           padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
           child: GestureDetector(
               onTap: () => context
-                  .ancestorStateOfType(const TypeMatcher<HomePageState>())
+                  .ancestorStateOfType(HomePageState())
                   .changeTab('calendar'),
               child: Column(
                   children: dayTitles(currentIndexes["prayerBook"], context))),
@@ -167,7 +167,7 @@ List<String> celebrationPriority(Day day) {
 
 List<String> getDailyReadings(
     String lectionaryType, String readingType, context) {
-  Day day = getDay(context);
+//  Day day = getDay(context);
   List<String> readings = [];
 
   if (readingType.toLowerCase() == 'ot') {

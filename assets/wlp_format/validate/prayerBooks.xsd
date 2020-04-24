@@ -21,6 +21,7 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element type="xs:string" name="title">
+
                 <xs:annotation>
                   <xs:documentation>title, and rubric can only be used 1x per parent</xs:documentation>
                 </xs:annotation>
@@ -29,6 +30,7 @@
                 <xs:complexType>
                   <xs:sequence>
                     <xs:element type="xs:string" name="title"/>
+                    <xs:element type="xs:string" name="titleShort" minOccurs="0"/>
                     <xs:element name="section" maxOccurs="unbounded" minOccurs="1">
                       <xs:annotation>
                         <xs:documentation>section visibility: hidden will not display the section. but it will be linked to at another point in the service.section visibility: collapsed will show the title and on tap will display the section in fullsection visibility: indexed will show first lines of children with link to display full contents of a single child</xs:documentation>
@@ -80,6 +82,8 @@
                                     <xs:enumeration value="other"/>
                                     <xs:enumeration value="leaderOther"/>
                                     <xs:enumeration value="peopleOther"/>
+                                    <xs:enumeration value="question"/>
+                                    <xs:enumeration value="answer"/>
                                   </xs:restriction>
                                 </xs:simpleType>
                               </xs:attribute>
@@ -90,6 +94,8 @@
                                     <xs:enumeration value="stanzas"/>
                                     <xs:enumeration value="rubric"/>
                                     <xs:enumeration value="title"/>
+                                    <xs:enumeration value="reading"/>
+                                    <xs:enumeration value="readingLink"/>
                                   </xs:restriction>
                                 </xs:simpleType>
                               </xs:attribute>

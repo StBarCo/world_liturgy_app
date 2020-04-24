@@ -20,6 +20,10 @@ class BibleRef extends Object {
   BibleRef(this.bookAbbr,
       [this._chapter, this._verse, this._endingChapter, this._endingVerse]);
 
+  BibleRef.fromString(String refString){
+    this.bookAbbr = "Abb";
+  }
+
   set chapter(int i) {
     _chapter = i;
   }
@@ -116,3 +120,70 @@ class BibleRef extends Object {
     }
   }
 }
+
+
+List<dynamic> parseStringReference(String ref){
+    String book = ref.trim().substring(0,3);
+    String versesList = ref.trim().replaceRange(0,3,'').replaceAll(RegExp(r"[^0-9:,-]"), '');
+
+    if (versesList.isNotEmpty){
+      List<dynamic> list = [];
+      int chapter;
+
+      for(String v in versesList.split(',')){
+        List<String> bounds = v.split('-');
+
+
+        Map<String, int> attr = {'c': null, 'v': null, 'e_c': null, 'e_v': null};
+        try {
+
+//        if bounds[0] contains ":" -> chapter & verse
+//        if chapter != null and !":" -> (assumed chapter) & verse
+//        if chapter == null and !":" -> chapter only
+
+//        references whole chapters
+        if(chapter == null && !bounds[0].contains(":")) {
+          attr['c'] = int.parse(bounds[0]);
+          attr['v'] = 1;
+
+//          references explicit chapter verse
+        } else if (bounds[0].contains(":")) {
+          List beg = bounds[0].split(':');
+          attr['c'] = int.parse(beg[0]);
+          attr['v'] = int.parse(beg[1]);
+          chapter = int.parse(beg[0]);
+        } else {
+          attr['c'] = chapter ?? 1;
+          attr['v'] = int.parse(bounds[0]);
+        }
+
+        if(bounds.length == 2){
+          if(chapter == null && !bounds[1].contains(":")) {
+            attr['e_c'] = int.parse(bounds[1]);
+
+//          references explicit chapter verse
+          } else if (bounds[1].contains(":")) {
+            List end = bounds[1].split(':');
+            attr['e_c'] = int.parse(end[0]);
+            attr['e_v'] = int.parse(end[1]);
+            chapter = int.parse(end[0]);
+          } else {
+            attr['e_c'] = chapter ?? 1;
+            attr['e_v'] = int.parse(bounds[1]);
+          }
+        }
+
+          list.add(
+              BibleRef(book, attr['c'], attr['v'], attr['e_c'], attr['e_v']));
+        } catch (e){
+          list.add(false);
+        }
+      }
+      return list;
+    } else {
+      return [BibleRef(book)];
+    }
+
+}
+
+

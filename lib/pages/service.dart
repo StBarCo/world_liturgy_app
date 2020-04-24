@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:world_liturgy_app/shared_preferences.dart';
 
 import '../json/serializePrayerBook.dart';
 import '../globals.dart' as globals;
@@ -145,9 +146,14 @@ class _ServicePageState extends State<ServicePage> {
         Expanded(
           child: Container(
             child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) =>
-                  drawerPrayerBookEntry(context, prayerBooks[index]),
-              itemCount: prayerBooks.length,
+              itemBuilder: (BuildContext context, int index) {
+                if(index < prayerBooks.length ){
+                  return drawerPrayerBookEntry(context, prayerBooks[index], true);
+                } else {
+                  return drawerPrayerBookEntry(context, prayerBooks[index - prayerBooks.length]);
+                }
+              },
+              itemCount: prayerBooks.length*2,
             ),
           ),
         ),
@@ -188,30 +194,56 @@ class _ServicePageState extends State<ServicePage> {
     });
   }
 
-  Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook) {
-    if (prayerBook.services.isEmpty)
-      return new ListTile(title: new Text(prayerBook.title ?? 'No Title'));
-    return new ExpansionTile(
-      key: new PageStorageKey<PrayerBook>(prayerBook),
-      title: new Text(
-        prayerBook.title ?? 'No title',
-        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-      ),
-      children: _buildServicesTiles(context, prayerBook),
-      initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
-    );
+  Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook, [bool onlyFavorites = false]) {
+    // Build the favorites tiles
+    if(onlyFavorites){
+//      return new ExpansionTile(
+//        key: new PageStorageKey<PrayerBook>(prayerBook),
+//        title: Text("Favorites"),
+//
+//        children: _buildServicesTiles(context, prayerBook, true),
+//        initiallyExpanded: true,
+//      );
+      return Column(
+        children: _buildServicesTiles(context, prayerBook, true),
+      );
+
+    }else {
+      // Build the prayer-books
+      if (prayerBook.services.isEmpty)
+        return new ListTile(title: new Text(prayerBook.title ?? 'No Title'),);
+      return new ExpansionTile(
+        key: new PageStorageKey<PrayerBook>(prayerBook),
+        title: new Text(
+          prayerBook.title ?? 'No title',
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+        ),
+        children: _buildServicesTiles(context, prayerBook),
+        initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
+      );
+    }
   }
 
-  List<Widget> _buildServicesTiles(context, prayerBook) {
+  List<Widget> _buildServicesTiles(context, prayerBook, [bool onlyFavorites = false]) {
     List<Widget> servicesList = [];
+    List<String> favorites = SharedPreferencesHelper.getFavorites();
 //    Service serviceName;
     for (var service in prayerBook.services) {
+      String serviceFavString = prayerBook.id + "-" + service.id;
+      bool isFavorite = favorites.contains(serviceFavString);
+
+      if(onlyFavorites && !isFavorite){
+        continue;
+      }
+
       servicesList.add(new Padding(
           padding: EdgeInsets.only(left: 20.0),
           child: new ListTile(
             title: new Text(
               service.title ?? 'No title',
             ),
+            trailing: FavoriteServiceWidget(isFavorite: isFavorite, favoriteID: serviceFavString,),
+
             selected: service.id == currentIndexes['service'] &&
                 prayerBook.id == currentIndexes['prayerBook'],
             onTap: () {
@@ -221,9 +253,10 @@ class _ServicePageState extends State<ServicePage> {
             },
             dense: true,
           )));
-    }
+      }
     return servicesList;
   }
+
 
   //TODO: Look at refactoring service building with widget classes
 //  https://flutter.io/catalog/samples/expansion-tile-sample/
@@ -272,5 +305,64 @@ class _ServicePageState extends State<ServicePage> {
       }
     }
     return Container();
+  }
+}
+
+class FavoriteServiceWidget extends StatefulWidget {
+
+  final bool isFavorite;
+  final String favoriteID;
+
+  FavoriteServiceWidget({Key key, this.isFavorite, this.favoriteID }) : super(key: key);
+
+  _FavoriteServiceWidgetState createState() => _FavoriteServiceWidgetState();
+}
+
+class _FavoriteServiceWidgetState extends State<FavoriteServiceWidget> {
+
+  bool isFavorited = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorited = widget.isFavorite;
+  }
+
+  void toggleFavorite() {
+    setState((){
+      isFavorited = !isFavorited;
+      if(isFavorited){
+        SharedPreferencesHelper.removeFavorite(widget.favoriteID);
+      } else {
+        SharedPreferencesHelper.addFavorite(widget.favoriteID);
+      }
+
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: isFavorited ? Icon(Icons.favorite, color: Colors.red[900],) : Icon(Icons.favorite_border),
+      onPressed: (){
+        setState((){
+          isFavorited = !isFavorited;
+          if(isFavorited){
+            SharedPreferencesHelper.addFavorite(widget.favoriteID);
+          } else {
+            SharedPreferencesHelper.removeFavorite(widget.favoriteID);
+          }
+
+        });
+      },
+    );
+
+    //    return Container(
+//      padding: EdgeInsets.all(0.0),
+//      child: IconButton(
+//          icon: isFavorited ? Icon(Icons.star) : Icon(Icons.star_border),
+//          color: Colors.yellow[500],
+//          onPressed: toggleFavorite),
+//    );
   }
 }

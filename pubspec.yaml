@@ -32,7 +32,7 @@ dependencies:
   flutter_calendar: '>=0.0.8'
 
 # storing user preferences on both android and iOs
-  shared_preferences: '>=0.4.3'
+  shared_preferences: '>=0.5.7'
 
 
 dev_dependencies:

@@ -21,6 +21,7 @@ List<Bible> bibles;
 final String appTitle = 'World Liturgy App';
 //final String appTitle = 'ACK Kitabu Kipya Cha Ibada';
 
+
 Map translationMap = {
   'en_ke': {
 //    GENERAL TRANSLATIONS
@@ -54,10 +55,12 @@ Map translationMap = {
     'bishop': 'Bishop',
 //    'archbishop': 'Archbishop',
     'reader': 'Reader',
+    'question': 'Question',
 
 //    TRANSLATIONS FOR PEOPLE SIDE
     'people': 'People',
     'all': 'All',
+    'answer': 'Answer',
 
 //    TRANSLATIONS FOR DATES AND SEASONS
     'dates': {
@@ -134,10 +137,12 @@ Map translationMap = {
     'bishop': 'Askofu',
 //    'archbishop': 'Archbishop',
     'reader': 'Msomaji',
+    'question': 'Swali',
 
 //    TRANSLATIONS FOR PEOPLE SIDE
     'people': 'Watu',
     'all': 'Wote',
+    'answer': 'Jibu',
 
     //    TRANSLATIONS FOR DATES
     'dates': {

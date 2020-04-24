@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import '../bibleParse/bible_reference.dart';
+import '../model/bible.dart';
 import '../app.dart';
 import '../globals.dart' as globals;
 import '../theme.dart';
@@ -9,6 +10,7 @@ import '../model/calendar.dart';
 import '../pages/calendar.dart';
 
 part 'collects.dart';
+
 
 /// The generic WLP class with shared build content methods that is extended by other classes.
 class GeneralContent extends StatelessWidget {
@@ -94,21 +96,34 @@ class GeneralContent extends StatelessWidget {
         child: _rubric(item.text, context),
         padding: EdgeInsets.only(top: 18.0, bottom: 5.0),
       );
-    } else if (item.type == 'reading') {
+    } else if (item.type == 'lectionaryReading') {
       return Container();
 //    return lectionaryReading(item, context);
 //        TODO: make methods to show header, fields, and reading(s).
+    } else if (item.type == 'biblePassage'){
+      List<Widget> list = [
+        _rubric(
+          passageHumanizedReference(item.text, globals.bibles.firstWhere((b) => b.language == getLanguage(context))),
+          context
+        ),
+      ];
+      list.addAll(getPassageSection(item, context));
+      return Column(
+          children: list,
+      );
 
     } else if (item.who == 'leader' ||
         item.who == 'minister' ||
         item.who == 'reader' ||
         item.who == 'leaderOther' ||
         item.who == 'bishop' ||
-        item.who == "archBishop") {
+        item.who == "archBishop" ||
+        item.who == 'question') {
       return _leaderItem(item, prevItemWho, context);
     } else if (item.who == 'people' ||
         item.who == 'all' ||
-        item.who == 'peopleOther') {
+        item.who == 'peopleOther' ||
+        item.who == 'answer') {
       return _peopleItem(item, prevItemWho, context);
     } else if (item.who == 'none') {
       return null;
@@ -152,6 +167,7 @@ class GeneralContent extends StatelessWidget {
               : _doesItemHasRef(item)
                   ? _itemTextWithRef(
                       item,
+                      context,
                       Theme.of(context).textTheme.body1,
                       Theme.of(context)
                           .textTheme
@@ -178,6 +194,7 @@ class GeneralContent extends StatelessWidget {
               : _doesItemHasRef(item)
                   ? _itemTextWithRef(
                       item,
+                      context,
                       Theme.of(context).textTheme.body2,
                       Theme.of(context)
                           .textTheme
@@ -211,6 +228,7 @@ class GeneralContent extends StatelessWidget {
             child: _doesItemHasRef(item)
                 ? _itemTextWithRef(
                     item,
+                    context,
                     Theme.of(context).textTheme.body1,
                     Theme.of(context)
                         .textTheme
@@ -235,6 +253,7 @@ class GeneralContent extends StatelessWidget {
           child: _doesItemHasRef(item)
               ? _itemTextWithRef(
                   item,
+                  context,
                   Theme.of(context).textTheme.body1,
                   Theme.of(context)
                       .textTheme
@@ -265,7 +284,7 @@ class GeneralContent extends StatelessWidget {
       Container(
         constraints: BoxConstraints(maxWidth: 70.0),
         child: Text(
-          label,
+          label ?? '',
           style: Theme.of(context).textTheme.caption,
           textAlign: TextAlign.center,
         ),
@@ -295,11 +314,13 @@ class GeneralContent extends StatelessWidget {
     }
   }
 
-  RichText _itemTextWithRef(Item item, TextStyle style, TextStyle refStyle,
+  RichText _itemTextWithRef(Item item, BuildContext context, TextStyle style, TextStyle refStyle,
       {TextAlign alignment = TextAlign.left}) {
     return RichText(
         textAlign: alignment,
-        text: TextSpan(text: item.text, style: style, children: [
+        textScaleFactor: RefreshState.of(context).textScaleFactor ,
+        text: TextSpan(text: item.text, style: style,
+            children: [
           TextSpan(text: '   '),
           TextSpan(text: item.ref, style: refStyle),
         ]));
@@ -486,6 +507,48 @@ class GeneralContent extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> getPassageSection(Item item, context)  {
+    List<Widget> content = [];
+    List<dynamic> refs = parseStringReference(item.text);
+
+    for (dynamic ref in refs){
+      if(ref == false){
+       content.add(_rubric("Sorry! I was unable to read: " + item.text, context));
+      } else {
+        content.add(passageContent(ref, context));
+      }
+    }
+
+    return content;
+  }
+
+  Widget passageContent(ref, context){
+    Bible bible = globals.bibles.firstWhere((b) => b.language == getLanguage(context));
+    return FutureBuilder<List<Widget>>(
+      future: bible.bibleFormat.renderPassage(ref),
+      builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+            return Container();
+          case ConnectionState.waiting:
+            return Center(child: CircularProgressIndicator());
+          default:
+            return  Column(
+              children: snapshot.data,
+            );
+        }
+      },
+    );
+  }
+
+  String passageHumanizedReference(String reference, Bible bible){
+    String book = bible.bibleFormat.getBookTitle(reference.trim().substring(0,3));
+    String fullRef = reference.replaceRange(0, 3, book);
+    return fullRef;
+  }
+
+
 }
 
 class SectionContent extends GeneralContent {
@@ -686,17 +749,17 @@ class IndexedSectionCard extends SectionContent {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 12.0),
-                child: Text(item.title,
+                child: Text(item.title ?? passageHumanizedReference(item.text, globals.bibles.firstWhere((b) => b.language == getLanguage(context))),
                     style: Theme.of(context).textTheme.subhead.copyWith(
                           fontSize: 16.0,
                           color: Theme.of(context).primaryColorDark,
                         ),
                     textAlign: TextAlign.center),
               ),
-              Padding(
+              item.ref != null ? Padding(
                 padding: EdgeInsets.only(top: 4.0),
                 child: Text(
-                  item.ref ?? '',
+                  item.ref  ?? '',
                   style: Theme.of(context)
                       .textTheme
                       .caption
@@ -704,7 +767,7 @@ class IndexedSectionCard extends SectionContent {
                       .copyWith(color: Theme.of(context).primaryColorDark),
                   textAlign: TextAlign.center,
                 ),
-              ),
+              ) : Container(),
               Padding(
                 padding: EdgeInsets.only(top: 4.0),
                 child: Text(
@@ -792,7 +855,7 @@ class ExpandedIndexedContent extends SectionContent {
         appBar: AppBar(
           elevation: 5.0,
           textTheme: Theme.of(context).textTheme,
-          title: appBarTitle(item.title, context),
+          title: appBarTitle(item.title ?? passageHumanizedReference(item.text, globals.bibles.firstWhere((b) => b.language == getLanguage(context))), context),
         ),
         body: ListView(
           padding: const EdgeInsets.all(16.0),
@@ -800,8 +863,15 @@ class ExpandedIndexedContent extends SectionContent {
         ));
   }
 
-  List<Widget> _buildExpandedIndexedItems(item, context) {
-    return stanzasColumn(item, context, returnType: 'list', exclude: 'title');
+  List<Widget> _buildExpandedIndexedItems(Item item, context) {
+    if (item.type == 'stanzas' || item.type == 'versedStanzas') {
+      return stanzasColumn(item, context, returnType: 'list', exclude: 'title');
+    } else if (item.type == 'biblePassage'){
+      return getPassageSection(item, context);
+
+    } else {
+      return [];
+    }
   }
 }
 

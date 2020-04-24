@@ -49,7 +49,8 @@ class _BiblePageState extends State<BiblePage> {
       currentBible.bibleFormat.getBookTitlesAndChapters()[newRef.bookAbbr];
     }
     setState(() {
-      currentRef = newRef;
+      currentRef.bookAbbr = newRef.bookAbbr;
+      currentRef.chapter = newRef.chapter;
     });
 
     _pageController.animateToPage(newRef.chapter - 1,
@@ -261,7 +262,7 @@ Widget lectionaryReading(item, context) {
   getDailyReadings(lectionaryType, readingType, context);
 
   readings.forEach((ref) {
-    list.addAll(getPassage(ref, context));
+//    list.addAll(getPassageSection(ref, context));
   });
 
   return Column(
@@ -269,16 +270,27 @@ Widget lectionaryReading(item, context) {
   );
 }
 
-List<Widget> getPassage(ref, context) {
-  List<Widget> list = [];
-  String language = getLanguage(context);
-  String passage = getDummyPassage(ref);
-  list.add(Text(language));
-  list.add(Text(ref));
-  list.add(Text(passage ?? ''));
 
-  return list;
+
+
+List<String> splitRef(String input){
+  RegExp pattern = RegExp(
+    r"(\d?)\s*([a-z]+)",
+    caseSensitive: false,
+    multiLine: false
+  );
+
+  if (input.startsWith(pattern)){
+    return [
+      pattern.stringMatch(input),
+      input.replaceAll(pattern, '').trim(),
+    ];
+
+  } else {
+    return [];
+  }
 }
+
 
 String getDummyPassage(ref) {
   switch (ref) {

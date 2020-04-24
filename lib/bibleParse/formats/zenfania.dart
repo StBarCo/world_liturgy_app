@@ -13,28 +13,30 @@ import '../bible_reference.dart';
 ///     bnumber - bnumber attribute from <BIBLEBOOK bnumber=xxx> in xml.
 /// is passed a booksData map which must
 class ZenfaniaBible extends BibleFormat {
-  Map<String, Map<String, String>> bookTitlesMap;
+  Map<String, Map<String, String>> bookTitlesAndChapters;
   Map bible;
 
   ZenfaniaBible({
     path,
-    this.bookTitlesMap,
+    this.bookTitlesAndChapters,
   }) : super(path: path) {
     initializeBible();
   }
 
   @override
   Map getBookTitlesAndChapters() {
-    return bookTitlesMap;
+    return bookTitlesAndChapters;
   }
 
   @override
   Future<List<Widget>> renderPassage(BibleRef ref) async {
-    String bnumber = bookTitlesMap[ref.bookAbbr]['bnumber'].toString();
+    List<Widget> passage = [];
+    try{
+    String bnumber = bookTitlesAndChapters[ref.bookAbbr]['bnumber'].toString();
     var bookMap = bible["XMLBIBLE"]["BIBLEBOOK"]
         .firstWhere((var book) => book["bnumber"] == bnumber);
 
-    List<Widget> passage = [];
+
 
     int currentChapter = ref.chapter;
 
@@ -65,11 +67,16 @@ class ZenfaniaBible extends BibleFormat {
         }
       }
     }
-    passage.add(Container(
-      height: 100.0,
-    ));
+//    passage.add(Container(
+//      height: 100.0,
+//    ));
 
     return passage;
+    } catch (e) {
+      print('Error parsing book abbreviation in usx.dart.renderPassage: ' + ref.bookAbbr);
+      passage.add(Text('Oops! I could not understand book abbreviation: ' + ref.bookAbbr));
+      return passage;
+    }
   }
 
   bool inPassage(int chapter, int verse, BibleRef ref) {
@@ -127,9 +134,13 @@ class ZenfaniaBible extends BibleFormat {
   setBooksAndChapters(Map bible) {
     List bookList = bible["XMLBIBLE"]["BIBLEBOOK"];
 
-    bookTitlesMap.forEach((String key, Map<String, dynamic> attributes) {
+    bookTitlesAndChapters.forEach((String key, Map<String, dynamic> attributes) {
       Map book = bookList.firstWhere(
           (book) => book['bnumber'] == attributes['bnumber'].toString());
+
+      if(book["CHAPTER"] is Map){
+        book["CHAPTER"] = [book["CHAPTER"]];
+      }
 
       attributes['chapters'] = book['CHAPTER'].length.toString();
     });

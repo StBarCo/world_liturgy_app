@@ -24,6 +24,12 @@ class BibleFormat extends Object {
   });
 
   Future<List<Widget>> renderPassage(BibleRef reference) {
+    try {
+      print('Rendering generic bible passage');
+    } catch (e) {
+      print('Error parsing book abbreviation in usx.dart.renderPassage: ');
+
+  }
     print(_overridePrompt + 'getChapter()');
 //    return [Text(_overridePrompt + 'getChapter()')];
   return null;
@@ -52,16 +58,31 @@ class BibleFormat extends Object {
     return {
       'GEN': {
         'long': 'Full Title',
-        'short': 'Short Title',
+        'title': 'Short Title',
         'abbr': 'Abbreviation',
       },
       'EXO': {
         'long': 'Full Title',
-        'short': 'Short Title',
+        'title': 'Short Title',
         'abbr': 'Abbreviation',
       },
     };
   }
+
+  /// Input
+  String getBookTitle(abbr){
+    try {
+      if (abbr is BibleRef) {
+        return this.getBookTitlesAndChapters()[abbr.bookAbbr]['title'];
+      } else {
+        return this.getBookTitlesAndChapters()[abbr]['title'];
+      }
+    } catch (e){
+      return "Book does not exist.";
+    }
+  }
+
+
 
   final String _overridePrompt =
       'Override this method in your extended format class: ';

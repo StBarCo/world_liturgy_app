@@ -38,11 +38,14 @@ class USXBible extends BibleFormat {
   Future<List<Widget>> renderPassage(BibleRef ref) async {
 
     List<Widget> passage = [];
-    XmlDocument bookXml = booksData[ref.bookAbbr];
 
-    bookXml ??= await getFutureBook(ref.bookAbbr);
+    try {
+      XmlDocument bookXml = booksData[ref.bookAbbr];
+      bookXml ??= await getFutureBook(ref.bookAbbr);
+      booksData[ref.bookAbbr] ??= bookXml;
 
-    booksData[ref.bookAbbr] ??= bookXml;
+
+
 
     Iterable<XmlNode> xmlStart;
 
@@ -124,12 +127,18 @@ class USXBible extends BibleFormat {
     }
 
     //          add blank space at bottom of chapter
-    passage.add(Container(
-      height: 100.0,
-    ));
+//    passage.add(Container(
+//      height: 100.0,
+//    ));
 
     return passage;
+    } catch (e) {
+      print('Error rendering passage in usx.dart.renderPassage: ' );
+      passage.add(Text('Oops! I could not find this passage :( '));
+      return passage;
+    }
   }
+
 
   bool inPassage(int chapter, int verse, BibleRef ref){
     if(chapter > ref.endingChapter || chapter < ref.chapter) {

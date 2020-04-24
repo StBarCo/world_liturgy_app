@@ -86,7 +86,6 @@ class _SongsPageState extends State<SongsPage> {
     songBooks.asMap().forEach((index, songBook) {
       List<SongEntry> filteredSongs = songBook.songFormat.songList
           .where((SongEntry song) => _songFilter(song, queryList)).toList();
-      int a = 1;
       filteredList.add(filteredSongs);
     });
 

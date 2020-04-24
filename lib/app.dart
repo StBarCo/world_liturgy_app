@@ -1,3 +1,5 @@
+//import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -144,7 +146,7 @@ class RefreshState extends InheritedWidget {
   }
 
   static RefreshState of(BuildContext context) {
-    return context.inheritFromWidgetOfExactType(RefreshState);
+    return context.dependOnInheritedWidgetOfExactType<RefreshState>();
   }
 }
 

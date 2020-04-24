@@ -15,7 +15,7 @@ List<Bible> initializeBibles() {
         language: 'sw_ke',
         bibleFormat: ZenfaniaBible(
           path: 'assets/bibles/SUV.xml',
-          bookTitlesMap: {
+          bookTitlesAndChapters: {
             "GEN": {
               'bnumber': '1',
               'title': 'Mwanza',
