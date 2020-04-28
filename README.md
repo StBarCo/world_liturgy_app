@@ -28,5 +28,32 @@ Will be documented soon.
 We are looking for help in creating this project. Contact me at info@worldliturgy.org
 
 
+## ToDo
+### Calendar
+*Transfomr
+*Save as Maps - (Seasons (DateRange, Principal Feasts, Other days)
+*To find one day -- 
+    get season - in range
+    find week/name
+    check if principal feast
+    check if other feast
+    do something about sundays/other feast days
+    
+
+for month, basically do the same, just loop a bit more
+
+### Prayer Book
+* Try saving as JSON string
+* Then load and create prayer books as needed.
+
+* maybe use future builder on service.dart
+
+### Add lectionary
+* Data - week name, holy day name?
+* Find Year, get map of week/holy day.
+
+lectionary - save as json(s)
 
 
+
+use this video as starting point: https://www.youtube.com/watch?v=H4HWB2Pmgcw -- Generating code in dart

@@ -1,5 +1,6 @@
 name: world_liturgy_app
 description: The framework for all World Liturgy Apps
+version: 1.6.2
 
 dependencies:
   flutter:

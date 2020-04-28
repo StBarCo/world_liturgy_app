@@ -418,7 +418,7 @@ Text appBarTitle(String title, context, [String shortTitle]){
 }
 
 ThemeData updateTheme(ThemeData theme, Day day){
-  String color = day != null ? getColorDeJour(day)?.toLowerCase() : 'green';
+  String color = day != null ? getColorDeJour(day)?.toLowerCase() : 'white';
 
 //  return baseTheme(theme, color);
   return baseThemeSwatch(theme, color);

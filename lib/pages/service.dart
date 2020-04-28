@@ -159,6 +159,7 @@ class _ServicePageState extends State<ServicePage> {
             ),
           ),
         ),
+        Divider(),
         ListTile(
             title: Text('Zoom'),
             leading: Icon(Icons.zoom_in),

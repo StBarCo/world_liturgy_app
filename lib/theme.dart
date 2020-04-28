@@ -48,7 +48,7 @@ ThemeData baseThemeSwatch(
 //      display1: ,
 //        Large text.
 
-        title: TextStyle(
+        headline6: TextStyle(
 //          color: Colors.black,
           fontFamily: 'Signika',
           fontSize: 22.0,
@@ -57,7 +57,7 @@ ThemeData baseThemeSwatch(
         ),
 //        Used for the primary text in app bars and dialogs (e.g., AppBar.title and AlertDialog.title).
 
-        headline: TextStyle(
+        headline5: TextStyle(
 //          color: Colors.black,
           fontFamily: 'WorkSans',
           fontWeight: FontWeight.w600,
@@ -65,7 +65,7 @@ ThemeData baseThemeSwatch(
         ),
 //        Used for large text in dialogs (e.g., the month and year in the dialog shown by showDatePicker).
 
-        subhead: TextStyle(
+        subtitle1: TextStyle(
 //          color: Colors.black,
           fontFamily: 'WorkSans',
           fontSize: 18.0,
@@ -73,14 +73,14 @@ ThemeData baseThemeSwatch(
         ),
 //          Used for the primary text in lists (e.g., ListTile.title).
 
-        body1: TextStyle(
+        bodyText2: TextStyle(
 //          color: Colors.black,
           fontFamily: 'WorkSans',
           fontSize: 14.0,
         ),
 //        Used for the default text style for Material.
 
-        body2: TextStyle(
+        bodyText1: TextStyle(
 //          color: Colors.black,
           fontFamily: 'WorkSans',
           fontSize: 14.0,
@@ -97,11 +97,15 @@ ThemeData baseThemeSwatch(
           fontSize: 12.0,
           fontWeight: FontWeight.w300,
         ),
-      ));
+      ),
+
+  );
 }
 
 TextStyle referenceAndSubtitleStyle = TextStyle(
   fontWeight: FontWeight.w600,
     color: Colors.black38,
 );
+
+
 

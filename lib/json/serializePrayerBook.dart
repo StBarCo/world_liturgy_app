@@ -5,7 +5,7 @@ part 'serializePrayerBook.g.dart';
 @JsonSerializable()
 class PrayerBooksContainer extends Object {
   @JsonKey(fromJson: _decodePrayerBookorService, name: 'prayer_book')
-  final List<PrayerBook> prayerBooks;
+  List<PrayerBook> prayerBooks;
 
   PrayerBooksContainer(this.prayerBooks,);
 
