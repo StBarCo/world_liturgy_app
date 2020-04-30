@@ -89,7 +89,7 @@ class SongPage extends StatelessWidget {
       list.add(Text(stanza.text, style: Theme
           .of(context)
           .textTheme
-          .body2));
+          .bodyText1));
     }
 
     return new Padding(
@@ -134,7 +134,7 @@ class SongPage extends StatelessWidget {
       list.add(Text(stanza.text, style: Theme
           .of(context)
           .textTheme
-          .body1,),);
+          .bodyText2,),);
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

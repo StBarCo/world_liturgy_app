@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:world_liturgy_app/data/prayer_book_settings.dart';
+import 'data/prayer_book_settings.dart';
 
 import 'json/xml_parser.dart';
 import 'globals.dart' as globals;

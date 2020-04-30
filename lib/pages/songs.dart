@@ -170,7 +170,7 @@ class _SongsPageState extends State<SongsPage> {
           style: Theme
               .of(context)
               .textTheme
-              .subhead
+              .subtitle1
               .copyWith(color: Theme
               .of(context)
               .accentColor),
@@ -192,7 +192,7 @@ class _SongsPageState extends State<SongsPage> {
           padding: EdgeInsets.only(left: 20.0),
           child: new ListTile(
             leading: Icon(Icons.music_note),
-            title: songTitle(song, style: Theme.of(context).textTheme.body1),
+            title: songTitle(song, style: Theme.of(context).textTheme.bodyText2),
             subtitle: Text(song.subtitle ?? '',
                 style: Theme.of(context)
                     .textTheme

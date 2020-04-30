@@ -62,14 +62,14 @@ class GeneralContent extends StatelessWidget {
         title,
         style: Theme.of(context)
             .textTheme
-            .subhead
+            .subtitle1
             .copyWith(color: Theme.of(context).primaryColorDark),
         textAlign: TextAlign.center,
       );
     } else {
       return Text(
         title,
-        style: Theme.of(context).textTheme.subhead,
+        style: Theme.of(context).textTheme.subtitle1,
         textAlign: TextAlign.center,
       );
     }
@@ -80,7 +80,7 @@ class GeneralContent extends StatelessWidget {
         padding: EdgeInsets.only(top: 0.0, bottom: 12.0),
         child: Text(
           header,
-          style: Theme.of(context).textTheme.headline,
+          style: Theme.of(context).textTheme.headline5,
           textAlign: TextAlign.center,
         ));
   }
@@ -163,17 +163,17 @@ class GeneralContent extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.0, right: 42.0, top: 12.0),
           child: _isStanzas(item)
               ? stanzasColumn(item, context,
-                  style: Theme.of(context).textTheme.body1)
+                  style: Theme.of(context).textTheme.bodyText2)
               : _doesItemHasRef(item)
                   ? _itemTextWithRef(
                       item,
                       context,
-                      Theme.of(context).textTheme.body1,
+                      Theme.of(context).textTheme.bodyText2,
                       Theme.of(context)
                           .textTheme
                           .caption
                           .merge(referenceAndSubtitleStyle))
-                  : _itemText(item, style: Theme.of(context).textTheme.body1),
+                  : _itemText(item, style: Theme.of(context).textTheme.bodyText2),
         )),
       ],
     );
@@ -190,19 +190,19 @@ class GeneralContent extends StatelessWidget {
               left: item.who == 'all' ? 16.0 : 42.0, right: 16.0, top: 12.0),
           child: _isStanzas(item)
               ? stanzasColumn(item, context,
-                  style: Theme.of(context).textTheme.body2)
+                  style: Theme.of(context).textTheme.bodyText1)
               : _doesItemHasRef(item)
                   ? _itemTextWithRef(
                       item,
                       context,
-                      Theme.of(context).textTheme.body2,
+                      Theme.of(context).textTheme.bodyText1,
                       Theme.of(context)
                           .textTheme
                           .caption
                           .merge(referenceAndSubtitleStyle),
                       alignment: TextAlign.right)
                   : _itemText(item,
-                      style: Theme.of(context).textTheme.body2,
+                      style: Theme.of(context).textTheme.bodyText1,
                       alignment: TextAlign.right),
         )),
         Opacity(
@@ -229,12 +229,12 @@ class GeneralContent extends StatelessWidget {
                 ? _itemTextWithRef(
                     item,
                     context,
-                    Theme.of(context).textTheme.body1,
+                    Theme.of(context).textTheme.bodyText2,
                     Theme.of(context)
                         .textTheme
                         .caption
                         .merge(referenceAndSubtitleStyle))
-                : _itemText(item, style: Theme.of(context).textTheme.body1),
+                : _itemText(item, style: Theme.of(context).textTheme.bodyText2),
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
           ),
         )
@@ -254,12 +254,12 @@ class GeneralContent extends StatelessWidget {
               ? _itemTextWithRef(
                   item,
                   context,
-                  Theme.of(context).textTheme.body1,
+                  Theme.of(context).textTheme.bodyText2,
                   Theme.of(context)
                       .textTheme
                       .caption
                       .merge(referenceAndSubtitleStyle))
-              : _itemText(item, style: Theme.of(context).textTheme.body1),
+              : _itemText(item, style: Theme.of(context).textTheme.bodyText2),
         ),
 //          Column(
 //            children: <Widget>[
@@ -428,7 +428,7 @@ class GeneralContent extends StatelessWidget {
         padding: EdgeInsets.only(top: 12.0, bottom: 8.0),
         child: Text(
           title,
-          style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
+          style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 16.0),
           textAlign: TextAlign.center,
         ));
   }
@@ -439,7 +439,7 @@ class GeneralContent extends StatelessWidget {
       padding: EdgeInsets.only(top: 0.0, bottom: 10.0, left: 20.0, right: 20.0),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.subhead.copyWith(fontSize: 16.0),
+        style: Theme.of(context).textTheme.subtitle1.copyWith(fontSize: 16.0),
         textAlign: TextAlign.center,
       ),
     );
@@ -451,7 +451,7 @@ class GeneralContent extends StatelessWidget {
         child: Text(
           title,
           style:
-          Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
+          Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black38),
           textAlign: TextAlign.center,
         ));
   }
@@ -463,7 +463,7 @@ class GeneralContent extends StatelessWidget {
         child: Text(
           header,
           style:
-          Theme.of(context).textTheme.body2.copyWith(color: Colors.black38),
+          Theme.of(context).textTheme.bodyText1.copyWith(color: Colors.black38),
           textAlign: TextAlign.center,
         ));
   }
@@ -477,13 +477,13 @@ class GeneralContent extends StatelessWidget {
         collectList.add(Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0),
             child: stanzasColumn(prayer, context,
-                style: Theme.of(context).textTheme.body1)));
+                style: Theme.of(context).textTheme.bodyText2)));
       } else {
         collectList.add(Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.0, vertical: 6.0),
             child: Text(
               prayer.text != null ? prayer.text : '',
-              style: Theme.of(context).textTheme.body1,
+              style: Theme.of(context).textTheme.bodyText2,
             )));
       }
     }
@@ -750,7 +750,7 @@ class IndexedSectionCard extends SectionContent {
               Padding(
                 padding: EdgeInsets.only(top: 12.0),
                 child: Text(item.title ?? passageHumanizedReference(item.text, globals.bibles.firstWhere((b) => b.language == getLanguage(context))),
-                    style: Theme.of(context).textTheme.subhead.copyWith(
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(
                           fontSize: 16.0,
                           color: Theme.of(context).primaryColorDark,
                         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:world_liturgy_app/shared_preferences.dart';
+import '../shared_preferences.dart';
 
 import '../json/serializePrayerBook.dart';
 import '../globals.dart' as globals;

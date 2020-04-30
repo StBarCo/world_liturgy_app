@@ -400,7 +400,7 @@ Text appBarTitle(String title, context, [String shortTitle]){
   if(shortTitle != null && title.length >= (maxLength.floor() -1)){
     return Text(
       shortTitle,
-      style: Theme.of(context).textTheme.title.copyWith(
+      style: Theme.of(context).textTheme.headline6.copyWith(
         fontFamily: 'Signika',
         color: Theme.of(context).primaryIconTheme.color,
       ),
@@ -409,7 +409,7 @@ Text appBarTitle(String title, context, [String shortTitle]){
 
   return Text(
     title,
-    style: Theme.of(context).textTheme.title.copyWith(
+    style: Theme.of(context).textTheme.headline6.copyWith(
       fontFamily: 'Signika',
       color: Theme.of(context).primaryIconTheme.color,
     ),

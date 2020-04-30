@@ -28,6 +28,20 @@ Will be documented soon.
 We are looking for help in creating this project. Contact me at info@worldliturgy.org
 
 
+## IN ORDER TO MODIFY AND PUBLISH ANOTHER PRAYER BOOK:
+APP customizations are centralized in:
+* /android folder ?
+* / assets folder has all the prayerbooks, songbooks, and bibles.
+* /lib
+** /data 
+*** /bible_settings.dart - map of all used bibles
+*** /prayer_book_settings - initial favorited services
+*** / song_settings - map of songbooks
+** / globals  - global settings, appTitle, translation map
+
+
+
+
 ## ToDo
 ### Calendar
 *Transfomr

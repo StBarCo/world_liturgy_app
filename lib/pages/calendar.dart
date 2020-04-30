@@ -141,7 +141,7 @@ List<Widget> dayTitles(prayerBookId, context) {
       child: Text(dateToLongString(getDay(context), getLanguage(context)),
           style: Theme.of(context)
               .textTheme
-              .headline
+              .headline5
               .copyWith(color: Theme.of(context).primaryColorDark), textAlign: TextAlign.center,),
     ),
     CollectContent(prayerBookId, 'titles')
