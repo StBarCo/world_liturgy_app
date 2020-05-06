@@ -25,45 +25,59 @@ class CollectContent extends GeneralContent {
   Widget build(BuildContext context) {
     Day day = getDay(context);
     List<Widget> list = [];
-    Collect collectOfWeek = setCollectOfWeek(day, currentPrayerBookId);
-    Collect collectOfPrincipalFeast =
-        setCollectOfPrincipalFeast(day, currentPrayerBookId);
-    Collect collectOfHolyDay = setCollectOfHolyDay(day, currentPrayerBookId);
+    Collect collectOfPrincipalFeast ;
 
-    celebrationPriority(day).forEach((type) {
-      if (type == 'principalFeast' &&
-          hasContentToBuild(collectOfPrincipalFeast, buildType)) {
-        list.add(_rubric(
-            globals.translationMap[getLanguage(context)]['dates']['types']
-                    ['principalFeast'] + ':',
-            context));
-        list.add(DailyPrayersContent(collectOfPrincipalFeast, buildType));
+    if(day.isHolyDay()){
+      if(day.principalDay() != null){
+        Collect c = setCollect(day.principalDay().id, currentPrayerBookId);
+        collectOfPrincipalFeast = c;
+        if (hasContentToBuild(c, buildType)) {
+          list.add(_rubric(
+              globals.translationMap[getLanguage(context)]['dates']['types']
+              ['principalFeast'] + ':',
+              context));
+          list.add(DailyPrayersContent(c, buildType));
+        }
       }
-
-      if (type == 'season' && hasContentToBuild(collectOfWeek, buildType)) {
+    }
+    if(day.season != null){
+      Collect c = setCollect(day.weekId(), currentPrayerBookId);
+      if (hasContentToBuild(c, buildType)) {
         if (buildType == 'titles') {
-          String season = globals.translationMap[getLanguage(context)]['dates']['seasons']
-          [day.season];
+          String season = globals.translationMap[getLanguage(context)]['dates']['seasons'][day.season.id];
 
           if(season != null && season.isNotEmpty) {
             list.add(_rubric(
                 globals.translationMap[getLanguage(context)]['dates']['types']
                 ['season'] + ':', context));
             list.add(_collectTitle(season, context));
+//            print(day.weekId());
           }
-        } else {
+        } else if( c != collectOfPrincipalFeast){
           list.add(_rubric(globals.translationMap[getLanguage(context)]['dates']['types']
           ['prayerOfTheWeek'] + ':', context));
-          list.add(DailyPrayersContent(collectOfWeek, buildType));
+          list.add(DailyPrayersContent(c, buildType));
         }
       }
+    }
 
-      if (type == 'holyDay' && hasContentToBuild(collectOfHolyDay, buildType)) {
-        list.add(_rubric(globals.translationMap[getLanguage(context)]['dates']['types']
-        ['holyDay'] + ':', context));
-        list.add(DailyPrayersContent(collectOfHolyDay, buildType));
-      }
-    });
+    if(day.nonPrincipalDays() != null) {
+      day.nonPrincipalDays().forEach((hd) {
+        Collect c = setCollect(hd.id, currentPrayerBookId);
+        if (hasContentToBuild(c, buildType)) {
+          list.add(_rubric(
+              globals.translationMap[getLanguage(context)]['dates']['types']
+              ['holyDay'] + ':', context));
+//          if today is a sunday in lent advent or easter then we no not observe red letter days.
+          if((day.date.weekday == 7 && ['advent', 'lent','easter'].contains(day.season.id))){
+            list.add(_rubric(
+                globals.translationMap[getLanguage(context)]['dates']['notObserved'], context));
+          }
+          list.add(DailyPrayersContent(c, buildType));
+        }
+      });
+    }
+
     if (buildType == 'titles') {
       return Column(
         children: list,
@@ -74,45 +88,17 @@ class CollectContent extends GeneralContent {
     ));
   }
 
-  Collect setCollectOfWeek(day, prayerBookId) {
-    if (day != null && day.weekID != null && day.weekCollectIndex != null) {
-      return globals.allPrayerBooks
-          .getPrayerBook(prayerBookId)
-          .services[day.weekServiceIndex]
-          .sections[day.weekSectionIndex]
-          .collects[day.weekCollectIndex];
-    } else {
-      return null;
-    }
+  Collect setCollect(String collectId, String prayerBookId) {
+
+      return globals.allPrayerBooks.getPrayerBook(id: prayerBookId).getCollectAndInfo(collectId);
+
+
+
   }
 
-  Collect setCollectOfPrincipalFeast(day, prayerBookId) {
-    if (day != null &&
-        day.principalFeastID != null &&
-        day.principalFeastCollectIndex != null) {
-      return globals.allPrayerBooks
-          .getPrayerBook(prayerBookId)
-          .services[day.principalFeastServiceIndex]
-          .sections[day.principalFeastSectionIndex]
-          .collects[day.principalFeastCollectIndex];
-    } else {
-      return null;
-    }
-  }
 
-  Collect setCollectOfHolyDay(day, prayerBookId) {
-    if (day != null &&
-        day.holyDayID != null &&
-        day.holyDayCollectIndex != null) {
-      return globals.allPrayerBooks
-          .getPrayerBook(prayerBookId)
-          .services[day.holyDayServiceIndex]
-          .sections[day.holyDaySectionIndex]
-          .collects[day.holyDayCollectIndex];
-    } else {
-      return null;
-    }
-  }
+
+
 
   bool hasContentToBuild(Collect collect, buildType) {
     if (collect != null) {

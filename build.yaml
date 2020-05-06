@@ -17,7 +17,8 @@ targets:
           disallow_unrecognized_keys: false
           explicit_to_json: false
           field_rename: none
-          generate_to_json_function: true
+#          generate_to_json_function: true
+          ignore_unannotated: false
           include_if_null: true
           nullable: true
-          use_wrappers: false
+

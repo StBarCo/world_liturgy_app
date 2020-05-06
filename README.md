@@ -43,18 +43,6 @@ APP customizations are centralized in:
 
 
 ## ToDo
-### Calendar
-*Transfomr
-*Save as Maps - (Seasons (DateRange, Principal Feasts, Other days)
-*To find one day -- 
-    get season - in range
-    find week/name
-    check if principal feast
-    check if other feast
-    do something about sundays/other feast days
-    
-
-for month, basically do the same, just loop a bit more
 
 ### Prayer Book
 * Try saving as JSON string

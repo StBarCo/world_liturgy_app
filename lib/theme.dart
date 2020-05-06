@@ -20,9 +20,9 @@ setThemeColors(String color) {
   } else if (color.contains('white')) {
     kPrimarySwatch = Colors.grey;
     kBrightness = Brightness.light;
-  }else if (color.contains('black')) {
+  }else if (color.contains('black') || color.contains('none')) {
     kPrimarySwatch = Colors.grey;
-    kBrightness = Brightness.dark;
+    kBrightness = Brightness.light;
   }
 }
 

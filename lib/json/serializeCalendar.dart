@@ -107,12 +107,6 @@ class HolyDay extends Object {
   @JsonKey(fromJson: _asAttribute)
   final String color;
 
-  @JsonKey(fromJson: _asIntAttribute)
-  final int length;
-
-  @JsonKey(name:'length_unit', fromJson: _asAttribute )
-  final String lengthUnit;
-
   @JsonKey(name:'date')
   final Date date;
 
@@ -124,8 +118,6 @@ class HolyDay extends Object {
       this.type,
       this.color,
       this.date,
-      this.length,
-      this.lengthUnit,
       this.optionalCelebrationSunday
       );
 
@@ -134,6 +126,8 @@ class HolyDay extends Object {
 
 @JsonSerializable()
 class Date extends Object  {
+  DateTime exactDay;
+
   @JsonKey(fromJson: _asIntAttribute)
   final int month;
   @JsonKey(fromJson: _asIntAttribute)
@@ -201,9 +195,9 @@ List<dynamic> _decodeHolyDays(itemOrList){
 }
 
 String _asAttribute(item){
-  return item[r'$t'];
+  return item == null ? null : item[r'$t'];
 }
 
 int _asIntAttribute(item){
-  return int.parse(item[r'$t']);
+  return item == null ? null : int.parse(item[r'$t']);
 }

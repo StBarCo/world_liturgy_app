@@ -16,12 +16,7 @@ import 'model/bible.dart';
 import 'bibleParse/bible_reference.dart';
 
 class MyApp extends StatelessWidget {
-  final String _initialLanguage;
-  final double _initialTextScaleFactor;
-  final String _initialBible;
-
-
-  MyApp(this._initialLanguage, this._initialTextScaleFactor, this._initialBible);
+  MyApp();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: 'WorkSans',
       ),
-      home: App(_initialLanguage, _initialTextScaleFactor, _initialBible),
+      home: App(),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
     );
@@ -40,11 +35,9 @@ class MyApp extends StatelessWidget {
 }
 
 class App extends StatefulWidget {
-  final String initialLanguage;
-  final double initialTextScaleFactor;
-  final String initialBible;
 
-  App(this.initialLanguage, this.initialTextScaleFactor, this.initialBible);
+
+  App();
 
   @override
   AppState createState() => AppState();
@@ -54,17 +47,26 @@ class AppState extends State<App> {
   Day currentDay;
   String currentLanguage;
   double textScaleFactor;
-  String initialBibleAbbr;
+  List<String> initialBibleInfo;
 
   @override void initState() {
     super.initState();
+    currentLanguage = SharedPreferencesHelper.getCurrentLanguage();
+    textScaleFactor = SharedPreferencesHelper.getTextScaleFactor();
+    initialBibleInfo = SharedPreferencesHelper.getCurrentBible();
     initializeCurrentLanguage();
-    textScaleFactor = widget.initialTextScaleFactor;
-    setDay(DateTime.now()).then((day){
+    super.initState();
+
+    getDayFromCalendar(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day )).then((day) {
       setState(() {
         currentDay = day;
       });
+//      print("success");
+    }).catchError((error, stackTrace) {
+      print("outer: $error");
     });
+
+
   }
 
   /// If textScaleFactor is null, then sets it based on device default.
@@ -77,12 +79,10 @@ class AppState extends State<App> {
   }
 
   initializeCurrentLanguage() {
-    if(widget.initialLanguage == null){
+    if(currentLanguage == null){
       String _initValue = globals.allPrayerBooks.prayerBooks.first.language;
       currentLanguage = _initValue;
       SharedPreferencesHelper.setCurrentLanguage(_initValue);
-    } else {
-      currentLanguage = widget.initialLanguage;
     }
   }
 
@@ -108,6 +108,7 @@ class AppState extends State<App> {
   Widget build(BuildContext context) {
     initializeTextScaleFactor();
 
+
     return RefreshState(
         currentDay: currentDay,
         currentLanguage: currentLanguage,
@@ -118,7 +119,7 @@ class AppState extends State<App> {
           data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
           child: Theme(
             data: updateTheme(Theme.of(context), currentDay),
-            child: HomePage(currentLanguage, initialBibleAbbr: initialBibleAbbr),
+            child: HomePage(currentLanguage, initialBibleInfo: initialBibleInfo),
           ),
         )
     );
@@ -152,10 +153,10 @@ class RefreshState extends InheritedWidget {
 
 class HomePage extends StatefulWidget{
   final String initialLanguage;
-  final String initialBibleAbbr;
+  final List<String> initialBibleInfo;
 
 
-  HomePage(this.initialLanguage, {this.initialBibleAbbr, Key key}) : super(key: key);
+  HomePage(this.initialLanguage, {this.initialBibleInfo, Key key}) : super(key: key);
 
   @override
   HomePageState createState() => new HomePageState();
@@ -287,7 +288,7 @@ class HomePageState extends State<HomePage> {
 
   PrayerBook _setInitialPrayerBook(PrayerBooksContainer allPrayerBooks, [String language]){
     if(language != null) {
-      return allPrayerBooks.getPrayerBook(null, language: language);
+      return allPrayerBooks.getPrayerBook(language: language);
     } else {
       return allPrayerBooks.prayerBooks.first;
     }
@@ -295,7 +296,7 @@ class HomePageState extends State<HomePage> {
   Service _setInitialService(PrayerBook initialPB){
     String serviceId ='eveningWorship';
     int returnedIndex;
-    if(DateTime.now().hour < 12){
+    if(DateTime.now().hour < 15){
       serviceId = 'morningWorship';
     }
     returnedIndex = initialPB.getServiceIndexById(serviceId);
@@ -308,16 +309,17 @@ class HomePageState extends State<HomePage> {
   }
 
   Bible initializeCurrentBible(){
-    if(widget.initialBibleAbbr == null){
-      SharedPreferencesHelper.setCurrentBible(globals.bibles.first.abbreviation);
+    if(widget.initialBibleInfo == null){
+      SharedPreferencesHelper.setCurrentBible([globals.bibles.first.abbreviation, 'MAT', '1']);
       return globals.bibles.first;
     } else {
-      return globals.bibles.firstWhere((Bible bible) => bible.abbreviation == widget.initialBibleAbbr);
+      return globals.bibles.firstWhere((Bible bible) => bible.abbreviation == widget.initialBibleInfo[0]);
     }
   }
 
   BibleRef _setInitialBibleReference(){
-    return BibleRef("MAT", 1);
+    List<String> info = SharedPreferencesHelper.getCurrentBible();
+    return BibleRef(info[1], int.parse(info[2]));
   }
 
   @override
@@ -425,28 +427,34 @@ ThemeData updateTheme(ThemeData theme, Day day){
 }
 
 String getColorDeJour(Day day){
-  switch(celebrationPriority(day).first){
-    case 'holyDay':{
-      return day.holyDayColor;
-    }
-    break;
+  String c;
 
-    case 'principalFeast':{
-      return day.principalColor;
-    }
-    break;
+//  if it is a principal day -- make color
 
-    case 'season':{
-      return day.seasonColor;
+//  else if day is not a sunday in advent, lent or easter then the holy day color is ok
+
+//  else season color or green.
+
+  if(day.isHolyDay()) {
+    c =  day.principalDay()?.color;
+
+//    if no principal day
+    if(c == null && !(day.date.weekday == 7 && ['advent', 'lent', 'easter'].contains(day.season.id))) {
+      c= day.nonPrincipalDays()?.first?.color;
     }
-    break;
   }
-  return 'green';
+  c ??= day.season?.color ?? 'green';
+  return c;
 }
+
+//DayOBSOLETE getDay(context){
+//  return RefreshState.of(context).currentDay;
+//}
 
 Day getDay(context){
   return RefreshState.of(context).currentDay;
 }
+
 
 String getLanguage(context){
   return RefreshState.of(context).currentLanguage;

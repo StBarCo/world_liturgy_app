@@ -7,7 +7,6 @@ import '../theme.dart';
 import '../json/serializePrayerBook.dart';
 
 import '../model/calendar.dart';
-import '../pages/calendar.dart';
 
 part 'collects.dart';
 

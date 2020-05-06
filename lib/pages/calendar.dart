@@ -70,7 +70,7 @@ class _CalendarPageState extends State<CalendarPage> {
 }
 
 setDay(DateTime day) {
-  return globals.db.fetchDay(constructDaysSince(day));
+  return getDayFromCalendar(DateTime.utc(day.year, day.month, day.day));
 }
 
 dateToLongString(date, language) {
@@ -138,32 +138,55 @@ List<Widget> dayTitles(prayerBookId, context) {
   return [
     Padding(
       padding: const EdgeInsets.only(bottom: 10.0),
-      child: Text(dateToLongString(getDay(context), getLanguage(context)),
-          style: Theme.of(context)
-              .textTheme
-              .headline5
-              .copyWith(color: Theme.of(context).primaryColorDark), textAlign: TextAlign.center,),
+      child: Column(
+        children: <Widget>[
+          Text(dateToLongString(getDay(context), getLanguage(context)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  .copyWith(color: Theme.of(context).primaryColorDark), 
+            textAlign: TextAlign.center,),
+
+
+//          FutureBuilder<Day>(
+//            future: globals.calendar.getDayFromCalendar(getDay(context).date),
+//            builder: (BuildContext context, AsyncSnapshot<Day> snapshot) {
+//              switch (snapshot.connectionState) {
+//                case ConnectionState.none:
+//                  return Container();
+//                case ConnectionState.waiting:
+//                  return Center(child: CircularProgressIndicator());
+//                default:
+//                  return Column(
+//                    children:[Text('Day info will go here.')],
+////                    children: snapshot.data,
+//                  );
+//              }
+//            },
+//          ),
+        ],
+      ),
     ),
     CollectContent(prayerBookId, 'titles')
   ];
 }
 
-List<String> celebrationPriority(Day day) {
-  List<String> priority = [];
-  if (day.principalFeastID != null) {
-    priority.add('principalFeast');
-  }
-  if (day.holyDayID != null) {
-    if (day.date.weekday == 7) {
-      priority.add('holyDay');
-    } else {
-      priority.add('holyDay');
-    }
-  }
-  priority.add('season');
-
-  return priority;
-}
+//List<String> celebrationPriority(Day day) {
+//  List<String> priority = [];
+//  if (day.principalFeastID != null) {
+//    priority.add('principalFeast');
+//  }
+//  if (day.holyDayID != null) {
+//    if (day.date.weekday == 7) {
+//      priority.add('holyDay');
+//    } else {
+//      priority.add('holyDay');
+//    }
+//  }
+//  priority.add('season');
+//
+//  return priority;
+//}
 
 List<String> getDailyReadings(
     String lectionaryType, String readingType, context) {

@@ -38,7 +38,7 @@ class _ServicePageState extends State<ServicePage> {
 
   Service _getServiceFromIndexes(indexes) {
     return globals.allPrayerBooks
-        .getPrayerBook(indexes['prayerBook'])
+        .getPrayerBook(id: indexes['prayerBook'])
         .getService(indexes['service']);
   }
 
@@ -78,7 +78,7 @@ class _ServicePageState extends State<ServicePage> {
     if (changingBook) {
       RefreshState.of(context).updateValue(
           newLanguage:
-              globals.allPrayerBooks.getPrayerBook(prayerBook).language);
+              globals.allPrayerBooks.getPrayerBook(id: prayerBook).language);
     } else {
       setState(() {});
     }
@@ -148,10 +148,13 @@ class _ServicePageState extends State<ServicePage> {
             child: ListView.builder(
               key: PageStorageKey('drawer_list_key'),
               itemBuilder: (BuildContext context, int index) {
+                List<String> favorites = SharedPreferencesHelper.getFavorites();
+                bool currentServiceIsAFavorite = favorites.contains(currentIndexes['prayerBook'] + '-' + currentIndexes['service']);
                 if(index < prayerBooks.length ){
-                  return drawerPrayerBookEntry(context, prayerBooks[index], true);
+
+                  return drawerPrayerBookEntry(context, prayerBooks[index], currentServiceIsAFavorite, true, favorites);
                 } else {
-                  return drawerPrayerBookEntry(context, prayerBooks[index - prayerBooks.length]);
+                  return drawerPrayerBookEntry(context, prayerBooks[index - prayerBooks.length], currentServiceIsAFavorite, false, favorites);
                 }
               },
               itemCount: prayerBooks.length*2,
@@ -197,11 +200,12 @@ class _ServicePageState extends State<ServicePage> {
     });
   }
 
-  Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook, [bool onlyFavorites = false]) {
+  Widget drawerPrayerBookEntry(BuildContext context, PrayerBook prayerBook, [bool currentServiceIsAFavorite, bool onlyFavorites = false, List<String> favorites]) {
+
     // Build the favorites tiles
     if(onlyFavorites){
       return Column(
-        children: _buildServicesTiles(context, prayerBook, true),
+        children: _buildServicesTiles(context, prayerBook, currentServiceIsAFavorite, true, favorites),
       );
 
     }else {
@@ -214,15 +218,14 @@ class _ServicePageState extends State<ServicePage> {
           prayerBook.title ?? 'No title',
           style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        children: _buildServicesTiles(context, prayerBook),
-        initiallyExpanded: prayerBook.id == currentIndexes['prayerBook'],
+        children: _buildServicesTiles(context, prayerBook, currentServiceIsAFavorite, false, favorites),
+        initiallyExpanded: !currentServiceIsAFavorite && prayerBook.id == currentIndexes['prayerBook'] ,
       );
     }
   }
 
-  List<Widget> _buildServicesTiles(context, prayerBook, [bool onlyFavorites = false]) {
+  List<Widget> _buildServicesTiles(context, prayerBook, bool currentServiceIsAFavorite, bool onlyFavorites, List<String> favorites ) {
     List<Widget> servicesList = [];
-    List<String> favorites = SharedPreferencesHelper.getFavorites();
 //    Service serviceName;
     for (var service in prayerBook.services) {
       String serviceFavString = prayerBook.id + "-" + service.id;
@@ -232,6 +235,11 @@ class _ServicePageState extends State<ServicePage> {
         continue;
       }
 
+//      //is selected if the service is the currentService AND either in favorites section & is a favorite , or not in favorites section and not a favorite.
+//      bool makeSelected = onlyFavorites == currentServiceIsAFavorite &&
+//          service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'];
+
+
       servicesList.add(new Padding(
           padding: EdgeInsets.only(left: 20.0),
           child: new ListTile(
@@ -240,8 +248,7 @@ class _ServicePageState extends State<ServicePage> {
             ),
             trailing: FavoriteServiceWidget(isFavorite: isFavorite, favoriteID: serviceFavString,),
 
-            selected: service.id == currentIndexes['service'] &&
-                prayerBook.id == currentIndexes['prayerBook'],
+            selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
             onTap: () {
               Navigator.pop(context);
               _changeService(
@@ -273,7 +280,7 @@ class _ServicePageState extends State<ServicePage> {
     );
   }
 
-  Widget _sectionType(section, currentIndexes, currentDay) {
+  Widget _sectionType(section, currentIndexes,Day currentDay) {
     if (section.type == 'collectOfTheDay') {
       return CollectContent(currentIndexes["prayerBook"], "collect");
     } else if (section.type == 'postCommunionOfTheDay') {
@@ -282,11 +289,10 @@ class _ServicePageState extends State<ServicePage> {
       return dayAndLinkToCalendar(currentIndexes, context);
 
     } else if (section.type == 'scheduled' &&
-        section.schedule.contains(currentDay.season)) {
+        section.schedule.contains(currentDay.season.id)) {
       return SectionContent(section);
     } else if (section.type == 'scheduledFeast' &&
-        (section.schedule == currentDay.principalFeastID ||
-            section.schedule == currentDay.holyDayID)) {
+        currentDay.isHolyDay() && currentDay.holyDays.where((hd) => hd.id == section.schedule).toList().isNotEmpty ) {
       return SectionContent(section);
     } else {
       if (section.visibility == 'collapsed') {

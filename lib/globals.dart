@@ -1,17 +1,17 @@
 library world_liturgy_app.globals;
 
+
 import 'json/serializePrayerBook.dart';
-import 'json/serializeCalendar.dart';
-import 'data/database.dart';
 import 'model/songBook.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'model/bible.dart';
+import 'model/calendar.dart';
 
 PrayerBooksContainer allPrayerBooks;
-CalendarScaffold calendarScaffold;
+LitCalendar calendar;
 List<SongBook> allSongBooks;
-DatabaseClient db;
+//DatabaseClient db;
 SharedPreferences preferences;
 List<Bible> bibles;
 
@@ -22,7 +22,9 @@ final String appTitle = 'World Liturgy App';
 //final String appTitle = 'ACK Kitabu Kipya Cha Ibada';
 
 
+
 Map translationMap = {
+  'default': 'sw_ke',
   'en_ke': {
 //    GENERAL TRANSLATIONS
     'languageName': 'English',
@@ -103,7 +105,9 @@ Map translationMap = {
         'principalFeast': 'Principal Feast',
         'season': 'Season',
         'prayerOfTheWeek': 'Prayer of the Week',
-      }
+      },
+      'notObserved': '(Holy days are not observed on the Sundays of Advent, Lent and Easter.)',
+
     }
   },
   'sw_ke': {
@@ -186,6 +190,7 @@ Map translationMap = {
         'season': 'Msimu',
         'prayerOfTheWeek': 'Sala ya Wiki',
       },
+      'notObserved': '(Siku takatifu mbalimbali hazizingatiwi siku za Krismasi, Wakati wa Samu, na Pasaka.)',
     }
   }
 };

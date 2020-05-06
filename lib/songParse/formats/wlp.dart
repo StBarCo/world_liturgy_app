@@ -72,7 +72,7 @@ class WLPSongBook extends SongFormat {
   }
 
   List<SongEntry> initializeTableOfContents() {
-    Map<String, Map<String, dynamic>> toc = {};
+//    Map<String, Map<String, dynamic>> toc = {};
     List songs = songBook['song'];
     List<SongEntry> songEntries = [];
     for (int index = 0; index < songs.length; index++) {

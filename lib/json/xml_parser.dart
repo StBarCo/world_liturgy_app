@@ -46,6 +46,11 @@ Future<CalendarScaffold> loadCalendar() async {
   return CalendarScaffold.fromJson(json.decode(jsonString)["calendar"]);
 }
 
+Future<Map> loadCalendarAsJSON() async{
+  String jsonString = await _loadAndParseXmltoJson('calendar');
+  return json.decode(jsonString)["calendar"];
+}
+
 Future<SongBooksContainer> loadSongBooks() async {
   String jsonString = await _loadAndParseXmltoJson('songBooks');
   return SongBooksContainer.fromJson(json.decode(jsonString)["songbooks"]);

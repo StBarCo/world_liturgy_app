@@ -51,6 +51,8 @@ class _BiblePageState extends State<BiblePage> {
     setState(() {
       currentRef.bookAbbr = newRef.bookAbbr;
       currentRef.chapter = newRef.chapter;
+      SharedPreferencesHelper.setCurrentBible([currentBible.abbreviation, currentRef.bookAbbr, currentRef.chapter.toString()]);
+
     });
 
     _pageController.animateToPage(newRef.chapter - 1,
@@ -61,6 +63,8 @@ class _BiblePageState extends State<BiblePage> {
   changeChapter(int newChapter) {
     setState(() {
       currentRef.chapter = newChapter;
+      SharedPreferencesHelper.setCurrentBible([currentBible.abbreviation, currentRef.bookAbbr, currentRef.chapter.toString()]);
+
     });
 //    Future.delayed(Duration(milliseconds: 500), () {
 //      _pageController.animateToPage(currentRef.chapter - 1,
@@ -75,7 +79,7 @@ class _BiblePageState extends State<BiblePage> {
     currentBible.bibleFormat.getBookTitlesAndChapters()[currentRef.bookAbbr];
     setState(() {
 //      currentRef = currentRef;
-      SharedPreferencesHelper.setCurrentBible(abbr);
+      SharedPreferencesHelper.setCurrentBible([abbr, currentRef.bookAbbr, currentRef.chapter.toString()]);
     });
   }
 

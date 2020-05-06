@@ -21,7 +21,7 @@ class PrayerBooksContainer extends Object {
     return list.indexOf(id);
   }
 
-  PrayerBook getPrayerBook(String id, {String language}) {
+  PrayerBook getPrayerBook({String id, String language}) {
     List<PrayerBook> tempList;
 
     if(id == null && language != null){
@@ -59,11 +59,11 @@ class PrayerBook extends Object {
       );
   factory PrayerBook.fromJson(Map<String, dynamic> json) => _$PrayerBookFromJson(json);
 
-  getService(String id){
-    return this.services.where((service) => service.id == id).first;
+  Service getService(String id){
+    return this.services.firstWhere((service) => service.id == id, orElse: null);
   }
 
-  getServiceIndexById(String id){
+  int getServiceIndexById(String id){
     List list = [];
     for(Service service in this.services){
       list.add(service.id);
@@ -72,6 +72,10 @@ class PrayerBook extends Object {
     }
 
     return list.indexOf(id);
+  }
+
+  Collect getCollectAndInfo(String id){
+    return this.getService('collects').getSection('collects').getCollect(id);
   }
 }
 
@@ -99,10 +103,10 @@ class Service extends Object {
   factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
 
   getSection(String id){
-    return this.sections.where((section) => section.type == id).toList();
+    return this.sections.firstWhere((section) => section.type == id, orElse: null);
   }
 
-  getSectionIndexByType(String type){
+  int getSectionIndexByType(String type){
     List list = [];
     this.sections.forEach((section){
       list.add(section.type);
@@ -179,6 +183,14 @@ class Section extends Object {
       this.schedule,
       );
   factory Section.fromJson(Map<String, dynamic> json) => _$SectionFromJson(json);
+
+  Collect getCollect(String id){
+    try {
+      return this.collects.firstWhere((c) => c.id == id);
+    } catch(e) {
+      return this.collects.firstWhere((c) => c.altId== id);
+    }
+  }
 
 }
 
@@ -257,6 +269,9 @@ class Collect extends Object {
   @JsonKey(nullable: true,)
   final String id;
 
+  @JsonKey(nullable: true,)
+  final String altId;
+
   @JsonKey(nullable: true, fromJson: _asAttribute)
   final String title;
 
@@ -290,6 +305,7 @@ class Collect extends Object {
 
   Collect(
       this.id,
+      this.altId,
       this.title,
       this.subtitle,
       this.ref,
@@ -510,6 +526,9 @@ _decodePostCommunionPrayers(itemOrList){
 }
 
 String _asAttribute(item){
+  if(item == null){
+    return null;
+  }
   try {
     return clean(item[r'$t']);
   } catch (e){
@@ -521,7 +540,9 @@ String _asAttribute(item){
 }
 
 int _asIntAttribute(item){
-
+  if(item == null){
+    return null;
+  }
   try {
     return int.parse(item[r'$t']);
   } catch (e){

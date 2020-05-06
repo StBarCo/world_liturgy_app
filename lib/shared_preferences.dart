@@ -3,7 +3,7 @@ import 'globals.dart' as globals;
 
 class SharedPreferencesHelper {
 
-  static Future<double> getTextScaleFactor() async {
+  static double getTextScaleFactor()  {
     return globals.preferences.getDouble('textScaleFactor');
   }
 
@@ -11,7 +11,7 @@ class SharedPreferencesHelper {
     return globals.preferences.setDouble('textScaleFactor', value);
   }
 
-  static Future<String> getCurrentLanguage() async {
+  static String getCurrentLanguage()  {
     return globals.preferences.getString('currentLanguage');
   }
 
@@ -19,12 +19,12 @@ class SharedPreferencesHelper {
     return globals.preferences.setString('currentLanguage', value);
   }
 
-  static Future<bool> setCurrentBible(String value) async {
-    return globals.preferences.setString('currentBible', value);
+  static Future<bool> setCurrentBible(List<String> value) async {
+    return globals.preferences.setStringList('currentBible', value);
   }
 
-  static Future<String> getCurrentBible() async {
-    return globals.preferences.getString('currentBible');
+  static List<String> getCurrentBible()  {
+    return globals.preferences.getStringList('currentBible');
   }
 
   static void createFavoritesIfEmpty(List<String> initialFavs){
