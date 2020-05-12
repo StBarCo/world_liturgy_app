@@ -68,10 +68,13 @@ class CollectContent extends GeneralContent {
           list.add(_rubric(
               globals.translationMap[getLanguage(context)]['dates']['types']
               ['holyDay'] + ':', context));
-//          if today is a sunday in lent advent or easter then we no not observe red letter days.
-          if((day.date.weekday == 7 && ['advent', 'lent','easter'].contains(day.season.id))){
-            list.add(_rubric(
-                globals.translationMap[getLanguage(context)]['dates']['notObserved'], context));
+//        if this has fallen on another feast day or sunday in Advent, lent or easter, then it has been transferred to the next day.
+          if(hd.dateTransferredFrom != null){
+            String transferredNotice = globals.translationMap[getLanguage(context)]['dates']['transferred'];
+            transferredNotice = '(' + transferredNotice + hd.dateTransferredFrom.day.toString() + ' ';
+            transferredNotice = transferredNotice + globals.translationMap[getLanguage(context)]['dates']['month'][hd.dateTransferredFrom.month] + ')';
+
+            list.add(_rubric(transferredNotice, context));
           }
           list.add(DailyPrayersContent(c, buildType));
         }

@@ -113,12 +113,17 @@ class HolyDay extends Object {
   @JsonKey(name:'optional_celebration_sunday', fromJson: _asAttribute)
   final String optionalCelebrationSunday;
 
+  @JsonKey(name:'overlapsAnyDay',fromJson: _asAttribute)
+  final String overlapsAnyDay;
+
+
   HolyDay(
       this.id,
       this.type,
       this.color,
       this.date,
-      this.optionalCelebrationSunday
+      this.optionalCelebrationSunday,
+      this.overlapsAnyDay
       );
 
   factory HolyDay.fromJson(Map<String, dynamic> json) => _$HolyDayFromJson(json);

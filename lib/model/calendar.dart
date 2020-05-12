@@ -19,13 +19,6 @@ Future<Day> getDayFromCalendar(DateTime day) async{
 
 //  printEveryWeeksId();
 
-//TODO -- SUNDAY CLOSEST TO 9/11
-//  TODO -- Work on counting for midweek things
-//  TODO work on counting down
-//  TODO work on moving feasts / observed if conflict with principal
-//   or if on a sunday in advent lent or easter.
-
-
   return globals.calendar.createDayScaffold(day);
 
 }
@@ -116,7 +109,7 @@ class LitCalendar{
 
   List<ExactHolyDay> getHolyDays(DateTime date){
     List<ExactHolyDay> l = this.exactDays.where((hd) => hd.date.isAtSameMomentAs(date)).toList();
-    l.addAll(getStaticHolyDays(date));
+//    l.addAll(getStaticHolyDays(date));
     return l;
   }
 
@@ -215,18 +208,18 @@ class LitCalendar{
     return seasons;
   }
 
-  DateTime getDate(Date dateProperties, AnchorDays anchorDays){
+  DateTime getDate(Date dateProperties, AnchorDays anchorDays, [int year]){
     DateTime date;
 
     if (dateProperties.month != null ){
-      int year;
-      if(dateProperties.month >= anchorDays.beginningOfYear.month
-      && dateProperties.day >= anchorDays.beginningOfYear.day){
-        year = anchorDays.beginningOfYear.year;
-      } else {
-        year = anchorDays.endOfYear.year;
+      if(year == null) {
+        if (dateProperties.month >= anchorDays.beginningOfYear.month
+            && dateProperties.day >= anchorDays.beginningOfYear.day) {
+          year = anchorDays.beginningOfYear.year;
+        } else {
+          year = anchorDays.endOfYear.year;
+        }
       }
-
       date = DateTime.utc(year, dateProperties.month, dateProperties.day);
 
     } else {
@@ -249,21 +242,63 @@ class LitCalendar{
   List<ExactHolyDay> getExactDays(List<HolyDay> list, AnchorDays anchors){
     List<ExactHolyDay> exactDays = [];
     list.forEach((day) {
-      if(day.date.special != null || day.date.type =='sundayClosestTo'){
-        exactDays.add(ExactHolyDay(
-          day.id,
-          day.color,
-          getDate(day.date, anchors),
-          optionalCelebrationSunday: day.optionalCelebrationSunday == 'true' ? true : false,
-          type: day.type,
-        ));
+      ExactHolyDay thisExactDay;
+      // if is a fixed dated between 11/25 and 12/4 there is a chance that it
+//      overlaps and appears twice in the church year. check these first, then
+      if(day.date.special == null && day.date.type !='sundayClosestTo' &&
+          (day.date.month == 11 && day.date.day >24)
+          || (day.date.month == 12 && day.date.day <5)){
+        [anchors.beginningOfYear.year, anchors.endOfYear.year].forEach((year) {
+          DateTime testDate = DateTime.utc(year, day.date.month, day.date.day);
+          if(anchors.yearContains(testDate)){
+            thisExactDay = getExactDay(day, anchors, testDate);
+            exactDays.add(transferIfNeeded(thisExactDay, exactDays, seasons));
+          }
+        });
+      } else {
+        thisExactDay = getExactDay(day, anchors);
+        thisExactDay = transferIfNeeded(thisExactDay, exactDays, seasons);
+        exactDays.add(thisExactDay);
       }
     });
     return exactDays;
   }
 
+  ExactHolyDay getExactDay(HolyDay day, AnchorDays anchorDays, [DateTime knownDate]){
+    return ExactHolyDay(
+      day.id,
+      day.color,
+      knownDate ?? getDate(day.date, anchorDays),
+      optionalCelebrationSunday: day.optionalCelebrationSunday == 'true' ? true : false,
+      type: day.type,
+      overlapsAnyDay: day.overlapsAnyDay == 'true' ? true : false,
+    );
+  }
+
+  ExactHolyDay transferIfNeeded(ExactHolyDay day, List<ExactHolyDay> list, List<ExactSeason> seasons ){
+    DateTime originalDate = day.date;
+    while( !day.overlapsAnyDay && day.type != 'principal' && (isAlreadyAHolyDay(day.date, list) || isSundayInAdventLentOrEaster(day.date)) && !day.id.contains('christmas')){
+      day.dateTransferredFrom = originalDate;
+      day.date = day.date.add(Duration(days: 1));
+      print(day.id + ' transferred from ' + originalDate.toString() + ' to ' + day.date.toString());
+    }
+    return day;
+  }
+
+  bool isAlreadyAHolyDay(DateTime day, List<ExactHolyDay> list){
+    return list.where((hd) {
+      return hd.date.isAtSameMomentAs(day);
+    }).toList().isNotEmpty;
+  }
+
+
+
+  bool isSundayInAdventLentOrEaster(DateTime date){
+    return date.weekday == 7 && ['advent', 'lent', 'easter'].contains(getSeason(date).id);
+  }
 
 }
+
 
 class Bounds{
   DateTime start;
@@ -275,11 +310,11 @@ class Bounds{
     if(day.isBefore(this.start)){
       return false;
     }
-    
+
     if(day.isAfter(this.end)){
       return false;
     }
-    
+
     return true;
   }
 
@@ -387,6 +422,10 @@ class AnchorDays{
     }
     return this.christmas;
   }
+
+  bool yearContains(DateTime date){
+    return !date.isBefore(this.beginningOfYear) && !date.isAfter(this.endOfYear);
+  }
 }
 
 class ExactSeason{
@@ -409,9 +448,10 @@ class ExactHolyDay{
   String id, color;
   DateTime date;
   String type, title;
-  bool optionalCelebrationSunday;
+  bool optionalCelebrationSunday, overlapsAnyDay;
+  DateTime dateTransferredFrom;
 
-  ExactHolyDay(this.id, this.color, this.date, {this.type, this.title, this.optionalCelebrationSunday = false,});
+  ExactHolyDay(this.id, this.color, this.date, {this.type, this.title, this.optionalCelebrationSunday = false, this.dateTransferredFrom, this.overlapsAnyDay});
 }
 
 class StaticHolyDay{

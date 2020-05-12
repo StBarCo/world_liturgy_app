@@ -1,0 +1,51 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="book">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="xs:string" />
+                <xs:element name="revisions" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="version" maxOccurs="unbounded" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="date" type="xs:string" />
+                                        <xs:element name="number" type="xs:float" />
+                                        <xs:element name="notes" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="song" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType mixed="true">
+                        <xs:choice maxOccurs="unbounded" minOccurs="0">
+                            <xs:element name="number" type="xs:short" />
+                            <xs:element name="title" type="xs:string" />
+                            <xs:element name="subtitle" type="xs:string" />
+                            <xs:element name="verse">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="stanza" maxOccurs="unbounded"
+                                            minOccurs="0" type="xs:string" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="refrain">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="stanza" maxOccurs="unbounded"
+                                            minOccurs="0" type="xs:string" />
+                                    </xs:sequence>
+                                    <xs:attribute name="afterVerse" type="xs:byte" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" />
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

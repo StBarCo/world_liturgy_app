@@ -6,7 +6,12 @@
 <xsl:template match="/">
   <html>
   <body>
-    <div style="width:500px;" align="center">
+    <div style="width:500px; padding:10px;" align="center">
+      <h2>Revision History</h2>
+        <xsl:for-each select="prayer_books/revision">
+          <h2>Revision</h2>
+        </xsl:for-each>
+
       <h1>Prayer Books</h1>
       <xsl:for-each select="prayer_books/prayer_book">
         <h1><xsl:value-of select='title'/></h1>
@@ -48,11 +53,13 @@
                     <h3><xsl:value-of select='title'/></h3>
                     <h4><xsl:value-of select='subtitle'/></h4>
                     <p><i><xsl:value-of select='ref'/></i></p>
-                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="rubric[not(@type='postCommunion')]"/></p>
+                    <p><i><xsl:value-of select='color'/></i></p>
+                    <p><i><xsl:value-of select='date'/></i></p>
+                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="collect_rubric"/></p>
 
-                    <xsl:apply-templates select="prayer" />
+                    <xsl:apply-templates select="collect" />
                     <xsl:if test='post_communion_prayer'><p><i>Post Communion</i></p></xsl:if>
-                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="rubric[@type='postCommunion']"/></p>
+                    <p style='text-transform: uppercase; font-size:.8rem'><xsl:value-of select="post_communion_rubric"/></p>
 
                     <xsl:apply-templates select="post_communion_prayer" />
 
@@ -74,7 +81,7 @@
   </html>
 </xsl:template>
 
-<xsl:template match='item | prayer | post_communion_prayer'>
+<xsl:template match='item | collect | post_communion_prayer'>
   <div style='width:100%; display:flow-root'>
     <xsl:choose>
       <xsl:when test="@type = 'rubric'">
@@ -98,13 +105,19 @@
             </xsl:choose>
           </div>
       </xsl:when>
-      <xsl:when test="@who = 'leader' or @who = 'minister' or @who = 'bishop' or @who = 'assistant' or @who = 'reader'">
+      <xsl:when test="@who = 'leader' or @who = 'minister' or @who = 'bishop' or @who = 'leaderOther' or @who = 'reader'">
           <div style='float:left; font-size:0.8rem;'>
             <b><xsl:value-of select='@who'/></b>
           </div>
           <div style='float:left; width 100%; margin-right:50px;'>
-
-            <p align='left'><xsl:value-of select='text()[normalize-space()]'/>&#160;<i><xsl:value-of select='ref'/></i></p>
+            <xsl:choose>
+              <xsl:when test="@type = 'stanzas' or @type = 'versedStanzas'">
+                <xsl:apply-templates select='stanza'/>
+              </xsl:when>
+              <xsl:otherwise>
+                <p align='left'><xsl:value-of select='text()[normalize-space()]'/>&#160;<i><xsl:value-of select='ref'/></i></p>
+              </xsl:otherwise>
+            </xsl:choose>
           </div>
       </xsl:when>
       <xsl:when test="@who = 'none'">

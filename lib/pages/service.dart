@@ -57,10 +57,7 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   void _updateTextScale(double newValue) {
-    setState(() {
-//      textScaleFactor = transformed;
       RefreshState.of(context).updateValue(newTextScale: newValue);
-    });
   }
 
   void _changeService(String prayerBook, String service, previousService) {
@@ -330,18 +327,6 @@ class _FavoriteServiceWidgetState extends State<FavoriteServiceWidget> {
     isFavorited = widget.isFavorite;
   }
 
-  void toggleFavorite() {
-    setState((){
-      isFavorited = !isFavorited;
-      if(isFavorited){
-        SharedPreferencesHelper.removeFavorite(widget.favoriteID);
-      } else {
-        SharedPreferencesHelper.addFavorite(widget.favoriteID);
-      }
-
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -359,12 +344,5 @@ class _FavoriteServiceWidgetState extends State<FavoriteServiceWidget> {
       },
     );
 
-    //    return Container(
-//      padding: EdgeInsets.all(0.0),
-//      child: IconButton(
-//          icon: isFavorited ? Icon(Icons.star) : Icon(Icons.star_border),
-//          color: Colors.yellow[500],
-//          onPressed: toggleFavorite),
-//    );
   }
 }

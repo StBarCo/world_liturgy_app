@@ -53,6 +53,7 @@ HolyDay _$HolyDayFromJson(Map<String, dynamic> json) {
         ? null
         : Date.fromJson(json['date'] as Map<String, dynamic>),
     _asAttribute(json['optional_celebration_sunday']),
+    _asAttribute(json['overlapsAnyDay']),
   );
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- <?xml-stylesheet type="text/xsl" href="validate/worldLiturgy.xsl"?> --><!-- <prayer_books xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation='validate/prayerBooks.xsd'> -->
 
 <book xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../validate/songBooks.xsd" id='tenziZaRohoni'>
+    xsi:noNamespaceSchemaLocation="../validate/songBook.xsd" id='tenziZaRohoni'>
     <title>Tenzi Za Rohoni</title>
     <revisions>
       <version>

@@ -94,8 +94,8 @@
                                     <xs:enumeration value="stanzas"/>
                                     <xs:enumeration value="rubric"/>
                                     <xs:enumeration value="title"/>
-                                    <xs:enumeration value="reading"/>
-                                    <xs:enumeration value="readingLink"/>
+                                    <xs:enumeration value="lectionaryReading"/>
+                                    <xs:enumeration value="biblePassage"/>
                                   </xs:restriction>
                                 </xs:simpleType>
                               </xs:attribute>
@@ -137,6 +137,7 @@
 
                               </xs:sequence>
                               <xs:attribute type="xs:string" name="id" use="optional"/>
+                              <xs:attribute type="xs:string" name="altId" use="optional"/>
                             </xs:complexType>
                           </xs:element>
                         </xs:sequence>
