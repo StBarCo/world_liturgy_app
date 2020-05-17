@@ -1,8 +1,6 @@
-//import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'shared_preferences.dart';
 import 'pages/service.dart';
 import 'pages/calendar.dart';
@@ -11,52 +9,71 @@ import 'globals.dart' as globals;
 import 'theme.dart';
 import 'model/calendar.dart';
 import 'pages/bible.dart';
-import 'json/serializePrayerBook.dart';
 import 'model/bible.dart';
 import 'bibleParse/bible_reference.dart';
+import 'data/bible_settings.dart';
+import 'data/song_settings.dart';
+import 'data/prayer_book_settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
-  MyApp();
-
   @override
   Widget build(BuildContext context) {
-
-    return new MaterialApp(
+    return MaterialApp(
       title: globals.appTitle,
       theme: ThemeData(
         primarySwatch: Colors.grey,
         fontFamily: 'WorkSans',
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: App(),
+      home: FutureBuilder<bool>(
+          future: showApp(),
+          builder: (context, snapshot) {
+            if(snapshot.hasData) {
+              return App();
+            } else{
+
+              return Container();
+            }
+          }
+      ),
       showPerformanceOverlay: false,
       debugShowMaterialGrid: false,
     );
   }
+
+
+
+  Future<bool> showApp() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    globals.preferences = sp;
+    return globals.preferences == null;
+
+  }
 }
 
+
 class App extends StatefulWidget {
-
-
   App();
 
   @override
   AppState createState() => AppState();
 }
 
+
+
 class AppState extends State<App> {
   Day currentDay;
   String currentLanguage;
   double textScaleFactor;
-  List<String> initialBibleInfo;
 
   @override void initState() {
     super.initState();
+    globals.bibles = initializeBibles();
+
     currentLanguage = SharedPreferencesHelper.getCurrentLanguage();
     textScaleFactor = SharedPreferencesHelper.getTextScaleFactor();
-    initialBibleInfo = SharedPreferencesHelper.getCurrentBible();
     initializeCurrentLanguage();
-    super.initState();
-
     getDayFromCalendar(DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day )).then((day) {
       setState(() {
         currentDay = day;
@@ -65,12 +82,11 @@ class AppState extends State<App> {
     }).catchError((error, stackTrace) {
       print("outer: $error");
     });
-
-
   }
 
   /// If textScaleFactor is null, then sets it based on device default.
   initializeTextScaleFactor() {
+
     if(textScaleFactor == null){
       double _initValue = MediaQuery.of(context).textScaleFactor;
       textScaleFactor = _initValue;
@@ -80,7 +96,7 @@ class AppState extends State<App> {
 
   initializeCurrentLanguage() {
     if(currentLanguage == null){
-      String _initValue = globals.allPrayerBooks.prayerBooks.first.language;
+      String _initValue = globals.translationMap['default'];
       currentLanguage = _initValue;
       SharedPreferencesHelper.setCurrentLanguage(_initValue);
     }
@@ -101,13 +117,13 @@ class AppState extends State<App> {
         textScaleFactor = newTextScale;
         SharedPreferencesHelper.setTextScaleFactor(newTextScale);
       }
+
     });
   }
 
   @override
   Widget build(BuildContext context) {
     initializeTextScaleFactor();
-
 
     return RefreshState(
         currentDay: currentDay,
@@ -119,7 +135,7 @@ class AppState extends State<App> {
           data: MediaQuery.of(context).copyWith(textScaleFactor: textScaleFactor),
           child: Theme(
             data: updateTheme(Theme.of(context), currentDay),
-            child: HomePage(currentLanguage, initialBibleInfo: initialBibleInfo),
+            child: HomePage(currentLanguage),
           ),
         )
     );
@@ -144,19 +160,27 @@ class RefreshState extends InheritedWidget {
   @override
   updateShouldNotify(RefreshState oldWidget) {
     return currentLanguage != oldWidget.currentLanguage || currentDay != oldWidget.currentDay;
+
   }
 
   static RefreshState of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<RefreshState>();
+
+//    return context.inheritFromWidgetOfExactType(RefreshState);
+
+    //USE THIS in later versions of flutter. -- after Gralloc3 mapper issue is resolved.
+//    return context.dependOnInheritedWidgetOfExactType<RefreshState>();
+
+
   }
 }
 
 class HomePage extends StatefulWidget{
   final String initialLanguage;
-  final List<String> initialBibleInfo;
+//  final List<String> initialBibleInfo;
 
 
-  HomePage(this.initialLanguage, {this.initialBibleInfo, Key key}) : super(key: key);
+  HomePage(this.initialLanguage, { Key key}) : super(key: key);
 
   @override
   HomePageState createState() => new HomePageState();
@@ -180,16 +204,19 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState(){
-    PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks, widget.initialLanguage);
-    Service initialService = _setInitialService(initialPB);
-    Bible initialBible = initializeCurrentBible();
-    BibleRef initialBibleReference = _setInitialBibleReference();
+    super.initState();
 
+//    PrayerBook  initialPB = _setInitialPrayerBook(globals.allPrayerBooks, widget.initialLanguage);
+    Map<String, String> initialIndexes = _setInitialIndexes();
+    List<String> biblePrefs = SharedPreferencesHelper.createOrGetCurrentBibleIfEmpty([globals.bibles.first.abbreviation, 'MAT', '1']);
+
+    Bible initialBible = _setInitialBibleInfo(biblePrefs);
+    BibleRef initialBibleReference = _setInitialBibleReference(biblePrefs);
+    globals.allSongBooks = initializeSongBooks();
+
+    SharedPreferencesHelper.createFavoritesIfEmpty(initialFavoriteServices);
     servicePage = ServicePage(
-      initialCurrentIndexes: {
-        "prayerBook": initialPB.id,
-        "service": initialService.id
-      },
+      initialCurrentIndexes: initialIndexes,
       key: keyServices,
     );
     songPage = SongsPage(
@@ -231,7 +258,6 @@ class HomePageState extends State<HomePage> {
       }
     });
 
-    super.initState();
 
     currentPage = servicePage;
   }
@@ -286,40 +312,23 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  PrayerBook _setInitialPrayerBook(PrayerBooksContainer allPrayerBooks, [String language]){
-    if(language != null) {
-      return allPrayerBooks.getPrayerBook(language: language);
-    } else {
-      return allPrayerBooks.prayerBooks.first;
-    }
-  }
-  Service _setInitialService(PrayerBook initialPB){
+
+  Map<String, String> _setInitialIndexes(){
     String serviceId ='eveningWorship';
-    int returnedIndex;
     if(DateTime.now().hour < 15){
       serviceId = 'morningWorship';
     }
-    returnedIndex = initialPB.getServiceIndexById(serviceId);
-
-    if (returnedIndex != -1){
-      return initialPB.services[returnedIndex];
-    }
-
-    return initialPB.services.first;
+    return {'prayerBook': widget.initialLanguage, 'service': serviceId};
   }
 
-  Bible initializeCurrentBible(){
-    if(widget.initialBibleInfo == null){
-      SharedPreferencesHelper.setCurrentBible([globals.bibles.first.abbreviation, 'MAT', '1']);
-      return globals.bibles.first;
-    } else {
-      return globals.bibles.firstWhere((Bible bible) => bible.abbreviation == widget.initialBibleInfo[0]);
-    }
+  Bible _setInitialBibleInfo(List<String> biblePrefs){
+
+    return globals.bibles.firstWhere((Bible bible) => bible.abbreviation == biblePrefs[0]);
+
   }
 
-  BibleRef _setInitialBibleReference(){
-    List<String> info = SharedPreferencesHelper.getCurrentBible();
-    return BibleRef(info[1], int.parse(info[2]));
+  BibleRef _setInitialBibleReference(List<String> biblePrefs){
+    return BibleRef(biblePrefs[1], int.parse(biblePrefs[2]));
   }
 
   @override
@@ -350,6 +359,7 @@ class HomePageState extends State<HomePage> {
 
   List<BottomNavigationBarItem> makeBottomNavItems(pageList, currentLanguage){
     List<BottomNavigationBarItem> list = [];
+
     pageList.forEach((page){
       switch(page){
         case 'services': {
@@ -396,33 +406,35 @@ class HomePageState extends State<HomePage> {
 }
 
 
-Text appBarTitle(String title, context, [String shortTitle]){
+AutoSizeText appBarTitle(String title, context, [String shortTitle]){
   double maxLength = 25/MediaQuery.of(context).textScaleFactor;
 
-  if(shortTitle != null && title.length >= (maxLength.floor() -1)){
-    return Text(
-      shortTitle,
+  String usedTitle = title.length >= (maxLength.floor() -1) && shortTitle != null ? shortTitle : title;
+
+  if(usedTitle.length >= (maxLength.floor() -1)){
+    return AutoSizeText(
+      usedTitle,
       style: Theme.of(context).textTheme.headline6.copyWith(
         fontFamily: 'Signika',
         color: Theme.of(context).primaryIconTheme.color,
       ),
+      maxLines: 2,
     );
   }
 
-  return Text(
+  return AutoSizeText(
     title,
     style: Theme.of(context).textTheme.headline6.copyWith(
       fontFamily: 'Signika',
       color: Theme.of(context).primaryIconTheme.color,
     ),
+    maxLines: 1,
   );
 
 }
 
 ThemeData updateTheme(ThemeData theme, Day day){
   String color = day != null ? getColorDeJour(day)?.toLowerCase() : 'white';
-
-//  return baseTheme(theme, color);
   return baseThemeSwatch(theme, color);
 }
 
@@ -446,10 +458,6 @@ String getColorDeJour(Day day){
   c ??= day.season?.color ?? 'green';
   return c;
 }
-
-//DayOBSOLETE getDay(context){
-//  return RefreshState.of(context).currentDay;
-//}
 
 Day getDay(context){
   return RefreshState.of(context).currentDay;

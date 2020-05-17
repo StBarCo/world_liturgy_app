@@ -27,7 +27,18 @@ class SharedPreferencesHelper {
     return globals.preferences.getStringList('currentBible');
   }
 
+  static List<String> createOrGetCurrentBibleIfEmpty(List<String> initialSettings){
+//        if(globals.preferences.getKeys().contains('currentBible')){
+    if(!globals.preferences.containsKey('currentBible')){
+      globals.preferences.setStringList('currentBible', initialSettings);
+      return initialSettings;
+    }
+    return globals.preferences.getStringList('currentBible');
+
+  }
+
   static void createFavoritesIfEmpty(List<String> initialFavs){
+//      if(globals.preferences.getKeys().contains('favorites')){
     if(!globals.preferences.containsKey('favorites')){
       globals.preferences.setStringList('favorites', initialFavs);
     }
@@ -48,7 +59,4 @@ class SharedPreferencesHelper {
     favs.remove(value);
     return globals.preferences.setStringList('favorites', favs);
   }
-
-
-
 }

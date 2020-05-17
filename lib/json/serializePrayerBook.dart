@@ -12,10 +12,10 @@ class PrayerBooksContainer extends Object {
   factory PrayerBooksContainer.fromJson(Map<String, dynamic> json) =>
       _$PrayerBooksContainerFromJson(json);
 
-  getPrayerBookIndexById(String id) {
+  getPrayerBookIndexByLang(String id) {
     List list = [];
     this.prayerBooks.forEach((prayerBook) {
-      list.add(prayerBook.id);
+      list.add(prayerBook.language);
     });
 
     return list.indexOf(id);

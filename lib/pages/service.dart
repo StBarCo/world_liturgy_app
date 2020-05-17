@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import '../shared_preferences.dart';
-
 import '../json/serializePrayerBook.dart';
+import '../shared_preferences.dart';
+import '../json/xml_parser.dart';
 import '../globals.dart' as globals;
-//import '../parts/collects.dart';
 import '../app.dart';
 import 'calendar.dart';
 import '../model/calendar.dart';
 import '../parts/section.dart';
+
 
 class ServicePage extends StatefulWidget {
   final initialCurrentIndexes;
@@ -33,27 +33,35 @@ class _ServicePageState extends State<ServicePage> {
   void initState() {
     super.initState();
     currentIndexes = widget.initialCurrentIndexes;
-    currentService = _getServiceFromIndexes(currentIndexes);
+    if(globals.allPrayerBooks == null) {
+      loadPrayerBooks().then((pb) {
+        globals.allPrayerBooks = pb;
+        currentService = _getServiceFromIndexes(currentIndexes);
+
+      });
+    } else {
+      currentService = _getServiceFromIndexes(currentIndexes);
+    }
   }
 
   Service _getServiceFromIndexes(indexes) {
     return globals.allPrayerBooks
-        .getPrayerBook(id: indexes['prayerBook'])
+        .getPrayerBook(language: indexes['prayerBook'])
         .getService(indexes['service']);
   }
 
   void _changeLanguage() {
     int maxPbIndex = globals.allPrayerBooks.prayerBooks.length - 1;
     int currentPbIndex = globals.allPrayerBooks
-        .getPrayerBookIndexById(currentIndexes['prayerBook']);
+        .getPrayerBookIndexByLang(currentIndexes['prayerBook']);
     int newPbIndex = currentPbIndex == maxPbIndex ? 0 : currentPbIndex + 1;
 
     currentIndexes['prayerBook'] =
-        globals.allPrayerBooks.prayerBooks[newPbIndex].id;
+        globals.allPrayerBooks.prayerBooks[newPbIndex].language;
 
     currentService = _getServiceFromIndexes(currentIndexes);
     RefreshState.of(context).updateValue(
-        newLanguage: globals.allPrayerBooks.prayerBooks[newPbIndex].language);
+        newLanguage: currentIndexes['prayerBook']);
   }
 
   void _updateTextScale(double newValue) {
@@ -88,40 +96,57 @@ class _ServicePageState extends State<ServicePage> {
     currentDay = refreshState.currentDay;
     textScaleFactor = refreshState.textScaleFactor;
 
-    return new Theme(
-        data: Theme.of(context),
-        child: Scaffold(
-          drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
-          appBar: AppBar(
-            elevation: 1.0,
+    if(currentService == null || globals.allPrayerBooks == null){
+      return Theme(data: Theme.of(context), child: Scaffold(),);
+    } else {
+      return Theme(
+          data: Theme.of(context),
+          child: Scaffold(
+            drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
+            appBar: AppBar(
+              elevation: 1.0,
 //          backgroundColor: kPrimaryLight,
-            textTheme: Theme.of(context).textTheme,
-            title: appBarTitle(currentService.title, context, currentService.titleShort),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  _changeLanguage();
-                },
-                padding: EdgeInsets.all(0.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.swap_horiz,
-                      color: Theme.of(context).primaryIconTheme.color,
-                      size: 30.0,
-                    ),
-                    Text(globals.translate(currentLanguage, 'languageName'),
-                        style: Theme.of(context).textTheme.caption.copyWith(
-                              color: Theme.of(context).primaryIconTheme.color,
-                            )),
-                  ],
+              textTheme: Theme
+                  .of(context)
+                  .textTheme,
+              title: appBarTitle(
+                  currentService.title, context, currentService.titleShort),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    _changeLanguage();
+                  },
+                  padding: EdgeInsets.all(0.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.swap_horiz,
+                        color: Theme
+                            .of(context)
+                            .primaryIconTheme
+                            .color,
+                        size: 30.0,
+                      ),
+                      Text(globals.translate(currentLanguage, 'languageName'),
+                          style: Theme
+                              .of(context)
+                              .textTheme
+                              .caption
+                              .copyWith(
+                            color: Theme
+                                .of(context)
+                                .primaryIconTheme
+                                .color,
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          body: _buildService(currentService),
-        ));
+              ],
+            ),
+            body: _buildService(currentService),
+          ));
+    }
   }
 
   Drawer _buildDrawer(prayerBooks, context) {
@@ -221,7 +246,7 @@ class _ServicePageState extends State<ServicePage> {
     }
   }
 
-  List<Widget> _buildServicesTiles(context, prayerBook, bool currentServiceIsAFavorite, bool onlyFavorites, List<String> favorites ) {
+  List<Widget> _buildServicesTiles(BuildContext context,PrayerBook prayerBook, bool currentServiceIsAFavorite, bool onlyFavorites, List<String> favorites ) {
     List<Widget> servicesList = [];
 //    Service serviceName;
     for (var service in prayerBook.services) {
@@ -235,8 +260,6 @@ class _ServicePageState extends State<ServicePage> {
 //      //is selected if the service is the currentService AND either in favorites section & is a favorite , or not in favorites section and not a favorite.
 //      bool makeSelected = onlyFavorites == currentServiceIsAFavorite &&
 //          service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'];
-
-
       servicesList.add(new Padding(
           padding: EdgeInsets.only(left: 20.0),
           child: new ListTile(
@@ -244,12 +267,11 @@ class _ServicePageState extends State<ServicePage> {
               service.title ?? 'No title',
             ),
             trailing: FavoriteServiceWidget(isFavorite: isFavorite, favoriteID: serviceFavString,),
-
-            selected: service.id == currentIndexes['service'] && prayerBook.id == currentIndexes['prayerBook'],
+            selected: service.id == currentIndexes['service'] && prayerBook.language == currentIndexes['prayerBook'],
             onTap: () {
               Navigator.pop(context);
               _changeService(
-                  prayerBook.id, service.id, currentIndexes['service']);
+                  prayerBook.language, service.id, currentIndexes['service']);
             },
             dense: true,
           )));

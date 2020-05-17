@@ -280,7 +280,7 @@ class LitCalendar{
     while( !day.overlapsAnyDay && day.type != 'principal' && (isAlreadyAHolyDay(day.date, list) || isSundayInAdventLentOrEaster(day.date)) && !day.id.contains('christmas')){
       day.dateTransferredFrom = originalDate;
       day.date = day.date.add(Duration(days: 1));
-      print(day.id + ' transferred from ' + originalDate.toString() + ' to ' + day.date.toString());
+//      print(day.id + ' transferred from ' + originalDate.toString() + ' to ' + day.date.toString());
     }
     return day;
   }

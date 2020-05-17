@@ -1,25 +1,12 @@
 part of 'section.dart';
 
-/*Currently extending GeneralContent from section.dart leaves GeneralContent's
-methods unusable. The only solution I found was to make collects.dart part of
-section.dart.
-*/
-//import 'package:flutter/material.dart';
-//
-//import 'section.dart';
-//import '../app.dart';
-//import '../globals.dart' as globals;
-//import '../model/calendar.dart';
-//import '../pages/calendar.dart';
-//import '../json/serializePrayerBook.dart';
-
 /// CollectContent is used to render certain collect fields within a service.
 /// For the section of the prayerBook with the list of all collects, see [CollectSectionContent]
 class CollectContent extends GeneralContent {
-  final String currentPrayerBookId;
+  final String currentPrayerBookLang;
   final String buildType;
 
-  CollectContent(this.currentPrayerBookId, [this.buildType = 'full']);
+  CollectContent(this.currentPrayerBookLang, [this.buildType = 'full']);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +16,7 @@ class CollectContent extends GeneralContent {
 
     if(day.isHolyDay()){
       if(day.principalDay() != null){
-        Collect c = setCollect(day.principalDay().id, currentPrayerBookId);
+        Collect c = setCollect(day.principalDay().id, currentPrayerBookLang);
         collectOfPrincipalFeast = c;
         if (hasContentToBuild(c, buildType)) {
           list.add(_rubric(
@@ -41,7 +28,7 @@ class CollectContent extends GeneralContent {
       }
     }
     if(day.season != null){
-      Collect c = setCollect(day.weekId(), currentPrayerBookId);
+      Collect c = setCollect(day.weekId(), currentPrayerBookLang);
       if (hasContentToBuild(c, buildType)) {
         if (buildType == 'titles') {
           String season = globals.translationMap[getLanguage(context)]['dates']['seasons'][day.season.id];
@@ -63,7 +50,7 @@ class CollectContent extends GeneralContent {
 
     if(day.nonPrincipalDays() != null) {
       day.nonPrincipalDays().forEach((hd) {
-        Collect c = setCollect(hd.id, currentPrayerBookId);
+        Collect c = setCollect(hd.id, currentPrayerBookLang);
         if (hasContentToBuild(c, buildType)) {
           list.add(_rubric(
               globals.translationMap[getLanguage(context)]['dates']['types']
@@ -91,16 +78,10 @@ class CollectContent extends GeneralContent {
     ));
   }
 
-  Collect setCollect(String collectId, String prayerBookId) {
+  Collect setCollect(String collectId, String prayerBookLang) {
 
-      return globals.allPrayerBooks.getPrayerBook(id: prayerBookId).getCollectAndInfo(collectId);
-
-
-
+    return globals.allPrayerBooks.getPrayerBook(language: prayerBookLang).getCollectAndInfo(collectId);
   }
-
-
-
 
 
   bool hasContentToBuild(Collect collect, buildType) {
