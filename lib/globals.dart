@@ -114,7 +114,7 @@ Map translationMap = {
 
 //    Tab names
     'songs': 'Nyimbo',
-    'prayerBook': 'Maombe',
+    'prayerBook': 'Maombi',
     'lectionary': 'Masomo',
     'bible': 'Biblia',
     'calendar': 'Kalenda',

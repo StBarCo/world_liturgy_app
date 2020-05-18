@@ -1,6 +1,9 @@
 name: world_liturgy_app
 description: The framework for all World Liturgy Apps
-version: 2.0.0+201
+version: 2.5.1+251
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
 
 
 dependencies:
