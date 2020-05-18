@@ -97,7 +97,7 @@ class _ServicePageState extends State<ServicePage> {
     textScaleFactor = refreshState.textScaleFactor;
 
     if(currentService == null || globals.allPrayerBooks == null){
-      return Theme(data: Theme.of(context), child: Scaffold(Center(child: CircularProgressIndicator())),);
+      return Theme(data: Theme.of(context), child: Scaffold(body: Center(child: CircularProgressIndicator())),);
     } else {
       return Theme(
           data: Theme.of(context),
