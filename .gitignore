@@ -69,3 +69,8 @@
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 /.flutter-plugins-dependencies
+/assets/wlp_format/docs/calendar.xml
+/ios/Flutter/flutter_export_environment.sh
+/android/app/src/main/gen/org/worldliturgy/worldliturgyapp/Manifest.java
+/assets/wlp_format/docs/prayerBooks.xml
+/android/app/src/main/gen/org/worldliturgy/worldliturgyapp/R.java
