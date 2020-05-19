@@ -229,7 +229,7 @@ class LitCalendar{
     if (dateProperties.daysBefore != null){
       return date.subtract(new Duration(days: dateProperties.daysBefore));
     } else if (dateProperties.daysAfter != null){
-      return date.add(new Duration(days: dateProperties.daysAfter -1));
+      return date.add(new Duration(days: dateProperties.daysAfter));
     } else if(dateProperties.type == 'sundayClosestTo') {
       int daysToSunday = date.weekday <= 3 ? -date.weekday : 7-date.weekday;
       return date.add(new Duration(days: daysToSunday));
