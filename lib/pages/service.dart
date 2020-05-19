@@ -36,8 +36,9 @@ class _ServicePageState extends State<ServicePage> {
     if(globals.allPrayerBooks == null) {
       loadPrayerBooks().then((pb) {
         globals.allPrayerBooks = pb;
-        currentService = _getServiceFromIndexes(currentIndexes);
-
+        setState((){
+          currentService = _getServiceFromIndexes(currentIndexes);
+        });
       });
     } else {
       currentService = _getServiceFromIndexes(currentIndexes);
