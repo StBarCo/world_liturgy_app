@@ -52,17 +52,18 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   void _changeLanguage() {
-    int maxPbIndex = globals.allPrayerBooks.prayerBooks.length - 1;
-    int currentPbIndex = globals.allPrayerBooks
-        .getPrayerBookIndexByLang(currentIndexes['prayerBook']);
+    int maxPbIndex = globals.languageList.length - 1;
+    int currentPbIndex = globals.languageList.indexOf(currentIndexes['prayerBook']);
     int newPbIndex = currentPbIndex == maxPbIndex ? 0 : currentPbIndex + 1;
 
-    currentIndexes['prayerBook'] =
-        globals.allPrayerBooks.prayerBooks[newPbIndex].language;
+    currentIndexes['prayerBook'] = globals.languageList[newPbIndex];
 
-    currentService = _getServiceFromIndexes(currentIndexes);
-    RefreshState.of(context).updateValue(
-        newLanguage: currentIndexes['prayerBook']);
+    setState(() {
+      currentService = _getServiceFromIndexes(currentIndexes);
+      RefreshState.of(context).updateValue(
+          newLanguage: currentIndexes['prayerBook']);
+    });
+
   }
 
   void _updateTextScale(double newValue) {
@@ -70,24 +71,23 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   void _changeService(String prayerBook, String service, previousService) {
-    bool changingBook =
-        currentIndexes['prayerBook'] == prayerBook ? false : true;
+    bool changingBook = currentIndexes['prayerBook'] != prayerBook;
     currentIndexes['service'] = service;
     currentIndexes['prayerBook'] = prayerBook;
-    currentService = _getServiceFromIndexes(currentIndexes);
+
 
     if (service != previousService) {
       _serviceScrollController.jumpTo(0.0);
     }
+    setState((){
+      currentService = _getServiceFromIndexes(currentIndexes);
+      if (changingBook) {
+        RefreshState.of(context).updateValue(
+            newLanguage:
+            prayerBook);
+      }
+    });
 
-//    if changing prayerBooks
-    if (changingBook) {
-      RefreshState.of(context).updateValue(
-          newLanguage:
-              globals.allPrayerBooks.getPrayerBook(id: prayerBook).language);
-    } else {
-      setState(() {});
-    }
   }
 
   @override

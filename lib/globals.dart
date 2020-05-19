@@ -15,9 +15,10 @@ List<Bible> bibles;
 final String appTitle = 'World Liturgy App';
 //final String appTitle = 'ACK Kitabu Kipya Cha Ibada';
 
+final List<String> languageList = ['sw_ke','en_ke'];
+
 
 Map translationMap = {
-  'default': 'sw_ke',
   'en_ke': {
 //    GENERAL TRANSLATIONS
     'languageName': 'English',

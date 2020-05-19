@@ -96,7 +96,7 @@ class AppState extends State<App> {
 
   initializeCurrentLanguage() {
     if(currentLanguage == null){
-      String _initValue = globals.translationMap['default'];
+      String _initValue = globals.languageList[0];
       currentLanguage = _initValue;
       SharedPreferencesHelper.setCurrentLanguage(_initValue);
     }
