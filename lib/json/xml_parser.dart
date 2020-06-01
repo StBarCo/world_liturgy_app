@@ -37,7 +37,21 @@ Future<String> _loadAndParseXmltoJson(fileName) async {
 }
 
 Future<PrayerBooksContainer> loadPrayerBooks() async {
-  String jsonString = await _loadAndParseXmltoJson('prayerBooks');
+//  String jsonString = await _loadAndParseXmltoJson('prayerBooks');
+  final basePath = 'assets/wlp_format/docs/';
+  final extension = '.json';
+  final sample = 'Sample';
+  final fileName = 'prayerBooks';
+
+  String jsonString;
+
+  try {
+    jsonString = await rootBundle.loadString(basePath + fileName + extension);
+  } catch(_) {
+    jsonString = await rootBundle.loadString(basePath + fileName + sample + extension);
+  }
+
+
   return PrayerBooksContainer.fromJson(json.decode(jsonString)["prayer_books"]);
 }
 

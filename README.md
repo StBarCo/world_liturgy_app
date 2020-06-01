@@ -44,11 +44,6 @@ APP customizations are centralized in:
 
 ## ToDo
 
-### Prayer Book
-* Try saving as JSON string
-* Then load and create prayer books as needed.
-
-* maybe use future builder on service.dart
 
 ### Add lectionary
 * Data - week name, holy day name?
@@ -58,4 +53,5 @@ lectionary - save as json(s)
 
 
 
-use this video as starting point: https://www.youtube.com/watch?v=H4HWB2Pmgcw -- Generating code in dart
+##Personal Notes
+After changing prayerbooks.xml run xml2json.dart to generate prayerbook in jsonformat.

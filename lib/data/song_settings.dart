@@ -12,7 +12,8 @@ List<SongBook> initializeSongBooks() {
     SongBook(
         title: 'English Songs and Hymns',
         language: 'en_ke',
-        songFormat: OpenSongBook(path: 'assets/songBooks/english_songs/', index: {
+        songFormat: OpenSongBook(
+            path: 'assets/songBooks/english_songs/', index: {
           "Better is One Day": "Better is One Day",
           "Glory (Lift Up Your Hands)": "Glory (Lift Up Your Hands)",
           "Stand in Awe": "Stand in Awe",
@@ -26,7 +27,7 @@ List<SongBook> initializeSongBooks() {
           "Psalm 62": "Psalm 62",
           "Build My Life": "Build My Life",
           "Did You Feel the Mountains Tremble":
-              "Did You Feel the Mountains Tremble.xml",
+          "Did You Feel the Mountains Tremble.xml",
           "Unashamed": "Unashamed.xml",
           "Here in Your Presence": "Here in Your Presence.xml",
           "Here I Am to Worship": "Here I Am to Worship.xml",
@@ -103,7 +104,7 @@ List<SongBook> initializeSongBooks() {
           "No Longer Slaves": "No Longer Slaves.xml",
           "Lamb of God": "Lamb of God",
           "All Hail The Power Of Jesus Name":
-              "All Hail The Power Of Jesus Name",
+          "All Hail The Power Of Jesus Name",
           "This is How We Know": "This is How We Know",
           "Came to my Rescue": "Came to my Rescue.xml",
           "Living Hope": "Living Hope",
@@ -118,11 +119,11 @@ List<SongBook> initializeSongBooks() {
           "The Power of Your Love": "The Power of Your Love.xml",
           "All Glory Be To Christ": "All Glory Be To Christ",
           "Holy Spirit(there's nothing worth more)":
-              "Holy Spirit(there's nothing worth more).xml",
+          "Holy Spirit(there's nothing worth more).xml",
           "Sing to the King": "Sing to the King",
           "Grace to Grace": "Grace to Grace.xml",
           "This is Our God (Freely You Gave)":
-              "This is Our God (Freely You Gave).xml",
+          "This is Our God (Freely You Gave).xml",
           "Jesus Forever": "Jesus Forever",
           "To the Ends of the Earth": "To the Ends of the Earth.xml",
           "God of Calvary": "God of Calvary.xml",
@@ -152,7 +153,7 @@ List<SongBook> initializeSongBooks() {
           "All to Jesus I Surrender": "All to Jesus I Surrender",
           "How Firm A Foundation": "How Firm A Foundation",
           "Jesus Paid it All & Nothing But the Blood":
-              "Jesus Paid it All & Nothing But the Blood",
+          "Jesus Paid it All & Nothing But the Blood",
           "Draw me Close to You": "Draw me Close to You.xml",
           "All To Us": "All To Us",
           "God of this City": "God of this City.xml",
@@ -161,7 +162,7 @@ List<SongBook> initializeSongBooks() {
           "Awesome is the Lord Most High": "Awesome is the Lord Most High",
           "Once Again": "Once Again.xml",
           "Forever (Give Thanks to the Lord)":
-              "Forever (Give Thanks to the Lord).xml",
+          "Forever (Give Thanks to the Lord).xml",
           "Shout to the Lord": "Shout to the Lord",
           "Let Your Glory Fall": "Let Your Glory Fall.xml",
           "From the Inside Out": "From the Inside Out.xml",
@@ -170,7 +171,7 @@ List<SongBook> initializeSongBooks() {
           "In The Garden": "In The Garden",
           "How Great is Our God": "How Great is Our God.xml",
           "How Deep the Father's Love for Us":
-              "How Deep the Father's Love for Us.xml",
+          "How Deep the Father's Love for Us.xml",
           "After All These Years": "After All These Years",
           "Great Are You Lord": "Great Are You Lord.xml",
           "Second Chance": "Second Chance",
@@ -190,9 +191,9 @@ List<SongBook> initializeSongBooks() {
           "Awesome God": "Awesome God",
           "Mighty to Save": "Mighty to Save.xml",
           "Amazing Grace (My Chains are Gone)":
-              "Amazing Grace (My Chains are Gone)",
+          "Amazing Grace (My Chains are Gone)",
           "All Creatures of Our God and King":
-              "All Creatures of Our God and King",
+          "All Creatures of Our God and King",
           "Ever Be": "Ever Be.xml",
           "The More I Seek You": "The More I Seek You.xml",
           "Be Thou My Vision": "Be Thou My Vision",
@@ -225,7 +226,7 @@ List<SongBook> initializeSongBooks() {
           "Pursue": "Pursue",
           "10000 Reasons": "10000 Reasons",
           "I Could Sing of Your Love Forever":
-              "I Could Sing of Your Love Forever.xml",
+          "I Could Sing of Your Love Forever.xml",
           "Jesus Only Jesus": "Jesus Only Jesus.xml",
           "A Mighty Fortress is Our God": "A Mighty Fortress is Our God",
           "How He Loves": "How He Loves.xml",
@@ -235,7 +236,7 @@ List<SongBook> initializeSongBooks() {
           "Arms Open Wide": "Arms Open Wide",
           "The Nails in Your Hands": "The Nails in Your Hands.xml",
           "Tis so Sweet to Trust in Jesus":
-              "Tis so Sweet to Trust in Jesus.xml",
+          "Tis so Sweet to Trust in Jesus.xml",
           "All Who Are Thirsty": "All Who Are Thirsty",
           "No Other Name": "No Other Name.xml",
           "Son of God": "Son of God",
@@ -249,9 +250,43 @@ List<SongBook> initializeSongBooks() {
           "Christ is Mine Forevermore": "Christ is Mine Forevermore",
           "Healer": "Healer",
           "Hosanna (I see the King of Glory)":
-              "Hosanna (I see the King of Glory).xml",
+          "Hosanna (I see the King of Glory).xml",
           "Til I See You": "Til I See You",
-          "Overwhelmed": "Overwhelmed.xml"
+          "Overwhelmed": "Overwhelmed.xml",
+
+//              added on June 1 2020
+          "Alas, and did my Savior bleed (At the cross)": "Alas, and did my Savior bleed (At the cross).xml",
+          "A Shelter in the Time of Storm": "A Shelter in the Time of Storm.xml",
+          "Bringing in the Sheaves": "Bringing in the Sheaves.xml",
+          "Count your blessings": "Count your blessings.xml",
+          "Courage, brother! Do not stumble": "Courage, brother! Do not stumble.xml",
+          "Go, Tell It on the Mountain": "Go, Tell It on the Mountain.xml",
+          "Hark! the voice of Jesus crying": "Hark! the voice of Jesus crying.xml",
+          "Holy, Holy, Holy! Lord God Almighty!": "Holy, Holy, Holy! Lord God Almighty!.xml",
+          "I belong to Jesus": "I belong to Jesus.xml",
+          "I can't feel at home any more": "I can't feel at home any more.xml",
+          "I Know Not Why God's Wondrous Grace": "I Know Not Why God's Wondrous Grace.xml",
+          "I Love to Tell the Story": "I Love to Tell the Story.xml",
+          "I’m pressing on the upward way (Higher Ground)": "I’m pressing on the upward way (Higher Ground).xml",
+          "I Need Thee Every Hour": "I Need Thee Every Hour.xml",
+          "Jesus, keep me near the cross": "Jesus, keep me near the cross.xml",
+          "More About Jesus": "More About Jesus.xml",
+          "My Faith Has Found a Resting Place": "My Faith Has Found a Resting Place.xml",
+          "My Faith Looks Up to Thee": "My Faith Looks Up to Thee.xml",
+          "Nearer, My God, to Thee": "Nearer, My God, to Thee.xml",
+          "O Come, O Come, Emmanuel": "O Come, O Come, Emmanuel.xml",
+          "Oh, How I Love Jesus": "Oh, How I Love Jesus.xml",
+          "Onward, Christian Soldiers": "Onward, Christian Soldiers.xml",
+          "Pass Me Not": "Pass Me Not.xml",
+          "Rock of Ages, Cleft for Me": "Rock of Ages, Cleft for Me.xml",
+          "Shall We Gather at the River": "Shall We Gather at the River.xml",
+          "Since Jesus Came into My Heart": "Since Jesus Came into My Heart.xml",
+          "Stand Up, Stand Up for Jesus": "Stand Up, Stand Up for Jesus.xml",
+          "There Shall Be Showers of Blessing": "There Shall Be Showers of Blessing.xml",
+          "To God Be the Glory": "To God Be the Glory.xml",
+          "Trust and Obey": "Trust and Obey.xml",
+          "When Peace, Like a River": "When Peace, Like a River.xml",
+          "When the Roll Is Called Up Yonder": "When the Roll Is Called Up Yonder.xml"
         }))
   ];
 }

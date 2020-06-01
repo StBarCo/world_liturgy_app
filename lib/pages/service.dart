@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../json/serializePrayerBook.dart';
 import '../shared_preferences.dart';
@@ -7,6 +8,7 @@ import '../app.dart';
 import 'calendar.dart';
 import '../model/calendar.dart';
 import '../parts/section.dart';
+import 'dart:async';
 
 
 class ServicePage extends StatefulWidget {
@@ -26,6 +28,8 @@ class _ServicePageState extends State<ServicePage> {
   String currentLanguage;
   Day currentDay;
   double textScaleFactor;
+  Future<PrayerBooksContainer> _futurePrayerBooks;
+
 
   _ServicePageState();
 
@@ -33,15 +37,8 @@ class _ServicePageState extends State<ServicePage> {
   void initState() {
     super.initState();
     currentIndexes = widget.initialCurrentIndexes;
-    if(globals.allPrayerBooks == null) {
-      loadPrayerBooks().then((pb) {
-        globals.allPrayerBooks = pb;
-        setState((){
-          currentService = _getServiceFromIndexes(currentIndexes);
-        });
-      });
-    } else {
-      currentService = _getServiceFromIndexes(currentIndexes);
+    if(globals.allPrayerBooks == null){
+      _futurePrayerBooks = loadPrayerBooks();
     }
   }
 
@@ -93,61 +90,111 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     final refreshState = RefreshState.of(context);
+
     currentLanguage = refreshState.currentLanguage;
     currentDay = refreshState.currentDay;
     textScaleFactor = refreshState.textScaleFactor;
 
-    if(currentService == null || globals.allPrayerBooks == null){
-      return Theme(data: Theme.of(context), child: Scaffold(body: Center(child: CircularProgressIndicator())),);
-    } else {
-      return Theme(
-          data: Theme.of(context),
-          child: Scaffold(
-            drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
-            appBar: AppBar(
-              elevation: 1.0,
+
+    return Theme(
+      data: Theme.of(context),
+      child: FutureBuilder<PrayerBooksContainer>(
+        future: _futurePrayerBooks,
+        builder:  (BuildContext context, AsyncSnapshot<PrayerBooksContainer> snapshot) {
+          if (snapshot.hasData || globals.allPrayerBooks != null) {
+            globals.allPrayerBooks ??= snapshot.data;
+            currentService = _getServiceFromIndexes(currentIndexes);
+
+            return Scaffold(
+                  drawer: _buildDrawer(globals.allPrayerBooks.prayerBooks, context),
+                  appBar: AppBar(
+                    elevation: 1.0,
 //          backgroundColor: kPrimaryLight,
-              textTheme: Theme
-                  .of(context)
-                  .textTheme,
-              title: appBarTitle(
-                  currentService.title, context, currentService.titleShort),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    _changeLanguage();
-                  },
-                  padding: EdgeInsets.all(0.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        Icons.swap_horiz,
-                        color: Theme
-                            .of(context)
-                            .primaryIconTheme
-                            .color,
-                        size: 30.0,
+                    textTheme: Theme
+                        .of(context)
+                        .textTheme,
+                    title: appBarTitle(
+                        currentService.title, context, currentService.titleShort),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          _changeLanguage();
+                        },
+                        padding: EdgeInsets.all(0.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.swap_horiz,
+                              color: Theme
+                                  .of(context)
+                                  .primaryIconTheme
+                                  .color,
+                              size: 30.0,
+                            ),
+                            Text(globals.translate(currentLanguage, 'languageName'),
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(
+                                  color: Theme
+                                      .of(context)
+                                      .primaryIconTheme
+                                      .color,
+                                )),
+                          ],
+                        ),
                       ),
-                      Text(globals.translate(currentLanguage, 'languageName'),
-                          style: Theme
-                              .of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(
-                            color: Theme
-                                .of(context)
-                                .primaryIconTheme
-                                .color,
-                          )),
                     ],
                   ),
-                ),
-              ],
-            ),
-            body: _buildService(currentService),
-          ));
-    }
+                  body: _buildService(currentService),
+                );
+
+          } else if (snapshot.hasError) {
+            return Scaffold(
+                body: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 60,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Text('Error: ${snapshot.error}'),
+                      )
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                )
+            );
+
+          } else {
+            return Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Text('Loading...')
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    ),
+                  )
+            );
+          }
+        }
+      ),
+    );
+
+
   }
 
   Drawer _buildDrawer(prayerBooks, context) {

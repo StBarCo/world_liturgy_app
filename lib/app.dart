@@ -31,9 +31,43 @@ class MyApp extends StatelessWidget {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               return App();
-            } else{
-
-              return Container();
+            } else if (snapshot.hasError){
+              return Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 60,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: ${snapshot.error}'),
+                        )
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    ),
+                  )
+              );
+           } else {
+              return Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          child: CircularProgressIndicator(),
+                          width: 60,
+                          height: 60,
+                        ),
+                        Text('Loading...')
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                    ),
+                  )
+              );
             }
           }
       ),
@@ -45,8 +79,8 @@ class MyApp extends StatelessWidget {
 
 
   Future<bool> showApp() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    globals.preferences = sp;
+//    SharedPreferences sp = await SharedPreferences.getInstance();
+    globals.preferences =  await SharedPreferences.getInstance();
     return globals.preferences == null;
 
   }

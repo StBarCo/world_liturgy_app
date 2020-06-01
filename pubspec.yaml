@@ -65,8 +65,8 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - assets/wlp_format/docs/prayerBooks.xml
-    - assets/wlp_format/docs/prayerBooksSample.xml
+    - assets/wlp_format/docs/prayerBooks.json
+#    - assets/wlp_format/docs/prayerBooksSample.xml
     - assets/wlp_format/docs/calendar.xml
     - assets/wlp_format/docs/calendarSample.xml
     - assets/wlp_format/docs/songBooksSample.xml
@@ -81,7 +81,6 @@ flutter:
 
 #    - assets/songBooks/english_songs/index.json
     - assets/songBooks/english_songs/songs/
-
 
   fonts:
     - family: WorkSans
